@@ -16,7 +16,7 @@ Read this before quoting any number from the report.
 
 5. **The scoring can be gamed, visibly.** Because the checks are deterministic, a file written to the patterns will pass them. The length, emphasis, and vagueness checks catch the crudest padding; they do not catch a file that says the right words without meaning them. This is a reason to keep the score labeled as conformance.
 
-6. **The author's file is in the same tables.** `src/AGENTS.md` is linted by the same code as every other file and shown in its own table, outside the corpus. The maintainer wrote the checks, chose the corpus, and wrote the file. Everything is deterministic and reproducible, but it is not independent.
+6. **The author's file is in the same tables, and it was written against the checks.** `src/AGENTS.md` is linted by the same code as every other file and shown in its own table, outside the corpus. The maintainer wrote the checks, chose the corpus, and revised the file after the checks existed; it passes all of them. Everything is deterministic and reproducible, but it is not independent, and on the checks with low corpus pass rates (`rule-destructive`, `rule-injection`, `verify-done`) its pass shows that the patterns match the maintainer's phrasing, not that the patterns have good recall.
 
 7. **Token counts are a heuristic.** "Approximate tokens" is characters divided by four. Real tokenizers differ by model and by language.
 

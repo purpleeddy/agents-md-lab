@@ -75,18 +75,28 @@ Lint your own file:
 python3 scripts/lint.py path/to/AGENTS.md
 ```
 
+Real output for the `ghostty-org/ghostty` file in the corpus (copied next to an empty directory, so no `CLAUDE.md` sits beside it):
+
 ```
-path/to/AGENTS.md  (type: project)
-  pass  len-lines          value=52
-  pass  len-bytes          value=5057
-  pass  cmd-test           line=49
-  FAIL  cmd-single
-  pass  rule-destructive   line=10
-  pass  rule-secrets       line=11
+AGENTS.md  (type: project)
+  pass  len-lines          value=39
+  pass  len-bytes          value=1388
+  pass  cmd-test           line=11
+  pass  cmd-single         line=14
+  pass  cmd-lint           line=16
+  pass  cmd-build          line=7
+  FAIL  rule-destructive
+  FAIL  rule-secrets
   FAIL  rule-injection
-  pass  verify-done        line=7
-  ...
-  score 15/17  (guideline conformance, grade G checks only; see docs/limitations.md)
+  FAIL  verify-done
+  FAIL  etiquette
+  pass  pointers           value=3 line=25
+  pass  no-overview-dump   value=5 line=28
+  pass  emphasis           value=0
+  pass  vague              value=0
+  pass  tool-leak
+  FAIL  pointer-file       value=0 (no CLAUDE.md beside AGENTS.md)
+  score 11/17  (guideline conformance, grade G checks only; see docs/limitations.md)
 ```
 
 `line=` points at the first sentence that satisfied a check; a `FAIL` with no line means nothing matched. Add `--type generic` to skip the command checks for a rules-only file, or `--format json|csv` for machine output.

@@ -199,10 +199,12 @@ RE_DESTRUCTIVE = re.compile(
 RE_SECRET = re.compile(r"\b(secret|credential|api key|token|password|private key|\.env)s?\b", re.I)
 RE_SECRET_VERB = re.compile(r"\b(never|do not|don't|must not|redact|commit|print|paste|log|echo|expose)\b", re.I)
 RE_INJECTION = re.compile(
-    r"(prompt injection|hostile content|untrusted (input|content))"
-    r"|((instruction|prompt|command|text)s?[^.\n]{0,60}\b(in|inside|found in|from|within)\b[^.\n]{0,40}"
-    r"\b(file|log|issue|comment|tool output|web page|document)s?\b[^.\n]{0,60}"
-    r"\b(data|not (commands|instructions)|untrusted|ignore|do not follow|are not)\b)",
+    r"(prompt injection|hostile content|untrusted (input|content|text|instructions?))"
+    r"|((instruction|prompt|command|text|directive)s?[^.\n]{0,60}\b(in|inside|found in|from|within|embedded in)\b[^.\n]{0,40}"
+    r"\b(file|log|issue|comment|tool output|tool result|web page|document|output)s?\b[^.\n]{0,60}"
+    r"\b(data|not (commands|instructions|orders)|untrusted|ignore|do not follow|are not|never follow)\b)"
+    r"|(\b(treat|regard)\b[^.\n]{0,60}\bas (data|untrusted|input)\b)"
+    r"|(\b(do not|don't|never)\s+(follow|obey|execute|act on)\b[^.\n]{0,40}\b(instruction|directive|command)s?\b)",
     re.I,
 )
 RE_DONE = re.compile(

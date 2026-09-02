@@ -30,6 +30,8 @@ To add a check: one function with the `@check` decorator, one passing and one fa
 | `tool-leak` | A cross-tool AGENTS.md does not name one tool's private paths | AGENTS.md files | no `.claude/`, `.cursor/`, `.codex/`, `.gemini/`, `.windsurf/`, `copilot-instructions.md` | [^anthropic-memory] | G |
 | `pointer-file` | The repository wires Claude Code to the shared file | AGENTS.md entries with a sibling | `CLAUDE.md` exists and starts with `@AGENTS.md` (or is a symlink to `AGENTS.md`) | [^anthropic-memory] | G |
 
+Low corpus pass rates on `rule-destructive`, `rule-injection` and `verify-done` are partly a property of the corpus (few well-known files state these guards) and partly a property of the patterns, which match a finite set of phrasings. The author's file was revised after these patterns existed, so its passes on them say nothing about the patterns' recall. When you find a legitimate phrasing that a pattern misses, add it as a fixture and widen the pattern in the same pull request.
+
 ## Measurements (not scored)
 
 | id | value | source |
