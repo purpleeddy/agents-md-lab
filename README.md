@@ -43,7 +43,7 @@ All checks are `G` today. The project's only two jobs are to grow the catalog an
 
 ## Results
 
-Full tables live on the site: **https://qwerfunch.github.io/agents-md-lab/** (report, check catalog, limitations, provenance, design).
+Full tables live on the site: **https://purpleeddy.github.io/agents-md-lab/** (report, check catalog, limitations, provenance, design).
 
 <!-- summary:start -->
 - Results version: `v1` · corpus snapshot lock `6dad6355876e`
@@ -60,7 +60,7 @@ The score is guideline conformance (checks passed / checks applicable). It is no
 Python 3.11 or newer and GNU make. No dependencies.
 
 ```sh
-git clone https://github.com/qwerfunch/agents-md-lab.git
+git clone https://github.com/purpleeddy/agents-md-lab.git
 cd agents-md-lab
 make test
 ```
