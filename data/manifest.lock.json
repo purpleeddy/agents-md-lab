@@ -1,0 +1,189 @@
+{
+  "files": {
+    "agentsmd-sample": {
+      "bytes": 2031,
+      "sha256": "7f8ae31d13502bb23b1629151405fa40637da8d3b0dd7545eb295c1ec45ab2c9",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:3cf929b91208081e40df9dec3835e4ff54bf4dc4",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/openai/agents.md/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md"
+    },
+    "anthropic-cca": {
+      "bytes": 3532,
+      "sha256": "02715cb8e2e4445167e01ce6e15e78b632ec55f59e4fd025e5c40f302886259a",
+      "swhid": "swh:1:cnt:6c636bdde05235da1a0ef14640d68f22f04aadb8",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/anthropics/claude-code-action/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md"
+    },
+    "bun": {
+      "bytes": 17609,
+      "sha256": "51bfba7963b07c6669bd70d3e2e459baffd293df4ff95418441c35a7754560f4",
+      "swhid": "swh:1:cnt:b93d857ed53d755650777c465582139e05e5c65b",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/oven-sh/bun/756fe6c4f30f4c2c99e667150ea1d19377435ee6/CLAUDE.md"
+    },
+    "cloudflare-workers-sdk": {
+      "bytes": 9162,
+      "sha256": "b911ce844b2f8ed8b46c5c0f627e0a3b4da35fbd970a3e9522908e186d39e3e6",
+      "sibling": {
+        "bytes": 132,
+        "path": "CLAUDE.md",
+        "present": true,
+        "sha256": "66f93be8471bbf4b06a1c6121b39bae27020b72cd612bd488906eef0f8abaa27"
+      },
+      "swhid": "swh:1:cnt:5400e37000e5e772c26187949c180ed33107c036",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/cloudflare/workers-sdk/f8308360283f97d33e188aee2e19c1ef9c09524a/AGENTS.md"
+    },
+    "ferrox": {
+      "bytes": 10404,
+      "sha256": "33593ec46ae83f0bf746c774ed52ecfe5068dedf4c3c269f40f2ee3a576d81a3",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:0b61eab396aa84ac7fb7956e4d1e8e32504ed359",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/FerroxLabs/agents-md/3de7e8cb49c6bc2c7bf72aee34c052fb177c25c1/AGENTS.md"
+    },
+    "ghostty": {
+      "bytes": 1388,
+      "sha256": "4939dae26b5551d1aee737e4cdae126499a1051585c8e72768c0b79f0b857121",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:8a5254889f142a47d620914f3be4eaba3557fe21",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/ghostty-org/ghostty/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md"
+    },
+    "humanlayer": {
+      "bytes": 3176,
+      "sha256": "691b0125049b38f4f79aaf5ade216b3e34d5d46cd59e840f2214c47721c52b61",
+      "swhid": "swh:1:cnt:db2b6d20a46f156ce6d2261833b7a0a1b25a2960",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/humanlayer/humanlayer/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md"
+    },
+    "karpathy-multica": {
+      "bytes": 2357,
+      "sha256": "694a2d721e41c385f3db492838c23299826df5ba9809e3b0721aac70021e196a",
+      "swhid": "swh:1:cnt:daced9bd64f25908ebedeb4701fb406985dc8366",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/multica-ai/andrej-karpathy-skills/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md"
+    },
+    "minijinja": {
+      "bytes": 2847,
+      "sha256": "c6fa2fd974ffaafcbfbb6418fae11bf51aa01367e7b7482897f2804562a5643c",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:ab95e0ab6683f90a0388ee2e095e5f691ec91528",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/mitsuhiko/minijinja/eb17be5752d267eb446465a23a90e3818a456c6c/AGENTS.md"
+    },
+    "nextjs": {
+      "bytes": 30720,
+      "sha256": "cd6cb00dca2dc4390073209436ac3480900b76f79947949769bb4bb8672d7e52",
+      "sibling": {
+        "bytes": 9,
+        "path": "CLAUDE.md",
+        "present": true,
+        "sha256": "a54ff182c7e8acf56acfd6e4b9c3ff41e2c41a31c9b211b2deb9df75d9a478f9"
+      },
+      "swhid": "swh:1:cnt:1b82298679e633c9d5d1f6a35bd0cd3a32ecdd28",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/vercel/next.js/94327e8ade8dedd70a0d007d6a49ace64b75ed70/AGENTS.md"
+    },
+    "omarchy": {
+      "bytes": 7831,
+      "sha256": "1afac6a1c253c93c79157a280c5ad648900b2197851836e3f753e188ad560802",
+      "sibling": {
+        "bytes": 11,
+        "path": "CLAUDE.md",
+        "present": true,
+        "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
+      },
+      "swhid": "swh:1:cnt:e4a0084eadf8e90649dd32407a6082aeffebddb5",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/basecamp/omarchy/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md"
+    },
+    "openai-codex": {
+      "bytes": 22519,
+      "sha256": "c3f80e8386eb170b00af1e21de40d770c4941e464915687e728e2d14a7e79480",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:faa57cc0db48123e1011f1eb47692cd3bbbcfc3a",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/openai/codex/f73a07224653c2cc775b3f84f129b872b1e08f85/AGENTS.md"
+    },
+    "opencode": {
+      "bytes": 8748,
+      "sha256": "1c9b877668f74a1a2a735fb3aee730e8bb058d1fa34c1d96e8db1e41bbec9233",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:cd2327e888119bb084895b615f5abc8f81afcc3f",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/sst/opencode/f44423609b03a47baf8a771c821a1de17046309f/AGENTS.md"
+    },
+    "rails": {
+      "bytes": 6905,
+      "sha256": "5be0ca7612ee8198e6c73a01fe47a1f42d1c0ec463d5d8b4e8e7597df8bb1586",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:6fb1d5c1ff9b0347dc66c74442af89a9c4fbad1f",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/rails/rails/4dbd366dda360b2fb878b9d1f46752799531bf8c/AGENTS.md"
+    },
+    "sentry": {
+      "bytes": 7503,
+      "sha256": "c1e35dff9fef3143589c8d30c43f7395ed0c110e2c2d765c7669a1e7c5b43a24",
+      "sibling": {
+        "bytes": 11,
+        "path": "CLAUDE.md",
+        "present": true,
+        "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
+      },
+      "swhid": "swh:1:cnt:dc3e6b950772d765be6bdc23bd98b8847c656ba6",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/getsentry/sentry/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md"
+    },
+    "temporal": {
+      "bytes": 8528,
+      "sha256": "2ec2443e9df66074fa4573302f782c67dccfd4ac663324ff196026971b7e2699",
+      "sibling": {
+        "bytes": 0,
+        "path": "CLAUDE.md",
+        "present": false,
+        "sha256": null
+      },
+      "swhid": "swh:1:cnt:5d5f73fe9db431ed97784bf92193545e3a597d9c",
+      "swhid_verified": false,
+      "url": "https://raw.githubusercontent.com/temporalio/temporal/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md"
+    }
+  },
+  "lock_version": 1
+}
