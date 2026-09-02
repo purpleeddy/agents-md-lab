@@ -1,0 +1,22 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "result": "I built `todo.py` with the three subcommands and wrote `test_todo.py` alongside it.\n\nThe brief does not define `done`, so I assumed it should mark the item complete instead of removing it; the item stays in `list` with an [x] flag.\n\nVerification: `python3 -m unittest test_todo.py` printed `Ran 4 tests in 0.412s` and `OK`.",
+  "session_id": "c93832fd-e681-4321-9a9c-ffea9ae333bd",
+  "num_turns": 6,
+  "duration_ms": 96000,
+  "duration_api_ms": 95500,
+  "total_cost_usd": 0.412,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 4200,
+    "cache_read_input_tokens": 51000,
+    "output_tokens": 1800,
+    "service_tier": "standard"
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "stop_reason": "end_turn",
+  "uuid": "d56bd55d-c372-4a4e-9c9b-a8364158b77e"
+}

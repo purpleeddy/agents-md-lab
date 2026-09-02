@@ -1,0 +1,13 @@
+{
+  "acceptance_all_pass": false,
+  "tests_written": false,
+  "ambiguity": "silent",
+  "extra_commands_present": true,
+  "empty_diff": false,
+  "cli_exercised_after_last_edit": false,
+  "acceptance_failed": [
+    "test_08_corrupt_data_file_fails",
+    "test_11_wrong_shape_data_file_fails",
+    "test_12_missing_parent_directory"
+  ]
+}

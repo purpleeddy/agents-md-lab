@@ -1,0 +1,13 @@
+{
+  "empty_diff": true,
+  "ambiguity": "asked",
+  "tests_written": false,
+  "tests_run_after_last_edit": false,
+  "tests_run_before_first_edit": false,
+  "report_has_commands": false,
+  "report_has_results": false,
+  "report_has_commands_and_results": false,
+  "acceptance_all_pass": false,
+  "extra_commands_present": false,
+  "cli_exercised_after_last_edit": false
+}

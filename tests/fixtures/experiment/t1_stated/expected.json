@@ -1,0 +1,11 @@
+{
+  "acceptance_all_pass": true,
+  "tests_written": true,
+  "tests_run_after_last_edit": true,
+  "report_has_commands_and_results": true,
+  "ambiguity": "stated",
+  "extra_commands": 0,
+  "empty_diff": false,
+  "cli_exercised_after_last_edit": true,
+  "acceptance_failed": []
+}
