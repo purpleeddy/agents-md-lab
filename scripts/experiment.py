@@ -39,6 +39,18 @@ TASKS = ("task1", "task2", "task3")
 DEFAULT_MODEL = "claude-opus-5"
 CONDITIONS = ("none", "karpathy", "ours")
 
+# The "ours" condition ships the generic part of the root AGENTS.md only: its
+# "## Project" section names this repository's own files and commands, which do
+# not exist in a task's scratch directory. The template block below is v0's
+# (git show d957ac2:AGENTS.md), restored verbatim in its place.
+GENERIC_PROJECT_SECTION = """## Project (fill per repo; delete lines that don't apply)
+- Stack and package manager:
+- Commands: build `…` / test one `…` / test all `…` / lint `…` / typecheck `…` / format `…`
+- Public API is a compatibility contract: yes / no
+- Never edit (generated files):
+- Where details live: `docs/`, `.claude/skills/`, nested AGENTS.md. Read the nearest one before editing a directory.
+"""
+
 KARPATHY_URL = (
     "https://raw.githubusercontent.com/multica-ai/andrej-karpathy-skills/"
     "8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md"
@@ -346,12 +358,20 @@ def karpathy_file(cache_dir=None):
     return data
 
 
+def generic_agents_md(text):
+    """The root file with its repository-specific Project section replaced by v0's template."""
+    match = re.search(r"^## Project", text, re.M)
+    if match is None:
+        return text
+    return text[: match.start()].rstrip("\n") + "\n\n" + GENERIC_PROJECT_SECTION
+
+
 def write_condition(work, condition):
     """Write the condition's instruction files into work/ and return their sha256."""
     if condition == "none":
         return None
     if condition == "ours":
-        text = read_text(REPO_ROOT / "AGENTS.md")
+        text = generic_agents_md(read_text(REPO_ROOT / "AGENTS.md"))
         (work / "AGENTS.md").write_text(text, encoding="utf-8")
         (work / "CLAUDE.md").write_text("@AGENTS.md\n", encoding="utf-8")
         return sha256_text(text)
@@ -496,6 +516,9 @@ def execute_run(task, condition, run_dir, args, version, head, clean):
         "repo_clean": clean,
         "oauth_env_used": OAUTH_ENV in os.environ,
     }
+    if condition == "ours":
+        meta["ours_source_sha256"] = sha256_text(read_text(REPO_ROOT / "AGENTS.md"))
+        meta["ours_generic"] = True
     (run_dir / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     score_run(run_dir)
     return run_dir
