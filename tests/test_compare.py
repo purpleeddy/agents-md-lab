@@ -558,10 +558,36 @@ class ComparisonDataTest(unittest.TestCase):
             self.assertEqual(record["met_content"], compare.coverage(record["criteria_content"]))
             self.assertEqual(record["of_content"], 8, record["key"])
 
-    def test_the_recommended_file_is_not_evaluated_by_the_content_set(self):
-        # The content criteria are frozen and calibrated on the corpus before this repository's
-        # own file is measured against them.
-        self.assertNotIn("criteria_content", self.data["ours"])
+    def test_the_recommended_file_is_evaluated_by_the_content_set_too(self):
+        # The content criteria were frozen and calibrated on the corpus before this repository's
+        # own file was measured against them. Now that they are frozen, the file is measured and
+        # the result is published, from the generic text, which is the one the page offers.
+        ours = self.data["ours"]
+        ids = {c["id"] for c in content_criteria()["criteria"]}
+        self.assertEqual(set(ours["criteria_content"]), ids)
+        self.assertEqual(ours["met_content"], compare.coverage(ours["criteria_content"]))
+        self.assertEqual(ours["of_content"], 8)
+        self.assertEqual(ours["content_text"], "generic")
+        generic = compare.generic_text()
+        digest = hashlib.sha256(generic.encode("utf-8")).hexdigest()
+        self.assertEqual(ours["content_sha256"], digest)
+        self.assertEqual(ours["generic"]["sha256"], digest)
+        self.assertNotEqual(ours["sha256"], digest)
+        self.assertEqual(
+            ours["criteria_content"],
+            compare.evaluate(generic, "AGENTS.md", content_criteria()),
+        )
+
+    def test_the_example_file_carries_both_sets(self):
+        entry = self.data["stuffed"]
+        self.assertEqual(entry["path"], "docs/examples/stuffed.md")
+        text = (REPO_ROOT / entry["path"]).read_text(encoding="utf-8")
+        self.assertEqual(entry["sha256"], hashlib.sha256(text.encode("utf-8")).hexdigest())
+        self.assertEqual(entry["met"], compare.coverage(entry["criteria"]))
+        self.assertEqual(entry["met_content"], compare.coverage(entry["criteria_content"]))
+        # The point of the example: every rule criterion met, almost no content criterion.
+        self.assertEqual(entry["met"], entry["of"])
+        self.assertLess(entry["met_content"], entry["of_content"])
 
     def test_stars_at_is_a_date(self):
         for record in self.data["files"]:

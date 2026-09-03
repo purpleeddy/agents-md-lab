@@ -39,6 +39,40 @@ and the tables are generated from them. How both were built is in [methodology.m
 Coverage counts what a text contains. It is not a measure of quality, and the file with the
 highest count in the table is not the recommendation of this page.
 
+### What the ten files tell an agent about the project
+
+The same ten files, against the eight [content criteria](methodology.md#the-content-criteria):
+what a file says about the project it sits in, rather than how it is written. The two sets are
+never added together; each file carries one number per set.
+
+<!-- content:start -->
+| File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
+| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,782 | 44 | MIT | ✗ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,714 | 137 | FSL-1.1-ALv2 | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | 5/8 |
+| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,629 | 39 | MIT | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | 4/8 |
+| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,796 | 105 | MIT | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | ✓ | 3/8 |
+| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 209,759 | 65 | NONE | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | 0/8 |
+| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,369 | 88 | Apache-2.0 | ✓ | ✗ | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | 4/8 |
+| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
+| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
+| Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
+<!-- content:end -->
+
+<!-- content-note:start -->
+Coverage on the content set is lower and flatter than on the rule set. The criterion the corpus meets most often is testing instructions (7 of 10 files); the highest coverage any file reaches is 5 of 8 (getsentry/sentry, getzep/graphiti) and the lowest is 0 of 8. No file in the corpus meets warnings and gotchas. The columns, in the order of the criteria file, and the files that meet each, out of 10: 1 project overview 5; 2 named files 4; 3 environment setup 4; 4 code style 5; 5 testing instructions 7; 6 repository etiquette 4; 7 warnings and gotchas 0; 8 security considerations 1.
+<!-- content-note:end -->
+
+The generic file this project offers meets none of the eight. That is not a technicality to be
+explained away: every content criterion asks for something a repository knows about itself — its
+layout, its setup, its style, its test command, its conventions, its gotchas — and the generic
+file carries an empty `## Project` template where all of it belongs. The vendors' own lists say
+these are the things to include, so a file that omits them is not a complete instruction file for
+any repository. Filling that section is the step the adopter has to do, and the root file of this
+repository, with its own section filled in, meets three of the eight.
+
 ### Files left out for length
 
 <!-- excluded:start -->
@@ -209,6 +243,10 @@ Each line is a count read from the committed data. The command next to it prints
 - Among the 10 surveyed files, 3 ask for the smallest change, and 2 carry a sibling CLAUDE.md that names AGENTS.md.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['sibling']['points_to_agents_md'] for r in d['files']))"`
+
+- The generic file this project offers meets 0 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.
+
+  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(d['ours']['met_content'])"`
 
 - In the 90-run experiment, the brownfield task reported the command and its result in 10 of 10 runs under the recommended file and 2 of 10 with no file.
 

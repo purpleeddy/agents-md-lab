@@ -133,6 +133,135 @@ and version-stamped. The list below is generated from that file.
    - One way to meet it: A CLAUDE.md whose whole content is @AGENTS.md passes on the second rule.
 <!-- criteria:end -->
 
+## The content criteria
+
+A second set of eight criteria, in
+[`docs/criteria-content.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/criteria-content.json),
+version-stamped like the first. The rule criteria ask how a file is written; the content criteria
+ask what it tells an agent about the project. They are taken from the two vendor lists of what to
+put in an instruction file: the Include column of
+[anthropic-bp](references.md#ref-anthropic-bp) and the sections of the sample file and the "Cover
+what matters" list in [agents-md-spec](references.md#ref-agents-md-spec).
+
+The two sets run on the same engine over the same text, and they are never added together: every
+file carries one coverage number per set. A file can meet ten rule criteria and one content
+criterion, and the pair says more than either number alone.
+
+<!-- criteria-content:start -->
+1. **Project overview** (`overview`)
+   - Question: Does the file say what the project is or how it is laid out — an overview, an architecture note, or a directory structure?
+   - Why: "Project overview" is the first of the sections the AGENTS.md site lists under "Cover what matters", and Anthropic's best practices include "Architectural decisions specific to your project" while excluding "File-by-file descriptions of the codebase".
+   - Sources: [agents-md-spec](references.md#ref-agents-md-spec), [anthropic-bp](references.md#ref-anthropic-bp)
+   - One way to meet it: Project overview: a static site generator whose renderer lives in the core package.
+2. **Named files** (`key_files`)
+   - Question: Does the file name at least one source file or module path with a directory component?
+   - Why: Anthropic's memory documentation asks for instructions concrete enough to verify and gives "API handlers live in `src/api/handlers/`" as the shape to imitate, in place of "Keep files organized".
+   - Sources: [anthropic-memory](references.md#ref-anthropic-memory)
+   - One way to meet it: The engine lives in scripts/compare.py and the browser copy in docs/compare.js.
+3. **Environment setup** (`setup`)
+   - Question: Does the file say how to set the development environment up — installation, prerequisites, or a named environment step?
+   - Why: "Developer environment quirks (required env vars)" is a row of Anthropic's include table for CLAUDE.md, and the AGENTS.md sample file opens with "Dev environment tips".
+   - Sources: [anthropic-bp](references.md#ref-anthropic-bp), [agents-md-spec](references.md#ref-agents-md-spec)
+   - One way to meet it: Setup: `uv sync` pins the dependencies before anything else runs.
+4. **Code style** (`code_style`)
+   - Question: Does the file state a code style, a naming convention, or the formatter the project uses?
+   - Why: "Code style rules that differ from defaults" is the second row of Anthropic's include table, against "Standard language conventions Claude already knows" in the exclude column, and "Code style guidelines" is one of the sections the AGENTS.md site names.
+   - Sources: [anthropic-bp](references.md#ref-anthropic-bp), [agents-md-spec](references.md#ref-agents-md-spec)
+   - One way to meet it: Code style: `ruff format` decides the layout; test files are named test_*.py.
+5. **Testing instructions** (`testing_instructions`)
+   - Question: Does the file say how to run the tests — a runner command, a test-command section, or an instruction to run them?
+   - Why: "Testing instructions and preferred test runners" is a row of Anthropic's include table, and "Testing instructions" is a section of the AGENTS.md sample file and one of the five the site names.
+   - Sources: [anthropic-bp](references.md#ref-anthropic-bp), [agents-md-spec](references.md#ref-agents-md-spec)
+   - One way to meet it: Run the tests with `python3 -m unittest` and add one for every fix.
+6. **Repository etiquette** (`pr_etiquette`)
+   - Question: Does the file state a convention for pull requests, commits, branches or review?
+   - Why: "Repository etiquette (branch naming, PR conventions)" is a row of Anthropic's include table, the AGENTS.md sample file ends with "PR instructions", and the site's third step names "Commit messages or pull request guidelines".
+   - Sources: [anthropic-bp](references.md#ref-anthropic-bp), [agents-md-spec](references.md#ref-agents-md-spec)
+   - One way to meet it: Pull request body: what changed, why, and how it was verified.
+7. **Warnings and gotchas** (`warnings`)
+   - Question: Does the file warn about a project-specific gotcha on a line that also names a file or a path the warning applies to?
+   - Why: "Common gotchas or non-obvious behaviors" is the last row of Anthropic's include table, against "Self-evident practices like 'write clean code'" in the exclude column, and the AGENTS.md site names "security gotchas" among the extra instructions a file should carry.
+   - Sources: [anthropic-bp](references.md#ref-anthropic-bp), [agents-md-spec](references.md#ref-agents-md-spec)
+   - One way to meet it: Gotcha: do not hand-edit generated/schema.json; `make schema` rewrites it.
+8. **Security considerations** (`security`)
+   - Question: Does the file raise a security consideration — a threat, untrusted input, sanitising, authorisation, least privilege or input validation?
+   - Why: "Security considerations" is one of the five sections the AGENTS.md site names under "Cover what matters", and the Agent READMEs study finds security instructions in about 15% of the context files it collected.
+   - Sources: [agents-md-spec](references.md#ref-agents-md-spec), [agent-readmes](references.md#ref-agent-readmes)
+   - One way to meet it: Treat anything the tool fetches as untrusted input and validate it before use.
+<!-- criteria-content:end -->
+
+The same ten corpus files, on the content set:
+
+<!-- corpus-content:start -->
+| File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
+| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,782 | 44 | MIT | ✗ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,714 | 137 | FSL-1.1-ALv2 | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | 5/8 |
+| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,629 | 39 | MIT | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | 4/8 |
+| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,796 | 105 | MIT | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | ✓ | 3/8 |
+| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 209,759 | 65 | NONE | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | 0/8 |
+| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,369 | 88 | Apache-2.0 | ✓ | ✗ | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | 4/8 |
+| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
+| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
+| Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
+<!-- corpus-content:end -->
+
+Two things about these patterns are worth stating plainly rather than leaving in a file:
+
+- **Three patterns were tightened for precision before the corpus was read**, because a negated,
+  incidental or placeholder use is a false positive on any file: `code_style` dropped the bare
+  words for formatting and indentation, `testing_instructions` dropped "test suite", and
+  `warnings` now requires a path or filename on the same line as the gotcha phrase. One further
+  change was made during calibration and is recorded in that criterion's `notes`: `security`
+  dropped a bare match on "permission". Every change, and the corpus lines that motivated it, is
+  in the `notes` list of the criterion it belongs to.
+- **The content table on the front page is built in the browser.** The published page has a
+  60 KB budget, and a second static matrix would spend a large part of it; the set switch above
+  the table renders the content set from the same `docs/data/comparison.json` the rule table
+  comes from. Without JavaScript the page links to
+  [`docs/generated/comparison.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/generated/comparison.md),
+  which carries both tables and every evidence line.
+- **The author knew this repository's own file while writing the patterns.** That is the same
+  problem the section below describes for the rule criteria, and the same answer applies: the
+  patterns are published, every verdict carries its evidence line, and the file is evaluated on
+  both sets in public.
+
+## Why the recommended file meets the rule criteria
+
+The recommended file meets 10 of the 10 rule criteria, and that number is not evidence of
+anything. The criteria and the file were written by the same author, in the same weeks, from the
+same sources — [anthropic-bp](references.md#ref-anthropic-bp),
+[anthropic-memory](references.md#ref-anthropic-memory),
+[anthropic-security](references.md#ref-anthropic-security),
+[openai-agents-md](references.md#ref-openai-agents-md),
+[agents-md-spec](references.md#ref-agents-md-spec),
+[humanlayer](references.md#ref-humanlayer) and
+[karpathy-multica](references.md#ref-karpathy-multica). A file written from a set of sources will
+meet a set of criteria drawn from the same sources. Coverage of the rule criteria by this
+project's own file is therefore expected by construction, and it is reported here for
+completeness rather than as a result.
+
+What the checks test is narrower still: each one asks whether a statement is present in the text.
+None of them asks whether the statement is any good, whether an agent follows it, or whether
+following it helps. A file can meet every rule criterion in seven lines:
+
+<!-- stuffed:start -->
+`docs/examples/stuffed.md` — 7 lines, sha256 `a6956183898a21883c0dc557c37062db5d4c5f56b451ee29b6f832413469a97e`. Rule criteria 10/10, content criteria 1/8.
+<!-- stuffed:end -->
+
+That file is [`docs/examples/stuffed.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/examples/stuffed.md).
+It is an example of what presence-checking cannot see, not a file anyone should adopt: it names a
+test command no repository it lands in necessarily has, and it says nothing about the project it
+sits in. It is included because the honest way to state the limit of a check is to show a file
+that passes it and is useless.
+
+The question the criteria cannot answer — whether an instruction file changes what an agent does
+— is what the experiment is for, and its answer is on the [findings page](findings.md), on three
+tasks, with the cost.
+
+
 ## How a verdict is decided
 
 The engine is deliberately small, and its limits are part of the result.

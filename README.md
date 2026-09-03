@@ -37,11 +37,16 @@ independent review. What changed and what it means for the results is in
 | [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | 5/10 |
 | [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | 4/10 |
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | 4/10 |
-| **AGENTS.md** | AGENTS.md | — | 52 | MIT | 10/10 |
 <!-- summary:end -->
 
+This repository's own file is not in the table: it was written to these criteria, so meeting them
+says nothing, and it is evaluated on the [front page](https://purpleeddy.github.io/agents-md-lab/)
+and in [methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria) instead.
+
 Full table with the evidence line behind every ✓: the [comparison](docs/generated/comparison.md)
-or the [front page](https://purpleeddy.github.io/agents-md-lab/#compare).
+or the [front page](https://purpleeddy.github.io/agents-md-lab/#compare). The same ten files
+against the eight content criteria — what a file says about its own project — are in the
+[findings](docs/findings.md#what-the-ten-files-tell-an-agent-about-the-project).
 
 ## What the experiment showed
 

@@ -46,6 +46,7 @@ FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
 EXPERIMENT_JSON = REPO_ROOT / "docs" / "data" / "experiment.json"
 README_MD = REPO_ROOT / "README.md"
 OURS_FILE = REPO_ROOT / "AGENTS.md"
+STUFFED_FILE = REPO_ROOT / "docs" / "examples" / "stuffed.md"
 CACHE_DIR = REPO_ROOT / "data" / "cache" / "corpus"
 
 USER_AGENT = "agent-md-lab compare.py"
@@ -326,14 +327,17 @@ def cmd_refresh(out_path):
     content = load_criteria_content()
     corpus = load_corpus()
     today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
-    data = {
-        "generated_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "criteria_version": criteria["version"],
-        "criteria_content_version": content["version"],
-        "ours": ours_record(criteria),
-        "files": [refresh_file(entry, criteria, content, today) for entry in corpus["files"]],
-        "excluded": [refresh_excluded(entry, today) for entry in corpus["excluded"]],
-    }
+    data = with_ours(
+        {
+            "generated_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "criteria_version": criteria["version"],
+            "criteria_content_version": content["version"],
+            "files": [refresh_file(entry, criteria, content, today) for entry in corpus["files"]],
+            "excluded": [refresh_excluded(entry, today) for entry in corpus["excluded"]],
+        },
+        criteria,
+        content,
+    )
     out_path.parent.mkdir(parents=True, exist_ok=True)
     write_text(out_path, json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     print("wrote %s (%d files, %d excluded)" % (out_path, len(data["files"]), len(data["excluded"])))
@@ -501,15 +505,26 @@ def generic_text():
     return experiment.generic_agents_md(OURS_FILE.read_text(encoding="utf-8"))
 
 
-def ours_record(criteria):
-    """This repository's own AGENTS.md, evaluated by the same engine. It is not a corpus
-    entry: it is the file the page offers, kept in the data so the page never hard-codes a
-    number that the file can change."""
+def ours_record(criteria, content):
+    """This repository's own AGENTS.md, evaluated by the same engine. It is not a corpus entry.
+
+    Two texts are recorded, because two different texts matter. `criteria` and `sha256` are the
+    root file as it sits in this repository, which is what the compare table's own row shows.
+    The content verdicts are computed from the generic text — the root file with its Project
+    section replaced by the empty template, which is what the experiment ran and what the page
+    offers for download — because the content criteria ask for exactly the things that section
+    holds, and reporting them from a filled-in Project section would describe a file nobody
+    downloads. Which text produced them is recorded in the entry."""
     body = OURS_FILE.read_bytes()
     text = body.decode("utf-8")
     verdicts = evaluate(text, OURS_FILE.name, criteria)
+    generic = generic_text()
+    generic_bytes = generic.encode("utf-8")
+    generic_verdicts = evaluate(generic, OURS_FILE.name, criteria)
+    content_verdicts = evaluate(generic, OURS_FILE.name, content)
     return {
         "path": OURS_FILE.name,
+        "version": OURS_VERSION,
         "license": "MIT",
         "url_download": OURS_DOWNLOAD_URL,
         "lines": count_lines(text),
@@ -518,23 +533,60 @@ def ours_record(criteria):
         "criteria": verdicts,
         "met": coverage(verdicts),
         "of": len(criteria["criteria"]),
+        "content_text": "generic",
+        "content_sha256": hashlib.sha256(generic_bytes).hexdigest(),
+        "criteria_content": content_verdicts,
+        "met_content": coverage(content_verdicts),
+        "of_content": len(content["criteria"]),
+        "generic": {
+            "sha256": hashlib.sha256(generic_bytes).hexdigest(),
+            "lines": count_lines(generic),
+            "bytes": len(generic_bytes),
+            "met": coverage(generic_verdicts),
+            "of": len(criteria["criteria"]),
+        },
     }
 
 
-def with_ours(data, criteria):
-    """The committed data plus the `ours` entry, in the key order --refresh writes."""
+def stuffed_record(criteria, content):
+    """A seven-line file that meets every rule criterion and almost no content criterion. It is
+    an example of what the rule criteria cannot see, not a file anyone should adopt; the
+    methodology page says so next to its numbers."""
+    body = STUFFED_FILE.read_bytes()
+    text = body.decode("utf-8")
+    verdicts = evaluate(text, "AGENTS.md", criteria)
+    content_verdicts = evaluate(text, "AGENTS.md", content)
+    return {
+        "path": str(STUFFED_FILE.relative_to(REPO_ROOT)),
+        "lines": count_lines(text),
+        "bytes": len(body),
+        "sha256": hashlib.sha256(body).hexdigest(),
+        "criteria": verdicts,
+        "met": coverage(verdicts),
+        "of": len(criteria["criteria"]),
+        "criteria_content": content_verdicts,
+        "met_content": coverage(content_verdicts),
+        "of_content": len(content["criteria"]),
+    }
+
+
+def with_ours(data, criteria, content):
+    """The committed data plus the two entries computed from local files, in the key order
+    --refresh writes. Both --refresh and the render path go through here, so the two cannot
+    write a different shape."""
     return {
         "generated_utc": data["generated_utc"],
         "criteria_version": data["criteria_version"],
         "criteria_content_version": data["criteria_content_version"],
-        "ours": ours_record(criteria),
+        "ours": ours_record(criteria, content),
+        "stuffed": stuffed_record(criteria, content),
         "files": data["files"],
         "excluded": data["excluded"],
     }
 
 
-def comparison_json_text(data, criteria):
-    return json.dumps(with_ours(data, criteria), indent=2, ensure_ascii=False) + "\n"
+def comparison_json_text(data, criteria, content):
+    return json.dumps(with_ours(data, criteria, content), indent=2, ensure_ascii=False) + "\n"
 
 
 def verdict_cell(verdict):
@@ -654,12 +706,29 @@ def render_labels_css(criteria):
 
 
 def render_preview_html(data):
+    """The hero card. The numbers are the generic file's, on both criteria sets, because the
+    generic file is what the button offers; the root file above it differs only in the Project
+    section, and both hashes are on the card so the two can be told apart."""
     lines = OURS_FILE.read_text(encoding="utf-8").split("\n")[:PREVIEW_LINES]
     ours = data["ours"]
+    generic = ours["generic"]
     return (
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
-        '<p class="filemeta">MIT. v%s. %d lines. Criteria met: %d/%d.</p>'
-        % (PREVIEW_LINES, esc("\n".join(lines)), OURS_VERSION, ours["lines"], ours["met"], ours["of"])
+        '<p class="filemeta" title="root sha256 %s, generic sha256 %s">MIT. v%s. %d lines. '
+        "Rule criteria %d/%d \u00b7 Content criteria %d/%d (generic file; the Project section "
+        "you fill adds the commands).</p>"
+        % (
+            PREVIEW_LINES,
+            esc("\n".join(lines)),
+            esc(ours["sha256"]),
+            esc(generic["sha256"]),
+            OURS_VERSION,
+            generic["lines"],
+            generic["met"],
+            generic["of"],
+            ours["met_content"],
+            ours["of_content"],
+        )
     )
 
 
@@ -690,6 +759,10 @@ def render_criteria_json(criteria):
 CLAIM_QUERY = (
     "python3 -c \"import json;d=json.load(open('docs/data/comparison.json'));"
     "print(sum(r['criteria']['%s']['pass'] for r in d['files']))\""
+)
+OURS_QUERY = (
+    "python3 -c \"import json;d=json.load(open('docs/data/comparison.json'));"
+    "print(d['ours']['met_content'])\""
 )
 SIBLING_QUERY = (
     "python3 -c \"import json;d=json.load(open('docs/data/comparison.json'));"
@@ -764,6 +837,12 @@ def claims(data, criteria, exp):
             SIBLING_QUERY,
         ),
     ]
+    items.append((
+        "The generic file this project offers meets %d of the %d content criteria: what they "
+        "ask for lives in the Project section that each repository fills in for itself."
+        % (data["ours"]["met_content"], data["ours"]["of_content"]),
+        OURS_QUERY,
+    ))
     if exp is None:
         return items
     reported = experiment_cell(exp, "task2", "report_has_commands_and_results", "ours")
@@ -954,6 +1033,63 @@ def render_shipped_md(criteria, content):
     return "\n".join(rows)
 
 
+def render_content_observation_md(data, content):
+    """One paragraph about the content table, with every number counted from the data."""
+    total = len(data["files"])
+    counts = {
+        c["id"]: sum(1 for r in data["files"] if r["criteria_content"][c["id"]]["pass"])
+        for c in content["criteria"]
+    }
+    name = {c["id"]: c["name"].lower() for c in content["criteria"]}
+    top = max(counts, key=lambda i: counts[i])
+    none_met = [i for i in counts if counts[i] == 0]
+    best = max(r["met_content"] for r in data["files"])
+    worst = min(r["met_content"] for r in data["files"])
+    at_best = [r["repo"] for r in data["files"] if r["met_content"] == best]
+    of_content = len(content["criteria"])
+    parts = [
+        "Coverage on the content set is lower and flatter than on the rule set. The criterion "
+        "the corpus meets most often is %s (%d of %d files); the highest coverage any file "
+        "reaches is %d of %d (%s) and the lowest is %d of %d."
+        % (name[top], counts[top], total, best, of_content, ", ".join(at_best), worst, of_content)
+    ]
+    if none_met:
+        parts.append(
+            "No file in the corpus meets %s."
+            % ", ".join(name[i] for i in none_met)
+        )
+    parts.append(
+        "The columns, in the order of the criteria file, and the files that meet each, out of "
+        "%d: %s."
+        % (
+            total,
+            "; ".join(
+                "%d %s %d" % (index, name[i], counts[i])
+                for index, i in enumerate(counts, start=1)
+            ),
+        )
+    )
+    return " ".join(parts)
+
+
+def render_stuffed_md(data):
+    """The example file's own coverage line, so the number in the methodology text cannot drift
+    away from the file in docs/examples/."""
+    entry = data["stuffed"]
+    return (
+        "`%s` \u2014 %d lines, sha256 `%s`. Rule criteria %d/%d, content criteria %d/%d."
+        % (
+            entry["path"],
+            entry["lines"],
+            entry["sha256"],
+            entry["met"],
+            entry["of"],
+            entry["met_content"],
+            entry["of_content"],
+        )
+    )
+
+
 def render_excluded_md(data):
     out = ["| File | Lines | Measured | Reason |", "| --- | --- | --- | --- |"]
     for record in data["excluded"]:
@@ -981,10 +1117,6 @@ def render_summary_md(data, criteria):
                 record["of"],
             )
         )
-    out.append(
-        "| **%s** | AGENTS.md | \u2014 | %d | MIT | %d/%d |"
-        % (OURS_FILE.name, data["ours"]["lines"], data["ours"]["met"], data["ours"]["of"])
-    )
     return "\n".join(out)
 
 
@@ -1011,10 +1143,10 @@ def rendered_outputs():
                 "%s in comparison.json does not carry the content criteria in "
                 "docs/criteria-content.json; run --refresh" % record["key"]
             )
-    data = with_ours(data, criteria)
+    data = with_ours(data, criteria, content)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     outputs = {
-        COMPARISON_JSON: comparison_json_text(data, criteria),
+        COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
     }
     if INDEX_HTML.exists():
@@ -1031,12 +1163,26 @@ def rendered_outputs():
         page = METHODOLOGY_MD.read_text(encoding="utf-8")
         page = replace_block(page, "corpus", render_table(data, criteria), METHODOLOGY_MD)
         page = replace_block(page, "criteria", render_criteria_md(criteria), METHODOLOGY_MD)
+        page = replace_block(page, "criteria-content", render_criteria_md(content), METHODOLOGY_MD)
+        page = replace_block(
+            page,
+            "corpus-content",
+            render_table(data, content, "criteria_content", "met_content", "of_content"),
+            METHODOLOGY_MD,
+        )
         page = replace_block(page, "excluded", render_excluded_md(data), METHODOLOGY_MD)
         page = replace_block(page, "shipped", render_shipped_md(criteria, content), METHODOLOGY_MD)
+        page = replace_block(page, "stuffed", render_stuffed_md(data), METHODOLOGY_MD)
         outputs[METHODOLOGY_MD] = page
     if FINDINGS_MD.exists():
         page = FINDINGS_MD.read_text(encoding="utf-8")
         page = replace_block(page, "excluded", render_excluded_md(data), FINDINGS_MD)
+        page = replace_block(
+            page, "content", render_table(data, content, "criteria_content", "met_content", "of_content"), FINDINGS_MD
+        )
+        page = replace_block(
+            page, "content-note", render_content_observation_md(data, content), FINDINGS_MD
+        )
         page = replace_block(page, "headline", render_experiment_headline_md(exp), FINDINGS_MD)
         page = replace_block(page, "metrics", render_experiment_metrics_md(exp), FINDINGS_MD)
         page = replace_block(page, "cost", render_experiment_cost_md(exp), FINDINGS_MD)

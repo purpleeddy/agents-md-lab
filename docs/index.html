@@ -100,6 +100,7 @@ label { font-size:14px; }
 .verdicts .mark { font-family:var(--mono); }
 .verdicts li.met .mark { color:var(--met); } .verdicts li.unmet .mark { color:var(--unmet); }
 .verdicts .hint { display:block; font-size:13px; color:var(--muted); }
+.verdicts li.sep { border-left:none; padding-left:0; font-weight:600; }
 .privacy { font-size:13px; color:var(--muted); }
 /* charts */
 .legend { display:flex; gap:var(--s4); flex-wrap:wrap; list-style:none; padding:0; font-size:13px; font-family:var(--mono); }
@@ -210,7 +211,7 @@ file. Where each line came from: docs/rationale.md.
 - Never game a check: no weakened assertions, skipped tests, disabled linters, or `--no-verify`. Fix the cause or report the failure.
 - Do not assert that a function, API, flag, or file exists unless you verified it in this session.
 - Destructive or irreversible operations are not allowed without a backup and an explicit ask: `rm -rf`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data, or public API. Opening issues, PRs, or comments also needs an explicit ask.</pre>
-<p class="filemeta">MIT. v1.0.1. 52 lines. Criteria met: 10/10.</p>
+<p class="filemeta" title="root sha256 ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012, generic sha256 f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36">MIT. v1.0.1. 52 lines. Rule criteria 9/10 · Content criteria 0/8 (generic file; the Project section you fill adds the commands).</p>
 <!-- preview:end -->
     <div class="controls">
       <button type="button" class="btn" id="copy-file">Copy file</button>
@@ -227,6 +228,13 @@ file. Where each line came from: docs/rationale.md.
       <p class="eyebrow">Compare</p>
       <h2>Ten files, ten criteria</h2>
       <p>Coverage of sourced criteria, not quality; every &#10003; has an evidence line.</p>
+    </div>
+    <div class="controls" id="set-controls" hidden>
+      <label for="criteria-set">Criteria set</label>
+      <select id="criteria-set">
+        <option value="rule">Rule criteria (10)</option>
+        <option value="content">Content criteria (8)</option>
+      </select>
     </div>
     <div class="controls" id="compare-controls" hidden>
       <fieldset id="matters" class="controls">
@@ -246,7 +254,7 @@ file. Where each line came from: docs/rationale.md.
         <option value="lines">Lines</option>
         <option value="stars">Stars</option>
       </select>
-      <label><input type="checkbox" id="show-ours"> Show our file</label>
+      <label><input type="checkbox" id="show-ours"> Show this repository's file (written to these criteria)</label>
     </div>
     <div class="tablewrap">
 <!-- comparison:start -->
@@ -467,7 +475,8 @@ file. Where each line came from: docs/rationale.md.
 </table>
 <!-- comparison:end -->
     </div>
-    <p class="footnote">Star counts and line counts were read on the date in each cell's tooltip; every file is pinned by commit in <code>corpus.toml</code>, so the criteria columns describe that commit and not the current default branch. The file with no license is recorded by line number only, so none of its text is reproduced here.</p>
+    <div class="tablewrap" id="content-matrix" hidden></div>
+    <p class="footnote">The rule criteria ask how a file is written, the content criteria what it says about its own project; the two are never added together. The content table is built in the browser, and without JavaScript it is in <a href="https://github.com/purpleeddy/agents-md-lab/blob/main/docs/generated/comparison.md">the generated comparison</a>. Star counts and line counts were read on the date in each cell's tooltip; every file is pinned by commit in <code>corpus.toml</code>, so the criteria columns describe that commit and not the current default branch. The file with no license is recorded by line number only, so none of its text is reproduced here.</p>
   </div>
 </section>
 
@@ -476,7 +485,7 @@ file. Where each line came from: docs/rationale.md.
     <div class="stack prose">
       <p class="eyebrow">Check</p>
       <h2>Check your file</h2>
-      <p>Paste an instruction file and the same ten criteria run over it, with the line that met each one.</p>
+      <p>Paste an instruction file and both criteria sets run over it, with the line that met each one.</p>
     </div>
     <div class="panel">
       <p class="privacy" id="check-support">This check needs JavaScript. Without it, run <code>python3 scripts/compare.py --file AGENTS.md</code> instead.</p>
@@ -523,6 +532,7 @@ file. Where each line came from: docs/rationale.md.
 <li>Among the 10 surveyed files, 2 state a check that must run and pass before the work counts as finished.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;done_verification&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>Among the 10 surveyed files, 5 point at another document instead of copying its content in.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;pointer_not_copy&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>Among the 10 surveyed files, 3 ask for the smallest change, and 2 carry a sibling CLAUDE.md that names AGENTS.md.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;sibling&#x27;][&#x27;points_to_agents_md&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>The generic file this project offers meets 0 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(d[&#x27;ours&#x27;][&#x27;met_content&#x27;])&quot;</code></p></li>
 <li>In the 90-run experiment, the brownfield task reported the command and its result in 10 of 10 runs under the recommended file and 2 of 10 with no file.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(d[&#x27;by_task&#x27;][&#x27;task2&#x27;][&#x27;comparison&#x27;][&#x27;report_has_commands_and_results&#x27;][&#x27;conditions&#x27;][&#x27;ours&#x27;][&#x27;k&#x27;])&quot;</code></p></li>
 <li>In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(sum(r[&#x27;metrics&#x27;][&#x27;overprocess&#x27;] for r in d[&#x27;runs&#x27;] if r[&#x27;task&#x27;] == &#x27;task3&#x27;))&quot;</code></p></li>
 </ul>

@@ -24,7 +24,7 @@ EXPERIMENT = REPO_ROOT / "docs" / "data" / "experiment.json"
 NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
-COMPARE_JS_MAX_BYTES = 25 * 1024
+COMPARE_JS_MAX_BYTES = 28 * 1024
 
 # Hosts the page is allowed to link to. Everything else must be a relative path or a fragment:
 # the page loads no font, script, style or image from anywhere but itself.
@@ -185,6 +185,17 @@ class PageTest(unittest.TestCase):
         self.assertLessEqual(INDEX.stat().st_size, INDEX_MAX_BYTES)
         self.assertLessEqual(COMPARE_JS.stat().st_size, COMPARE_JS_MAX_BYTES)
 
+    def test_the_compare_section_offers_both_criteria_sets(self):
+        self.assertIn('<select id="criteria-set">', self.html)
+        self.assertIn('id="content-matrix"', self.html)
+        # Without JavaScript the content table is only in the generated Markdown, so the page
+        # has to say where.
+        self.assertIn(
+            "https://github.com/purpleeddy/agents-md-lab/blob/main/docs/generated/comparison.md",
+            self.html,
+        )
+        self.assertIn("Show this repository's file (written to these criteria)", self.html)
+
     def test_the_check_panel_carries_the_privacy_line(self):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)
 
@@ -197,7 +208,11 @@ class ClaimTest(unittest.TestCase):
         sys.path.insert(0, str(REPO_ROOT / "scripts"))
         import compare  # noqa: E402
 
-        data = compare.with_ours(compare.read_json(compare.COMPARISON_JSON), compare.load_criteria())
+        data = compare.with_ours(
+            compare.read_json(compare.COMPARISON_JSON),
+            compare.load_criteria(),
+            compare.load_criteria_content(),
+        )
         items = compare.claims(data, compare.load_criteria(), compare.load_experiment())
         self.assertGreaterEqual(len(items), 5)
         for text, command in items:
@@ -232,6 +247,28 @@ class ExperimentRendererTest(unittest.TestCase):
         self.assertIn("per cell", html)
         self.assertIn("↑ better", html)
         self.assertIn("Cost, turns and duration", html)
+
+    def test_the_content_matrix_agrees_with_the_committed_data(self):
+        data = json.loads((DOCS / "data" / "comparison.json").read_text(encoding="utf-8"))
+        content = json.loads((DOCS / "criteria-content.json").read_text(encoding="utf-8"))
+        script = (
+            "const lab=require(%s);"
+            "const d=require(%s);const c=require(%s);"
+            "process.stdout.write(lab.contentMatrix(d.files, c));"
+            % (
+                json.dumps(str(COMPARE_JS)),
+                json.dumps(str(DOCS / "data" / "comparison.json")),
+                json.dumps(str(DOCS / "criteria-content.json")),
+            )
+        )
+        result = subprocess.run([NODE, "-e", script], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        html = result.stdout
+        for record in data["files"]:
+            self.assertIn("%d/%d" % (record["met_content"], record["of_content"]), html)
+        for criterion in content["criteria"]:
+            self.assertIn(criterion["name"], html)
+        self.assertIn("of %d files" % len(data["files"]), html)
 
     def test_an_empty_file_renders_nothing_so_the_planned_sentence_stands(self):
         self.assertEqual(self.render('{"by_task":{},"generated_utc":"x"}'), "")

@@ -172,6 +172,7 @@
   var lab = root.AgentsMdLab;
   var CONDITIONS = ["none", "karpathy", "ours"];
   var criteria = null;
+  var contentCriteria = null;
   var comparison = null;
 
   function esc(value) {
@@ -405,6 +406,56 @@
     });
   }
 
+  // ------------------------------------------------------------------ content matrix
+
+  // The second criteria set is a plain matrix: the same ten files, the eight content criteria,
+  // no filter and no evidence rows. It is built here rather than written into the page because
+  // the page has a size budget and the data is already fetched; readers without JavaScript get
+  // the link to docs/generated/comparison.md that sits under the table.
+  function contentMatrix(files, content) {
+    var ids = content.criteria.map(function (criterion) { return criterion.id; });
+    var rows = files.map(function (record) {
+      var row = ['<a href="' + esc(record.url_view) + '">' + esc(record.repo) + "</a>"];
+      ids.forEach(function (id) {
+        row.push(record.criteria_content[id].pass ? "met" : "not met");
+      });
+      row.push(record.met_content + "/" + record.of_content);
+      return row;
+    });
+    var totals = ["Met by"];
+    ids.forEach(function (id) {
+      totals.push(String(files.filter(function (record) {
+        return record.criteria_content[id].pass;
+      }).length));
+    });
+    totals.push("of " + files.length + " files");
+    rows.push(totals);
+    var headers = ["File"].concat(content.criteria.map(function (criterion) {
+      return criterion.name;
+    })).concat(["Criteria met"]);
+    return table(headers, rows, "t-wide");
+  }
+
+  function setUpSetSwitch() {
+    var select = el("criteria-set");
+    var holder = el("content-matrix");
+    var wrap = el("compare-table") ? el("compare-table").parentNode : null;
+    if (!select || !holder || !wrap || !contentCriteria || !comparison) {
+      return;
+    }
+    el("set-controls").hidden = false;
+    select.addEventListener("change", function () {
+      var content = select.value === "content";
+      if (content && !holder.innerHTML) {
+        holder.innerHTML = contentMatrix(comparison.files, contentCriteria);
+      }
+      holder.hidden = !content;
+      wrap.hidden = content;
+      el("compare-controls").hidden = content;
+      el("compare-controls-2").hidden = content;
+    });
+  }
+
   // ------------------------------------------------------------------ check panel
 
   function verdictItem(criterion, verdict) {
@@ -432,10 +483,21 @@
     }
     var verdicts = lab.evaluate(text, name, criteria);
     var met = lab.coverage(verdicts);
-    status.textContent = name + ": criteria met " + met + "/" + criteria.criteria.length + ".";
-    el("check-verdicts").innerHTML = criteria.criteria.map(function (criterion) {
+    var items = criteria.criteria.map(function (criterion) {
       return verdictItem(criterion, verdicts[criterion.id]);
-    }).join("");
+    });
+    var line = name + ": rule criteria " + met + "/" + criteria.criteria.length;
+    if (contentCriteria) {
+      var contentVerdicts = lab.evaluate(text, name, contentCriteria);
+      line += ", content criteria " + lab.coverage(contentVerdicts) + "/"
+        + contentCriteria.criteria.length;
+      items.push('<li class="sep">Content criteria: what the file says about the project</li>');
+      contentCriteria.criteria.forEach(function (criterion) {
+        items.push(verdictItem(criterion, contentVerdicts[criterion.id]));
+      });
+    }
+    status.textContent = line + ".";
+    el("check-verdicts").innerHTML = items.join("");
     var table = el("compare-table");
     if (table) {
       setPinnedRow(table, "yours-row", makeRow(table, "yours — " + name, {
@@ -455,7 +517,7 @@
       return;
     }
     el("check-support").textContent =
-      "The check runs the same ten criteria the table uses, in this page.";
+      "The check runs the same criteria the table uses, in this page.";
     button.addEventListener("click", runCheck);
   }
 
@@ -664,8 +726,17 @@
       }
       setUpTable();
       setUpCheck();
-      return getJSON("data/comparison.json").then(function (data) {
+      return getJSON("criteria-content.json").then(function (loadedContent) {
+        contentCriteria = loadedContent;
+      }, function () {
+        // Without the second criteria file the page keeps the rule table and says so through
+        // the link under it; nothing on the page claims a content number it cannot compute.
+        contentCriteria = null;
+      }).then(function () {
+        return getJSON("data/comparison.json");
+      }).then(function (data) {
         comparison = data;
+        setUpSetSwitch();
       }, function () {
         // Without the data file there are no evidence lines to open, so the row buttons go
         // away rather than sitting there doing nothing.
@@ -681,6 +752,7 @@
   // Exported so tests/test_docs.py can render the experiment section in Node against a
   // recorded run file, where there is no document to attach it to.
   lab.renderExperiment = renderExperiment;
+  lab.contentMatrix = contentMatrix;
 
   if (typeof document === "undefined") {
     return;
