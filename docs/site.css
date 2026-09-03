@@ -222,4 +222,8 @@ h1 { font-size:30px; } h2 { font-size:25px; } h3 { font-size:20px; }
 #compare-table td::after { color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; order:-1; }
 #compare-table td.v::before { margin-left:auto; }
 }
-@media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+@media (prefers-reduced-motion: reduce) {
+* { animation:none !important; transition:none !important; }
+/* The count highlight is a discrete style change, so switching transitions off leaves it. */
+.star .count.bumped { color:var(--muted); background:transparent; }
+}

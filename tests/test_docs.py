@@ -212,10 +212,11 @@ class PageTest(unittest.TestCase):
         self.html = INDEX.read_text(encoding="utf-8")
 
     def test_no_third_party_resource(self):
-        for url in re.findall(r'(?:src|href)="([^"]+)"', self.html):
-            if url.startswith("#") or "://" not in url:
-                continue
-            self.assertTrue(url.startswith(ALLOWED_HOSTS), url)
+        for text in (self.html, LAYOUT.read_text(encoding="utf-8")):
+            for url in re.findall(r'(?:src|href)="([^"]+)"', text):
+                if url.startswith("#") or "://" not in url:
+                    continue
+                self.assertTrue(url.startswith(ALLOWED_HOSTS), url)
 
     def test_every_internal_link_has_a_target(self):
         ids = set(re.findall(r'id="([^"]+)"', self.html))
