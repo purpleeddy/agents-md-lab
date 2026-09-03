@@ -8,8 +8,8 @@
     "license": "MIT",
     "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
     "lines": 32,
-    "bytes": 4061,
-    "sha256": "fce735ba7d70ad6b2efc8c712821a670869c0e8a6fb22ce085b62e85ead0df88",
+    "bytes": 4069,
+    "sha256": "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
     "criteria": {
       "length": {
         "pass": true,
@@ -29,7 +29,7 @@
         "evidence": [
           {
             "line": 7,
-            "text": "- Destructive or irreversible operations need an explicit ask, including but not limited to `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data or public API. So does anything visible outside this checkout: pushing, publishing, deploying, messaging, issues, PRs, comments, and changing a dependency. Mirror this list in your harness's permission settings; prose alone does not stop a command."
+            "text": "- Destructive or irreversible operations need an explicit ask, including but not limited to `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data or public API. So does anything visible outside this checkout: pushing, publishing, deploying, messaging, issues, PRs, comments, and changing a dependency. This list belongs in the harness's permission settings as well; prose alone does not stop a command."
           }
         ]
       },

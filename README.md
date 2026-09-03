@@ -16,8 +16,8 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    ```
 
    That is `AGENTS.md` v1.1: the text the experiment ran, amended after an independent review
-   and then cut to the lines that carry a measured effect or a safety boundary. 32 lines, 4,061
-   bytes, about 1,015 tokens. What changed and what it means for the results is in
+   and then cut to the lines that carry a measured effect or a safety boundary. 32 lines, 4,069
+   bytes, about 1,017 tokens. What changed and what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v11).
 

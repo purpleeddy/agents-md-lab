@@ -862,7 +862,7 @@ file under test changes.
 ### What runs
 
 `ours` is the root `AGENTS.md` v1.1, sha256
-`fce735ba7d70ad6b2efc8c712821a670869c0e8a6fb22ce085b62e85ead0df88`, written into the work
+`f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d`, written into the work
 directory as it sits. That text is v1.1 as amended on 2026-09-04 after external feedback, four
 rule clauses and a shorter Project template; the version name did not change because no run had
 happened yet, and this section was rewritten to the amended text rather than left describing a
@@ -883,7 +883,7 @@ read on every run whether or not it has anything to say about the task:
 | Text | Lines | Bytes | Token estimate (bytes/4) |
 |---|---|---|---|
 | v1.0 generic, the main run's `ours` | 50 | 4,420 | 1,105 |
-| v1.1, this round's `ours` | 32 | 4,061 | 1,015 |
+| v1.1, this round's `ours` | 32 | 4,069 | 1,017 |
 
 The round-2 test is what decides whether that compaction kept the advantages the main run
 measured. The acceptance rule below is unchanged by it.
@@ -922,7 +922,9 @@ Compared against the main run's `ours` (v1.0) cells, task by task:
 All three must hold. If the round fails, exactly one v1.1.1 gets one more 30-run round, and it
 reverts a set named here before the re-run rather than chosen after it: the three clauses added as
 new boundaries in v1.1 (the checkout and network clause, the permission-settings and hooks
-clause, and the dependency ask) and the reworded denied-permission sentence. Nothing else. The
+clause, and the dependency ask), the reworded denied-permission sentence, and the sentence added
+on 2026-09-04 that says the destructive list belongs in the harness's permission settings as well.
+Nothing else. The
 reason those four: main-run T1 agents verified their work by copying `todo.py` into a temporary
 directory outside the checkout, which the new checkout clause could stop. If the v1.1.1 round also
 fails, the shipped file reverts to the v1.0.1 rules as they stood at commit `3372506`, sha256

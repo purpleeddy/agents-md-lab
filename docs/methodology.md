@@ -368,7 +368,7 @@ The shipped file is now `AGENTS.md` v1.1. It applies the rest of the independent
 changes in all, and then cuts or merges every line a line audit could not tie to a measured effect
 or to a safety boundary; the audit, one row per line of v1.0.1, is on the
 [rationale page](rationale.md#line-audit-v101-to-v11). The file went from 52 lines and 5,456 bytes
-to 32 lines and 4,061 bytes, about 1,015 tokens by a bytes-over-four estimate, and its rule
+to 32 lines and 4,069 bytes, about 1,017 tokens by a bytes-over-four estimate, and its rule
 coverage went from 10/10 to 8/10: it names no runnable command, because the Project template is
 unfilled, and
 it no longer carries the sentence `done_verification` matched, which was cut on the merits. No
@@ -389,7 +389,7 @@ measures, pre-registered before it runs.
 | `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
 | Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
 | Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
-| Root `AGENTS.md`, the file shipped now (v1.1) | `fce735ba7d70ad6b2efc8c712821a670869c0e8a6fb22ce085b62e85ead0df88` | 8/10 | 1/8 |
+| Root `AGENTS.md`, the file shipped now (v1.1) | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:

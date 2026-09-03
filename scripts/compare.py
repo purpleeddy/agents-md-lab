@@ -732,6 +732,15 @@ def unmet_names(ours, criteria):
     )
 
 
+def content_note(ours):
+    """The card carries a number and no page to explain it, so the one content criterion the
+    unfilled template trips is named where it is printed. The clause appears only while the
+    number is 1: any other value means something else is being measured."""
+    if ours["met_content"] != 1:
+        return ""
+    return ", and the content criterion met is the template's generated-files line"
+
+
 def render_preview_html(data, criteria):
     """The hero card. One text: the root file, which is what the buttons hand over and what both
     numbers were measured on, so one hash names it."""
@@ -744,7 +753,7 @@ def render_preview_html(data, criteria):
         "%d/%d</p>\n"
         '<p class="filenote">Written to the rule criteria, so meeting them is expected, and the '
         "number is published as the engine reports it; unmet: %s. The content criteria ask for "
-        "what the Project section you fill in holds.</p>"
+        "what the Project section you fill in holds%s.</p>"
         % (
             PREVIEW_LINES,
             esc("\n".join(lines)),
@@ -756,6 +765,7 @@ def render_preview_html(data, criteria):
             ours["met_content"],
             ours["of_content"],
             esc(unmet_names(ours, criteria)),
+            content_note(ours),
         )
     )
 
