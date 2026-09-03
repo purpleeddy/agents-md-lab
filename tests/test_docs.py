@@ -299,6 +299,16 @@ class PageTest(unittest.TestCase):
         self.assertIn('<td class="v unmet"><span class="pill">not met</span></td>', self.html)
         self.assertIn(".pill", SITE_CSS.read_text(encoding="utf-8"))
 
+    def test_every_token_the_components_use_is_defined_in_the_light_root(self):
+        # A component reading a token no theme defines renders with no colour at all, and the
+        # light :root block is the one every theme starts from.
+        css = SITE_CSS.read_text(encoding="utf-8")
+        root = css.split(":root {", 1)[1].split("}", 1)[0]
+        defined = set(re.findall(r"(--[\w-]+)\s*:", root))
+        used = set(re.findall(r"var\((--[\w-]+)\)", css))
+        self.assertEqual(sorted(used - defined), [])
+        self.assertEqual(sorted(defined - used), [])
+
     def test_the_pages_share_one_stylesheet(self):
         # The front page and the Markdown pages are styled by the same file, so the two cannot
         # drift apart; index.html keeps only the generated stacked-table labels inline.
