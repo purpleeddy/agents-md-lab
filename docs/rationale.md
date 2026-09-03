@@ -146,6 +146,51 @@ candidate for criteria v1.1, which would have to re-evaluate the whole corpus un
 Read the coverage number accordingly — it describes what a regex could find, and this file is a
 worked example of the gap between that and what a file says.
 
+## Known issues (independent review, 2026-09-03)
+
+Two reviewers read the generic text of this file — sha256
+`b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`, the text the experiment ran —
+and nothing else: no repository, no web access, no tools, no knowledge of this project. One read it
+as a sceptical open-source maintainer, the other from a security and operations angle. Each was
+asked for contradictions, rules an agent cannot follow or verify, rules that could harm outcomes,
+rules that only make sense in one harness, and what is missing, with a severity and a quoted line
+per finding.
+
+The disposition rule was fixed before the reviews were read: a line that **both** reviewers
+independently rate at their top severity ("blocks adoption" / "blocks unattended use") is fixed in
+the rule text; everything else is recorded here with a response. Two defects matched, and the
+[four-line amendment](methodology.md#what-the-experiment-tested-and-what-is-shipped) is v1.0.1.
+Nothing else in the rule text was changed, so the file the experiment measured and the file shipped
+stay comparable. The 20 rows below merge the two reviews: a row lists every finding that made the
+same point.
+
+| Findings | Severity as given | Quoted | The point | Our response |
+|---|---|---|---|---|
+| A2, B6, B7 | blocks adoption / blocks unattended use | "Nested project instructions … add to these" and "an explicit ask" | anyone who can add a file to the repository could add instructions, and no line said who may give the ask | fixed in v1.0.1 (both reviewers, top severity) |
+| A3, B2 | blocks adoption / blocks unattended use | "find the commands in package.json, Makefile, pyproject, or CONTRIBUTING" | commands discovered in package files are then executed, and a file shipped with an empty Project section starts every task with that search | fixed in v1.0.1 (both reviewers, top severity) |
+| A7, B1 | should fix / blocks unattended use | "In non-interactive mode … always state the assumption and proceed" | the one place no human can catch an irreversible change is the place the sentence sent it through | fixed in v1.0.1, as the consequence of the same defect |
+| A1, A16, B13, B18 | blocks adoption / should fix | "A task is complete only when the checks below ran and passed" and "fails twice with the same error" | items 3 and 4 of Done are not checks that run or pass, the stop rule is undefined when the errors differ, and reviewing `git diff` misses untracked files | v1.1 candidate: restate Done as a list of conditions, move the stop rule out of it, and add `git status --porcelain` |
+| A4, B12 | blocks adoption / should fix | "not allowed without a backup and an explicit ask" | a backup is impossible for most of the listed operations, and asking for one invites a data-movement risk of its own | v1.1 candidate: drop the backup precondition and state what is irreversible before doing it |
+| A5, A6, A24 | should fix / nit | "code changes run format, lint, typecheck, and tests" | formatting a repository manufactures the diff the While-coding rule forbids, the docs-only carve-out is undefined, and a failure that predates the change traps the agent between Done and the gaming rule | v1.1 candidate: format only changed files, name what a docs-only run covers, and say that a failure reproducing on an unmodified checkout is reported, not fixed |
+| A8, B15 | should fix | "unless you verified it in this session" | a session is not a defined boundary across compaction and subagents, and the rule as written also covers claims about the language itself | v1.1 candidate: require a `file:line` or command output for claims about this repository |
+| A9, B16 | should fix | "established libraries before reimplementing" | the sentence reads as permission to add a dependency, whose install scripts run with full privileges | covered by Before coding, which names dependencies among the changes that need a question; a Boundary of its own is a v1.1 candidate |
+| A10 | should fix | "only when a change is irreversible or externally visible" | a reversible but ambiguous request gets a guess that can waste substantial work | v1.1 candidate: add a wrong reading that would waste substantial work |
+| A11, B20 | should fix | "Keep the report proportional: one line for a trivial change" | the proportionality line contradicts the lead-with-what-was-verified line, and it can suppress the record of a side effect | v1.1 candidate: one line of what changed plus the command that verified it, and always list deletions and effects outside the checkout |
+| A12 | should fix | "A denied permission is a stop, not a detour" | read literally it stops work unrelated to the denial, and it is written in one harness's vocabulary | disagree because the rule stops the denied action and asks for a report, not the task; the wording is a v1.1 candidate, not the rule |
+| A13, A23 | should fix / nit | "Read the part of a file or log you need, not the whole thing" | nothing says adjacent code wins on style, and the reading rule pulls against reading the files you change and their callers | disagree because the harness's own prompt asks for the surrounding style, which is why v1 dropped that line; the reading rule is about logs, and saying so is a v1.1 candidate |
+| A14 | should fix | "Bug fix: a test reproduced the bug before the fix" | an unreproducible bug has no exit from the Done section | v1.1 candidate: say so and report the manual verification instead |
+| A15 | should fix | "Commands: test all …" | a Project block can name a command that passes without checking anything | covered by v1.0.1 Done item 1, which asks for each command and its result to be quoted |
+| A17, A18, A22, B23 | should fix / nit | "Smallest correct change", "Where details live" | the load-bearing terms are undefined, and the shipped Project block has no line for setup, branch policy, protected files or network policy; two pointers name files an adopter does not have | v1.1 candidate: anchor the two costliest terms and add the missing Project lines; the `.claude/skills/` pointer and the rationale pointer go with them |
+| A19, B17 | nit / should fix | "The harness's own system prompt outranks this file" | the agent cannot verify the claim, and text in a file can impersonate what it names | v1.1 candidate: define it as what the harness supplies at session start, or move it to this page |
+| A20, B3, B8, B9, B10, B11, B14, B19 | nit / blocks unattended use | "rm -rf, force-push, reset --hard, history rewrites" | the destructive list is enumerated, so `git clean`, `git push`, bulk deletion, edits to CI or permission files and other externally visible actions read as permitted, and every Boundary is self-attested | enforceable by the example settings in `.claude/settings.example.json` (deny `rm -rf`, `git push`, `git push --force`, `git reset --hard`, `git clean`; the `PreToolUse` example blocks edits to `.claude/`, `.github/workflows/`, `AGENTS.md` and `CLAUDE.md`); "including but not limited to" in the rule text is a v1.1 candidate |
+| A21, B22 | nit | "Never print, commit, or paste a secret. Report its location only" | "secret" is undefined, and a location reported into a public pull request is itself disclosure | v1.1 candidate: name the categories, add transmitting, and report the path to the operator only |
+| B4, B5 | blocks unattended use | no rule about the network or the checkout boundary | nothing forbids reading a credential store, sending repository contents to a network destination, or editing files outside the checkout | enforceable by the example settings (read-deny and a working-directory restriction are the mechanism); a Boundary line for both is a v1.1 candidate |
+| B21, B24 | should fix / nit | no budget, and no stated failure mode | nothing bounds time, tokens or lingering processes, and no line says what state to leave behind when a Boundary blocks the work | v1.1 candidate: no background or long-running processes, stop at the operator's timeout, and leave the tree in its last consistent state |
+
+Two of the twenty rows answer with enforcement rather than wording: a written rule cannot stop a command,
+and `.claude/settings.example.json` is where the deny list and the hooks live. That file is not the
+file the experiment tested, and none of it is measured here.
+
 ## What this file does not do
 
 The tool-specific paths stay out of `AGENTS.md`: the hook and permission examples live in

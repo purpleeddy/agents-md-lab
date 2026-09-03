@@ -149,6 +149,40 @@ class GeneratedBlockTest(unittest.TestCase):
             self.assertEqual(starts, ends, path.name)
 
 
+class KnownIssuesTest(unittest.TestCase):
+    """The independent review is recorded as a table with a response per row. Two reviewers gave
+    24 findings each; the table merges them, and every finding has to appear in it."""
+
+    def section(self):
+        text = (DOCS / "rationale.md").read_text(encoding="utf-8")
+        self.assertIn("## Known issues (independent review, 2026-09-03)", text)
+        after = text.split("## Known issues (independent review, 2026-09-03)")[1]
+        return after.split("\n## ")[0]
+
+    def rows(self):
+        return [
+            line for line in self.section().split("\n")
+            if line.startswith("| ") and not line.startswith("|---")
+            and not line.startswith("| Findings")
+        ]
+
+    def test_the_table_stays_under_twenty_rows(self):
+        self.assertLessEqual(len(self.rows()), 20)
+
+    def test_every_finding_of_both_reviews_has_a_row(self):
+        listed = set(re.findall(r"\b([AB]\d{1,2})\b",
+                                " ".join(row.split("|")[1] for row in self.rows())))
+        expected = {"A%d" % i for i in range(1, 25)} | {"B%d" % i for i in range(1, 25)}
+        self.assertEqual(expected - listed, set())
+
+    def test_every_row_carries_a_response(self):
+        allowed = ("fixed in v1.0.1", "enforceable by the example settings",
+                   "v1.1 candidate", "disagree because", "covered by")
+        for row in self.rows():
+            response = row.split("|")[5]
+            self.assertTrue(any(word in response for word in allowed), row)
+
+
 class VocabularyTest(unittest.TestCase):
     def test_no_forbidden_word_in_the_markdown_pages(self):
         for path in markdown_pages():
