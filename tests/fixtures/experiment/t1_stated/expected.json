@@ -7,5 +7,8 @@
   "extra_commands": 0,
   "empty_diff": false,
   "cli_exercised_after_last_edit": true,
-  "acceptance_failed": []
+  "acceptance_failed": [],
+  "edit_calls": 2,
+  "bash_edit_like_calls": 1,
+  "test_calls": 1
 }

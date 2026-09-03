@@ -11,6 +11,7 @@ class ParseAmountTest(unittest.TestCase):
     def test_parse_amount_basic(self):
         self.assertEqual(parse_amount("12.50"), 1250)
         self.assertEqual(parse_amount("3"), 300)
+        self.assertEqual(parse_amount("1.15"), 115)
 
 
 class LoadTransactionsTest(unittest.TestCase):

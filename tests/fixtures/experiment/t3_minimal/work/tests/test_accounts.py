@@ -33,7 +33,7 @@ class BalanceTest(unittest.TestCase):
     # remove it together with the next accounts fix.
     def test_balance_subtracts_fees_and_refunds(self):
         transactions = load_transactions(FIXTURE)
-        self.assertEqual(balance(transactions), 10268)
+        self.assertEqual(balance(transactions), 10270)
 
 
 if __name__ == "__main__":

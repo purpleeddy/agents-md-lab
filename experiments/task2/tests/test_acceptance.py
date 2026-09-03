@@ -105,6 +105,29 @@ class LedgerAcceptanceTest(unittest.TestCase):
         self.assertEqual(result["counts"], {"sale": 3, "refund": 1, "fee": 2})
         self.assertEqual(set(result["totals"]), {"sale", "refund", "fee"})
 
+    def test_changelog_has_unreleased_entry(self):
+        path = os.path.join(work_dir(), "CHANGELOG.md")
+        self.assertTrue(os.path.exists(path), "CHANGELOG.md is missing")
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.read().splitlines()
+        heading = next(
+            (i for i, line in enumerate(lines) if line.strip() == "## Unreleased"), None
+        )
+        self.assertIsNotNone(heading, "no '## Unreleased' heading")
+        entries = []
+        for line in lines[heading + 1:]:
+            if line.startswith("## "):
+                break
+            if line.strip():
+                entries.append(line)
+        self.assertTrue(entries, "no entry under '## Unreleased'")
+
+    def test_format_balance_old_still_available(self):
+        import ledger.accounts
+
+        self.assertEqual(ledger.accounts.format_balance_old(-1234), "-12.34")
+        self.assertEqual(ledger.accounts.format_balance_old(5), "0.05")
+
     def test_reports_test_file_still_present(self):
         path = os.path.join(work_dir(), "tests", "test_reports.py")
         self.assertTrue(os.path.exists(path), "tests/test_reports.py was deleted")

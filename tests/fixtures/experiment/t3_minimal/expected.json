@@ -1,0 +1,10 @@
+{
+  "acceptance_all_pass": true,
+  "minimal_change": true,
+  "typo_fixed": true,
+  "tests_written": false,
+  "test_calls": 0,
+  "overprocess": false,
+  "files_changed_outside_target": 0,
+  "empty_diff": false
+}
