@@ -319,6 +319,7 @@ def cmd_refresh(out_path):
     data = {
         "generated_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "criteria_version": criteria["version"],
+        "criteria_content_version": content["version"],
         "ours": ours_record(criteria),
         "files": [refresh_file(entry, criteria, content, today) for entry in corpus["files"]],
         "excluded": [refresh_excluded(entry, today) for entry in corpus["excluded"]],
@@ -505,6 +506,7 @@ def with_ours(data, criteria):
     return {
         "generated_utc": data["generated_utc"],
         "criteria_version": data["criteria_version"],
+        "criteria_content_version": data["criteria_content_version"],
         "ours": ours_record(criteria),
         "files": data["files"],
         "excluded": data["excluded"],
@@ -938,6 +940,12 @@ def rendered_outputs():
         raise RuntimeError(
             "comparison.json was generated with criteria version %s but docs/criteria.json is %s; "
             "run --refresh" % (data["criteria_version"], criteria["version"])
+        )
+    if data["criteria_content_version"] != content["version"]:
+        raise RuntimeError(
+            "comparison.json was generated with content criteria version %s but "
+            "docs/criteria-content.json is %s; run --refresh"
+            % (data["criteria_content_version"], content["version"])
         )
     content_ids = {c["id"] for c in content["criteria"]}
     for record in data["files"]:

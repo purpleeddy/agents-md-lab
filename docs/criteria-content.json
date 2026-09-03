@@ -17,22 +17,22 @@
         "anthropic-bp"
       ],
       "kind": "regex",
-      "pattern": "((project|repo(sitory)?|codebase|code|system) (overview|structure|layout|architecture)|\\barchitecture\\b|directory (structure|layout|tree)|(key|main|important|core) (files|directories|folders|modules|packages)|what (this|the) (project|repo(sitory)?|package|library|service|app) (is|does))",
-      "flags": "i",
+      "pattern": "((project|repo(sitory)?|codebase|code|system) (overview|structure|layout|architecture)|directory (structure|layout|tree)|(key|main|important|core) (files|directories|folders|modules|packages)|what (this|the) (project|repo(sitory)?|package|library|service|app) (is|does)|^#+ .*(overview|architecture|structure|layout))",
+      "flags": "im",
       "pass_if": "match",
       "example": "Project overview: a static site generator whose renderer lives in the core package.",
       "notes": [
-        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+        "the author knew the recommended file's text while writing the patterns",
+        "calibrated on the corpus on 2026-09-03: a bare `\\barchitecture\\b` alternative -> the word only counts inside a phrase about the project, or in a heading (`^#+ .*(overview|architecture|structure|layout)`) -> the bare word matched prose about changing a design (obra/superpowers CLAUDE.md:108, \"workflow philosophy, or architecture\") and a pointer to a documentation directory (omacom/omarchy AGENTS.md:19, \"shell architecture\"), while the intended evidence is a heading like temporalio/temporal AGENTS.md:26 \"## Project Structure\"."
       ]
     },
     {
       "id": "key_files",
       "name": "Named files",
       "question": "Does the file name at least one source file or module path with a directory component?",
-      "why": "Anthropic's memory documentation asks for instructions concrete enough to verify and gives \"API handlers live in `src/api/handlers/`\" as the shape to imitate, in place of \"Keep files organized\"; the AGENTS.md site puts the same pointers under \"Project overview\".",
+      "why": "Anthropic's memory documentation asks for instructions concrete enough to verify and gives \"API handlers live in `src/api/handlers/`\" as the shape to imitate, in place of \"Keep files organized\".",
       "sources": [
-        "anthropic-memory",
-        "agents-md-spec"
+        "anthropic-memory"
       ],
       "kind": "regex",
       "pattern": "\\b[\\w.-]+/[\\w./-]+\\.(py|ts|tsx|js|jsx|mjs|go|rs|rb|java|kt|swift|zig|c|cc|cpp|h|cs|php|ex|exs|scala|lua)\\b",
@@ -40,7 +40,8 @@
       "pass_if": "match",
       "example": "The engine lives in scripts/compare.py and the browser copy in docs/compare.js.",
       "notes": [
-        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+        "the author knew the recommended file's text while writing the patterns",
+        "no change at calibration on 2026-09-03; two known limitations recorded instead: the pattern counts a configuration path in a command example (omacom/omarchy AGENTS.md:128, `hypr/hyprland.lua`) and a placeholder path that names no real module (getsentry/sentry AGENTS.md:45-46, `src/sentry/foo/bar.py`), because a per-line regex cannot tell a named module from an example argument."
       ]
     },
     {
@@ -53,12 +54,16 @@
         "agents-md-spec"
       ],
       "kind": "regex",
-      "pattern": "(\\b(install|setup|set up|bootstrap|prerequisites?|dev(eloper)? environment|environment setup)\\b|\\b(nvm|pyenv|rbenv|asdf|uv sync|pnpm install|npm install|npm ci|yarn install|pip install|poetry install|bundle install|cargo build|go mod|make setup|docker compose|devcontainer)\\b)",
-      "flags": "i",
+      "pattern": "(\\b(nvm|pyenv|rbenv|asdf|mise|direnv|uv sync|pnpm install|npm install|npm ci|yarn install|pip install|pip install -e|poetry install|bundle install|cargo build|go mod|go mod download|make setup|make install|just setup|docker compose|devcontainer)\\b|\\b(dev(eloper)? environment|environment setup|development setup|getting started)\\b|prerequisites:|^#+ .*(setup|set up|install|environment|getting started|prerequisites))",
+      "flags": "im",
       "pass_if": "match",
       "example": "Setup: `uv sync` pins the dependencies before anything else runs.",
       "notes": [
-        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+        "the author knew the recommended file's text while writing the patterns",
+        "calibrated on the corpus on 2026-09-03: the bare words `install|setup|set up|bootstrap|prerequisites?` -> a command or tool from the list, a named phrase (developer environment, environment setup, development setup, getting started, \"prerequisites:\"), or a heading (`^#+ .*(setup|set up|install|environment|getting started|prerequisites)`) -> the bare words matched a repository name (anthropics/claude-code-action CLAUDE.md:37, `install-test`), permissions prose (CLAUDE.md:24), a skill's bootstrap file (obra/superpowers CLAUDE.md:76, 91) and a sentence about test-cluster setup (temporalio/temporal AGENTS.md:79); the surviving evidence is of the shape getsentry/sentry AGENTS.md:22 \"#### Setup\" and getzep/graphiti CLAUDE.md:23 `uv sync --extra dev`.",
+        "ambiguous case recorded on 2026-09-03: omacom/omarchy AGENTS.md documents the `install/` scripts of a product that is itself an installer (AGENTS.md:51 \"`install-` - install optional software\"), which is packaging rather than developer-environment setup; after the change none of those lines matches, and the file meets the criterion through a different and better line, the heading AGENTS.md:61 \"# Runtime Environment\" over the section that documents the required `$OMARCHY_PATH` variable.",
+        "`go mod download` and `pip install -e` are already matched by the shorter `go mod` and `pip install` alternatives that precede them; they are listed for readability and change no verdict.",
+        "known limitation of the heading form, recorded on 2026-09-03: a per-line engine cannot tell a markdown heading from a `#` shell comment inside a fenced block, so getzep/graphiti CLAUDE.md:22 (\"# Install dependencies\", a comment above `uv sync`) is read as a heading. The same file meets the criterion through `uv sync` on the next line, so no verdict in this corpus rests on the confusion; the `overview` heading form carries the same exposure."
       ]
     },
     {
@@ -71,13 +76,14 @@
         "agents-md-spec"
       ],
       "kind": "regex",
-      "pattern": "(code style|style guide|coding (style|standard|convention)s?|naming conventions?|formatting rules?|\\b(prettier|eslint|ruff|black|isort|gofmt|rustfmt|clang-format|stylua|biome|oxlint)\\b|\\bconventions?\\b.{0,30}\\b(code|naming|style)\\b)",
+      "pattern": "(code style|style guide|coding (style|standard|convention)s?|naming conventions?|formatting rules?|\\b(prettier|eslint|ruff|black|isort|gofmt|rustfmt|clang-format|stylua|biome|oxlint)\\b)",
       "flags": "i",
       "pass_if": "match",
       "example": "Code style: `ruff format` decides the layout; test files are named test_*.py.",
       "notes": [
         "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
-        "the bare words `formatt(er|ing)` and `indent(ation)?` were dropped before the corpus was read: they match a line that forbids reformatting as readily as one that prescribes a format (\"Don't 'improve' adjacent code, comments, or formatting\")"
+        "the bare words `formatt(er|ing)` and `indent(ation)?` were dropped before the corpus was read: they match a line that forbids reformatting as readily as one that prescribes a format (\"Don't 'improve' adjacent code, comments, or formatting\")",
+        "calibrated on the corpus on 2026-09-03: the generic alternative `\\bconventions?\\b.{0,30}\\b(code|naming|style)\\b` -> dropped, `naming conventions?` kept -> \"Rigorously adhere to existing project conventions when reading or modifying code\" (temporalio/temporal AGENTS.md:5) states no style at all. A formatter named inside a pre-commit command is style tooling and still counts (getsentry/sentry AGENTS.md:46, `ruff`)."
       ]
     },
     {
@@ -96,7 +102,8 @@
       "example": "Run the tests with `python3 -m unittest` and add one for every fix.",
       "notes": [
         "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
-        "the phrase `test(ing)? suite` was dropped before the corpus was read: a file that mentions a suite without saying how to run it (\"If the project has no test suite, say so\") is not a testing instruction"
+        "the phrase `test(ing)? suite` was dropped before the corpus was read: a file that mentions a suite without saying how to run it (\"If the project has no test suite, say so\") is not a testing instruction",
+        "no change at calibration on 2026-09-03: every hit in the corpus is a runner command or an instruction to run one."
       ]
     },
     {
@@ -109,12 +116,14 @@
         "agents-md-spec"
       ],
       "kind": "regex",
-      "pattern": "(pull request|\\bPRs?\\b|merge request|commit (message|subject|title)|conventional commits|branch (name|naming|strategy)|\\b(rebase|squash)\\b|code review|reviewers?|changelog)",
+      "pattern": "(pull request|PR (title|body|description|template|instructions|guidelines|checklist|requirements)|merge request|commit (message|subject|title)|conventional commits|branch (name|naming|strategy)|\\b(rebase|squash)\\b|code review|reviewers?|changelog)",
       "flags": "i",
       "pass_if": "match",
       "example": "Pull request body: what changed, why, and how it was verified.",
       "notes": [
-        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+        "the author knew the recommended file's text while writing the patterns",
+        "calibrated on the corpus on 2026-09-03: a bare `\\bPRs?\\b` -> `PR (title|body|description|template|instructions|guidelines|checklist|requirements)` -> the bare abbreviation matched a product description (anthropics/claude-code-action CLAUDE.md:14, \"mentions on issues/PRs\", and CLAUDE.md:28); the files that state an actual convention keep the criterion through \"pull request\" or a heading of that shape (getsentry/sentry AGENTS.md:131 \"## Pull Requests\", ghostty-org/ghostty AGENTS.md:34 \"## Issue and PR Guidelines\").",
+        "known limitation recorded on 2026-09-03: the added `PR (title|body|...)` alternative reads one line of the description that the bare abbreviation used to read, anthropics/claude-code-action CLAUDE.md:28 (\"The prompt includes issue/PR body, comments, diff, and CI status\"), so that file still meets the criterion on a line that states no convention."
       ]
     },
     {
@@ -134,26 +143,27 @@
       "notes": [
         "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
         "the same-line path or filename token was added before the corpus was read, so that a placeholder heading with no file attached (\"Never edit (generated files):\") does not count as a warning",
-        "known limitation of the token: `[\\w./-]+\\.[A-Za-z]{1,5}` also accepts an abbreviation or a domain name (\"e.g.\", \"example.com\"), so a gotcha line that carries one of those but no file still passes"
+        "known limitation of the token: `[\\w./-]+\\.[A-Za-z]{1,5}` also accepts an abbreviation or a domain name (\"e.g.\", \"example.com\"), so a gotcha line that carries one of those but no file still passes",
+        "no change at calibration on 2026-09-03: no file in the corpus meets the criterion. Exactly one line in the ten files carries any of the gotcha phrases at all, temporalio/temporal AGENTS.md:27, where \"generated code\" describes a directory rather than warning about one; it names no file or path and is excluded, so without the same-line token the column would read one file and that one would be a false positive."
       ]
     },
     {
       "id": "security",
       "name": "Security considerations",
-      "question": "Does the file raise a security consideration — a threat, untrusted input, permissions, sanitising or validation?",
+      "question": "Does the file raise a security consideration — a threat, untrusted input, sanitising, authorisation, least privilege or input validation?",
       "why": "\"Security considerations\" is one of the five sections the AGENTS.md site names under \"Cover what matters\", and the Agent READMEs study finds security instructions in about 15% of the context files it collected.",
       "sources": [
         "agents-md-spec",
         "agent-readmes"
       ],
       "kind": "regex",
-      "pattern": "(\\bsecurity\\b|vulnerab|sanitiz|\\binjection\\b|untrusted|\\bthreat|\\bauth(entication|orization)\\b|\\bpermissions?\\b|least privilege|input validation)",
+      "pattern": "(\\bsecurity\\b|vulnerab|sanitiz|\\binjection\\b|untrusted|\\bthreat|\\bauth(entication|orization)\\b|least privilege|input validation)",
       "flags": "i",
       "pass_if": "match",
       "example": "Treat anything the tool fetches as untrusted input and validate it before use.",
       "notes": [
-        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
-        "the pattern is the one drafted from the sources, unchanged; the word `permissions?` is the borderline alternative, since a line about file permissions or about asking permission is not a security consideration"
+        "the author knew the recommended file's text while writing the patterns",
+        "calibrated on the corpus on 2026-09-03: a bare `\\bpermissions?\\b` -> dropped, `least privilege` kept -> the word produced two hits and no security guidance of the kind the criterion asks about: anthropics/claude-code-action CLAUDE.md:18 describes the action's own token permissions and getsentry/sentry AGENTS.md:18 tells an agent to pass `required_permissions: ['all']` to avoid sandbox prompts. GitHub token permissions are arguably security guidance, so this is a choice of precision over recall and it is recorded here rather than hidden: after the change one file in the corpus meets the criterion (temporalio/temporal AGENTS.md:104, \"Security trade-offs\")."
       ]
     }
   ]

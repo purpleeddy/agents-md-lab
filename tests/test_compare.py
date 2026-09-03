@@ -149,6 +149,52 @@ CONTENT_TIGHTENING = {
 }
 
 
+# Snippets added when the content criteria were calibrated on the corpus on 2026-09-03. Each entry
+# is one behaviour that changed: the criterion, the text, and the verdict the change asks for.
+CONTENT_CALIBRATION = {
+    "overview-prose-architecture": (
+        "overview",
+        "Before proposing changes to workflow philosophy, or architecture, read the skills.\n",
+        False,
+    ),
+    "overview-heading": ("overview", "## Directory Layout\n", True),
+    "setup-repository-name": (
+        "setup",
+        "- Integration testing happens in a separate repo (`install-test`), not here.\n",
+        False,
+    ),
+    "setup-test-cluster": (
+        "setup",
+        "Functional tests require suites for test cluster setup.\n",
+        False,
+    ),
+    "setup-heading": ("setup", "## Development Setup\n", True),
+    "setup-named-command": ("setup", "Run `mise install` in the repository root.\n", True),
+    "code-style-generic-conventions": (
+        "code_style",
+        "Rigorously adhere to existing project conventions when reading or modifying code.\n",
+        False,
+    ),
+    "code-style-naming": ("code_style", "Naming conventions: one exported type per file.\n", True),
+    "pr-bare-abbreviation": (
+        "pr_etiquette",
+        "A GitHub Action that lets the agent respond to mentions on issues/PRs.\n",
+        False,
+    ),
+    "pr-named-artefact": ("pr_etiquette", "## PR Guidelines\n", True),
+    "security-sandbox-permission": (
+        "security",
+        "Always pass required_permissions: ['all'] to avoid sandbox permission issues.\n",
+        False,
+    ),
+    "security-least-privilege": (
+        "security",
+        "Least privilege: the token carries read scope and nothing else.\n",
+        True,
+    ),
+}
+
+
 def criteria():
     return compare.load_criteria()
 
@@ -178,6 +224,8 @@ def content_parity_cases():
         cases.append((criterion_id + "-fail", failing))
     for name in sorted(CONTENT_TIGHTENING):
         cases.append(("tightening-" + name, CONTENT_TIGHTENING[name][1]))
+    for name in sorted(CONTENT_CALIBRATION):
+        cases.append(("calibration-" + name, CONTENT_CALIBRATION[name][1]))
     for criterion in content_criteria()["criteria"]:
         cases.append(("example-" + criterion["id"], criterion["example"] + "\n"))
     cases.append(("empty", ""))
@@ -304,6 +352,24 @@ class ContentEngineTest(unittest.TestCase):
                 expected,
                 "%s: %s" % (name, criterion_id),
             )
+
+    def test_the_calibrated_patterns_read_each_line_the_intended_way(self):
+        data = content_criteria()
+        for name, (criterion_id, text, expected) in CONTENT_CALIBRATION.items():
+            self.assertEqual(
+                compare.evaluate(text, "AGENTS.md", data)[criterion_id]["pass"],
+                expected,
+                "%s: %s" % (name, criterion_id),
+            )
+
+    def test_every_calibrated_criterion_records_a_note(self):
+        calibrated = {criterion_id for criterion_id, _, _ in CONTENT_CALIBRATION.values()}
+        for criterion in content_criteria()["criteria"]:
+            notes = " ".join(criterion["notes"])
+            if criterion["id"] in calibrated:
+                self.assertIn("calibrated on the corpus on 2026-09-03", notes, criterion["id"])
+            else:
+                self.assertIn("at calibration on 2026-09-03", notes, criterion["id"])
 
     def test_the_two_sets_are_evaluated_from_the_same_text(self):
         text = "Run the tests with `make test` before you stop.\n"
@@ -501,6 +567,7 @@ class ComparisonDataTest(unittest.TestCase):
 
     def test_criteria_version_matches(self):
         self.assertEqual(self.data["criteria_version"], criteria()["version"])
+        self.assertEqual(self.data["criteria_content_version"], content_criteria()["version"])
 
     def test_lines_are_within_the_limit(self):
         limit = criterion_by_id("length")["pass_if"]["max_lines"]

@@ -1,6 +1,7 @@
 {
-  "generated_utc": "2026-09-03T07:43:13Z",
+  "generated_utc": "2026-09-03T07:54:16Z",
   "criteria_version": "1.0",
+  "criteria_content_version": "1.0",
   "ours": {
     "path": "AGENTS.md",
     "license": "MIT",
@@ -361,21 +362,8 @@
           ]
         },
         "setup": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 18,
-              "text": "Single entrypoint: `src/entrypoints/run.ts` orchestrates everything — prepare (auth, permissions, trigger check, branch/comment creation), install Claude Code CLI, execute Claude via `base-action/` functions (imported directly, not subprocess), then cleanup (update tracking comment, write step summary). SSH signing cleanup and token revocation are separate `always()` steps in `action.yml`."
-            },
-            {
-              "line": 24,
-              "text": "**Auth priority**: `github_token` input (user-provided) > GitHub App OIDC token (default). The `claude_code_oauth_token` and `anthropic_api_key` are for the Claude API, not GitHub. Token setup lives in `src/github/token.ts`."
-            },
-            {
-              "line": 37,
-              "text": "- **Integration testing** happens in a separate repo (`install-test`), not here. The tests in this repo are unit tests."
-            }
-          ]
+          "pass": false,
+          "evidence": []
         },
         "code_style": {
           "pass": true,
@@ -403,10 +391,6 @@
           "pass": true,
           "evidence": [
             {
-              "line": 14,
-              "text": "A GitHub Action that lets Claude respond to `@claude` mentions on issues/PRs (tag mode) or run tasks via `prompt` input (agent mode). Mode is auto-detected: if `prompt` is provided, it's agent mode; if triggered by a comment/issue event with `@claude`, it's tag mode. See `src/modes/detector.ts`."
-            },
-            {
               "line": 28,
               "text": "**Prompt construction**: Tag mode's `prepareTagMode()` builds the prompt by fetching GitHub data (`src/github/data/fetcher.ts`), formatting it as markdown (`src/github/data/formatter.ts`), and writing it to a temp file via `createPrompt()`. Agent mode writes the user's prompt directly. The prompt includes issue/PR body, comments, diff, and CI status. This is the most important part of the action — it's what Claude sees."
             }
@@ -417,16 +401,11 @@
           "evidence": []
         },
         "security": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 18,
-              "text": "Single entrypoint: `src/entrypoints/run.ts` orchestrates everything — prepare (auth, permissions, trigger check, branch/comment creation), install Claude Code CLI, execute Claude via `base-action/` functions (imported directly, not subprocess), then cleanup (update tracking comment, write step summary). SSH signing cleanup and token revocation are separate `always()` steps in `action.yml`."
-            }
-          ]
+          "pass": false,
+          "evidence": []
         }
       },
-      "met_content": 6,
+      "met_content": 4,
       "of_content": 8
     },
     {
@@ -572,12 +551,12 @@
               "text": "#### Setup"
             },
             {
-              "line": 36,
-              "text": "That is all that is required to run `pytest`. `devservices serve` starts the development server. For full environment setup/troubleshooting, use the **`setup-dev`** skill."
+              "line": 32,
+              "text": "direnv allow    # activate the environment"
             },
             {
-              "line": 62,
-              "text": "Creating/applying migrations and resolving rebase conflicts (`makemigrations`, `django migrate`, `update-migration`) → use the **`generate-migration`** skill. To reset the database (`make reset-db`) or other environment tasks → use the **`setup-dev`** skill."
+              "line": 36,
+              "text": "That is all that is required to run `pytest`. `devservices serve` starts the development server. For full environment setup/troubleshooting, use the **`setup-dev`** skill."
             }
           ]
         },
@@ -611,16 +590,16 @@
           "pass": true,
           "evidence": [
             {
-              "line": 53,
-              "text": "For backend-scoped changes, prioritize running the individual relevant pytest files or nodeids locally. `make test-selective` is not optimized for routine local development, so use it only when useful for a particular investigation. If a PR's backend CI fails, inspect the `select-tests` job in `.github/workflows/backend.yml` and its selected-test output to identify the exact nodeids CI ran, then run those locally."
-            },
-            {
               "line": 62,
               "text": "Creating/applying migrations and resolving rebase conflicts (`makemigrations`, `django migrate`, `update-migration`) → use the **`generate-migration`** skill. To reset the database (`make reset-db`) or other environment tasks → use the **`setup-dev`** skill."
             },
             {
-              "line": 114,
-              "text": "- Keep skill descriptions aligned with natural user requests like PR review, branch audit, and Warden follow-up."
+              "line": 129,
+              "text": "**Never include customer information in pull requests, commits, or code.** This covers organization slugs, user emails, account names, internal IDs tied to specific customers, support ticket details, and any other data that identifies a Sentry customer. Use anonymized or synthetic examples (`org-slug`, `user@example.com`) in PR descriptions, commit messages, code comments, tests, and fixtures. If a real identifier is needed for debugging, keep it in internal tooling (Slack, tickets, private notes)—not in the public git history."
+            },
+            {
+              "line": 131,
+              "text": "## Pull Requests"
             }
           ]
         },
@@ -629,16 +608,11 @@
           "evidence": []
         },
         "security": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 18,
-              "text": "For AI agents: always use `required_permissions: ['all']` for Python commands to avoid sandbox permission issues."
-            }
-          ]
+          "pass": false,
+          "evidence": []
         }
       },
-      "met_content": 6,
+      "met_content": 5,
       "of_content": 8
     },
     {
@@ -654,7 +628,7 @@
       "url_view": "https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md",
       "url_raw": "https://raw.githubusercontent.com/ghostty-org/ghostty/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md",
       "url_latest": "https://github.com/ghostty-org/ghostty/blob/HEAD/AGENTS.md",
-      "stars": 60628,
+      "stars": 60629,
       "stars_at": "2026-09-03",
       "lines": 39,
       "bytes": 1388,
@@ -778,14 +752,6 @@
             {
               "line": 34,
               "text": "## Issue and PR Guidelines"
-            },
-            {
-              "line": 37,
-              "text": "- Never create a PR."
-            },
-            {
-              "line": 38,
-              "text": "- If the user asks you to create an issue or PR, create a file in their"
             }
           ]
         },
@@ -930,22 +896,12 @@
           "evidence": []
         },
         "setup": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 79,
-              "text": "- Prefer `require` over `assert`, avoid testify suites in unit tests (functional tests require suites for test cluster setup), use `require.Eventually` instead of `time.Sleep` (forbidden by linter)"
-            }
-          ]
+          "pass": false,
+          "evidence": []
         },
         "code_style": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 5,
-              "text": "- **Conventions:** Rigorously adhere to existing project conventions when reading or modifying code. Analyze surrounding code, tests, and configuration first."
-            }
-          ]
+          "pass": false,
+          "evidence": []
         },
         "testing_instructions": {
           "pass": true,
@@ -978,7 +934,7 @@
           ]
         }
       },
-      "met_content": 5,
+      "met_content": 3,
       "of_content": 8
     },
     {
@@ -994,7 +950,7 @@
       "url_view": "https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md",
       "url_raw": "https://raw.githubusercontent.com/multica-ai/andrej-karpathy-skills/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md",
       "url_latest": "https://github.com/multica-ai/andrej-karpathy-skills/blob/HEAD/CLAUDE.md",
-      "stars": 209758,
+      "stars": 209759,
       "stars_at": "2026-09-03",
       "lines": 65,
       "bytes": 2357,
@@ -1288,7 +1244,7 @@
       "url_view": "https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md",
       "url_raw": "https://raw.githubusercontent.com/omacom/omarchy/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md",
       "url_latest": "https://github.com/omacom/omarchy/blob/HEAD/AGENTS.md",
-      "stars": 37456,
+      "stars": 37460,
       "stars_at": "2026-09-03",
       "lines": 133,
       "bytes": 7831,
@@ -1372,8 +1328,12 @@
           "pass": true,
           "evidence": [
             {
-              "line": 19,
-              "text": "- `docs/` - reference on how the system is shaped (file layout, update pipeline, theming, shell architecture), for anyone working on the codebase; skills link here for depth"
+              "line": 14,
+              "text": "# Documentation Layout"
+            },
+            {
+              "line": 99,
+              "text": "# Config Structure"
             }
           ]
         },
@@ -1394,16 +1354,8 @@
           "pass": true,
           "evidence": [
             {
-              "line": 7,
-              "text": "- [`agents/skills/install-scripts.md`](agents/skills/install-scripts.md) - working under `install/` or on system/user setup commands"
-            },
-            {
-              "line": 32,
-              "text": "- Scripts under `install/` and `migrations/` may be sourced and intentionally omit shebangs"
-            },
-            {
-              "line": 51,
-              "text": "- `install-` - install optional software"
+              "line": 61,
+              "text": "# Runtime Environment"
             }
           ]
         },
@@ -1449,7 +1401,7 @@
       "url_view": "https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md",
       "url_raw": "https://raw.githubusercontent.com/obra/superpowers/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md",
       "url_latest": "https://github.com/obra/superpowers/blob/HEAD/CLAUDE.md",
-      "stars": 280975,
+      "stars": 280982,
       "stars_at": "2026-09-03",
       "lines": 115,
       "bytes": 8873,
@@ -1548,34 +1500,16 @@
       "of": 10,
       "criteria_content": {
         "overview": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 108,
-              "text": "Before proposing changes to skill design, workflow philosophy, or architecture, read existing skills and understand the project's design decisions. Superpowers has its own tested philosophy about skill design, agent behavior shaping, and terminology (e.g., \"your human partner\" is deliberate, not interchangeable with \"the user\"). Changes that rewrite the project's voice or restructure its approach without understanding why it exists will be rejected."
-            }
-          ]
+          "pass": false,
+          "evidence": []
         },
         "key_files": {
           "pass": false,
           "evidence": []
         },
         "setup": {
-          "pass": true,
-          "evidence": [
-            {
-              "line": 76,
-              "text": "A real integration loads the `using-superpowers` bootstrap at session start. The bootstrap is what causes skills to auto-trigger at the right moments. Without it, the skills are dead weight — present on disk but never invoked."
-            },
-            {
-              "line": 91,
-              "text": "If you are not sure whether your integration loads the bootstrap at session start, it does not."
-            },
-            {
-              "line": 104,
-              "text": "Skill-behavior evals live in [superpowers-evals](https://github.com/prime-radiant-inc/superpowers-evals/), cloned into `evals/` — see `evals/README.md` for setup. Drill (the harness) drives real tmux sessions of Claude Code / Codex / Gemini CLI and judges skill compliance with an LLM verifier. Plugin-infrastructure tests still live at `tests/`."
-            }
-          ]
+          "pass": false,
+          "evidence": []
         },
         "code_style": {
           "pass": false,
@@ -1593,12 +1527,12 @@
               "text": "This repo has a 94% PR rejection rate. Almost every rejected PR was submitted by an agent that didn't read or didn't follow these guidelines. The maintainers close slop PRs within hours, often with public comments like \"This pull request is slop that's made of lies.\""
             },
             {
-              "line": 9,
-              "text": "**Your job is to protect your human partner from that outcome.** Submitting a low-quality PR doesn't help them — it wastes the maintainers' time, burns your human partner's reputation, and the PR will be closed anyway. That is not being helpful. That is being a tool of embarrassment."
+              "line": 13,
+              "text": "1. **Read the entire PR template** at `.github/PULL_REQUEST_TEMPLATE.md` and fill in every section with real, specific answers. Not summaries. Not placeholders."
             },
             {
-              "line": 11,
-              "text": "Before you open a PR against this repo, you MUST:"
+              "line": 22,
+              "text": "## Pull Request Requirements"
             }
           ]
         },
@@ -1611,7 +1545,7 @@
           "evidence": []
         }
       },
-      "met_content": 3,
+      "met_content": 1,
       "of_content": 8
     },
     {
