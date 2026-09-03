@@ -76,6 +76,12 @@ TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c88
 TESTED_GENERIC_MET = 9
 TESTED_GENERIC_MET_CONTENT = 0
 
+# The file in the Hernanz post, evaluated with the same engine on 2026-09-03. The post's text is
+# not stored in this repository (see docs/references.md#ref-hernanz-agents-md), so the verdicts are
+# recorded here as constants rather than computed from a copy.
+HERNANZ_MET_IDS = ("length", "scope_restraint", "emphasis_restraint", "tool_neutral")
+HERNANZ_MET_CONTENT = 0
+
 MAX_EVIDENCE = 3
 SIBLING_OF = {"AGENTS.md": "CLAUDE.md", "CLAUDE.md": "AGENTS.md"}
 AGENTS_MD_POINTER = re.compile(r"@AGENTS\.md|\bAGENTS\.md\b", re.ASCII)
@@ -1117,6 +1123,30 @@ def render_stuffed_md(data):
     )
 
 
+def render_hernanz_md(criteria, content):
+    """One sentence about the file five of this project's rules came from, with the criteria it
+    meets and the ones it does not named from the criteria file."""
+    names = {c["id"]: c["name"].lower() for c in criteria["criteria"]}
+    order = [c["id"] for c in criteria["criteria"]]
+    met = [names[i] for i in HERNANZ_MET_IDS]
+    unmet_middle = [names[i] for i in order[3:6]]
+    return (
+        "Evaluated with the same engine, the file in the post meets %d of the %d rule criteria "
+        "(%s) and %d of the %d content criteria; among the three criteria no surveyed file meets "
+        "— %s — it meets none either. The post's text is not stored in this repository, so these "
+        "verdicts are recorded rather than regenerated: anyone with the image and the engine can "
+        "reproduce them by pasting the transcription into the check on the front page."
+        % (
+            len(HERNANZ_MET_IDS),
+            len(criteria["criteria"]),
+            ", ".join(met),
+            HERNANZ_MET_CONTENT,
+            len(content["criteria"]),
+            ", ".join(unmet_middle),
+        )
+    )
+
+
 def render_excluded_md(data):
     out = ["| File | Lines | Measured | Reason |", "| --- | --- | --- | --- |"]
     for record in data["excluded"]:
@@ -1205,6 +1235,7 @@ def rendered_outputs():
     if FINDINGS_MD.exists():
         page = FINDINGS_MD.read_text(encoding="utf-8")
         page = replace_block(page, "excluded", render_excluded_md(data), FINDINGS_MD)
+        page = replace_block(page, "hernanz", render_hernanz_md(criteria, content), FINDINGS_MD)
         page = replace_block(
             page, "content", render_table(data, content, "criteria_content", "met_content", "of_content"), FINDINGS_MD
         )

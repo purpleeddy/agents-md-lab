@@ -39,6 +39,15 @@ From `docs/generated/comparison.md` (ten pinned files, criteria version 1.0):
   reports that repository overviews did not help task success. The Project block points at the
   documents instead.
 
+Five rules of v0 came from one practitioner post, [hernanz-agents-md](references.md#ref-hernanz-agents-md):
+the simplest implementation, reuse first, no compatibility shims, grow in layers, and modularity.
+v1.0 keeps three of them. The other two — growing the code in layers and the modularity bullet —
+were dropped as overlap with the rules above them; the While-coding section below records the drop
+and its reason. The post's
+page serves its body only with JavaScript, so its file was transcribed from an image supplied by
+the project author on 2026-09-03; the seven bullets are summarised where they are used, never
+reproduced.
+
 ## Header
 
 | Rule | Sources | Why | Changed from v0 |
@@ -77,9 +86,9 @@ conditions comparable on wording rather than structure.
 | Rule | Sources | Why | Changed from v0 |
 |---|---|---|---|
 | Smallest correct change; every changed line traces to the request; don't "improve" adjacent code; mention unrelated dead code, don't remove it. | `karpathy-multica` §3, `humanlayer` | Unrequested refactoring is paid for by the reviewer, not the agent. | Unchanged. |
-| Simplest implementation that fully meets the current requirements. No speculative abstractions, config, flags or wrappers. Three similar lines beat a premature abstraction. | v0; `karpathy-multica` §2 | Speculative structure is the cost that never gets removed. | Unchanged. |
-| Reuse first: existing dependencies before new code; don't assume a library lacks a feature without checking its docs or types. | v0 | Reimplementation is invisible in a diff and expensive afterwards. | Unchanged. |
-| No compatibility shims, fallbacks or stopgaps in internal code: remove the obsolete path instead. This never extends to migrations, schema, stored data or public API, which fall under "Boundaries". | v0; `anthropic-bp` (permission modes) | The unguarded form of this rule is dangerous: "do not preserve backward compatibility" applied to a migration deletes data. The guard is why the data half sits in Boundaries. | v0 guarded the rule with "unless the project declares a public API contract or you are asked". v1.0 names the data paths explicitly instead. The original practitioner post behind this split (an X thread) could not be fetched in this stage, so it is not cited; the rule stands on v0 and on the Boundaries guard. |
+| Simplest implementation that fully meets the current requirements. No speculative abstractions, config, flags or wrappers. Three similar lines beat a premature abstraction. | v0; `hernanz-agents-md`; `karpathy-multica` §2 | Speculative structure is the cost that never gets removed. | Unchanged. |
+| Reuse first: existing dependencies before new code; don't assume a library lacks a feature without checking its docs or types. | v0; `hernanz-agents-md` | Reimplementation is invisible in a diff and expensive afterwards. | Unchanged. |
+| No compatibility shims, fallbacks or stopgaps in internal code: remove the obsolete path instead. This never extends to migrations, schema, stored data or public API, which fall under "Boundaries". | v0; `hernanz-agents-md`; `anthropic-bp` (permission modes) | The unguarded form of this rule is dangerous: "do not preserve backward compatibility" applied to a migration deletes data. The guard is why the data half sits in Boundaries. | v0 guarded the rule with "unless the project declares a public API contract or you are asked". v1.0 names the data paths explicitly instead. The post the rule came from is now cited as `hernanz-agents-md`: its page serves no text without JavaScript, so it was transcribed from an image supplied by the project author and is summarised rather than reproduced. |
 | Comments explain why, never what or edit history. | v0 | A comment that restates the code goes stale silently. | v0's "No TODO without an owner or issue" was dropped: it is a linter's job, and this repository has no linter to run it. |
 | Handle errors where they occur. No catch-all handlers or silent fallbacks that hide failures. | v0; `karpathy-multica` §2 | A swallowed error turns a failing check into a passing one. | Unchanged. |
 | Run the targeted test before the suite. Read the part of a file or log you need, not the whole thing. | `anthropic-bp` (prefer running single tests; context is the constraint); `eth-agents-md` (context files raise inference cost 20–23%); corpus observation: `sentry` AGENTS.md:56 warns against running `pytest` by itself, and `graphiti` CLAUDE.md:127-128 gives the commands for a single file and a single test | A full suite as the first move is the slowest way to learn the change is wrong, and reading cost is the measured cost of an instruction file. | New in v1 (its "Budget and modes" section). Kept as one While-coding bullet in v1.0: as a numbered Done item it would have read as a completion requirement and pulled against the proportionality of Done item 1, so it stays an ordering hint. |

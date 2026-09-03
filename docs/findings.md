@@ -36,6 +36,13 @@ and the tables are generated from them. How both were built is in [methodology.m
    carrying vendor-specific paths; the `CLAUDE.md` files that pass do so by naming `AGENTS.md`,
    which is the format's own escape hatch.
 
+The same three criteria are unmet outside the corpus too, in the practitioner file five of this
+project's rules came from ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
+
+<!-- hernanz:start -->
+Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (length, scope restraint, emphasis restraint, tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — guard on destructive commands, secrets, instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
+<!-- hernanz:end -->
+
 Coverage counts what a text contains. It is not a measure of quality, and the file with the
 highest count in the table is not the recommendation of this page.
 
