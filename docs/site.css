@@ -6,7 +6,8 @@
 color-scheme: light;
 --ground:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F5; --ink:#09090B; --muted:#71717A;
 --rule:#E4E4E7; --accent:#2563EB; --accent-on:#FFFFFF; --accent-soft:#DBEAFE;
---met:#059669; --met-soft:#D1FAE5; --unmet:#DC2626; --unmet-soft:#FEE2E2;
+--met:#059669; --met-soft:#D1FAE5; --met-ink:#047857;
+--unmet:#DC2626; --unmet-soft:#FEE2E2; --unmet-ink:#B91C1C;
 --cond-none:#3B82F6; --cond-karpathy:#F97316; --cond-ours:#10B981;
 /* Inter where the reader has it, the platform stack otherwise. Nothing is fetched. */
 --body:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -20,7 +21,8 @@ color-scheme: light;
 color-scheme: dark;
 --ground:#09090B; --surface:#18181B; --surface-2:#27272A; --ink:#FAFAFA; --muted:#A1A1AA;
 --rule:#27272A; --accent:#3B82F6; --accent-on:#0B1220; --accent-soft:#1E3A8A;
---met:#34D399; --met-soft:#064E3B; --unmet:#F87171; --unmet-soft:#7F1D1D;
+--met:#34D399; --met-soft:#064E3B; --met-ink:#6EE7B7;
+--unmet:#F87171; --unmet-soft:#7F1D1D; --unmet-ink:#FCA5A5;
 /* The 400-step condition hues sit above the validator's dark lightness band, so each is
    snapped to the nearest step of its own scale that passes. */
 --cond-none:#3B82F6; --cond-karpathy:#EA580C; --cond-ours:#059669;
@@ -31,7 +33,8 @@ color-scheme: dark;
 color-scheme: dark;
 --ground:#09090B; --surface:#18181B; --surface-2:#27272A; --ink:#FAFAFA; --muted:#A1A1AA;
 --rule:#27272A; --accent:#3B82F6; --accent-on:#0B1220; --accent-soft:#1E3A8A;
---met:#34D399; --met-soft:#064E3B; --unmet:#F87171; --unmet-soft:#7F1D1D;
+--met:#34D399; --met-soft:#064E3B; --met-ink:#6EE7B7;
+--unmet:#F87171; --unmet-soft:#7F1D1D; --unmet-ink:#FCA5A5;
 /* The 400-step condition hues sit above the validator's dark lightness band, so each is
    snapped to the nearest step of its own scale that passes. */
 --cond-none:#3B82F6; --cond-karpathy:#EA580C; --cond-ours:#059669;
@@ -75,19 +78,20 @@ section { padding:var(--s6) 0; border-top:1px solid var(--rule); }
 .nav .cta { margin-left:auto; }
 /* .nav a sets the muted link colour, and it outranks .btn on specificity. */
 .nav .btn { color:var(--accent-on); }
-.nav .btn:hover, .nav .btn.ghost, .nav .star { color:var(--accent); }
+.nav .btn.ghost, .nav .star { color:var(--accent); }
+.nav .btn:hover { color:var(--ink); }
 .btn { font:inherit; font-size:14px; background:var(--accent); color:var(--accent-on); border:1px solid var(--accent); border-radius:var(--r-sm); padding:6px var(--s3); cursor:pointer; text-decoration:none; display:inline-block; transition:background 120ms ease, color 120ms ease, border-color 120ms ease; }
-.btn:hover { background:var(--accent-soft); color:var(--accent); }
+.btn:hover { background:var(--accent-soft); color:var(--ink); }
 .btn.ghost { background:transparent; color:var(--accent); }
-.btn.ghost:hover { background:var(--accent-soft); }
+.btn.ghost:hover { background:var(--accent-soft); color:var(--ink); }
 .btn.link { background:transparent; border-color:transparent; color:var(--accent); padding-left:0; }
 .btn.link:hover { text-decoration:underline; background:transparent; }
 /* star button */
 .star { margin-left:auto; font-family:var(--mono); font-size:13px; font-variant-numeric:tabular-nums; display:inline-flex; align-items:center; gap:6px; text-decoration:none; color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:5px var(--s3); white-space:nowrap; transition:background 120ms ease; }
-.star:hover { background:var(--accent-soft); }
+.star:hover { background:var(--accent-soft); color:var(--ink); }
 .star .count { color:var(--muted); border-left:1px solid var(--rule); padding-left:6px; }
 .star .count:empty { display:none; }
-.star .count.bumped { color:var(--accent); background:var(--accent-soft); border-radius:3px; }
+.star .count.bumped { color:var(--ink); background:var(--accent-soft); border-radius:3px; }
 
 /* hero */
 .hero { display:grid; gap:var(--s5); padding:var(--s6) 0; }
@@ -99,7 +103,7 @@ section { padding:var(--s6) 0; border-top:1px solid var(--rule); }
 .chips { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; list-style:none; padding:0; background:var(--rule); border:1px solid var(--rule); border-radius:var(--r-md); overflow:hidden; max-width:52ch; }
 .chips li { background:var(--ground); }
 .chips a { display:block; height:100%; font-family:var(--mono); font-size:12.5px; text-decoration:none; color:var(--ink); padding:var(--s2) var(--s3); transition:background 120ms ease; }
-.chips a:hover { background:var(--accent-soft); color:var(--accent); }
+.chips a:hover { background:var(--accent-soft); color:var(--ink); }
 .filecard { background:var(--surface); border:1px solid var(--rule); border-radius:var(--r-md); box-shadow:var(--shadow-card); display:flex; flex-direction:column; overflow:hidden; }
 .filecard .eyebrow { background:var(--surface-2); border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); }
 .preview { font-family:var(--mono); font-size:12.5px; line-height:1.55; margin:0; overflow-x:auto; white-space:pre-wrap; overflow-wrap:anywhere; background:var(--surface); padding:var(--s3); max-height:340px; }
@@ -130,8 +134,9 @@ td.v { white-space:nowrap; font-size:12px; }
 /* The verdict reads as a pill: filled for met, outlined for not met. The mark is drawn by CSS,
    so a screen reader hears the word only. */
 .v .pill { display:inline-block; border-radius:999px; padding:1px var(--s2); border:1px solid transparent; }
-.v.met .pill { color:var(--met); background:var(--met-soft); }
-.v.unmet .pill { color:var(--unmet); background:var(--unmet-soft); border-color:var(--rule); }
+/* The fill needs a darker ink than the verdict colour to stay readable at 12px. */
+.v.met .pill { color:var(--met-ink); background:var(--met-soft); }
+.v.unmet .pill { color:var(--unmet-ink); background:var(--unmet-soft); border-color:var(--rule); }
 .v.met .pill::before { content:"\2713\00a0"; } .v.unmet .pill::before { content:"\2717\00a0"; }
 .badge { font-size:12px; border:1px solid var(--rule); border-radius:999px; padding:0 var(--s2); }
 .cov { display:block; font-family:var(--mono); font-size:11px; font-weight:400; color:var(--muted); }
