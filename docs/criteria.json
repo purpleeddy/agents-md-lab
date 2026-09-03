@@ -37,7 +37,7 @@
       "pass_if": "match",
       "example": "Run the full suite with `python3 -m unittest`.",
       "notes": [
-        "calibrated on the corpus on 2026-09-03: backticked commands only -> a second alternative for a line that is itself a command, after an optional shell prompt -> a per-line engine cannot see a fenced code block, so a file whose only commands live in one failed (basecamp/omarchy AGENTS.md:127, and the fenced block in multica-ai/andrej-karpathy-skills CLAUDE.md).",
+        "calibrated on the corpus on 2026-09-03: backticked commands only -> a second alternative for a line that is itself a command, after an optional shell prompt -> a per-line engine cannot see a fenced code block, so a command that appears only inside one would be invisible to the first form. The widening fired on no file in this corpus: after the change the same two files still do not meet the criterion, for reasons the widening does not touch. omacom/omarchy AGENTS.md:127-129 is one fenced block whose only command runs a project-specific binary that is not in the runner list, and the single fenced block in multica-ai/andrej-karpathy-skills CLAUDE.md:55-59 holds a three-line numbered list rather than commands (line numbers only: that repository has no license).",
         "known limitation: a prohibition that quotes a command still counts as naming a command (obra/superpowers CLAUDE.md:87, `npx skills` in a list of things not to do)."
       ]
     },

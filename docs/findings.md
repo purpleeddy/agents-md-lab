@@ -22,9 +22,10 @@ and the tables are generated from them. How both were built is in [methodology.m
    [anthropic-security](references.md#ref-anthropic-security)) and not on prevalence: the corpus
    says they are unusual, not that they are wrong.
 2. **Naming a runnable command is the one widely shared habit: 8 of 10.** It is also the thing
-   every source agrees on, and the two files that do not name one keep their commands inside a
-   fenced block that a per-line check cannot read — a limitation of the check, recorded in that
-   criterion's notes, as much as a property of the file.
+   every source agrees on. The two files that do not meet it do not fail on a technicality:
+   `omacom/omarchy` names only project-specific binaries of its own, which no general runner list
+   recognises, and the karpathy-derived `CLAUDE.md` has one fenced block and it holds a numbered
+   list rather than commands.
 3. **Saying when the work is finished is rare: 2 of 10.** "Give the agent a way to verify its
    work" is the single point where the vendor guidance and the format sample agree, and eight of
    the ten files list commands without saying which of them must pass before a task is done.

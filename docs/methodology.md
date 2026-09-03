@@ -139,7 +139,9 @@ The engine is deliberately small, and its limits are part of the result.
 
 - **One line at a time.** CRLF and CR are normalised to LF, the text is split on LF, and every
   pattern is applied to a single line. No criterion can match across a line break, and no
-  criterion can see that a line sits inside a fenced code block.
+  criterion can see that a line sits inside a fenced code block. That is a limit of the engine
+  rather than an explanation of any verdict below: no file in this corpus is recorded as not
+  meeting a criterion because its evidence sat inside a fence.
 - **Evidence.** A criterion that passes on a match records up to three matching lines with their
   numbers; a criterion that passes on the absence of a match records the offending lines instead.
   Every ✓ in the table can be expanded to the line that produced it.
