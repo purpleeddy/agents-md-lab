@@ -75,14 +75,21 @@ class FixtureScoreTest(unittest.TestCase):
                 derived = case.name in experiment.FIXTURE_CHANGES
                 self.assertNotEqual(derived, (case / "work").is_dir())
 
+    @staticmethod
+    def files_in_layers(layers):
+        """The paths a set of change layers contributes, through the same filter the runner and
+        list_files use. A stale __pycache__ under a layer is a build artefact of running the
+        fixture, not a change the layer stores, and counting it made this test depend on whether
+        the suite had run before."""
+        return {
+            rel
+            for layer in layers
+            for rel in experiment.list_files(experiment.FIXTURE_CHANGES_DIR / layer)
+        }
+
     def test_the_derived_trees_change_only_the_files_stored_under_changes(self):
         for name, (layers, removed) in experiment.FIXTURE_CHANGES.items():
-            changed = {
-                path.relative_to(experiment.FIXTURE_CHANGES_DIR / layer).as_posix()
-                for layer in layers
-                for path in (experiment.FIXTURE_CHANGES_DIR / layer).rglob("*")
-                if path.is_file()
-            }
+            changed = self.files_in_layers(layers)
             with experiment.fixture_work(experiment.FIXTURE_DIR / name) as work:
                 seed = experiment.list_files(experiment.SEED_DIR)
                 built = experiment.list_files(work)
@@ -93,6 +100,24 @@ class FixtureScoreTest(unittest.TestCase):
                 }
                 self.assertEqual(differing, changed, name)
                 self.assertEqual(sorted(set(seed) - set(built)), sorted(removed), name)
+
+    def test_a_stale_bytecode_cache_in_a_layer_is_not_counted_as_a_change(self):
+        # Running the suite compiles the fixture sources, leaving __pycache__ inside the change
+        # layers. Those files are not changes the layer stores, and the derived-tree comparison
+        # must not expect them, or the test passes on a clean checkout and fails on a used one.
+        with tempfile.TemporaryDirectory() as tmp:
+            layer = Path(tmp) / "layer"
+            (layer / "ledger").mkdir(parents=True)
+            (layer / "ledger" / "accounts.py").write_text("x = 1\n", encoding="utf-8")
+            cache = layer / "ledger" / "__pycache__"
+            cache.mkdir()
+            (cache / "accounts.cpython-314.pyc").write_bytes(b"\x00stale")
+            original = experiment.FIXTURE_CHANGES_DIR
+            experiment.FIXTURE_CHANGES_DIR = Path(tmp)
+            try:
+                self.assertEqual(self.files_in_layers(["layer"]), {"ledger/accounts.py"})
+            finally:
+                experiment.FIXTURE_CHANGES_DIR = original
 
     def test_every_fixture_has_a_test(self):
         self.assertEqual(
