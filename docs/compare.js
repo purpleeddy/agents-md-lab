@@ -226,6 +226,35 @@
     });
   }
 
+  // The one request to another host: GitHub's repository endpoint, read only. Starring needs a
+  // signed-in session, so the button is a link and the count a courtesy.
+  var STARS_URL = "https://api.github.com/repos/purpleeddy/agents-md-lab";
+
+  function setUpStar() {
+    var count = el("star-count");
+    if (!count) {
+      return;
+    }
+    function read() {
+      getJSON(STARS_URL).then(function (repo) {
+        if (typeof repo.stargazers_count !== "number") {
+          return;
+        }
+        var stars = repo.stargazers_count + "";
+        if (count.textContent && count.textContent !== stars) {
+          count.classList.add("bumped");
+          setTimeout(function () { count.classList.remove("bumped"); }, 200);
+        }
+        count.textContent = stars;
+      }, function () { /* offline or rate limited */ });
+    }
+    read();
+    // GitHub needs a moment to count a new star.
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) { setTimeout(read, 2000); }
+    });
+  }
+
   // ------------------------------------------------------------------ compare table
 
   function bodyRows(table) {
@@ -717,6 +746,7 @@
 
   function start() {
     setUpCopy();
+    setUpStar();
     getJSON("criteria.json").then(null, function () {
       return embeddedCriteria();
     }).then(function (loaded) {

@@ -223,6 +223,10 @@ Two things about these patterns are worth stating plainly rather than leaving in
   comes from. Without JavaScript the page links to
   [`docs/generated/comparison.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/generated/comparison.md),
   which carries both tables and every evidence line.
+- **The site loads no external resource except the star count.** No font, script, style or
+  image comes from another host, and nothing about a visitor is stored or sent. The one
+  exception is a read-only request to GitHub's API for the number of stars on the button in the
+  header, which shows no number when it fails or is rate limited.
 - **The author knew this repository's own file while writing the patterns.** That is the same
   problem the section below describes for the rule criteria, and the same answer applies: the
   patterns are published, every verdict carries its evidence line, and the file is evaluated on
