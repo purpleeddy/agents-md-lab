@@ -775,6 +775,12 @@ a known cost of writing the real file rather than an edited one, and it is recor
 than removed. The pilot's `ours` (v0) already carried the unfilled Project template, so the
 transform is a no-op on it and the generic rule changes nothing about what the pilot wrote.
 
+From the commit "Make the root AGENTS.md the shipped generic file" on, the `ours` condition writes
+the root `AGENTS.md` as it sits, with no transform and no `ours_source_sha256`: the root file no
+longer carries a repository-specific Project section, so `condition_sha256` is the root file's own
+hash. Nothing above is restated: the main run reported here ran before that commit and its numbers
+are unchanged.
+
 Deviation from the Conditions section above: that section (above the Lock line, and therefore
 unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0` tag. It does not.
 The approved plan and this section define the main run's `ours` as the v1.0 file, written after

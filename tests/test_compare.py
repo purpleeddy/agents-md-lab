@@ -561,21 +561,18 @@ class ComparisonDataTest(unittest.TestCase):
     def test_the_recommended_file_is_evaluated_by_the_content_set_too(self):
         # The content criteria were frozen and calibrated on the corpus before this repository's
         # own file was measured against them. Now that they are frozen, the file is measured and
-        # the result is published, from the generic text, which is the one the page offers.
+        # the result is published. One text: the root file, which is the file the page offers.
         ours = self.data["ours"]
         ids = {c["id"] for c in content_criteria()["criteria"]}
         self.assertEqual(set(ours["criteria_content"]), ids)
         self.assertEqual(ours["met_content"], compare.coverage(ours["criteria_content"]))
         self.assertEqual(ours["of_content"], 8)
-        self.assertEqual(ours["content_text"], "generic")
-        generic = compare.generic_text()
-        digest = hashlib.sha256(generic.encode("utf-8")).hexdigest()
-        self.assertEqual(ours["content_sha256"], digest)
-        self.assertEqual(ours["generic"]["sha256"], digest)
-        self.assertNotEqual(ours["sha256"], digest)
+        self.assertNotIn("generic", ours)
+        root = compare.OURS_FILE.read_text(encoding="utf-8")
+        self.assertEqual(ours["sha256"], hashlib.sha256(root.encode("utf-8")).hexdigest())
         self.assertEqual(
             ours["criteria_content"],
-            compare.evaluate(generic, "AGENTS.md", content_criteria()),
+            compare.evaluate(root, "AGENTS.md", content_criteria()),
         )
 
     def test_the_example_file_carries_both_sets(self):
@@ -618,52 +615,69 @@ class ShippedFileTest(unittest.TestCase):
     text was measured and which text is offered. The block that says it is generated from the
     files themselves, and these tests keep the three rows honest."""
 
-    def test_the_shipped_block_names_every_text_by_hash_and_coverage(self):
+    def test_the_shipped_block_names_every_recorded_text_and_the_file_shipped_now(self):
         block = compare.render_shipped_md(criteria(), content_criteria())
-        self.assertIn(compare.TESTED_GENERIC_SHA256, block)
-        for text in (compare.OURS_FILE.read_text(encoding="utf-8"), compare.generic_text()):
-            self.assertIn(hashlib.sha256(text.encode("utf-8")).hexdigest(), block)
-            met = compare.coverage(compare.evaluate(text, "AGENTS.md", criteria()))
-            met_content = compare.coverage(compare.evaluate(text, "AGENTS.md", content_criteria()))
-            self.assertIn("| %d/10 | %d/8 |" % (met, met_content), block)
-
-    def test_the_generic_text_keeps_the_rules_and_empties_the_project_section(self):
+        for label, digest, met, met_content in compare.RECORDED_TEXTS:
+            self.assertIn(digest, block)
+            self.assertIn(
+                "| %s, recorded constant | `%s` | %d/10 | %d/8 |"
+                % (label, digest, met, met_content),
+                block,
+            )
         root = compare.OURS_FILE.read_text(encoding="utf-8")
-        generic = compare.generic_text()
-        rules = root.split("## Project")[0]
-        self.assertTrue(generic.startswith(rules.rstrip("\n") + "\n\n## Project"))
-        self.assertNotIn("python3 -m unittest", generic)
-
-    def test_the_download_file_differs_from_the_generic_text_by_the_pointer_line_only(self):
-        published = compare.GENERIC_MD.read_text(encoding="utf-8")
-        generic = compare.generic_text()
-        published_lines = published.split("\n")
-        generic_lines = generic.split("\n")
-        self.assertEqual(len(published_lines), len(generic_lines))
-        differing = [
-            (a, b) for a, b in zip(generic_lines, published_lines) if a != b
-        ]
-        self.assertEqual(len(differing), 1, differing)
-        before, after = differing[0]
-        self.assertIn(compare.GENERIC_POINTER_FROM, before)
-        self.assertIn(compare.GENERIC_POINTER_TO, after)
-        self.assertNotIn(compare.GENERIC_POINTER_FROM, published)
-        self.assertEqual(
-            published, generic.replace(compare.GENERIC_POINTER_FROM, compare.GENERIC_POINTER_TO)
+        met = compare.coverage(compare.evaluate(root, "AGENTS.md", criteria()))
+        met_content = compare.coverage(compare.evaluate(root, "AGENTS.md", content_criteria()))
+        self.assertIn(
+            "| Root `AGENTS.md`, the file shipped now (v%s) | `%s` | %d/10 | %d/8 |"
+            % (
+                compare.OURS_VERSION,
+                hashlib.sha256(root.encode("utf-8")).hexdigest(),
+                met,
+                met_content,
+            ),
+            block,
         )
 
-    def test_the_download_url_names_the_published_file(self):
-        self.assertTrue(compare.OURS_DOWNLOAD_URL.endswith("docs/generated/agents-generic.md"))
+    def test_the_root_file_carries_the_empty_project_template(self):
+        # The shipped file is the root file, so its Project section is the template an adopter
+        # fills in, not this repository's own commands.
+        root = compare.OURS_FILE.read_text(encoding="utf-8")
+        self.assertIn("## Project (fill per repo; delete lines that don't apply)", root)
+        self.assertNotIn("python3 -m unittest", root)
+        self.assertNotIn(".claude/skills/", root)
+
+    def test_the_download_url_names_the_root_file(self):
+        self.assertTrue(compare.OURS_DOWNLOAD_URL.endswith("/main/AGENTS.md"))
         self.assertEqual(
             compare.read_json(compare.COMPARISON_JSON)["ours"]["url_download"],
             compare.OURS_DOWNLOAD_URL,
         )
-        # A second file named AGENTS.md inside this repository would be a second instruction
-        # file for every agent working here.
+        # A second file named AGENTS.md under docs/ would be a second instruction file for every
+        # agent working here, and a second text to keep in step with this one.
+        self.assertEqual(
+            [p.name for p in (REPO_ROOT / "docs").rglob("AGENTS.md")],
+            [],
+        )
         self.assertEqual(
             sorted(p.name for p in (REPO_ROOT / "docs" / "generated").iterdir()),
-            ["agents-generic.md", "comparison.md"],
+            ["comparison.md"],
         )
+
+    def test_contributing_names_the_four_commands(self):
+        # AGENTS.md's Done item 1 sends an agent to the documented commands; this file is where
+        # they are documented.
+        text = (REPO_ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
+        for command in (
+            "python3 -m unittest",
+            "python3 -m unittest tests.test_experiment",
+            "python3 scripts/compare.py --check",
+            "python3 scripts/experiment.py --dry-run",
+        ):
+            self.assertIn(command, text)
+
+    def test_every_criterion_carries_a_note(self):
+        for criterion in criteria()["criteria"]:
+            self.assertTrue(criterion["notes"], criterion["id"])
 
     def test_the_example_settings_deny_the_operations_the_reviewers_named(self):
         settings = json.loads(

@@ -6,10 +6,10 @@
     "path": "AGENTS.md",
     "version": "1.0.1",
     "license": "MIT",
-    "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/agents-generic.md",
+    "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
     "lines": 52,
-    "bytes": 5456,
-    "sha256": "ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012",
+    "bytes": 4980,
+    "sha256": "cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a",
     "criteria": {
       "length": {
         "pass": true,
@@ -17,13 +17,8 @@
         "lines": 52
       },
       "commands": {
-        "pass": true,
-        "evidence": [
-          {
-            "line": 49,
-            "text": "- Commands: test all `python3 -m unittest` / test one `python3 -m unittest tests.test_experiment` / check the generated data `python3 scripts/compare.py --check` / check the scoring fixtures `python3 scripts/experiment.py --dry-run`. There is no build, lint, typecheck, or format command; do not invent one."
-          }
-        ]
+        "pass": false,
+        "evidence": []
       },
       "done_verification": {
         "pass": true,
@@ -74,16 +69,8 @@
         "pass": true,
         "evidence": [
           {
-            "line": 6,
-            "text": "file. Where each line came from: docs/rationale.md."
-          },
-          {
-            "line": 51,
-            "text": "- Never edit (generated files): `docs/data/`, `docs/generated/`, and anything above the \"Lock\" heading in `experiments/README.md`."
-          },
-          {
             "line": 52,
-            "text": "- Where details live: `docs/criteria.json` (what the comparison checks and why), `docs/rationale.md` (why each rule here exists), `docs/references.md` (every citation key), `experiments/README.md` (the pre-registered experiment). Read the nearest one before editing a directory."
+            "text": "- Where details live: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md. Read the nearest one before editing a directory."
           }
         ]
       },
@@ -102,10 +89,8 @@
         ]
       }
     },
-    "met": 10,
+    "met": 9,
     "of": 10,
-    "content_text": "generic",
-    "content_sha256": "f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36",
     "criteria_content": {
       "overview": {
         "pass": false,
@@ -141,14 +126,7 @@
       }
     },
     "met_content": 0,
-    "of_content": 8,
-    "generic": {
-      "sha256": "f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36",
-      "lines": 52,
-      "bytes": 4946,
-      "met": 9,
-      "of": 10
-    }
+    "of_content": 8
   },
   "stuffed": {
     "path": "docs/examples/stuffed.md",

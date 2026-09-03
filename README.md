@@ -20,7 +20,7 @@ rule lines after an independent review. What changed and what it means for the r
 1. Put the file in your repository root:
 
    ```
-   curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/agents-generic.md -o AGENTS.md
+   curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
 
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same

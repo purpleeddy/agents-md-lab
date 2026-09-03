@@ -40,7 +40,6 @@ CRITERIA = REPO_ROOT / "docs" / "criteria.json"
 CRITERIA_CONTENT = REPO_ROOT / "docs" / "criteria-content.json"
 COMPARISON_JSON = REPO_ROOT / "docs" / "data" / "comparison.json"
 COMPARISON_MD = REPO_ROOT / "docs" / "generated" / "comparison.md"
-GENERIC_MD = REPO_ROOT / "docs" / "generated" / "agents-generic.md"
 INDEX_HTML = REPO_ROOT / "docs" / "index.html"
 METHODOLOGY_MD = REPO_ROOT / "docs" / "methodology.md"
 FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
@@ -55,26 +54,37 @@ RAW_URL = "https://raw.githubusercontent.com/{repo}/{ref}/{path}"
 VIEW_URL = "https://github.com/{repo}/blob/{ref}/{path}"
 API_REPO_URL = "https://api.github.com/repos/{repo}"
 PREVIEW_LINES = 12
-# The file the page offers. It is not named AGENTS.md inside this repository: a second file by
-# that name is a second instruction file, which every agent working here would load.
-OURS_DOWNLOAD_URL = (
-    "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/"
-    "agents-generic.md"
-)
-# The one line that differs between the text the experiment ran and the file offered here: an
-# adopter's repository has no docs/rationale.md, so the pointer becomes the published page.
-GENERIC_POINTER_FROM = "docs/rationale.md"
-GENERIC_POINTER_TO = "https://purpleeddy.github.io/agents-md-lab/rationale"
+# The page offers the root file itself: one text, one hash, one set of numbers.
+OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md"
 
 # The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 fixes
 # two defects across four rule lines after the independent review (see docs/methodology.md, "What
-# the experiment tested and what is shipped"). The sha256 below is the generic text the
-# experiment wrote, which is not recoverable from the working tree once the rules change, so it
-# is recorded here with the two coverage numbers measured on it before the amendment.
+# the experiment tested and what is shipped"). The texts below are not recoverable from the
+# working tree, because the file they name has since changed or been deleted, so each is recorded
+# with the hash and the two coverage numbers measured on it at the time.
 OURS_VERSION = "1.0.1"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
-TESTED_GENERIC_MET = 9
-TESTED_GENERIC_MET_CONTENT = 0
+RECORDED_TEXTS = (
+    ("Generic file the experiment ran (v1.0)", TESTED_GENERIC_SHA256, 9, 0),
+    (
+        "Root `AGENTS.md` with this repository's Project section filled in (v1.0.1)",
+        "ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012",
+        10,
+        3,
+    ),
+    (
+        "Generic text, that Project section emptied (v1.0.1)",
+        "f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36",
+        9,
+        0,
+    ),
+    (
+        "`docs/generated/agents-generic.md`, the file the button offered (v1.0.1)",
+        "2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4",
+        8,
+        0,
+    ),
+)
 
 # The file in the Hernanz post, evaluated with the same engine on 2026-09-03. The post's text is
 # not stored in this repository (see docs/references.md#ref-hernanz-agents-md), so the verdicts are
@@ -511,47 +521,16 @@ def esc(text):
     return html.escape(text, quote=True)
 
 
-def generic_text():
-    """The root file with its repository-specific Project section replaced by the empty template:
-    the text the experiment wrote and the text this project offers for download. The transform
-    lives in scripts/experiment.py, which wrote it for the runs, and is imported rather than
-    repeated here."""
-    import experiment  # local: the experiment module is only needed by the render step
-
-    return experiment.generic_agents_md(OURS_FILE.read_text(encoding="utf-8"))
-
-
-def download_text():
-    """The generic text with its one repository-relative pointer replaced by the published page.
-    That is the only difference from the text the experiment ran, and it costs the file the
-    `pointer_not_copy` criterion, which recognises a path and not a URL: the number is published
-    rather than worked around."""
-    generic = generic_text()
-    if generic.count(GENERIC_POINTER_FROM) != 1:
-        raise RuntimeError(
-            "the root file names %s %d times; the download file replaces exactly one pointer"
-            % (GENERIC_POINTER_FROM, generic.count(GENERIC_POINTER_FROM))
-        )
-    return generic.replace(GENERIC_POINTER_FROM, GENERIC_POINTER_TO)
-
-
 def ours_record(criteria, content):
     """This repository's own AGENTS.md, evaluated by the same engine. It is not a corpus entry.
 
-    Two texts are recorded, because two different texts matter. `criteria` and `sha256` are the
-    root file as it sits in this repository, which is what the compare table's own row shows.
-    The content verdicts are computed from the generic text — the root file with its Project
-    section replaced by the empty template, which is what the experiment ran and what the page
-    offers for download — because the content criteria ask for exactly the things that section
-    holds, and reporting them from a filled-in Project section would describe a file nobody
-    downloads. Which text produced them is recorded in the entry."""
+    One text: the root file is the file this project ships, the file the buttons hand over, and
+    the file the `ours` condition writes, so both criteria sets run on it and the entry carries
+    one hash."""
     body = OURS_FILE.read_bytes()
     text = body.decode("utf-8")
     verdicts = evaluate(text, OURS_FILE.name, criteria)
-    generic = generic_text()
-    generic_bytes = generic.encode("utf-8")
-    generic_verdicts = evaluate(generic, OURS_FILE.name, criteria)
-    content_verdicts = evaluate(generic, OURS_FILE.name, content)
+    content_verdicts = evaluate(text, OURS_FILE.name, content)
     return {
         "path": OURS_FILE.name,
         "version": OURS_VERSION,
@@ -563,18 +542,9 @@ def ours_record(criteria, content):
         "criteria": verdicts,
         "met": coverage(verdicts),
         "of": len(criteria["criteria"]),
-        "content_text": "generic",
-        "content_sha256": hashlib.sha256(generic_bytes).hexdigest(),
         "criteria_content": content_verdicts,
         "met_content": coverage(content_verdicts),
         "of_content": len(content["criteria"]),
-        "generic": {
-            "sha256": hashlib.sha256(generic_bytes).hexdigest(),
-            "lines": count_lines(generic),
-            "bytes": len(generic_bytes),
-            "met": coverage(generic_verdicts),
-            "of": len(criteria["criteria"]),
-        },
     }
 
 
@@ -735,34 +705,29 @@ def render_labels_css(criteria):
     )
 
 
-def render_preview_html(data, criteria, content):
-    """The hero card. The numbers are the offered file's, on both criteria sets, because that
-    file is what the button downloads; the root file above it differs in the Project section and
-    in one pointer line, and all three hashes are on the card so the texts can be told apart."""
-    offered = download_text()
-    lines = offered.split("\n")[:PREVIEW_LINES]
+def render_preview_html(data):
+    """The hero card. One text: the root file, which is what the buttons hand over and what both
+    numbers were measured on, so one hash names it."""
+    lines = OURS_FILE.read_text(encoding="utf-8").split("\n")[:PREVIEW_LINES]
     ours = data["ours"]
-    generic = ours["generic"]
     return (
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
-        '<p class="filemeta" title="root sha256 %s, generic sha256 %s, offered file sha256 %s">'
+        '<p class="filemeta" title="sha256 %s">'
         "v%s \u00b7 MIT \u00b7 %d lines \u00b7 Rule criteria %d/%d \u00b7 Content criteria "
         "%d/%d</p>\n"
         '<p class="filenote">Written to the rule criteria, so meeting them is expected. The '
-        "served file points at this site's rationale by URL, which the pointer check does not "
-        "count; the Project section you fill adds the rest.</p>"
+        "content criteria ask for what the Project section you fill in holds, which is why that "
+        "number reads as it does.</p>"
         % (
             PREVIEW_LINES,
             esc("\n".join(lines)),
             esc(ours["sha256"]),
-            esc(generic["sha256"]),
-            esc(hashlib.sha256(offered.encode("utf-8")).hexdigest()),
             OURS_VERSION,
-            generic["lines"],
-            coverage(evaluate(offered, OURS_FILE.name, criteria)),
-            len(criteria["criteria"]),
-            coverage(evaluate(offered, OURS_FILE.name, content)),
-            len(content["criteria"]),
+            ours["lines"],
+            ours["met"],
+            ours["of"],
+            ours["met_content"],
+            ours["of_content"],
         )
     )
 
@@ -771,7 +736,9 @@ def render_file_html():
     """The file the buttons hand over, for the copy button: the same text the download link
     serves, so copying and downloading cannot differ. A <template> is inert: the browser does
     not render it and no script is needed to keep it out of the page."""
-    return '<template id="agents-md-text">%s</template>' % esc(download_text())
+    return '<template id="agents-md-text">%s</template>' % esc(
+        OURS_FILE.read_text(encoding="utf-8")
+    )
 
 
 def render_criteria_json(criteria):
@@ -876,8 +843,8 @@ def claims(data, criteria, exp):
         ),
     ]
     items.append((
-        "The generic file this project offers meets %d of the %d content criteria: what they "
-        "ask for lives in the Project section that each repository fills in for itself."
+        "The file this project offers meets %d of the %d content criteria: what they ask for "
+        "lives in the Project section that each repository fills in for itself."
         % (data["ours"]["met_content"], data["ours"]["of_content"]),
         OURS_QUERY,
     ))
@@ -1035,43 +1002,31 @@ def render_criteria_md(criteria):
 
 
 def render_shipped_md(criteria, content):
-    """The three texts that matter to a reader: the one the experiment ran, the file in this
-    repository now, and the generic file the page offers. Coverage on both criteria sets, from
-    the same engine. The first row is a recorded constant, because the text it names no longer
-    exists in the working tree; the other two are evaluated at render time."""
+    """Every text this project has offered, by hash and by coverage on both sets. The recorded
+    rows name texts that are no longer in the working tree, so their numbers are constants
+    measured at the time; the last row is the file shipped now, evaluated at render time."""
     root = OURS_FILE.read_text(encoding="utf-8")
-    generic = generic_text()
     rows = [
         "| Text | sha256 | Rule criteria | Content criteria |",
         "| --- | --- | --- | --- |",
-        "| Generic file the experiment ran (v1.0), recorded constant | `%s` | %d/%d | %d/%d |"
-        % (
-            TESTED_GENERIC_SHA256,
-            TESTED_GENERIC_MET,
-            len(criteria["criteria"]),
-            TESTED_GENERIC_MET_CONTENT,
-            len(content["criteria"]),
-        ),
     ]
-    for label, text in (
-        ("Root `AGENTS.md` in this repository (v%s)" % OURS_VERSION, root),
-        ("Generic text, this repository's Project section emptied (v%s)" % OURS_VERSION, generic),
-        (
-            "`docs/generated/agents-generic.md`, the file the button offers (v%s)" % OURS_VERSION,
-            download_text(),
-        ),
-    ):
+    for label, digest, met, met_content in RECORDED_TEXTS:
         rows.append(
-            "| %s | `%s` | %d/%d | %d/%d |"
-            % (
-                label,
-                hashlib.sha256(text.encode("utf-8")).hexdigest(),
-                coverage(evaluate(text, OURS_FILE.name, criteria)),
-                len(criteria["criteria"]),
-                coverage(evaluate(text, OURS_FILE.name, content)),
-                len(content["criteria"]),
-            )
+            "| %s, recorded constant | `%s` | %d/%d | %d/%d |"
+            % (label, digest, met, len(criteria["criteria"]), met_content,
+               len(content["criteria"]))
         )
+    rows.append(
+        "| Root `AGENTS.md`, the file shipped now (v%s) | `%s` | %d/%d | %d/%d |"
+        % (
+            OURS_VERSION,
+            hashlib.sha256(root.encode("utf-8")).hexdigest(),
+            coverage(evaluate(root, OURS_FILE.name, criteria)),
+            len(criteria["criteria"]),
+            coverage(evaluate(root, OURS_FILE.name, content)),
+            len(content["criteria"]),
+        )
+    )
     return "\n".join(rows)
 
 
@@ -1214,13 +1169,12 @@ def rendered_outputs():
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
-        GENERIC_MD: download_text(),
     }
     if INDEX_HTML.exists():
         page = INDEX_HTML.read_text(encoding="utf-8")
         page = replace_block(page, "comparison", render_comparison_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
-        page = replace_block(page, "preview", render_preview_html(data, criteria, content), INDEX_HTML)
+        page = replace_block(page, "preview", render_preview_html(data), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
         page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
         page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)

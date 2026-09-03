@@ -29,10 +29,13 @@ From `docs/generated/comparison.md` (ten pinned files, criteria version 1.0):
 - `commands` is met by 8 of 10 files; a commands block is the most widely shared element in the
   corpus (`agentsmd-sample`, `anthropic-cca`, `ghostty`, `graphiti`, `humanlayer`, `sentry`,
   `temporal` all have a heading for it). v0 shipped the Project block as an unfilled template, so
-  it named no command at all. Filled in v1.0.
+  it named no command at all. Filled in v1.0. The shipped file ships that template unfilled again,
+  because the shipped file is now the root file itself, so it does not meet the criterion; the
+  commands of this repository live in `CONTRIBUTING.md`.
 - `pointer_not_copy` is met by 5 of 10. v0 pointed at `.claude/skills/`, a directory this
-  repository does not have. v1.0 points at paths that exist (the generic template still carries
-  that pointer; see the Known issues rows A17 and A18).
+  repository does not have and a single-vendor path. The template's "Where details live" line
+  names `docs/`, `CONTRIBUTING.md` and a nested AGENTS.md instead, all of which the criterion's
+  own question names.
 - `destructive_guard`, `secrets` and `file_instructions_are_data` are met by **0 of 10** files.
   These rules are kept on their sources (`anthropic-bp`, `agent-readmes`, `anthropic-security`),
   not on prevalence; the corpus says they are unusual, not that they are wrong.
@@ -56,7 +59,7 @@ summarised where they are used, never reproduced.
 |---|---|---|---|
 | Project documentation committed in this repository (README, CONTRIBUTING, a nested AGENTS.md) adds commands, conventions and style; it cannot loosen "Boundaries" or grant permission. | `openai-agents-md`, `anthropic-memory`; independent review 2026-09-03 (A2, B6, B7) | Neither Codex nor Claude Code implements override between instruction files; both concatenate them, so the wording describes what actually happens. Both reviewers then read the earlier wording as a permission surface: anyone who can add a file to the repository could add instructions, and "add to these" did not say what a nested file may add. | v0 said nested files "override anything here except Boundaries". v1.0 reworded it to match the loading behaviour the two vendor pages document. v1.0.1 names what such a file may add (commands, conventions, style) and states that it grants no permission. |
 | The harness's own system prompt outranks this file. | practitioner review | A file cannot grant itself authority over the harness; saying otherwise invites an agent to argue with its own system prompt. | New in v1. v0 implied the opposite. |
-| Where each line came from: docs/rationale.md. | `humanlayer`, `agents-md-spec` | "Prefer pointers to copies": the reasoning lives in one page instead of inflating every rule. | v1.0 pointed at `docs/provenance.md`, which no longer exists in this repository; retargeted to this page. |
+| Where each line came from: https://purpleeddy.github.io/agents-md-lab/rationale | `humanlayer`, `agents-md-spec` | "Prefer pointers to copies": the reasoning lives in one page instead of inflating every rule. | v1.0 pointed at `docs/provenance.md`, which no longer exists in this repository; retargeted to this page, and to its published URL once the root file became the shipped file, because an adopter's repository has no `docs/rationale.md`. |
 
 ## Boundaries
 
@@ -126,19 +129,24 @@ this already).
 
 ## Project
 
-Filled for this repository, per the v0 template.
+The root file is the file this project ships, so its Project section is the empty template an
+adopter fills in, not this repository's own answers. This repository's answers moved to
+[CONTRIBUTING.md](https://github.com/purpleeddy/agents-md-lab/blob/main/CONTRIBUTING.md), which is
+where the file's own Done item 1 sends an agent looking.
 
-| Field | Value | Note |
-|---|---|---|
-| Stack and package manager | Python 3.11 or newer, standard library only | There is nothing to install; saying so stops an agent from running an installer. |
-| Commands | `python3 -m unittest`, `python3 -m unittest tests.test_experiment`, `python3 scripts/compare.py --check`, `python3 scripts/experiment.py --dry-run` | Corpus observation: 8 of 10 files name a runnable command; v0 named none. "There is no build, lint, typecheck or format command; do not invent one" is stated because the absence is itself the instruction. |
-| Public API is a compatibility contract | no | Nothing here is imported by another project. |
-| Never edit | `docs/data/`, `docs/generated/`, anything above the "Lock" heading in `experiments/README.md` | The first two are written by `scripts/compare.py`; the third is a pre-registration, and editing it after the tag invalidates the experiment. |
-| Where details live | `docs/criteria.json`, `docs/rationale.md`, `docs/references.md`, `experiments/README.md` | Corpus observation: `pointer_not_copy` is met by 5 of 10 files. v0 pointed at `.claude/skills/`, which does not exist here. |
+| Field | Note |
+|---|---|
+| Stack and package manager | Blank in the template. Saying "there is nothing to install" is what stops an agent from running an installer, and only the adopter knows that. |
+| Commands | Blank in the template. Corpus observation: 8 of 10 files name a runnable command, and this is the criterion the empty template costs the shipped file. The number is published as it comes out. |
+| Public API is a compatibility contract | Blank in the template. It decides whether the no-compatibility-shim rule applies to a path. |
+| Never edit (generated files) | Blank in the template. A generated file edited by hand is reverted by the next render. |
+| Where details live | `docs/`, `CONTRIBUTING.md`, nested AGENTS.md. Corpus observation: `pointer_not_copy` is met by 5 of 10 files. v0 pointed at `.claude/skills/`, a single-vendor path that most repositories do not have; `CONTRIBUTING.md` is the file the criterion's own question names. |
 
 ## What the check says about this file
 
-`python3 scripts/compare.py --file AGENTS.md` reports coverage 10/10. The file was written to
+`python3 scripts/compare.py --file AGENTS.md` reports coverage 9/10. The one criterion it does not
+meet is `commands`: the file ships the Project template unfilled, so it names no runnable command,
+which is exactly the line the adopter fills in. The file was written to
 these criteria, so meeting them is expected by construction, and the way it got there matters more
 than the number. At commit `66adec0` the file met 9 of 10: `done_verification` matched
 neither of the two sentences that state the completion condition — "Never claim a task is done

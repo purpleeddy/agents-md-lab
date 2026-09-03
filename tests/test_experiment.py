@@ -431,39 +431,9 @@ class ContinuousSeparationTest(unittest.TestCase):
         self.assertNotIn("total_cost_usd", separated)
 
 
-class GenericAgentsMdTest(unittest.TestCase):
-    def test_project_section_is_replaced(self):
-        text = "# AGENTS.md\n\nintro\n\n## Project\n- Commands: `make test`\n"
-        result = experiment.generic_agents_md(text)
-        self.assertTrue(result.startswith("# AGENTS.md\n\nintro\n"))
-        self.assertEqual(result, "# AGENTS.md\n\nintro\n\n" + experiment.GENERIC_PROJECT_SECTION)
-        self.assertNotIn("make test", result)
-
-    def test_text_without_project_section_is_unchanged(self):
-        text = "# AGENTS.md\n\n## Done\n- run the tests\n"
-        self.assertEqual(experiment.generic_agents_md(text), text)
-
-    def test_root_file_loses_its_repository_specific_block(self):
-        root = experiment.read_text(experiment.REPO_ROOT / "AGENTS.md")
-        result = experiment.generic_agents_md(root)
-        head = root[: root.index("\n## Project") + 1]
-        self.assertTrue(result.startswith(head))
-        self.assertNotIn("docs/criteria.json", result)
-        self.assertTrue(
-            result.endswith(
-                "- Where details live: `docs/`, `.claude/skills/`, nested AGENTS.md."
-                " Read the nearest one before editing a directory.\n"
-            )
-        )
-        # Applying it again changes nothing.
-        self.assertEqual(experiment.generic_agents_md(result), result)
-
-
 class WriteConditionTest(unittest.TestCase):
-    def test_ours_writes_the_generic_file(self):
-        expected = experiment.generic_agents_md(
-            experiment.read_text(experiment.REPO_ROOT / "AGENTS.md")
-        )
+    def test_ours_writes_the_root_file_unchanged(self):
+        expected = experiment.read_text(experiment.REPO_ROOT / "AGENTS.md")
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp)
             digest = experiment.write_condition(work, "ours")
@@ -471,8 +441,9 @@ class WriteConditionTest(unittest.TestCase):
             self.assertEqual(experiment.read_text(work / "CLAUDE.md"), "@AGENTS.md\n")
         self.assertEqual(written, expected)
         self.assertEqual(digest, experiment.sha256_text(expected))
+        # The root file carries the empty Project template, not this repository's own section.
         self.assertNotIn("docs/criteria.json", written)
-        self.assertIn(experiment.GENERIC_PROJECT_SECTION, written)
+        self.assertIn("## Project (fill per repo", written)
 
 
 class KarpathyFetchTest(unittest.TestCase):

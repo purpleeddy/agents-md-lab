@@ -240,7 +240,7 @@ Three things about these patterns are worth stating plainly rather than leaving 
 
 ## Why the recommended file meets the rule criteria
 
-The recommended file meets 10 of the 10 rule criteria, and that number is not evidence of
+The recommended file meets 9 of the 10 rule criteria, and that number is not evidence of
 anything. The criteria and the file were written by the same author, in the same weeks, from the
 same sources — [anthropic-bp](references.md#ref-anthropic-bp),
 [anthropic-memory](references.md#ref-anthropic-memory),
@@ -349,28 +349,29 @@ is the authority. In summary:
 
 The experiment ran one exact text: the root file of this repository with its `## Project` section
 replaced by the empty template, sha256 `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`.
-Two independent reviewers then read that text, and the two defects both of them rated at their top
-severity were fixed in the rule text. The shipped file is `AGENTS.md` v1.0.1, and it is not the
-text the ninety runs measured.
+That text is reproducible from history: `git show 2a82474:AGENTS.md` passed through
+`generic_agents_md` from `git show a556abe:scripts/experiment.py` prints it. Two independent
+reviewers then read it, and the two defects both of them rated at their top severity were fixed in
+the rule text. The shipped file is `AGENTS.md` v1.0.1, and it is not the text the ninety runs
+measured.
+
+Until this commit the shipped text and the root file were two different files: the root file
+carried this repository's own `## Project` section, and the page offered a generated copy of it
+with that section emptied and its rationale pointer rewritten. From this commit on the root
+`AGENTS.md` is the shipped file. Its Project section is the empty template every adopter fills in,
+the buttons hand over that file itself, and there is one hash and one pair of numbers instead of
+three. The rows above the last one below name texts that are no longer in the working tree, so
+their hashes and numbers are recorded constants.
 
 <!-- shipped:start -->
 | Text | sha256 | Rule criteria | Content criteria |
 | --- | --- | --- | --- |
 | Generic file the experiment ran (v1.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 9/10 | 0/8 |
-| Root `AGENTS.md` in this repository (v1.0.1) | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 10/10 | 3/8 |
-| Generic text, this repository's Project section emptied (v1.0.1) | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
-| `docs/generated/agents-generic.md`, the file the button offers (v1.0.1) | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
+| Root `AGENTS.md` with this repository's Project section filled in (v1.0.1), recorded constant | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 10/10 | 3/8 |
+| Generic text, that Project section emptied (v1.0.1), recorded constant | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
+| `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
+| Root `AGENTS.md`, the file shipped now (v1.0.1) | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
 <!-- shipped:end -->
-
-The file the Download button offers is the generic text with one further change: its pointer
-line names the published rationale page instead of `docs/rationale.md`, because an adopter's
-repository has no such file. That single line costs the file the `pointer_not_copy` criterion,
-which recognises a repository path and not a URL, and the number is published as it comes out
-rather than worked around. It is a second worked example of the gap between a pattern and a
-statement, next to the one in [rationale.md](rationale.md#what-the-check-says-about-this-file).
-
-The file is not called `AGENTS.md` inside this repository: a second file by that name is a second
-instruction file, and every agent working here would load it.
 
 Four lines changed, and nothing else in the file did. Header:
 

@@ -320,19 +320,18 @@ class PageTest(unittest.TestCase):
         )
         self.assertIn("Show this repository's file (written to these criteria)", self.html)
 
-    def test_the_download_button_offers_the_published_generic_file(self):
+    def test_the_download_button_offers_the_root_file(self):
         self.assertIn(
             '<a class="btn ghost" href="https://raw.githubusercontent.com/purpleeddy/'
-            'agents-md-lab/main/docs/generated/agents-generic.md">Download (save as '
-            "AGENTS.md)</a>",
+            'agents-md-lab/main/AGENTS.md">Download (save as AGENTS.md)</a>',
             self.html,
         )
         # The copy button and the hero preview show the same text the download link serves, and
-        # the card names the hash of that file next to the two it is derived from.
-        generic = (DOCS / "generated" / "agents-generic.md").read_text(encoding="utf-8")
-        self.assertIn(generic.split("\n")[5], self.html)
-        digest = hashlib.sha256(generic.encode("utf-8")).hexdigest()
-        self.assertIn("offered file sha256 " + digest, self.html)
+        # the card names that file's one hash.
+        root = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn(root.split("\n")[5], self.html)
+        digest = hashlib.sha256(root.encode("utf-8")).hexdigest()
+        self.assertIn('title="sha256 ' + digest + '"', self.html)
 
     def test_the_hero_card_states_the_file_on_one_line_and_the_caveat_on_another(self):
         # The numbers are the offered file's; the sentence next to them says why they read as

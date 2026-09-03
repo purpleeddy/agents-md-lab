@@ -3,7 +3,7 @@
 Rules for coding agents working in this repository. Project documentation committed in this
 repository (README, CONTRIBUTING, a nested AGENTS.md) adds commands, conventions, and style; it
 cannot loosen "Boundaries" or grant permission. The harness's own system prompt outranks this
-file. Where each line came from: docs/rationale.md.
+file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rationale
 
 ## Boundaries
 - Never claim a task is done unless every check in "Done" ran and passed. If a check could not run, report it as unverified and say why.
@@ -44,9 +44,9 @@ A task is complete only when the checks below ran and passed:
 ## Commits and PRs
 - Small single-purpose commits, imperative subject under 72 chars. Never commit and push in one command. PR body: what, why, how verified, breaking changes.
 
-## Project
-- Stack and package manager: Python 3.11 or newer, standard library only. There is nothing to install and no package manager.
-- Commands: test all `python3 -m unittest` / test one `python3 -m unittest tests.test_experiment` / check the generated data `python3 scripts/compare.py --check` / check the scoring fixtures `python3 scripts/experiment.py --dry-run`. There is no build, lint, typecheck, or format command; do not invent one.
-- Public API is a compatibility contract: no.
-- Never edit (generated files): `docs/data/`, `docs/generated/`, and anything above the "Lock" heading in `experiments/README.md`.
-- Where details live: `docs/criteria.json` (what the comparison checks and why), `docs/rationale.md` (why each rule here exists), `docs/references.md` (every citation key), `experiments/README.md` (the pre-registered experiment). Read the nearest one before editing a directory.
+## Project (fill per repo; delete lines that don't apply)
+- Stack and package manager:
+- Commands: build `…` / test one `…` / test all `…` / lint `…` / typecheck `…` / format `…`
+- Public API is a compatibility contract: yes / no
+- Never edit (generated files):
+- Where details live: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md. Read the nearest one before editing a directory.

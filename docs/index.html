@@ -71,19 +71,19 @@
 Rules for coding agents working in this repository. Project documentation committed in this
 repository (README, CONTRIBUTING, a nested AGENTS.md) adds commands, conventions, and style; it
 cannot loosen &quot;Boundaries&quot; or grant permission. The harness&#x27;s own system prompt outranks this
-file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rationale.
+file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rationale
 
 ## Boundaries
 - Never claim a task is done unless every check in &quot;Done&quot; ran and passed. If a check could not run, report it as unverified and say why.
 - Never game a check: no weakened assertions, skipped tests, disabled linters, or `--no-verify`. Fix the cause or report the failure.
 - Do not assert that a function, API, flag, or file exists unless you verified it in this session.
 - Destructive or irreversible operations are not allowed without a backup and an explicit ask: `rm -rf`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data, or public API. Opening issues, PRs, or comments also needs an explicit ask.</pre>
-<p class="filemeta" title="root sha256 ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012, generic sha256 f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36, offered file sha256 2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4">v1.0.1 · MIT · 52 lines · Rule criteria 8/10 · Content criteria 0/8</p>
-<p class="filenote">Written to the rule criteria, so meeting them is expected. The served file points at this site's rationale by URL, which the pointer check does not count; the Project section you fill adds the rest.</p>
+<p class="filemeta" title="sha256 cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a">v1.0.1 · MIT · 52 lines · Rule criteria 9/10 · Content criteria 0/8</p>
+<p class="filenote">Written to the rule criteria, so meeting them is expected. The content criteria ask for what the Project section you fill in holds, which is why that number reads as it does.</p>
 <!-- preview:end -->
     <div class="controls">
       <button type="button" class="btn" id="copy-file">Copy file</button>
-      <a class="btn ghost" href="https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/agents-generic.md">Download (save as AGENTS.md)</a>
+      <a class="btn ghost" href="https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md">Download (save as AGENTS.md)</a>
       <a class="btn link" href="rationale.html">Why each rule</a>
     </div>
     <p class="privacy" id="copy-status" aria-live="polite"></p>
@@ -402,7 +402,7 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
 <li>Among the 10 surveyed files, 5 point at another document instead of copying its content in.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;pointer_not_copy&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>Among the 10 surveyed files, 3 ask for the smallest change.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;scope_restraint&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>Among the 10 surveyed files, 2 carry a sibling CLAUDE.md that names AGENTS.md.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;sibling&#x27;][&#x27;points_to_agents_md&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
-<li>The generic file this project offers meets 0 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(d[&#x27;ours&#x27;][&#x27;met_content&#x27;])&quot;</code></p></li>
+<li>The file this project offers meets 0 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(d[&#x27;ours&#x27;][&#x27;met_content&#x27;])&quot;</code></p></li>
 <li>In the 90-run experiment, the brownfield task reported the command and its result in 10 of 10 runs under the recommended file and 2 of 10 with no file.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(d[&#x27;by_task&#x27;][&#x27;task2&#x27;][&#x27;comparison&#x27;][&#x27;report_has_commands_and_results&#x27;][&#x27;conditions&#x27;][&#x27;ours&#x27;][&#x27;k&#x27;])&quot;</code></p></li>
 <li>In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(sum(r[&#x27;metrics&#x27;][&#x27;overprocess&#x27;] for r in d[&#x27;runs&#x27;] if r[&#x27;task&#x27;] == &#x27;task3&#x27;))&quot;</code></p></li>
 </ul>
@@ -481,7 +481,7 @@ python3 scripts/experiment.py run --task task1 --conditions none karpathy ours -
 Rules for coding agents working in this repository. Project documentation committed in this
 repository (README, CONTRIBUTING, a nested AGENTS.md) adds commands, conventions, and style; it
 cannot loosen &quot;Boundaries&quot; or grant permission. The harness&#x27;s own system prompt outranks this
-file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rationale.
+file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rationale
 
 ## Boundaries
 - Never claim a task is done unless every check in &quot;Done&quot; ran and passed. If a check could not run, report it as unverified and say why.
@@ -527,7 +527,7 @@ A task is complete only when the checks below ran and passed:
 - Commands: build `…` / test one `…` / test all `…` / lint `…` / typecheck `…` / format `…`
 - Public API is a compatibility contract: yes / no
 - Never edit (generated files):
-- Where details live: `docs/`, `.claude/skills/`, nested AGENTS.md. Read the nearest one before editing a directory.
+- Where details live: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md. Read the nearest one before editing a directory.
 </template>
 <!-- file:end -->
 <!-- criteria:start -->
