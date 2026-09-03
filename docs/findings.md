@@ -28,16 +28,19 @@ and the tables are generated from them. How both were built is in [methodology.m
    list rather than commands.
 3. **Saying when the work is finished is rare: 2 of 10.** "Give the agent a way to verify its
    work" is the single point where the vendor guidance and the format sample agree, and eight of
-   the ten files list commands without saying which of them must pass before a task is done.
+   the ten files never state a completion condition: seven of them name a command and never say
+   which of them must pass before a task is done.
 4. **Half the corpus points instead of copying: 5 of 10 meet `pointer_not_copy`.** The other half
    inlines everything it wants the agent to know, which is what makes a file grow past the length
    the same vendors recommend.
-5. **Tool neutrality is a coin flip: 6 of 10.** Two of the four that fail are `AGENTS.md` files
-   carrying vendor-specific paths; the `CLAUDE.md` files that pass do so by naming `AGENTS.md`,
-   which is the format's own escape hatch.
+5. **Tool neutrality splits by file name: 6 of 10.** All four files that fail are `CLAUDE.md`
+   files carrying vendor-specific paths, and no `AGENTS.md` fails. The criterion passes on either
+   of two rules, naming no vendor path or naming `AGENTS.md`, and only `getsentry/sentry` (an
+   `AGENTS.md`) satisfies both: the one `CLAUDE.md` that passes, `multica-ai`, passes on the first
+   rule and not by pointing at `AGENTS.md`.
 
-The same three criteria are unmet outside the corpus too, in the practitioner file five of this
-project's rules came from ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
+The same three criteria are unmet outside the corpus too, in the practitioner file three of this
+project's rules came from, five of the v0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
 
 <!-- hernanz:start -->
 Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (length, scope restraint, emphasis restraint, tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — guard on destructive commands, secrets, instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
@@ -107,6 +110,9 @@ carries the run-level detail.
 
 ### Headline
 
+One row per cell: which directed metrics moved against `none`, how many runs were accepted, and
+what the cell cost.
+
 <!-- headline:start -->
 | Task | Condition | Advantages up vs none | Disadvantages up vs none | Acceptance | Delivered runs | Cost ratio |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -126,6 +132,8 @@ carries the run-level detail.
 Every metric that carries a pre-registered direction, with the Wilson interval per cell and the
 Newcombe interval for the difference against `none`. A metric marked "no headroom" sits at 0/10
 or 10/10 in every condition: it can show that nothing was harmed, and it cannot show a difference.
+In the Direction column, ↑ better marks a metric where a higher count is an advantage of an
+instruction file and ↓ better one where a lower count is.
 
 <!-- metrics:start -->
 | Task | Metric | Direction | none k/n [95% CI] | karpathy k/n [95% CI] | ours k/n [95% CI] | karpathy − none | ours − none |
@@ -213,9 +221,9 @@ separates cleanly: the per-run ranges of the three conditions are disjoint, at m
 about the task.
 
 **What ten runs per cell can and cannot see.** Ten advantage metrics show a gap of at least two
-runs between two conditions, five on T1 and five on T2 and none on T3. Seven disadvantage metrics
+runs between two conditions, five on T1 and five on T2 and none on T3. Seven continuous measures
 separate on their per-run ranges, and all seven are cost, turns or duration. Sixteen metrics have
-no headroom, eleven of them on T2, where every condition sits at 0/10 or 10/10.
+no headroom, nine of them on T2, where every condition sits at 0/10 or 10/10.
 
 **The null results, stated as null.** No run in any T1 condition asked a question instead of
 delivering (`ambiguity_asked` 0/10, 0/10, 0/10), so the failure mode the recommended file was

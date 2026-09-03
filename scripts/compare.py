@@ -66,11 +66,11 @@ OURS_DOWNLOAD_URL = (
 GENERIC_POINTER_FROM = "docs/rationale.md"
 GENERIC_POINTER_TO = "https://purpleeddy.github.io/agents-md-lab/rationale"
 
-# The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 amends
-# two rules after the independent review (see docs/methodology.md, "What the experiment tested and
-# what is shipped"). The sha256 below is the generic text the experiment wrote, which is not
-# recoverable from the working tree once the rules change, so it is recorded here with the two
-# coverage numbers measured on it before the amendment.
+# The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 fixes
+# two defects across four rule lines after the independent review (see docs/methodology.md, "What
+# the experiment tested and what is shipped"). The sha256 below is the generic text the
+# experiment wrote, which is not recoverable from the working tree once the rules change, so it
+# is recorded here with the two coverage numbers measured on it before the amendment.
 OURS_VERSION = "1.0.1"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 TESTED_GENERIC_MET = 9

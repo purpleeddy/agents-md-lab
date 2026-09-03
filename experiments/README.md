@@ -747,8 +747,8 @@ change bumps the version and is recorded here.
 
 ## Main run
 
-Planned after the lock: 9 cells (3 tasks × 3 conditions) × 10 runs = 90, or 8 per cell if the run
-budget is cut. `ours` is this repository's root `AGENTS.md` at the commit recorded in each run's
+Planned after the lock, and executed as planned at 10 per cell: 9 cells (3 tasks × 3 conditions)
+× 10 runs = 90. `ours` is this repository's root `AGENTS.md` at the commit recorded in each run's
 `meta.json`: the pilot used the pre-lock file at commit `6220bc1`, the main run uses the improved
 file, and both hashes are reported. Results are appended below this line.
 
@@ -764,6 +764,17 @@ source, to a corpus observation in `docs/generated/comparison.md`, or to the pre
 at commit `f095752` (marked as such). A reader who wants the task-blind comparison should read
 the pilot, not the main run.
 
+The approved plan defines `ours` as the generic part of the file under test, so the work directory
+receives the root `AGENTS.md` with its repository-specific "## Project" section replaced by the v0
+template (commit `c5b5e4f`, sha256
+`b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`), while the root file's own
+sha256 `381073f5…` is stored in each run's `meta.json` as `ours_source_sha256`, alongside
+`condition_sha256` for the text actually written and `ours_generic: true`. The generic text keeps
+the header pointer to `docs/rationale.md`, a file that does not exist in a task directory; that is
+a known cost of writing the real file rather than an edited one, and it is recorded here rather
+than removed. The pilot's `ours` (v0) already carried the unfilled Project template, so the
+transform is a no-op on it and the generic rule changes nothing about what the pilot wrote.
+
 Deviation from the Conditions section above: that section (above the Lock line, and therefore
 unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0` tag. It does not.
 The approved plan and this section define the main run's `ours` as the v1.0 file, written after
@@ -776,16 +787,6 @@ itself — the three tasks, their hidden acceptance tests, the metrics and their
 is unchanged, so the version is not bumped; the file under test is the thing that changed, and
 each run's `meta.json` records the sha256 actually written.
 
-The approved plan defines `ours` as the generic part of that file, so the work directory receives
-the root `AGENTS.md` with its repository-specific "## Project" section replaced by the v0 template
-(commit `c5b5e4f`, sha256
-`b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`), while the root file's own
-sha256 `381073f5…` is stored in each run's `meta.json` as `ours_source_sha256`, alongside
-`condition_sha256` for the text actually written and `ours_generic: true`. The generic text keeps
-the header pointer to `docs/rationale.md`, a file that does not exist in a task directory; that is
-a known cost of writing the real file rather than an edited one, and it is recorded here rather
-than removed. The pilot's `ours` (v0) already carried the unfilled Project template, so the
-transform is a no-op on it and the generic rule changes nothing about what the pilot wrote.
 ### Results (2026-09-03, Opus 5)
 
 Source: `docs/data/experiment.json` (generated 2026-09-03T06:25:19+00:00), run directories
@@ -968,7 +969,7 @@ directory is still present because they could not remove it.
    `task2.regression_test_added`, `task2.report_has_commands_and_results` and
    `task2.tests_run_after_last_edit` — five on T1, five on T2, none on T3. Seven disadvantage
    metrics separate on their per-run ranges: cost, turns and duration on T1 and T2, and cost on
-   T3. Sixteen metrics have no headroom, eleven of them on T2, where every condition sits at
+   T3. Sixteen metrics have no headroom, nine of them on T2, where every condition sits at
    0/10 or 10/10; those metrics can show that nothing was harmed and cannot show a difference.
 
 6. **What did not appear.** `ambiguity_asked` is 0/10 in every T1 condition: no run refused to

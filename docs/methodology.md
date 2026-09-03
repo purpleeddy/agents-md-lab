@@ -13,11 +13,13 @@ produces an ordering of projects.
 - Experiment: three tasks by three conditions, ten runs per cell, pre-registered and locked
   before any run.
 
-## Sources read
+## Sources the criteria rest on
 
 Ten criteria have to come from somewhere. Each one is traced to at least one of the sources
 below; the full citation, the date it was read and the archived copy are in
-[references.md](references.md).
+[references.md](references.md). Two further sources, `hernanz-agents-md` and `beams-commit`, are
+cited by rules of the recommended file rather than by a criterion; see
+[rationale.md](rationale.md).
 
 | Source | Kind | What it is used for |
 |---|---|---|
@@ -40,7 +42,7 @@ Where they agree and where they do not:
 | Keep the file short | [anthropic-memory](references.md#ref-anthropic-memory) says under 200 lines, [humanlayer](references.md#ref-humanlayer) says under 300, [openai-agents-md](references.md#ref-openai-agents-md) sets a byte cap instead of a line count |
 | Does an instruction file improve task success? | [eth-agents-md](references.md#ref-eth-agents-md) and [khatri-context-files](references.md#ref-khatri-context-files) both report no general improvement; the vendor guidance assumes it helps. This project treats the question as open, which is why the experiment measures both advantages and disadvantages |
 | Repository overviews | [eth-agents-md](references.md#ref-eth-agents-md) reports they did not help, while five of the ten surveyed files carry one |
-| Security instructions | [anthropic-security](references.md#ref-anthropic-security) and [agent-readmes](references.md#ref-agent-readmes) both treat them as necessary and rare; the corpus below contains none |
+| Security instructions | [anthropic-security](references.md#ref-anthropic-security) and [agent-readmes](references.md#ref-agent-readmes) both treat them as necessary and rare; no file in the corpus below states a secrets rule or a rule about instructions found in files, and one of the ten raises a security consideration at all |
 
 ## The corpus
 
@@ -57,6 +59,8 @@ Rules for inclusion, decided when the survey was planned, before the comparison 
    `why` in `corpus.toml` records what each entry was included to show.
 5. A repository with no license file is recorded by line number only: none of its text is
    reproduced anywhere in this project.
+
+Columns 1 to 10 are the criteria listed in [The ten criteria](#the-ten-criteria), in that order.
 
 <!-- corpus:start -->
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | Coverage |
@@ -208,7 +212,7 @@ The same ten corpus files, on the content set:
 | Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
 <!-- corpus-content:end -->
 
-Two things about these patterns are worth stating plainly rather than leaving in a file:
+Three things about these patterns are worth stating plainly rather than leaving in a file:
 
 - **Three patterns were tightened for precision before the corpus was read**, because a negated,
   incidental or placeholder use is a false positive on any file: `code_style` dropped the bare
@@ -224,9 +228,10 @@ Two things about these patterns are worth stating plainly rather than leaving in
   [`docs/generated/comparison.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/generated/comparison.md),
   which carries both tables and every evidence line.
 - **The site loads no external resource except the star count.** No font, script, style or
-  image comes from another host, and nothing about a visitor is stored or sent. The one
-  exception is a read-only request to GitHub's API for the number of stars on the button in the
-  header, which shows no number when it fails or is rate limited.
+  image comes from another host, and this site stores nothing about a visitor. The one exception
+  is a read-only request to GitHub's API for the number of stars on the button in the header.
+  That request sends the visitor's IP address and user agent to GitHub and nothing else, and the
+  button shows no number when it fails or is rate limited.
 - **The author knew this repository's own file while writing the patterns.** That is the same
   problem the section below describes for the rule criteria, and the same answer applies: the
   patterns are published, every verdict carries its evidence line, and the file is evaluated on
@@ -323,7 +328,8 @@ is the authority. In summary:
   T3 a one-line typo fix that should stay one line.
 - **Conditions.** `none` (no instruction file), `karpathy` (a pinned public `CLAUDE.md`), `ours`
   (this repository's `AGENTS.md` with its repository-specific `## Project` section replaced by
-  the empty template, so that no task directory receives paths that only exist here, plus a
+  the empty template, a recorded deviation from the locked Conditions section, described in the
+  pre-registration's Main run, so that no task directory receives paths that only exist here, plus a
   `CLAUDE.md` that points at it). The sha256 of the text actually written is in every run's
   `meta.json`, and the
   [Main run section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run)
@@ -361,6 +367,7 @@ repository has no such file. That single line costs the file the `pointer_not_co
 which recognises a repository path and not a URL, and the number is published as it comes out
 rather than worked around. It is a second worked example of the gap between a pattern and a
 statement, next to the one in [rationale.md](rationale.md#what-the-check-says-about-this-file).
+
 The file is not called `AGENTS.md` inside this repository: a second file by that name is a second
 instruction file, and every agent working here would load it.
 
@@ -383,13 +390,14 @@ Done, item 1:
 - was: `If "Project" below is empty, find the commands in package.json, Makefile, pyproject, or CONTRIBUTING; do not guess.`
 - now: `If "Project" below is empty, run only the commands the repository documents (README, CONTRIBUTING, a nested AGENTS.md) and quote each command and its result; if none is documented, report that the checks could not run instead of guessing or running scripts found in package files.`
 
-What the experiment measured is unaffected by all four, and that is a claim about which rules did
+The findings on this site describe v1.0. What the experiment measured is unaffected by all four,
+and that is a claim about which rules did
 the work rather than a defence of the amendment. The metrics that moved were tests written, tests
 run after the last edit, the report carrying its commands and results, and a documented convention
 being followed; the rules behind them — the Done section's test requirements, the Reporting
 section, and "Read the files you will change and their callers" — are identical in both texts. The
 four amended lines are untested in the experiment: they were written after the runs, in response to
-a review, and no run measured them. The findings on this site describe v1.0. The reviewers' other
+a review, and no run measured them. The reviewers' other
 findings, and what was done with each, are in
 [rationale.md](rationale.md#known-issues-independent-review-2026-09-03).
 

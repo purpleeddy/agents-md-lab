@@ -3,8 +3,9 @@
 What belongs in an instruction file for a coding agent, measured twice. Ten published
 `AGENTS.md` and `CLAUDE.md` files are pinned by commit and evaluated line by line against ten
 criteria drawn from vendor documentation, practitioner guides and three studies; then a
-pre-registered experiment runs three tasks under three conditions — no instruction file, a
-pinned public file, and the file in this repository — to see what an instruction file changes,
+pre-registered experiment runs three tasks under three conditions, no instruction file
+(`none`), a pinned public file (`karpathy`), and the file in this repository (`ours`), to see
+what an instruction file changes,
 in both directions. Coverage of criteria describes what a file contains. It is not a quality
 measure, and no file here is put above another.
 
@@ -12,8 +13,8 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 
 ## Adopt the file
 
-The file is `AGENTS.md` v1.0.1: the text the experiment ran, with two rules amended after an
-independent review. What changed and what it means for the results is in
+The file is `AGENTS.md` v1.0.1: the text the experiment ran, with two defects fixed across four
+rule lines after an independent review. What changed and what it means for the results is in
 [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped).
 
 1. Put the file in your repository root:
@@ -25,9 +26,14 @@ independent review. What changed and what it means for the results is in
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
-   and where the details live. That section is the part no one else can write for you.
+   and where the details live. That section is the part no one else can write for you. The other
+   line to edit is the pointer in the header, which names this site's rationale page: point it at
+   your own document, or drop it.
 
 ## What the survey found
+
+Coverage of the ten rule criteria, which ask how a file is written; each one is defined in
+[the methodology](docs/methodology.md#the-ten-criteria).
 
 <!-- summary:start -->
 | File | Type | Stars | Lines | License | Criteria met |
@@ -44,8 +50,9 @@ independent review. What changed and what it means for the results is in
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | 4/10 |
 <!-- summary:end -->
 
-This repository's own file is not in the table: it was written to these criteria, so meeting them
-says nothing, and it is evaluated on the [front page](https://purpleeddy.github.io/agents-md-lab/)
+The root `AGENTS.md` of this repository is not in the table: it was written to these criteria, so
+meeting them is expected by construction, and it is evaluated on the
+[front page](https://purpleeddy.github.io/agents-md-lab/)
 and in [methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria) instead.
 
 Full table with the evidence line behind every ✓: the [comparison](docs/generated/comparison.md)
@@ -63,7 +70,9 @@ documented-convention metric from 5/10 to 10/10, and acceptance followed it exac
 the three conditions. The file is paid for on every task — median cost 1.95× the no-file
 condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
 
-The numbers, the intervals, the null results and what the experiment does not show are on
+The runs measured v1.0; the file offered above is v1.0.1, amended after an independent review
+(see [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)). The
+numbers, the intervals, the null results and what the experiment does not show are on
 [the findings page](docs/findings.md); the design was locked before any run at tag
 `testset-v1.0`.
 
