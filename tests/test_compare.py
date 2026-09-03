@@ -1,6 +1,7 @@
 """Tests for scripts/compare.py, the two criteria sets and the JavaScript engine in docs/compare.js."""
 
 import datetime
+import hashlib
 import json
 import re
 import shutil
@@ -584,6 +585,42 @@ class ComparisonDataTest(unittest.TestCase):
         limit = criterion_by_id("length")["pass_if"]["max_lines"]
         for record in self.data["files"]:
             self.assertLessEqual(record["lines"], limit, record["key"])
+
+
+class ShippedFileTest(unittest.TestCase):
+    """The recommended file is amended after the experiment ran, so the page has to say which
+    text was measured and which text is offered. The block that says it is generated from the
+    files themselves, and these tests keep the three rows honest."""
+
+    def test_the_shipped_block_names_every_text_by_hash_and_coverage(self):
+        block = compare.render_shipped_md(criteria(), content_criteria())
+        self.assertIn(compare.TESTED_GENERIC_SHA256, block)
+        for text in (compare.OURS_FILE.read_text(encoding="utf-8"), compare.generic_text()):
+            self.assertIn(hashlib.sha256(text.encode("utf-8")).hexdigest(), block)
+            met = compare.coverage(compare.evaluate(text, "AGENTS.md", criteria()))
+            met_content = compare.coverage(compare.evaluate(text, "AGENTS.md", content_criteria()))
+            self.assertIn("| %d/10 | %d/8 |" % (met, met_content), block)
+
+    def test_the_generic_text_keeps_the_rules_and_empties_the_project_section(self):
+        root = compare.OURS_FILE.read_text(encoding="utf-8")
+        generic = compare.generic_text()
+        rules = root.split("## Project")[0]
+        self.assertTrue(generic.startswith(rules.rstrip("\n") + "\n\n## Project"))
+        self.assertNotIn("python3 -m unittest", generic)
+
+    def test_the_example_settings_deny_the_operations_the_reviewers_named(self):
+        settings = json.loads(
+            (REPO_ROOT / ".claude" / "settings.example.json").read_text(encoding="utf-8")
+        )
+        deny = settings["permissions"]["deny"]
+        for rule in ("Bash(rm -rf:*)", "Bash(git push:*)", "Bash(git clean:*)",
+                     "Bash(git reset --hard:*)"):
+            self.assertIn(rule, deny)
+        hook = settings["hooks"]["PreToolUse"][0]
+        self.assertEqual(hook["matcher"], "Edit|Write")
+        command = hook["hooks"][0]["command"]
+        for path in ("/.claude/", "/.github/workflows/", "AGENTS.md", "CLAUDE.md"):
+            self.assertIn(path, command)
 
 
 class CommandLineTest(unittest.TestCase):

@@ -12,6 +12,10 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 
 ## Adopt the file
 
+The file is `AGENTS.md` v1.0.1: the text the experiment ran, with two rules amended after an
+independent review. What changed and what it means for the results is in
+[methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped).
+
 1. Download [`AGENTS.md`](AGENTS.md) into your repository root.
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
@@ -33,7 +37,7 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 | [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | 5/10 |
 | [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | 4/10 |
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | 4/10 |
-| **AGENTS.md** | AGENTS.md | — | 50 | MIT | 10/10 |
+| **AGENTS.md** | AGENTS.md | — | 52 | MIT | 10/10 |
 <!-- summary:end -->
 
 Full table with the evidence line behind every ✓: the [comparison](docs/generated/comparison.md)

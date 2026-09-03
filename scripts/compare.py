@@ -55,6 +55,16 @@ API_REPO_URL = "https://api.github.com/repos/{repo}"
 PREVIEW_LINES = 12
 OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md"
 
+# The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 amends
+# two rules after the independent review (see docs/methodology.md, "What the experiment tested and
+# what is shipped"). The sha256 below is the generic text the experiment wrote, which is not
+# recoverable from the working tree once the rules change, so it is recorded here with the two
+# coverage numbers measured on it before the amendment.
+OURS_VERSION = "1.0.1"
+TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
+TESTED_GENERIC_MET = 9
+TESTED_GENERIC_MET_CONTENT = 0
+
 MAX_EVIDENCE = 3
 SIBLING_OF = {"AGENTS.md": "CLAUDE.md", "CLAUDE.md": "AGENTS.md"}
 AGENTS_MD_POINTER = re.compile(r"@AGENTS\.md|\bAGENTS\.md\b", re.ASCII)
@@ -481,6 +491,16 @@ def esc(text):
     return html.escape(text, quote=True)
 
 
+def generic_text():
+    """The root file with its repository-specific Project section replaced by the empty template:
+    the text the experiment wrote and the text this project offers for download. The transform
+    lives in scripts/experiment.py, which wrote it for the runs, and is imported rather than
+    repeated here."""
+    import experiment  # local: the experiment module is only needed by the render step
+
+    return experiment.generic_agents_md(OURS_FILE.read_text(encoding="utf-8"))
+
+
 def ours_record(criteria):
     """This repository's own AGENTS.md, evaluated by the same engine. It is not a corpus
     entry: it is the file the page offers, kept in the data so the page never hard-codes a
@@ -638,8 +658,8 @@ def render_preview_html(data):
     ours = data["ours"]
     return (
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
-        '<p class="filemeta">MIT. %d lines. Criteria met: %d/%d.</p>'
-        % (PREVIEW_LINES, esc("\n".join(lines)), ours["lines"], ours["met"], ours["of"])
+        '<p class="filemeta">MIT. v%s. %d lines. Criteria met: %d/%d.</p>'
+        % (PREVIEW_LINES, esc("\n".join(lines)), OURS_VERSION, ours["lines"], ours["met"], ours["of"])
     )
 
 
@@ -897,6 +917,43 @@ def render_criteria_md(criteria):
     return "\n".join(out)
 
 
+def render_shipped_md(criteria, content):
+    """The three texts that matter to a reader: the one the experiment ran, the file in this
+    repository now, and the generic file the page offers. Coverage on both criteria sets, from
+    the same engine. The first row is a recorded constant, because the text it names no longer
+    exists in the working tree; the other two are evaluated at render time."""
+    root = OURS_FILE.read_text(encoding="utf-8")
+    generic = generic_text()
+    rows = [
+        "| Text | sha256 | Rule criteria | Content criteria |",
+        "| --- | --- | --- | --- |",
+        "| Generic file the experiment ran (v1.0), recorded constant | `%s` | %d/%d | %d/%d |"
+        % (
+            TESTED_GENERIC_SHA256,
+            TESTED_GENERIC_MET,
+            len(criteria["criteria"]),
+            TESTED_GENERIC_MET_CONTENT,
+            len(content["criteria"]),
+        ),
+    ]
+    for label, text in (
+        ("Root `AGENTS.md` in this repository (v%s)" % OURS_VERSION, root),
+        ("Generic file offered for download (v%s)" % OURS_VERSION, generic),
+    ):
+        rows.append(
+            "| %s | `%s` | %d/%d | %d/%d |"
+            % (
+                label,
+                hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                coverage(evaluate(text, OURS_FILE.name, criteria)),
+                len(criteria["criteria"]),
+                coverage(evaluate(text, OURS_FILE.name, content)),
+                len(content["criteria"]),
+            )
+        )
+    return "\n".join(rows)
+
+
 def render_excluded_md(data):
     out = ["| File | Lines | Measured | Reason |", "| --- | --- | --- | --- |"]
     for record in data["excluded"]:
@@ -975,6 +1032,7 @@ def rendered_outputs():
         page = replace_block(page, "corpus", render_table(data, criteria), METHODOLOGY_MD)
         page = replace_block(page, "criteria", render_criteria_md(criteria), METHODOLOGY_MD)
         page = replace_block(page, "excluded", render_excluded_md(data), METHODOLOGY_MD)
+        page = replace_block(page, "shipped", render_shipped_md(criteria, content), METHODOLOGY_MD)
         outputs[METHODOLOGY_MD] = page
     if FINDINGS_MD.exists():
         page = FINDINGS_MD.read_text(encoding="utf-8")
