@@ -15,9 +15,10 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
 
-   That is `AGENTS.md` v1.1: the text the experiment ran, amended after an independent review
-   and then cut to the lines that carry a measured effect or a safety boundary. 32 lines, 4,069
-   bytes, about 1,017 tokens. What changed and what it means for the results is in
+   That is `AGENTS.md` v1.1. The experiment measured v1.0; v1.1 is that text amended after an
+   independent review and cut to the lines that carry a measured effect or a safety boundary,
+   and its own 30-run check is pre-registered and pending. 32 lines, 4,069 bytes, about 1,017
+   tokens. What changed and what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v11).
 
