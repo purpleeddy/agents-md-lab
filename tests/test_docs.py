@@ -196,6 +196,17 @@ class PageTest(unittest.TestCase):
         )
         self.assertIn("Show this repository's file (written to these criteria)", self.html)
 
+    def test_the_download_button_offers_the_published_generic_file(self):
+        self.assertIn(
+            '<a class="btn ghost" href="https://raw.githubusercontent.com/purpleeddy/'
+            'agents-md-lab/main/docs/generated/agents-generic.md">Download (save as '
+            "AGENTS.md)</a>",
+            self.html,
+        )
+        # The copy button hands over the same text the download link serves.
+        generic = (DOCS / "generated" / "agents-generic.md").read_text(encoding="utf-8")
+        self.assertIn(generic.split("\n")[2], self.html)
+
     def test_the_check_panel_carries_the_privacy_line(self):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)
 

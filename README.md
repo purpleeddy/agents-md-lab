@@ -16,7 +16,12 @@ The file is `AGENTS.md` v1.0.1: the text the experiment ran, with two rules amen
 independent review. What changed and what it means for the results is in
 [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped).
 
-1. Download [`AGENTS.md`](AGENTS.md) into your repository root.
+1. Put the file in your repository root:
+
+   ```
+   curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/agents-generic.md -o AGENTS.md
+   ```
+
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,

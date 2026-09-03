@@ -347,8 +347,18 @@ text the ninety runs measured.
 | --- | --- | --- | --- |
 | Generic file the experiment ran (v1.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 9/10 | 0/8 |
 | Root `AGENTS.md` in this repository (v1.0.1) | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 10/10 | 3/8 |
-| Generic file offered for download (v1.0.1) | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
+| Generic text, this repository's Project section emptied (v1.0.1) | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
+| `docs/generated/agents-generic.md`, the file the button offers (v1.0.1) | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
 <!-- shipped:end -->
+
+The file the Download button offers is the generic text with one further change: its pointer
+line names the published rationale page instead of `docs/rationale.md`, because an adopter's
+repository has no such file. That single line costs the file the `pointer_not_copy` criterion,
+which recognises a repository path and not a URL, and the number is published as it comes out
+rather than worked around. It is a second worked example of the gap between a pattern and a
+statement, next to the one in [rationale.md](rationale.md#what-the-check-says-about-this-file).
+The file is not called `AGENTS.md` inside this repository: a second file by that name is a second
+instruction file, and every agent working here would load it.
 
 Four lines changed, and nothing else in the file did. Header:
 

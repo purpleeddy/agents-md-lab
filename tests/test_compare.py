@@ -634,6 +634,37 @@ class ShippedFileTest(unittest.TestCase):
         self.assertTrue(generic.startswith(rules.rstrip("\n") + "\n\n## Project"))
         self.assertNotIn("python3 -m unittest", generic)
 
+    def test_the_download_file_differs_from_the_generic_text_by_the_pointer_line_only(self):
+        published = compare.GENERIC_MD.read_text(encoding="utf-8")
+        generic = compare.generic_text()
+        published_lines = published.split("\n")
+        generic_lines = generic.split("\n")
+        self.assertEqual(len(published_lines), len(generic_lines))
+        differing = [
+            (a, b) for a, b in zip(generic_lines, published_lines) if a != b
+        ]
+        self.assertEqual(len(differing), 1, differing)
+        before, after = differing[0]
+        self.assertIn(compare.GENERIC_POINTER_FROM, before)
+        self.assertIn(compare.GENERIC_POINTER_TO, after)
+        self.assertNotIn(compare.GENERIC_POINTER_FROM, published)
+        self.assertEqual(
+            published, generic.replace(compare.GENERIC_POINTER_FROM, compare.GENERIC_POINTER_TO)
+        )
+
+    def test_the_download_url_names_the_published_file(self):
+        self.assertTrue(compare.OURS_DOWNLOAD_URL.endswith("docs/generated/agents-generic.md"))
+        self.assertEqual(
+            compare.read_json(compare.COMPARISON_JSON)["ours"]["url_download"],
+            compare.OURS_DOWNLOAD_URL,
+        )
+        # A second file named AGENTS.md inside this repository would be a second instruction
+        # file for every agent working here.
+        self.assertEqual(
+            sorted(p.name for p in (REPO_ROOT / "docs" / "generated").iterdir()),
+            ["agents-generic.md", "comparison.md"],
+        )
+
     def test_the_example_settings_deny_the_operations_the_reviewers_named(self):
         settings = json.loads(
             (REPO_ROOT / ".claude" / "settings.example.json").read_text(encoding="utf-8")

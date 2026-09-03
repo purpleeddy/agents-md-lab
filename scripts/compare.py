@@ -40,6 +40,7 @@ CRITERIA = REPO_ROOT / "docs" / "criteria.json"
 CRITERIA_CONTENT = REPO_ROOT / "docs" / "criteria-content.json"
 COMPARISON_JSON = REPO_ROOT / "docs" / "data" / "comparison.json"
 COMPARISON_MD = REPO_ROOT / "docs" / "generated" / "comparison.md"
+GENERIC_MD = REPO_ROOT / "docs" / "generated" / "agents-generic.md"
 INDEX_HTML = REPO_ROOT / "docs" / "index.html"
 METHODOLOGY_MD = REPO_ROOT / "docs" / "methodology.md"
 FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
@@ -54,7 +55,16 @@ RAW_URL = "https://raw.githubusercontent.com/{repo}/{ref}/{path}"
 VIEW_URL = "https://github.com/{repo}/blob/{ref}/{path}"
 API_REPO_URL = "https://api.github.com/repos/{repo}"
 PREVIEW_LINES = 12
-OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md"
+# The file the page offers. It is not named AGENTS.md inside this repository: a second file by
+# that name is a second instruction file, which every agent working here would load.
+OURS_DOWNLOAD_URL = (
+    "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/"
+    "agents-generic.md"
+)
+# The one line that differs between the text the experiment ran and the file offered here: an
+# adopter's repository has no docs/rationale.md, so the pointer becomes the published page.
+GENERIC_POINTER_FROM = "docs/rationale.md"
+GENERIC_POINTER_TO = "https://purpleeddy.github.io/agents-md-lab/rationale"
 
 # The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 amends
 # two rules after the independent review (see docs/methodology.md, "What the experiment tested and
@@ -505,6 +515,20 @@ def generic_text():
     return experiment.generic_agents_md(OURS_FILE.read_text(encoding="utf-8"))
 
 
+def download_text():
+    """The generic text with its one repository-relative pointer replaced by the published page.
+    That is the only difference from the text the experiment ran, and it costs the file the
+    `pointer_not_copy` criterion, which recognises a path and not a URL: the number is published
+    rather than worked around."""
+    generic = generic_text()
+    if generic.count(GENERIC_POINTER_FROM) != 1:
+        raise RuntimeError(
+            "the root file names %s %d times; the download file replaces exactly one pointer"
+            % (GENERIC_POINTER_FROM, generic.count(GENERIC_POINTER_FROM))
+        )
+    return generic.replace(GENERIC_POINTER_FROM, GENERIC_POINTER_TO)
+
+
 def ours_record(criteria, content):
     """This repository's own AGENTS.md, evaluated by the same engine. It is not a corpus entry.
 
@@ -733,11 +757,10 @@ def render_preview_html(data):
 
 
 def render_file_html():
-    """The whole file, for the copy button. A <template> is inert: the browser does not
-    render it and no script is needed to keep it out of the page."""
-    return '<template id="agents-md-text">%s</template>' % esc(
-        OURS_FILE.read_text(encoding="utf-8")
-    )
+    """The file the buttons hand over, for the copy button: the same text the download link
+    serves, so copying and downloading cannot differ. A <template> is inert: the browser does
+    not render it and no script is needed to keep it out of the page."""
+    return '<template id="agents-md-text">%s</template>' % esc(download_text())
 
 
 def render_criteria_json(criteria):
@@ -1017,7 +1040,11 @@ def render_shipped_md(criteria, content):
     ]
     for label, text in (
         ("Root `AGENTS.md` in this repository (v%s)" % OURS_VERSION, root),
-        ("Generic file offered for download (v%s)" % OURS_VERSION, generic),
+        ("Generic text, this repository's Project section emptied (v%s)" % OURS_VERSION, generic),
+        (
+            "`docs/generated/agents-generic.md`, the file the button offers (v%s)" % OURS_VERSION,
+            download_text(),
+        ),
     ):
         rows.append(
             "| %s | `%s` | %d/%d | %d/%d |"
@@ -1148,6 +1175,7 @@ def rendered_outputs():
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
+        GENERIC_MD: download_text(),
     }
     if INDEX_HTML.exists():
         page = INDEX_HTML.read_text(encoding="utf-8")

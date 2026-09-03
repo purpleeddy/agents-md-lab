@@ -221,7 +221,7 @@
       navigator.clipboard.writeText(text).then(function () {
         status.textContent = "Copied " + lab.countLines(text) + " lines to the clipboard.";
       }, function () {
-        status.textContent = "The browser refused the clipboard. Use Download AGENTS.md instead.";
+        status.textContent = "The browser refused the clipboard. Use the download button instead.";
       });
     });
   }
