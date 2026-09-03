@@ -203,11 +203,6 @@
     });
   }
 
-  function embeddedCriteria() {
-    var node = el("criteria-data");
-    return node ? JSON.parse(node.textContent) : null;
-  }
-
   // ------------------------------------------------------------------ copy
 
   function setUpCopy() {
@@ -728,12 +723,12 @@
   function start() {
     setUpCopy();
     // One fetch: both sets live in docs/criteria.json, so the page cannot end up with one of
-    // them and not the other.
+    // them and not the other. Without it the check panel keeps the fallback text it ships with,
+    // which names the command that does the same job offline.
     getJSON("criteria.json").then(function (loaded) {
       return loaded && loaded.sets ? loaded.sets : null;
     }, function () {
-      var embedded = embeddedCriteria();
-      return embedded ? { rules: embedded, content: null } : null;
+      return null;
     }).then(function (sets) {
       if (!sets) {
         return;

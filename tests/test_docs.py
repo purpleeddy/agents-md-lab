@@ -365,6 +365,13 @@ class PageTest(unittest.TestCase):
     def test_the_check_panel_carries_the_privacy_line(self):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)
 
+    def test_the_criteria_come_from_the_fetch_and_the_fallback_says_so(self):
+        self.assertNotIn("criteria-data", self.html)
+        self.assertNotIn("criteria-data", COMPARE_JS.read_text(encoding="utf-8"))
+        self.assertIn("needs JavaScript and a network connection", self.html)
+        # The copy button's text is inert markup, not a fetch, so it stays.
+        self.assertIn('<template id="agents-md-text">', self.html)
+
 
 class ClaimTest(unittest.TestCase):
     """Every claim on the page carries a command, and every command prints the number the claim

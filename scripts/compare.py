@@ -29,6 +29,7 @@ import json
 import os
 import re
 import sys
+import textwrap
 import tomllib
 import urllib.error
 import urllib.request
@@ -762,22 +763,6 @@ def render_file_html():
     )
 
 
-def render_criteria_json(criteria):
-    """What the in-browser check needs: the engine fields, the criterion name and the example
-    it offers when a criterion is not met. The question, the reason and the sources are already
-    on the page, in the column popovers, so they are not repeated here."""
-    dropped = ("question", "why", "sources", "notes")
-    slim = {
-        "version": criteria["version"],
-        "criteria": [
-            {k: v for k, v in criterion.items() if k not in dropped}
-            for criterion in criteria["criteria"]
-        ],
-    }
-    body = json.dumps(slim, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
-    return '<script type="application/json" id="criteria-data">%s</script>' % body
-
-
 CLAIM_QUERY = (
     "python3 -c \"import json;d=json.load(open('docs/data/comparison.json'));"
     "print(sum(r['criteria']['%s']['pass'] for r in d['files']))\""
@@ -1012,6 +997,66 @@ def render_experiment_cost_md(exp):
     return "\n".join(out)
 
 
+NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 10: "ten"}
+
+
+def render_experiment_summary_md(exp):
+    """The README paragraph about the experiment, every number read from the summary. Each
+    sentence states something the data has to support, so a claim the data contradicts raises
+    here instead of being printed."""
+    by_task = exp["by_task"]
+    cells = [cell for entry in by_task.values() for cell in entry["cells"].values()]
+    total = sum(cell["n"] for cell in cells)
+    delivered = sum(cell["delivered_runs"] for cell in cells)
+    if delivered != total:
+        raise RuntimeError("%d of the %d runs delivered; the sentence says all of them" % (delivered, total))
+    per_cell = {cell["n"] for cell in cells}
+    if len(per_cell) != 1:
+        raise RuntimeError("the cells are not the same size: %s" % sorted(per_cell))
+
+    def cell(task, metric, condition):
+        return by_task[task]["comparison"][metric]["conditions"][condition]
+
+    identical = [
+        metric
+        for metric, stats in by_task["task3"]["comparison"].items()
+        if len({c["k"] for c in stats["conditions"].values()}) != 1
+    ]
+    if identical:
+        raise RuntimeError("task3 metrics differ across conditions: %s" % sorted(identical))
+
+    written = cell("task1", "tests_written", "ours")
+    reported = cell("task1", "report_has_commands_and_results", "ours")
+    convention = cell("task2", "convention_followed", "ours")
+    acceptance = cell("task2", "acceptance_all_pass", "ours")
+    ratios = [by_task[task]["headline"]["ours"]["cost_ratio"] for task in ("task1", "task2", "task3")]
+    text = (
+        "%d runs, %s tasks by %s conditions by %s, all of them delivered. On the greenfield task "
+        "the recommended file took `tests_written` from %d/%d with no instruction file to %d/%d, "
+        "and reporting the command and its result from %d/%d to %d/%d; on the brownfield task it "
+        "took the documented-convention metric from %d/%d to %d/%d, and acceptance followed it "
+        "exactly, %d/%d to %d/%d. On the one-line typo fix nothing moved at all: every boolean "
+        "metric is identical across the three conditions. The file is paid for on every task: "
+        "median cost %.2f\u00d7 the no-file condition on the greenfield task, %.2f\u00d7 on the "
+        "brownfield one and %.2f\u00d7 on the typo fix."
+        % (
+            total,
+            NUMBER_WORDS[len(by_task)],
+            NUMBER_WORDS[len(CONDITIONS)],
+            NUMBER_WORDS[per_cell.pop()],
+            cell("task1", "tests_written", "none")["k"], written["n"], written["k"], written["n"],
+            cell("task1", "report_has_commands_and_results", "none")["k"], reported["n"],
+            reported["k"], reported["n"],
+            cell("task2", "convention_followed", "none")["k"], convention["n"],
+            convention["k"], convention["n"],
+            cell("task2", "acceptance_all_pass", "none")["k"], acceptance["n"],
+            acceptance["k"], acceptance["n"],
+            *ratios,
+        )
+    )
+    return textwrap.fill(text, width=95)
+
+
 def render_criteria_md(criteria):
     """The ten criteria as a definition list for the methodology page."""
     out = []
@@ -1202,7 +1247,6 @@ def rendered_outputs():
         page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
         page = replace_block(page, "preview", render_preview_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
-        page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
         page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)
         page = replace_block(page, "dates", render_dates_html(data), INDEX_HTML)
         outputs[INDEX_HTML] = page
@@ -1223,7 +1267,6 @@ def rendered_outputs():
         outputs[METHODOLOGY_MD] = page
     if FINDINGS_MD.exists():
         page = FINDINGS_MD.read_text(encoding="utf-8")
-        page = replace_block(page, "excluded", render_excluded_md(data), FINDINGS_MD)
         page = replace_block(page, "hernanz", render_hernanz_md(criteria, content), FINDINGS_MD)
         page = replace_block(
             page, "content", render_table(data, content, "criteria_content", "met_content", "of_content"), FINDINGS_MD
@@ -1239,6 +1282,9 @@ def rendered_outputs():
     if README_MD.exists():
         page = README_MD.read_text(encoding="utf-8")
         page = replace_block(page, "summary", render_summary_md(data, criteria), README_MD)
+        page = replace_block(
+            page, "summary-experiment", render_experiment_summary_md(exp), README_MD
+        )
         outputs[README_MD] = page
     return outputs
 
@@ -1289,10 +1335,10 @@ def cmd_check():
 # --------------------------------------------------------------------------- one file
 
 
-def cmd_file(path, name):
+def cmd_file(path):
     criteria = load_criteria()
     text = Path(path).read_text(encoding="utf-8")
-    verdicts = evaluate(text, name or Path(path).name, criteria)
+    verdicts = evaluate(text, Path(path).name, criteria)
     print("%s — %d lines" % (path, count_lines(text)))
     for criterion in criteria["criteria"]:
         verdict = verdicts[criterion["id"]]
@@ -1314,7 +1360,6 @@ def main(argv=None):
     parser.add_argument("--out", help="where --refresh writes the JSON (default docs/data/comparison.json)")
     parser.add_argument("--check", action="store_true", help="compare the rendered output with the files on disk")
     parser.add_argument("--file", help="evaluate one local file and print the verdicts")
-    parser.add_argument("--name", help="file name to report for --file (default the file's own name)")
     args = parser.parse_args(argv)
 
     chosen = [flag for flag in (args.refresh, args.check, bool(args.file)) if flag]
@@ -1325,7 +1370,7 @@ def main(argv=None):
     if args.check:
         return cmd_check()
     if args.file:
-        return cmd_file(args.file, args.name)
+        return cmd_file(args.file)
     return cmd_render()
 
 

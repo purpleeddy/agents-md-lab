@@ -86,19 +86,8 @@ are the things to include, so a file that omits them is not a complete instructi
 repository. Filling that section is the step the adopter has to do, and it is the step no one
 else can do for a repository they cannot see.
 
-### Files left out for length
-
-<!-- excluded:start -->
-| File | Lines | Measured | Reason |
-| --- | --- | --- | --- |
-| [vercel/next.js/AGENTS.md](https://github.com/vercel/next.js/blob/HEAD/AGENTS.md) | 560 | 2026-09-03 | over 200 lines |
-| [openai/codex/AGENTS.md](https://github.com/openai/codex/blob/HEAD/AGENTS.md) | 322 | 2026-09-03 | over 200 lines |
-| [oven-sh/bun/CLAUDE.md](https://github.com/oven-sh/bun/blob/HEAD/CLAUDE.md) | 240 | 2026-09-03 | over 200 lines |
-| [Kilo-Org/kilocode/AGENTS.md](https://github.com/Kilo-Org/kilocode/blob/HEAD/AGENTS.md) | 214 | 2026-09-03 | over 200 lines |
-| [FerroxLabs/agents-md/AGENTS.md](https://github.com/FerroxLabs/agents-md/blob/HEAD/AGENTS.md) | 206 | 2026-09-03 | over 200 lines |
-| [rails/rails/AGENTS.md](https://github.com/rails/rails/blob/HEAD/AGENTS.md) | 201 | 2026-09-03 | over 200 lines |
-| [github/awesome-copilot/AGENTS.md](https://github.com/github/awesome-copilot/blob/HEAD/AGENTS.md) | 353 | 2026-09-03 | over 200 lines |
-<!-- excluded:end -->
+Well-known instruction files the survey does not cover, because it is about files of 200 lines or
+fewer, are listed in [the methodology](methodology.md#files-left-out-for-length).
 
 ## What the experiment showed
 
@@ -282,6 +271,11 @@ Each line is a count read from the committed data. The command next to it prints
 
 ## What was not shown
 
+The limits that apply to every number on this page, n = 10 runs per cell and one model, one CLI
+version and one flag set, are in
+[the methodology](methodology.md#author-bias-and-limitations). What follows is what this
+experiment in particular did not show.
+
 - **Acceptance was already at the ceiling on two of the three tasks.** It is 10/10 for every
   condition on T3 and for `none` and `ours` on T1, so there was almost no room for an instruction
   file to improve it. On T2 it does move — 5/10, 3/10, 10/10 — but it moves with
@@ -290,15 +284,11 @@ Each line is a count read from the committed data. The command next to it prints
 - **Sixteen metrics have no headroom**, so "no harm was done" is the strongest reading they
   support. None of them shows that an instruction file prevents a harm; they show that the harm
   did not occur under any condition, including no file at all.
-- **One model, one CLI version, one flag set, three tasks.** Nothing here transfers to another
-  agent, another model or another repository without running it again.
 - **The author of `ours` knew all three tasks** when writing the file, because the test set was
   locked first. The `karpathy` file had no such advantage. Every rule is traced in
   [rationale.md](rationale.md) to a source or a corpus observation rather than to a task, but the
   advantage cannot be measured away, and a reader who wants the task-blind comparison should read
   the pilot in the pre-registration instead.
-- **Ten runs per cell make wide intervals.** A difference of one or two runs sits inside them,
-  which is why the differences reported above are the ones of five runs or more.
 - **No significance test was run.** The intervals are the whole result; there is no threshold
   anywhere on this page and no claim that any difference is or is not real beyond what the
   interval says.

@@ -760,6 +760,11 @@ class CommandLineTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertRegex(result.stdout, r"coverage: \d+/10")
 
+    def test_file_reports_the_files_own_name(self):
+        result = self.run_compare("--file", "AGENTS.md")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.startswith("AGENTS.md \u2014 "), result.stdout[:40])
+
     def test_modes_are_exclusive(self):
         result = self.run_compare("--check", "--refresh")
         self.assertNotEqual(result.returncode, 0)

@@ -1,29 +1,25 @@
 # agents-md-lab
 
-What belongs in an instruction file for a coding agent, measured twice. Ten published
-`AGENTS.md` and `CLAUDE.md` files are pinned by commit and evaluated line by line against ten
-criteria drawn from vendor documentation, practitioner guides and three studies; then a
-pre-registered experiment runs three tasks under three conditions, no instruction file
-(`none`), a pinned public file (`karpathy`), and the file in this repository (`ours`), to see
-what an instruction file changes,
-in both directions. Coverage of criteria describes what a file contains. It is not a quality
-measure, and no file here is put above another.
+What belongs in an instruction file for a coding agent, measured twice: ten published
+`AGENTS.md` and `CLAUDE.md` files pinned by commit and evaluated against ten sourced criteria,
+and a pre-registered experiment on what an instruction file changes, in both directions. You get
+the file this project ships, the numbers behind it, and the data and scripts to reproduce both.
 
 Site: <https://purpleeddy.github.io/agents-md-lab/>
 
 ## Adopt the file
-
-The file is `AGENTS.md` v1.1: the text the experiment ran, amended after an independent review
-and then cut to the lines that carry a measured effect or a safety boundary. 35 lines, 3,840
-bytes, about 960 tokens. What changed and what it means for the results is in
-[methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by line in
-[the audit](docs/rationale.md#line-audit-v101-to-v11).
 
 1. Put the file in your repository root:
 
    ```
    curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
+
+   That is `AGENTS.md` v1.1: the text the experiment ran, amended after an independent review
+   and then cut to the lines that carry a measured effect or a safety boundary. 35 lines, 3,840
+   bytes, about 960 tokens. What changed and what it means for the results is in
+   [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
+   line in [the audit](docs/rationale.md#line-audit-v101-to-v11).
 
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
@@ -35,7 +31,8 @@ bytes, about 960 tokens. What changed and what it means for the results is in
 ## What the survey found
 
 Coverage of the ten rule criteria, which ask how a file is written; each one is defined in
-[the methodology](docs/methodology.md#the-ten-criteria).
+[the methodology](docs/methodology.md#the-ten-criteria). Coverage describes what a file contains.
+It is not a quality measure, and no file here is put above another.
 
 <!-- summary:start -->
 | File | Type | Stars | Lines | License | Criteria met |
@@ -64,13 +61,15 @@ against the eight content criteria — what a file says about its own project �
 
 ## What the experiment showed
 
-Ninety runs, three tasks by three conditions by ten, all of them delivered. On the greenfield
-task the recommended file took `tests_written` from 0/10 with no instruction file to 6/10, and
+<!-- summary-experiment:start -->
+90 runs, three tasks by three conditions by ten, all of them delivered. On the greenfield task
+the recommended file took `tests_written` from 0/10 with no instruction file to 6/10, and
 reporting the command and its result from 0/10 to 9/10; on the brownfield task it took the
 documented-convention metric from 5/10 to 10/10, and acceptance followed it exactly, 5/10 to
 10/10. On the one-line typo fix nothing moved at all: every boolean metric is identical across
-the three conditions. The file is paid for on every task — median cost 1.95× the no-file
+the three conditions. The file is paid for on every task: median cost 1.95× the no-file
 condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
+<!-- summary-experiment:end -->
 
 The runs measured v1.0; the file offered above is v1.1, amended after an independent review and
 then compacted (see

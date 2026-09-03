@@ -9,6 +9,10 @@ python3 scripts/compare.py --check             # every generated block matches t
 python3 scripts/experiment.py --dry-run        # the scoring fixtures
 ```
 
+`python3 scripts/experiment.py summarize --runs <dir>… --out <file>` writes the summary and a
+sibling `<file>-runs.json`; add `--markdown` to print the per-run, comparison and headline
+tables to stdout as well.
+
 Python 3.11 or newer, standard library only; there is nothing to install. There is no build,
 lint, typecheck or format command; do not invent one.
 
