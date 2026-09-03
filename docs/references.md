@@ -24,6 +24,8 @@ are not repeated here.
 
 [^karpathy-multica]: Forrest Chang (multica-ai). `CLAUDE.md` in `multica-ai/andrej-karpathy-skills`, "derived from Andrej Karpathy's observations on LLM coding pitfalls". https://github.com/multica-ai/andrej-karpathy-skills — accessed 2026-09-03; pinned in `corpus.toml` at commit `8462496b34419f20b32778610571ac723e91f94c`. The repository has no license file (checked 2026-09-02), so its contents are never reproduced here: only line numbers and derived facts. Not written by Karpathy. Cited for: the surgical-change rule.
 
+[^beams-commit]: Chris Beams. "How to Write a Git Commit Message." 2014. https://cbea.ms/git-commit/ — accessed 2026-09-03. Archive: https://web.archive.org/web/20260902085241/https://cbea.ms/git-commit/. Cited for: the imperative mood in the subject line ("Use the imperative mood in the subject line"), "Limit the subject line to 50 characters" and "Wrap the body at 72 characters" — the 72 in this repository's commit rule is the body-wrap figure used as a subject ceiling, not the source's 50-character subject target.
+
 ## Studies
 
 [^agent-readmes]: Worawalan Chatlatanagulchai, Hao Li, Yutaro Kashiwa, Brittany Reid, Kundjanasith Thonglek, Pattara Leelaprute, Arnon Rungsawang, Bundit Manaskasemsak, Bram Adams, Ahmed E. Hassan, Hajimu Iida. "Agent READMEs: An Empirical Study of Context Files for Agentic Coding." arXiv:2511.12884, 2025-11-17. https://arxiv.org/abs/2511.12884 — accessed 2026-09-03. https://doi.org/10.48550/arXiv.2511.12884. Cited for: 2,303 context files from 1,925 repositories; 16 instruction types; testing instructions in about 75% of files and security instructions in about 15%; median 485 words for Claude Code files. The accompanying dataset declares no license and is not used here.

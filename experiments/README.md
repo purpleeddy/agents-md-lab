@@ -751,3 +751,14 @@ Planned after the lock: 9 cells (3 tasks × 3 conditions) × 10 runs = 90, or 8 
 budget is cut. `ours` is this repository's root `AGENTS.md` at the commit recorded in each run's
 `meta.json`: the pilot used the pre-lock file at commit `6220bc1`, the main run uses the improved
 file, and both hashes are reported. Results are appended below this line.
+
+Limitation of the `ours` condition in the main run: the author of the v1.0 `AGENTS.md` knew all
+three tasks when writing it, because the test set was locked (2026-09-03, tag `testset-v1.0`)
+before the file was rewritten. The `karpathy` file had no such advantage: it is a public file
+pinned by commit and written for no task in this repository. The pilot's `ours` (v0, the root
+`AGENTS.md` at commit `d957ac2`, committed 2026-09-03 00:08 +0900) was written before any task
+existed in the repository — `experiments/task1` first appears at 01:15 and `experiments/task3` at
+12:49 the same day — so the pilot does not carry this limitation and the main run does. No rule
+in v1.0 was written against a task: every change is traced in `docs/rationale.md` to a cited
+source or to an observation in `docs/generated/comparison.md`. A reader who wants the
+task-blind comparison should read the pilot, not the main run.
