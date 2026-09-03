@@ -6,6 +6,7 @@ page loads nothing from a third-party host, and that the two published files sta
 size budgets.
 """
 
+import hashlib
 import json
 import re
 import shutil
@@ -237,9 +238,12 @@ class PageTest(unittest.TestCase):
             "AGENTS.md)</a>",
             self.html,
         )
-        # The copy button hands over the same text the download link serves.
+        # The copy button and the hero preview show the same text the download link serves, and
+        # the card names the hash of that file next to the two it is derived from.
         generic = (DOCS / "generated" / "agents-generic.md").read_text(encoding="utf-8")
-        self.assertIn(generic.split("\n")[2], self.html)
+        self.assertIn(generic.split("\n")[5], self.html)
+        digest = hashlib.sha256(generic.encode("utf-8")).hexdigest()
+        self.assertIn("offered file sha256 " + digest, self.html)
 
     def test_the_check_panel_carries_the_privacy_line(self):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)

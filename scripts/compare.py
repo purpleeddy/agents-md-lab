@@ -739,12 +739,14 @@ def render_preview_html(data):
     """The hero card. The numbers are the generic file's, on both criteria sets, because the
     generic file is what the button offers; the root file above it differs only in the Project
     section, and both hashes are on the card so the two can be told apart."""
-    lines = OURS_FILE.read_text(encoding="utf-8").split("\n")[:PREVIEW_LINES]
+    offered = download_text()
+    lines = offered.split("\n")[:PREVIEW_LINES]
     ours = data["ours"]
     generic = ours["generic"]
     return (
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
-        '<p class="filemeta" title="root sha256 %s, generic sha256 %s">MIT. v%s. %d lines. '
+        '<p class="filemeta" title="root sha256 %s, generic sha256 %s, offered file sha256 %s">'
+        'MIT. v%s. %d lines. '
         "Rule criteria %d/%d \u00b7 Content criteria %d/%d (generic file; the Project section "
         "you fill adds the commands).</p>"
         % (
@@ -752,6 +754,7 @@ def render_preview_html(data):
             esc("\n".join(lines)),
             esc(ours["sha256"]),
             esc(generic["sha256"]),
+            esc(hashlib.sha256(offered.encode("utf-8")).hexdigest()),
             OURS_VERSION,
             generic["lines"],
             generic["met"],
