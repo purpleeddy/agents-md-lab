@@ -121,33 +121,23 @@ Filled for this repository, per the v0 template.
 
 ## What the check says about this file
 
-`python3 scripts/compare.py --file AGENTS.md` reports coverage 10/10. That number is recorded
-with its history, because the history is the interesting part.
+`python3 scripts/compare.py --file AGENTS.md` reports coverage 10/10, and the way it got there
+matters more than the number. At commit `66adec0` the file scored 9/10: `done_verification` matched
+neither of the two sentences that state the completion condition — "Never claim a task is done
+unless every check in 'Done' ran and passed" (Boundaries) and "A task is complete only when the
+checks below ran and passed" (Done) — because the frozen pattern recognises a completion condition
+only as *before/after* + a check, or a check + *must/should* + *pass*. At commit `2a82474` the
+verdict became 10/10 as a side effect of moving "Run the targeted test before the suite" out of the
+numbered Done list into "While coding", a change made because that line read as a completion
+requirement and pulled against the proportionality of Done item 1. That sentence is a *run … before*
+form the pattern does match, so the criterion now passes on an ordering hint while the two sentences
+that carry the rule are still invisible to it.
 
-At commit `66adec0` the file scored **9/10**: `done_verification` ("Does the file say that
-something must be run and pass before the work counts as finished?") did not match. The rule was
-in the file twice — "Never claim a task is done unless every check in 'Done' ran and passed"
-(Boundaries) and "A task is complete only when the checks below ran and passed" (Done) — and the
-frozen pattern matched neither. It recognises a completion condition only as *before/after* + a
-check, or a check + *must/should* + *pass*; a sentence that makes completion itself conditional
-("complete only when … ran and passed") is outside it, and the pattern's modal branch lists
-tests, lint, typecheck, build and ci but not "checks".
-
-The verdict then changed to 10/10 as a **side effect of an unrelated edit**. "Run the targeted
-test before the suite" was moved out of the numbered Done list into "While coding", because as a
-numbered Done item it read as a completion requirement and pulled against the proportionality of
-Done item 1. That sentence — a *run … before* form — is one the pattern does match, so moving it
-flipped the criterion. The decision to move it was taken on the merits and recorded before the
-file was re-measured; the pattern, the thresholds and the rule text were not touched.
-
-So the false negative is real and unfixed: the two sentences that actually state the rule are
-still invisible to the check, and the criterion now passes on a third sentence that is an
-ordering hint rather than a completion condition. It is recorded in that criterion's `notes` list
-in `docs/criteria.json` as a known false negative and is a candidate for criteria v1.1, which
-would have to re-evaluate the whole corpus under the new pattern. A `notes` entry carries no
-verdict: `python3 scripts/compare.py --check` passes unchanged with it.
-
-Read the coverage number accordingly. It describes what a regex could find, and this file is a
+The false negative therefore stands. The pattern, the thresholds and the rule text were not touched
+at any point; the gap is recorded in that criterion's `notes` list in `docs/criteria.json` as a
+candidate for criteria v1.1, which would have to re-evaluate the whole corpus under a new pattern. A
+`notes` entry carries no verdict: `python3 scripts/compare.py --check` passes unchanged with it.
+Read the coverage number accordingly — it describes what a regex could find, and this file is a
 worked example of the gap between that and what a file says.
 
 ## What this file does not do

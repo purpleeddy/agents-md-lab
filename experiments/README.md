@@ -767,8 +767,10 @@ the pilot, not the main run.
 Deviation from the Conditions section above: that section (above the Lock line, and therefore
 unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0` tag. It does not.
 The approved plan and this section define the main run's `ours` as the v1.0 file, written after
-the lock: commit `66adec0` plus the wording commit that adds this paragraph, sha256
-`381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). It was written
+the lock: commits `66adec0` and `2a82474`, sha256
+`381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). A later
+follow-up commit records how the file meets the done-verification check and changes no rule
+text; the sha256 above stays the main-run file. It was written
 from the v1 text at `f095752` and from the corpus comparison in `docs/generated/comparison.md`,
 not from the pilot results. The test set itself — the three tasks, their hidden acceptance tests,
 the metrics and their fixed directions — is unchanged, so the version is not bumped; the file
