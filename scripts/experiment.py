@@ -15,6 +15,7 @@ expected.json. Standard library only.
 import argparse
 import ast
 import concurrent.futures
+import contextlib
 import datetime
 import hashlib
 import json
@@ -26,6 +27,7 @@ import signal
 import statistics
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from pathlib import Path
 
@@ -34,6 +36,17 @@ SEED_DIR = REPO_ROOT / "experiments" / "task2" / "seed"
 # task3 works on the same seed repository as task2; there is only one copy of it.
 SEED_DIRS = {"task1": None, "task2": SEED_DIR, "task3": SEED_DIR}
 FIXTURE_DIR = REPO_ROOT / "tests" / "fixtures" / "experiment"
+FIXTURE_CHANGES_DIR = FIXTURE_DIR / "changes"
+# The brownfield fixtures are the task2 seed with one case's edits on top, so only the
+# changed files are stored: (layers under changes/, files the case deleted). t3_minimal and
+# t3_overprocess share the typo fix in changes/t3. The task1 cases have no seed and carry
+# their work tree as it is.
+FIXTURE_CHANGES = {
+    "t2_clean": (("t2_clean",), ()),
+    "t2_traps": (("t2_traps",), ("tests/test_reports.py",)),
+    "t3_minimal": (("t3",), ()),
+    "t3_overprocess": (("t3", "t3_overprocess"), ()),
+}
 CACHE_DIR = REPO_ROOT / "data" / "cache"
 
 TASKS = ("task1", "task2", "task3")
@@ -844,10 +857,10 @@ def source_files(work):
     }
 
 
-def score_run(run_dir, write=True):
+def score_run(run_dir, write=True, work=None):
     run_dir = Path(run_dir)
     task = infer_task(run_dir)
-    work = run_dir / "work"
+    work = Path(work) if work is not None else run_dir / "work"
     meta = json.loads(read_text(run_dir / "meta.json")) if (run_dir / "meta.json").exists() else {}
 
     events = parse_events(read_text(run_dir / "transcript.jsonl")) if (run_dir / "transcript.jsonl").exists() else []
@@ -1070,11 +1083,31 @@ def fixture_cases():
     return sorted(p for p in FIXTURE_DIR.iterdir() if (p / "expected.json").exists())
 
 
+@contextlib.contextmanager
+def fixture_work(case):
+    """The work tree of one fixture case. A case listed in FIXTURE_CHANGES is derived from the
+    task2 seed in a temporary directory; any other case yields the tree it carries."""
+    case = Path(case)
+    if case.name not in FIXTURE_CHANGES:
+        yield case / "work"
+        return
+    layers, removed = FIXTURE_CHANGES[case.name]
+    with tempfile.TemporaryDirectory() as tmp:
+        work = Path(tmp) / "work"
+        shutil.copytree(SEED_DIR, work)
+        for layer in layers:
+            shutil.copytree(FIXTURE_CHANGES_DIR / layer, work, dirs_exist_ok=True)
+        for relative in removed:
+            (work / relative).unlink()
+        yield work
+
+
 def cmd_dry_run():
     failures = 0
     for case in fixture_cases():
         expected = json.loads(read_text(case / "expected.json"))
-        actual = score_run(case, write=False)
+        with fixture_work(case) as work:
+            actual = score_run(case, write=False, work=work)
         mismatches = {
             key: {"expected": value, "actual": actual.get(key)}
             for key, value in expected.items()

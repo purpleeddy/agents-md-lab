@@ -42,7 +42,8 @@ class FixtureScoreTest(unittest.TestCase):
     def check_case(self, case):
         case_dir = experiment.FIXTURE_DIR / case
         expected = json.loads((case_dir / "expected.json").read_text(encoding="utf-8"))
-        actual = experiment.score_run(case_dir, write=False)
+        with experiment.fixture_work(case_dir) as work:
+            actual = experiment.score_run(case_dir, write=False, work=work)
         for key, value in expected.items():
             with self.subTest(key=key):
                 self.assertEqual(actual.get(key), value)
@@ -67,6 +68,31 @@ class FixtureScoreTest(unittest.TestCase):
 
     def test_t3_overprocess(self):
         self.check_case("t3_overprocess")
+
+    def test_every_case_either_derives_its_work_tree_or_carries_one(self):
+        for case in experiment.fixture_cases():
+            with self.subTest(case=case.name):
+                derived = case.name in experiment.FIXTURE_CHANGES
+                self.assertNotEqual(derived, (case / "work").is_dir())
+
+    def test_the_derived_trees_change_only_the_files_stored_under_changes(self):
+        for name, (layers, removed) in experiment.FIXTURE_CHANGES.items():
+            changed = {
+                path.relative_to(experiment.FIXTURE_CHANGES_DIR / layer).as_posix()
+                for layer in layers
+                for path in (experiment.FIXTURE_CHANGES_DIR / layer).rglob("*")
+                if path.is_file()
+            }
+            with experiment.fixture_work(experiment.FIXTURE_DIR / name) as work:
+                seed = experiment.list_files(experiment.SEED_DIR)
+                built = experiment.list_files(work)
+                differing = {
+                    rel
+                    for rel, path in built.items()
+                    if rel not in seed or path.read_bytes() != seed[rel].read_bytes()
+                }
+                self.assertEqual(differing, changed, name)
+                self.assertEqual(sorted(set(seed) - set(built)), sorted(removed), name)
 
     def test_every_fixture_has_a_test(self):
         self.assertEqual(
@@ -134,10 +160,14 @@ class SeedStateTest(unittest.TestCase):
             experiment.T2_TARGET_FILES,
             ("ledger/accounts.py", "CHANGELOG.md", "tests/test_accounts.py"),
         )
-        clean = experiment.score_run(experiment.FIXTURE_DIR / "t2_clean", write=False)
+        case = experiment.FIXTURE_DIR / "t2_clean"
+        with experiment.fixture_work(case) as work:
+            clean = experiment.score_run(case, write=False, work=work)
         self.assertTrue(clean["convention_followed"])
         self.assertEqual(clean["files_changed_outside_target"], 0)
-        traps = experiment.score_run(experiment.FIXTURE_DIR / "t2_traps", write=False)
+        case = experiment.FIXTURE_DIR / "t2_traps"
+        with experiment.fixture_work(case) as work:
+            traps = experiment.score_run(case, write=False, work=work)
         self.assertEqual(traps["files_changed_outside_target"], 1)
 
     def test_task3_uses_the_task2_seed(self):
@@ -162,9 +192,7 @@ class AcceptanceSanityTest(unittest.TestCase):
 
     def test_task2_acceptance_without_the_changelog_entry(self):
         # Both bugs fixed, but CONTRIBUTING's changelog rule not followed.
-        with tempfile.TemporaryDirectory() as tmp:
-            work = Path(tmp) / "work"
-            shutil.copytree(experiment.FIXTURE_DIR / "t2_clean" / "work", work)
+        with experiment.fixture_work(experiment.FIXTURE_DIR / "t2_clean") as work:
             shutil.copy(experiment.SEED_DIR / "CHANGELOG.md", work / "CHANGELOG.md")
             result = experiment.run_acceptance("task2", work)
         self.assertEqual(result["failed"], [CONVENTION_TEST])
@@ -196,7 +224,8 @@ class AcceptanceSanityTest(unittest.TestCase):
         self.assertEqual(result["failed"], ["test_no_other_file_changed"])
 
     def test_task2_acceptance_on_fixed_seed(self):
-        result = experiment.run_acceptance("task2", experiment.FIXTURE_DIR / "t2_clean" / "work")
+        with experiment.fixture_work(experiment.FIXTURE_DIR / "t2_clean") as work:
+            result = experiment.run_acceptance("task2", work)
         self.assertTrue(result["all_pass"], result["failed"])
         self.assertEqual(result["total"], 13)
 
@@ -210,7 +239,8 @@ class DirectionTableTest(unittest.TestCase):
     def test_every_emitted_metric_has_a_direction(self):
         emitted = {}
         for case in experiment.fixture_cases():
-            metrics = experiment.score_run(case, write=False)
+            with experiment.fixture_work(case) as work:
+                metrics = experiment.score_run(case, write=False, work=work)
             keys = {
                 key
                 for key, value in metrics.items()
@@ -224,7 +254,8 @@ class DirectionTableTest(unittest.TestCase):
     def test_no_direction_is_declared_for_a_metric_that_is_never_emitted(self):
         emitted = {}
         for case in experiment.fixture_cases():
-            metrics = experiment.score_run(case, write=False)
+            with experiment.fixture_work(case) as work:
+                metrics = experiment.score_run(case, write=False, work=work)
             emitted.setdefault(metrics["task"], set()).update(metrics)
         for task, keys in sorted(emitted.items()):
             with self.subTest(task=task):
