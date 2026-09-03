@@ -7,14 +7,14 @@
     "version": "1.1",
     "license": "MIT",
     "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
-    "lines": 35,
-    "bytes": 3840,
-    "sha256": "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
+    "lines": 32,
+    "bytes": 4061,
+    "sha256": "fce735ba7d70ad6b2efc8c712821a670869c0e8a6fb22ce085b62e85ead0df88",
     "criteria": {
       "length": {
         "pass": true,
         "evidence": [],
-        "lines": 35
+        "lines": 32
       },
       "commands": {
         "pass": false,
@@ -29,7 +29,7 @@
         "evidence": [
           {
             "line": 7,
-            "text": "- Destructive or irreversible operations need an explicit ask, including but not limited to `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data or public API. So does anything visible outside this checkout: pushing, publishing, deploying, messaging, issues, PRs, comments, and changing a dependency."
+            "text": "- Destructive or irreversible operations need an explicit ask, including but not limited to `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data or public API. So does anything visible outside this checkout: pushing, publishing, deploying, messaging, issues, PRs, comments, and changing a dependency. Mirror this list in your harness's permission settings; prose alone does not stop a command."
           }
         ]
       },
@@ -64,8 +64,8 @@
         "pass": true,
         "evidence": [
           {
-            "line": 35,
-            "text": "- Where details live: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md. Read the nearest one before editing a directory."
+            "line": 32,
+            "text": "- Generated files never to edit, whether the public API is a compatibility contract, and where details live (`docs/`, `CONTRIBUTING.md`, nested AGENTS.md)."
           }
         ]
       },
@@ -73,7 +73,7 @@
         "pass": true,
         "evidence": [],
         "emphatic_lines": 0,
-        "nonempty_lines": 28
+        "nonempty_lines": 25
       },
       "tool_neutral": {
         "pass": true,
@@ -112,15 +112,20 @@
         "evidence": []
       },
       "warnings": {
-        "pass": false,
-        "evidence": []
+        "pass": true,
+        "evidence": [
+          {
+            "line": 32,
+            "text": "- Generated files never to edit, whether the public API is a compatibility contract, and where details live (`docs/`, `CONTRIBUTING.md`, nested AGENTS.md)."
+          }
+        ]
       },
       "security": {
         "pass": false,
         "evidence": []
       }
     },
-    "met_content": 0,
+    "met_content": 1,
     "of_content": 8
   },
   "stuffed": {

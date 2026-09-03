@@ -16,6 +16,14 @@ tables to stdout as well.
 Python 3.11 or newer, standard library only; there is nothing to install. There is no build,
 lint, typecheck or format command; do not invent one.
 
+## Changing AGENTS.md
+
+The root `AGENTS.md` is the file this project publishes and the file the `ours` condition of the
+experiment writes, so a change to it is a change to the thing under test. Every rule line carries
+a row in [`docs/rationale.md`](docs/rationale.md) naming its source, and the text under test is
+pinned by sha256 in [`experiments/README.md`](experiments/README.md). A proposed change should say
+which row it adds or edits and what it does to that sha; open it as an issue first.
+
 ## Generated files, never edited by hand
 
 `docs/data/`, `docs/generated/`, and anything above the "Lock" heading in

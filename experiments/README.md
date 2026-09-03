@@ -861,9 +861,13 @@ file under test changes.
 
 ### What runs
 
-`ours` is the root `AGENTS.md` v1.1 at commit `e61e5af`, sha256
-`e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334`, written into the work
-directory as it sits. 3 tasks x 10 runs = 30 runs, model `claude-opus-5`, flag set
+`ours` is the root `AGENTS.md` v1.1, sha256
+`fce735ba7d70ad6b2efc8c712821a670869c0e8a6fb22ce085b62e85ead0df88`, written into the work
+directory as it sits. That text is v1.1 as amended on 2026-09-04 after external feedback, four
+rule clauses and a shorter Project template; the version name did not change because no run had
+happened yet, and this section was rewritten to the amended text rather than left describing a
+text nothing measured. The sha256 above, not the version name, is what identifies the file under
+test, and it is what each run's `meta.json` records as `condition_sha256`. 3 tasks x 10 runs = 30 runs, model `claude-opus-5`, flag set
 `project-settings`, the same harness and the same deny list as the main run. The `none` and
 `karpathy` cells are **not** re-run: the main run's cells are reused, collected 2026-09-03 between
 05:52 and 06:25 UTC in batches `20260903-055233`, `20260903-060806` and `20260903-062229`. The
@@ -879,7 +883,7 @@ read on every run whether or not it has anything to say about the task:
 | Text | Lines | Bytes | Token estimate (bytes/4) |
 |---|---|---|---|
 | v1.0 generic, the main run's `ours` | 50 | 4,420 | 1,105 |
-| v1.1, this round's `ours` | 35 | 3,840 | 960 |
+| v1.1, this round's `ours` | 32 | 4,061 | 1,015 |
 
 The round-2 test is what decides whether that compaction kept the advantages the main run
 measured. The acceptance rule below is unchanged by it.

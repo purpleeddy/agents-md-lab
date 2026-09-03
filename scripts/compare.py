@@ -91,6 +91,12 @@ RECORDED_TEXTS = (
         9,
         0,
     ),
+    (
+        "Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment",
+        "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
+        8,
+        0,
+    ),
 )
 
 # The file in the Hernanz post, evaluated with the same engine on 2026-09-03. The post's text is
@@ -848,12 +854,19 @@ def claims(data, criteria, exp):
             SIBLING_QUERY,
         ),
     ]
-    items.append((
+    ours_content = (
         "The file this project offers meets %d of the %d content criteria: what they ask for "
         "lives in the Project section that each repository fills in for itself."
-        % (data["ours"]["met_content"], data["ours"]["of_content"]),
-        OURS_QUERY,
-    ))
+        % (data["ours"]["met_content"], data["ours"]["of_content"])
+    )
+    if data["ours"]["met_content"] == 1:
+        # The single pass is a false positive on a template prompt, recorded in that criterion's
+        # notes; the sentence says so only while the number is 1.
+        ours_content = ours_content[:-1] + (
+            ", and the one that passes does so on a template line that asks for the answer "
+            "instead of giving it."
+        )
+    items.append((ours_content, OURS_QUERY))
     if exp is None:
         return items
     reported = experiment_cell(exp, "task2", "report_has_commands_and_results", "ours")

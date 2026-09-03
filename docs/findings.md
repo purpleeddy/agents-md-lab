@@ -78,13 +78,15 @@ never added together; each file carries one number per set.
 Coverage on the content set is lower and flatter than on the rule set. The criterion the corpus meets most often is Testing instructions (7 of 10 files); the highest coverage any file reaches is 5 of 8 (getsentry/sentry, getzep/graphiti) and the lowest is 0 of 8. No file in the corpus meets Warnings and gotchas. The columns, in the order of the criteria file, and the files that meet each, out of 10: 1 Project overview 5; 2 Named files 4; 3 Environment setup 4; 4 Code style 5; 5 Testing instructions 7; 6 Repository etiquette 4; 7 Warnings and gotchas 0; 8 Security considerations 1.
 <!-- content-note:end -->
 
-The file this project offers meets none of the eight. That is not a technicality to be
-explained away: every content criterion asks for something a repository knows about itself — its
-layout, its setup, its style, its test command, its conventions, its gotchas — and the file
-carries an empty `## Project` template where all of it belongs. The vendors' own lists say these
-are the things to include, so a file that omits them is not a complete instruction file for any
-repository. Filling that section is the step the adopter has to do, and it is the step no one
-else can do for a repository they cannot see.
+The file this project offers meets one of the eight, and that one is a false positive. Every
+content criterion asks for something a repository knows about itself — its layout, its setup, its
+style, its test command, its conventions, its gotchas — and the file carries an unfilled
+`## Project` template where all of it belongs. The line the check counts, "Generated files never
+to edit ...", asks the adopter for the warning rather than stating one; the pattern was not
+changed and the verdict is published as it comes out, recorded in that criterion's `notes`. The
+vendors' own lists say these are the things to include, so a file that omits them is not a
+complete instruction file for any repository. Filling that section is the step the adopter has to
+do, and it is the step no one else can do for a repository they cannot see.
 
 Well-known instruction files the survey does not cover, because it is about files of 200 lines or
 fewer, are listed in [the methodology](methodology.md#files-left-out-for-length).
@@ -256,7 +258,7 @@ Each line is a count read from the committed data. The command next to it prints
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['sibling']['points_to_agents_md'] for r in d['files']))"`
 
-- The file this project offers meets 0 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.
+- The file this project offers meets 1 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself, and the one that passes does so on a template line that asks for the answer instead of giving it.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(d['ours']['met_content'])"`
 

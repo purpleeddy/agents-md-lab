@@ -16,8 +16,8 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    ```
 
    That is `AGENTS.md` v1.1: the text the experiment ran, amended after an independent review
-   and then cut to the lines that carry a measured effect or a safety boundary. 35 lines, 3,840
-   bytes, about 960 tokens. What changed and what it means for the results is in
+   and then cut to the lines that carry a measured effect or a safety boundary. 32 lines, 4,061
+   bytes, about 1,015 tokens. What changed and what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v11).
 
@@ -25,8 +25,10 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    rules the other agents read.
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
    and where the details live. That section is the part no one else can write for you, and it is
-   the reason the file as served meets neither the runnable-command criterion nor any content
-   criterion.
+   the reason the file as served does not meet the runnable-command criterion.
+4. Mirror the destructive list in your harness's permission settings; this repository's own
+   `.claude/settings.example.json` is one example. A written rule cannot stop a command, which is
+   why the file says so in the rule itself.
 
 ## What the survey found
 

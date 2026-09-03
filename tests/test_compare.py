@@ -639,7 +639,10 @@ class ShippedFileTest(unittest.TestCase):
         # The shipped file is the root file, so its Project section is the template an adopter
         # fills in, not this repository's own commands.
         root = compare.OURS_FILE.read_text(encoding="utf-8")
-        self.assertIn("## Project (fill per repo; delete lines that don't apply)", root)
+        self.assertIn("## Project (fill per repo)", root)
+        # The shipped file is measured on its cost as well as its rules; the count is the
+        # measured one, so a line added without a rationale row fails here.
+        self.assertLessEqual(compare.count_lines(root), 36)
         self.assertNotIn("python3 -m unittest", root)
         self.assertNotIn(".claude/skills/", root)
 

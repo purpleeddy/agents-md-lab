@@ -368,10 +368,14 @@ The shipped file is now `AGENTS.md` v1.1. It applies the rest of the independent
 changes in all, and then cuts or merges every line a line audit could not tie to a measured effect
 or to a safety boundary; the audit, one row per line of v1.0.1, is on the
 [rationale page](rationale.md#line-audit-v101-to-v11). The file went from 52 lines and 5,456 bytes
-to 35 lines and 3,840 bytes, about 960 tokens by a bytes-over-four estimate, and its rule coverage
-went from 10/10 to 8/10: it names no runnable command, because the Project template is empty, and
+to 32 lines and 4,061 bytes, about 1,015 tokens by a bytes-over-four estimate, and its rule
+coverage went from 10/10 to 8/10: it names no runnable command, because the Project template is
+unfilled, and
 it no longer carries the sentence `done_verification` matched, which was cut on the merits. No
-line was written or kept to change a verdict. The ninety runs measured v1.0; whether the
+line was written or kept to change a verdict. On 2026-09-04, before any round-2 run, four rule
+clauses were added from external feedback and the Project template was cut from five lines to two,
+which is the text and the sha256 the pre-registration records; each edit has a row in
+[the rationale](rationale.md#amendments-after-external-feedback-2026-09-04). The ninety runs measured v1.0; whether the
 compaction kept the advantages they showed is what the
 [round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md)
 measures, pre-registered before it runs.
@@ -384,7 +388,8 @@ measures, pre-registered before it runs.
 | Generic text, that Project section emptied (v1.0.1), recorded constant | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
 | `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
 | Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
-| Root `AGENTS.md`, the file shipped now (v1.1) | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
+| Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
+| Root `AGENTS.md`, the file shipped now (v1.1) | `fce735ba7d70ad6b2efc8c712821a670869c0e8a6fb22ce085b62e85ead0df88` | 8/10 | 1/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:
