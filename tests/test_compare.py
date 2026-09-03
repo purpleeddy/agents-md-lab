@@ -151,7 +151,7 @@ class CriteriaFileTest(unittest.TestCase):
 
     def test_every_source_key_is_defined_in_references(self):
         text = (REPO_ROOT / "docs" / "references.md").read_text(encoding="utf-8")
-        defined = set(re.findall(r"^\[\^([\w.-]+)\]:", text, re.MULTILINE))
+        defined = set(re.findall(r'<a id="ref-([\w.-]+)"></a>', text))
         for criterion in criteria()["criteria"]:
             for key in criterion["sources"]:
                 self.assertIn(key, defined, "%s cites %s" % (criterion["id"], key))

@@ -480,7 +480,7 @@ def criterion_popover(index, criterion):
     light-dismisses without any script."""
     pid = "why-" + criterion["id"]
     sources = " ".join(
-        '<a href="references.html#fn:%s">%s</a>' % (esc(key), esc(key)) for key in criterion["sources"]
+        '<a href="references.html#ref-%s">%s</a>' % (esc(key), esc(key)) for key in criterion["sources"]
     )
     return (
         '<button type="button" class="info" popovertarget="%s" '
@@ -684,7 +684,7 @@ def render_criteria_md(criteria):
     out = []
     for index, criterion in enumerate(criteria["criteria"], start=1):
         sources = ", ".join(
-            "[%s](references.html#fn:%s)" % (key, key) for key in criterion["sources"]
+            "[%s](references.md#ref-%s)" % (key, key) for key in criterion["sources"]
         )
         out.append("%d. **%s** (`%s`)" % (index, criterion["name"], criterion["id"]))
         out.append("   - Question: %s" % criterion["question"])

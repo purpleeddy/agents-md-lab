@@ -56,9 +56,9 @@ CODE_SPAN = re.compile(r"`[^`\n]*`")
 HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
 HIDDEN_ELEMENT = re.compile(r"<(script|template|pre|style)\b.*?</\1>", re.DOTALL | re.IGNORECASE)
 TAG = re.compile(r"<[^>]+>")
-FOOTNOTE_USE = re.compile(r"(?<!\\)\[\^([A-Za-z0-9_-]+)\]")
-FOOTNOTE_DEF = re.compile(r"^\[\^([A-Za-z0-9_-]+)\]:", re.MULTILINE)
-REFERENCE_LINK = re.compile(r"references\.html#fn:([A-Za-z0-9_-]+)")
+ANCHOR_DEF = re.compile(r'<a id="ref-([A-Za-z0-9_-]+)"></a>')
+REFERENCE_LINK = re.compile(r"references\.(?:md|html)#ref-([A-Za-z0-9_-]+)")
+FOOTNOTE_SYNTAX = re.compile(r"(?<!\\)\[\^")
 
 
 def markdown_pages():
@@ -90,16 +90,20 @@ def without_allowed(text):
 
 
 def defined_keys():
-    return set(FOOTNOTE_DEF.findall(REFERENCES.read_text(encoding="utf-8")))
+    """A citation resolves to an explicit anchor, not to a kramdown footnote: kramdown drops a
+    footnote definition nothing refers to, so the anchors are what survives publication."""
+    return set(ANCHOR_DEF.findall(REFERENCES.read_text(encoding="utf-8")))
 
 
 class CitationTest(unittest.TestCase):
-    def test_every_footnote_use_has_a_definition(self):
-        defined = defined_keys()
+    def test_no_page_uses_footnote_syntax(self):
         for path in markdown_pages():
             text = strip_markdown_code(path.read_text(encoding="utf-8"))
-            for key in FOOTNOTE_USE.findall(text):
-                self.assertIn(key, defined, "%s cites [^%s]" % (path.name, key))
+            self.assertIsNone(FOOTNOTE_SYNTAX.search(text), path.name)
+
+    def test_every_anchor_is_defined_once(self):
+        keys = ANCHOR_DEF.findall(REFERENCES.read_text(encoding="utf-8"))
+        self.assertEqual(sorted(keys), sorted(set(keys)))
 
     def test_every_criteria_source_has_a_definition(self):
         defined = defined_keys()
@@ -116,12 +120,13 @@ class CitationTest(unittest.TestCase):
             for key in REFERENCE_LINK.findall(text):
                 self.assertIn(key, defined)
 
-    def test_every_definition_is_used_on_the_references_page(self):
-        # kramdown drops a footnote definition nothing refers to, so an unused key would
-        # disappear from the published page and its #fn: anchor with it.
-        text = REFERENCES.read_text(encoding="utf-8")
-        uses = set(FOOTNOTE_USE.findall(re.sub(FOOTNOTE_DEF, " ", text)))
-        self.assertEqual(uses, defined_keys())
+    def test_a_markdown_page_links_to_a_markdown_page(self):
+        # GitHub Pages rewrites .md links in a Markdown source; GitHub's own file view needs
+        # them. index.html is a static file and keeps its .html links.
+        for path in markdown_pages():
+            text = strip_markdown_code(path.read_text(encoding="utf-8"))
+            for target in re.findall(r"\]\((?!https?:)([^)#]*\.html)", text):
+                self.assertEqual(target, "index.html", "%s links to %s" % (path.name, target))
 
 
 class GeneratedBlockTest(unittest.TestCase):
