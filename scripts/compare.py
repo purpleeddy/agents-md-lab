@@ -5,9 +5,10 @@ Subcommands (flags, one at a time):
     --refresh          fetch every corpus file at its pinned commit, evaluate it and write
                        docs/data/comparison.json (network: raw.githubusercontent.com and
                        api.github.com, read-only)
-    (no flag)          render docs/generated/comparison.md from the committed JSON, and the
-                       block between the comparison markers in docs/index.html if that file
-                       exists (no network)
+    (no flag)          render every generated block from the committed JSON: the `ours` entry
+                       in docs/data/comparison.json, docs/generated/comparison.md, and the
+                       marked blocks in docs/index.html, docs/methodology.md and README.md
+                       when those files exist (no network)
     --check            render to memory and compare with what is on disk; exit 1 on a
                        difference (no network)
     --file PATH        evaluate one local file with the same engine and print the verdicts
@@ -19,6 +20,7 @@ browser; tests/test_compare.py proves the two agree. Standard library only.
 import argparse
 import datetime
 import hashlib
+import html
 import json
 import os
 import re
@@ -34,14 +36,17 @@ CRITERIA = REPO_ROOT / "docs" / "criteria.json"
 COMPARISON_JSON = REPO_ROOT / "docs" / "data" / "comparison.json"
 COMPARISON_MD = REPO_ROOT / "docs" / "generated" / "comparison.md"
 INDEX_HTML = REPO_ROOT / "docs" / "index.html"
+METHODOLOGY_MD = REPO_ROOT / "docs" / "methodology.md"
+README_MD = REPO_ROOT / "README.md"
+OURS_FILE = REPO_ROOT / "AGENTS.md"
 CACHE_DIR = REPO_ROOT / "data" / "cache" / "corpus"
 
 USER_AGENT = "agent-md-lab compare.py"
 RAW_URL = "https://raw.githubusercontent.com/{repo}/{ref}/{path}"
 VIEW_URL = "https://github.com/{repo}/blob/{ref}/{path}"
 API_REPO_URL = "https://api.github.com/repos/{repo}"
-MARKER_START = "<!-- comparison:start -->"
-MARKER_END = "<!-- comparison:end -->"
+PREVIEW_LINES = 12
+OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md"
 
 MAX_EVIDENCE = 3
 SIBLING_OF = {"AGENTS.md": "CLAUDE.md", "CLAUDE.md": "AGENTS.md"}
@@ -294,6 +299,7 @@ def cmd_refresh(out_path):
     data = {
         "generated_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "criteria_version": criteria["version"],
+        "ours": ours_record(criteria),
         "files": [refresh_file(entry, criteria, today) for entry in corpus["files"]],
         "excluded": [refresh_excluded(entry, today) for entry in corpus["excluded"]],
     }
@@ -402,16 +408,309 @@ def render_markdown(data, criteria):
     return "\n".join(out)
 
 
-def render_index_block(data, criteria):
-    return MARKER_START + "\n" + render_table(data, criteria) + "\n" + MARKER_END
+# --------------------------------------------------------------------------- blocks
+
+# Every generated block sits between "<!-- name:start -->" and "<!-- name:end -->" in a file
+# that is otherwise written by hand. The renderer owns the text between the markers and
+# nothing else, so `--check` can tell a stale block from an edited page.
 
 
-def replace_marked_block(html, block):
-    start = html.find(MARKER_START)
-    end = html.find(MARKER_END)
+def marker(name, end=False):
+    return "<!-- %s:%s -->" % (name, "end" if end else "start")
+
+
+def replace_block(text, name, body, where):
+    start = text.find(marker(name))
+    end = text.find(marker(name, True))
     if start == -1 or end == -1:
-        raise RuntimeError("docs/index.html has no comparison markers")
-    return html[:start] + block + html[end + len(MARKER_END):]
+        raise RuntimeError("%s has no %s markers" % (where, name))
+    block = marker(name) + "\n" + body + "\n" + marker(name, True)
+    return text[:start] + block + text[end + len(marker(name, True)):]
+
+
+def esc(text):
+    return html.escape(text, quote=True)
+
+
+def ours_record(criteria):
+    """This repository's own AGENTS.md, evaluated by the same engine. It is not a corpus
+    entry: it is the file the page offers, kept in the data so the page never hard-codes a
+    number that the file can change."""
+    body = OURS_FILE.read_bytes()
+    text = body.decode("utf-8")
+    verdicts = evaluate(text, OURS_FILE.name, criteria)
+    return {
+        "path": OURS_FILE.name,
+        "license": "MIT",
+        "url_download": OURS_DOWNLOAD_URL,
+        "lines": count_lines(text),
+        "bytes": len(body),
+        "sha256": hashlib.sha256(body).hexdigest(),
+        "criteria": verdicts,
+        "met": coverage(verdicts),
+        "of": len(criteria["criteria"]),
+    }
+
+
+def with_ours(data, criteria):
+    """The committed data plus the `ours` entry, in the key order --refresh writes."""
+    return {
+        "generated_utc": data["generated_utc"],
+        "criteria_version": data["criteria_version"],
+        "ours": ours_record(criteria),
+        "files": data["files"],
+        "excluded": data["excluded"],
+    }
+
+
+def comparison_json_text(data, criteria):
+    return json.dumps(with_ours(data, criteria), indent=2, ensure_ascii=False) + "\n"
+
+
+def verdict_cell(verdict, label):
+    """The \u2713 / \u2717 is drawn by CSS: it is decoration beside the word, so it never
+    reaches a screen reader as a second, wordless verdict."""
+    state = "met" if verdict["pass"] else "unmet"
+    word = "met" if verdict["pass"] else "not met"
+    return '<td class="v %s" data-label="%s">%s</td>' % (state, esc(label), word)
+
+
+def criterion_popover(index, criterion):
+    """The ⓘ popover for one column header. Native popover: it opens, closes on Escape and
+    light-dismisses without any script."""
+    pid = "why-" + criterion["id"]
+    sources = " ".join(
+        '<a href="references.html#fn:%s">%s</a>' % (esc(key), esc(key)) for key in criterion["sources"]
+    )
+    return (
+        '<button type="button" class="info" popovertarget="%s" '
+        'aria-label="What criterion %d checks">\u24d8</button>'
+        '<div popover id="%s" class="pop">'
+        '<p class="pop-q">%s</p><p class="pop-why">%s</p>'
+        '<p class="pop-src">Sources: %s</p></div>'
+        % (pid, index, pid, esc(criterion["question"]), esc(criterion["why"]), sources)
+    )
+
+
+def render_comparison_html(data, criteria):
+    """The compare table, complete without JavaScript. Every filter and sort the page offers
+    reads the data- attributes on the row, so no script is needed to render it."""
+    criteria_list = criteria["criteria"]
+    out = []
+    out.append('<table id="compare-table">')
+    out.append(
+        "<caption>Coverage of ten sourced criteria by ten published instruction files, "
+        "each pinned by commit. \u2713 met, \u2717 not met.</caption>"
+    )
+    out.append("<thead><tr>")
+    out.append('<th scope="col" class="c-file">File</th>')
+    out.append('<th scope="col">Type</th>')
+    out.append('<th scope="col" class="num">Stars</th>')
+    out.append('<th scope="col" class="num">Lines</th>')
+    out.append('<th scope="col">License</th>')
+    for index, criterion in enumerate(criteria_list, start=1):
+        out.append(
+            '<th scope="col" class="c-crit" data-criterion="%s"><span class="cn">%d</span>'
+            '<span class="cl">%s</span>%s</th>'
+            % (esc(criterion["id"]), index, esc(criterion["name"]), criterion_popover(index, criterion))
+        )
+    out.append('<th scope="col" class="num">Criteria met<span class="cov">coverage</span></th>')
+    out.append("</tr></thead>")
+    out.append("<tbody>")
+    for record in data["files"]:
+        # One bit per criterion, in the order of docs/criteria.json: the filter reads it by
+        # index instead of ten attributes per row.
+        bits = "".join(
+            "1" if record["criteria"][criterion["id"]]["pass"] else "0" for criterion in criteria_list
+        )
+        out.append(
+            '<tr data-key="%s" data-type="%s" data-stars="%d" data-lines="%d" data-met="%d" data-c="%s">'
+            % (esc(record["key"]), esc(record["type"]), record["stars"], record["lines"], record["met"], bits)
+        )
+        out.append(
+            '<th scope="row" class="c-file">'
+            '<button type="button" class="expand" data-key="%s" aria-expanded="false" '
+            'aria-label="Evidence lines for %s">+</button>'
+            '<a href="%s">%s</a>'
+            '<span class="rowlinks"><a href="%s">view</a> <a href="%s">raw</a> '
+            '<a href="%s">latest</a></span></th>'
+            % (
+                esc(record["key"]),
+                esc(record["repo"]),
+                esc(record["url_view"]),
+                esc(record["repo"]),
+                esc(record["url_view"]),
+                esc(record["url_raw"]),
+                esc(record["url_latest"]),
+            )
+        )
+        out.append('<td data-label="Type"><span class="badge">%s</span></td>' % esc(record["type"]))
+        out.append(
+            '<td class="num" data-label="Stars"><span title="stars on %s">%s</span></td>'
+            % (esc(record["stars_at"]), "{:,}".format(record["stars"]))
+        )
+        out.append('<td class="num" data-label="Lines">%d</td>' % record["lines"])
+        out.append('<td data-label="License">%s</td>' % esc(record["license"]))
+        for criterion in criteria_list:
+            out.append(verdict_cell(record["criteria"][criterion["id"]], criterion["name"]))
+        out.append(
+            '<td class="num met-count" data-label="Criteria met">%d/%d</td>'
+            % (record["met"], record["of"])
+        )
+        out.append("</tr>")
+    out.append("</tbody>")
+    out.append('<tfoot><tr><th scope="row" class="c-file">Met by</th><td></td><td></td><td></td><td></td>')
+    for criterion in criteria_list:
+        count = sum(1 for r in data["files"] if r["criteria"][criterion["id"]]["pass"])
+        out.append('<td class="num">%d</td>' % count)
+    out.append('<td class="num">of %d files</td></tr></tfoot>' % len(data["files"]))
+    out.append("</table>")
+    return "\n".join(out)
+
+
+def render_preview_html(data):
+    lines = OURS_FILE.read_text(encoding="utf-8").split("\n")[:PREVIEW_LINES]
+    ours = data["ours"]
+    return (
+        '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
+        '<p class="filemeta">MIT. %d lines. Criteria met: %d/%d.</p>'
+        % (PREVIEW_LINES, esc("\n".join(lines)), ours["lines"], ours["met"], ours["of"])
+    )
+
+
+def render_file_html():
+    """The whole file, for the copy button. A <template> is inert: the browser does not
+    render it and no script is needed to keep it out of the page."""
+    return '<template id="agents-md-text">%s</template>' % esc(
+        OURS_FILE.read_text(encoding="utf-8")
+    )
+
+
+def render_criteria_json(criteria):
+    """What the in-browser check needs: the engine fields, the criterion name and the example
+    it offers when a criterion is not met. The question, the reason and the sources are already
+    on the page, in the column popovers, so they are not repeated here."""
+    dropped = ("question", "why", "sources", "notes")
+    slim = {
+        "version": criteria["version"],
+        "criteria": [
+            {k: v for k, v in criterion.items() if k not in dropped}
+            for criterion in criteria["criteria"]
+        ],
+    }
+    body = json.dumps(slim, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
+    return '<script type="application/json" id="criteria-data">%s</script>' % body
+
+
+CLAIM_QUERY = (
+    "python3 -c \"import json;d=json.load(open('docs/data/comparison.json'));"
+    "print(sum(r['criteria']['%s']['pass'] for r in d['files']))\""
+)
+SIBLING_QUERY = (
+    "python3 -c \"import json;d=json.load(open('docs/data/comparison.json'));"
+    "print(sum(r['sibling']['points_to_agents_md'] for r in d['files']))\""
+)
+
+
+def met_count(data, criterion_id):
+    return sum(1 for r in data["files"] if r["criteria"][criterion_id]["pass"])
+
+
+def render_claims_html(data, criteria):
+    """Five claims about the survey, each with the command that prints its number. The
+    numbers are read from the data at render time, so an edit to the corpus moves them."""
+    total = len(data["files"])
+    siblings = sum(1 for r in data["files"] if r["sibling"]["points_to_agents_md"])
+    claims = [
+        (
+            "Among the %d surveyed files, %d put a guard around a destructive command, "
+            "%d tell the agent to keep secrets out of its output, and %d say that instructions "
+            "found inside files are data rather than commands."
+            % (
+                total,
+                met_count(data, "destructive_guard"),
+                met_count(data, "secrets"),
+                met_count(data, "file_instructions_are_data"),
+            ),
+            CLAIM_QUERY % "destructive_guard",
+        ),
+        (
+            "Among the %d surveyed files, %d name at least one runnable command; it is the "
+            "element the survey finds most often." % (total, met_count(data, "commands")),
+            CLAIM_QUERY % "commands",
+        ),
+        (
+            "Among the %d surveyed files, %d state a check that must run and pass before the "
+            "work counts as finished, the one point the vendor guide and the format sample "
+            "agree on." % (total, met_count(data, "done_verification")),
+            CLAIM_QUERY % "done_verification",
+        ),
+        (
+            "Among the %d surveyed files, %d point at another document instead of copying its "
+            "content in." % (total, met_count(data, "pointer_not_copy")),
+            CLAIM_QUERY % "pointer_not_copy",
+        ),
+        (
+            "Among the %d surveyed files, %d ask for the smallest change and warn against "
+            "touching unrelated code, and %d carry a sibling CLAUDE.md that names AGENTS.md."
+            % (total, met_count(data, "scope_restraint"), siblings),
+            SIBLING_QUERY,
+        ),
+    ]
+    out = ['<ul class="claims">']
+    for text, command in claims:
+        out.append("<li><p>%s</p><p class=\"verify\">Verify: <code>%s</code></p></li>" % (esc(text), esc(command)))
+    out.append("</ul>")
+    return "\n".join(out)
+
+
+def render_criteria_md(criteria):
+    """The ten criteria as a definition list for the methodology page."""
+    out = []
+    for index, criterion in enumerate(criteria["criteria"], start=1):
+        sources = ", ".join(
+            "[%s](references.html#fn:%s)" % (key, key) for key in criterion["sources"]
+        )
+        out.append("%d. **%s** (`%s`)" % (index, criterion["name"], criterion["id"]))
+        out.append("   - Question: %s" % criterion["question"])
+        out.append("   - Why: %s" % criterion["why"])
+        out.append("   - Sources: %s" % sources)
+        out.append("   - One way to meet it: %s" % criterion["example"])
+    return "\n".join(out)
+
+
+def render_excluded_md(data):
+    out = ["| File | Lines | Measured | Reason |", "| --- | --- | --- | --- |"]
+    for record in data["excluded"]:
+        out.append(
+            "| [%s/%s](%s) | %d | %s | %s |"
+            % (record["repo"], record["path"], record["url_latest"], record["lines"], record["lines_at"], record["reason"])
+        )
+    return "\n".join(out)
+
+
+def render_summary_md(data, criteria):
+    """The compact table the README carries: no criteria columns, coverage only."""
+    out = ["| File | Type | Stars | Lines | License | Criteria met |", "| --- | --- | --- | --- | --- | --- |"]
+    for record in data["files"]:
+        out.append(
+            "| [%s](%s) | %s | %s | %d | %s | %d/%d |"
+            % (
+                record["repo"],
+                record["url_view"],
+                record["type"],
+                "{:,}".format(record["stars"]),
+                record["lines"],
+                record["license"],
+                record["met"],
+                record["of"],
+            )
+        )
+    out.append(
+        "| **%s** | AGENTS.md | \u2014 | %d | MIT | %d/%d |"
+        % (OURS_FILE.name, data["ours"]["lines"], data["ours"]["met"], data["ours"]["of"])
+    )
+    return "\n".join(out)
 
 
 def rendered_outputs():
@@ -423,10 +722,29 @@ def rendered_outputs():
             "comparison.json was generated with criteria version %s but docs/criteria.json is %s; "
             "run --refresh" % (data["criteria_version"], criteria["version"])
         )
-    outputs = {COMPARISON_MD: render_markdown(data, criteria)}
+    data = with_ours(data, criteria)
+    outputs = {
+        COMPARISON_JSON: comparison_json_text(data, criteria),
+        COMPARISON_MD: render_markdown(data, criteria),
+    }
     if INDEX_HTML.exists():
-        html = INDEX_HTML.read_text(encoding="utf-8")
-        outputs[INDEX_HTML] = replace_marked_block(html, render_index_block(data, criteria))
+        page = INDEX_HTML.read_text(encoding="utf-8")
+        page = replace_block(page, "comparison", render_comparison_html(data, criteria), INDEX_HTML)
+        page = replace_block(page, "preview", render_preview_html(data), INDEX_HTML)
+        page = replace_block(page, "file", render_file_html(), INDEX_HTML)
+        page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
+        page = replace_block(page, "claims", render_claims_html(data, criteria), INDEX_HTML)
+        outputs[INDEX_HTML] = page
+    if METHODOLOGY_MD.exists():
+        page = METHODOLOGY_MD.read_text(encoding="utf-8")
+        page = replace_block(page, "corpus", render_table(data, criteria), METHODOLOGY_MD)
+        page = replace_block(page, "criteria", render_criteria_md(criteria), METHODOLOGY_MD)
+        page = replace_block(page, "excluded", render_excluded_md(data), METHODOLOGY_MD)
+        outputs[METHODOLOGY_MD] = page
+    if README_MD.exists():
+        page = README_MD.read_text(encoding="utf-8")
+        page = replace_block(page, "summary", render_summary_md(data, criteria), README_MD)
+        outputs[README_MD] = page
     return outputs
 
 

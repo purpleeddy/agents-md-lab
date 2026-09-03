@@ -161,3 +161,531 @@
   }
   root.AgentsMdLab = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);
+
+// ---------------------------------------------------------------------------
+// Page behaviour. Everything below runs only in a browser: tests/parity.js loads this file
+// in Node to check the engine above, where there is no document to touch.
+// ---------------------------------------------------------------------------
+
+(function (root) {
+  "use strict";
+  var lab = root.AgentsMdLab;
+  var CONDITIONS = ["none", "karpathy", "ours"];
+  var criteria = null;
+  var comparison = null;
+
+  function esc(value) {
+    return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function el(id) {
+    return document.getElementById(id);
+  }
+
+  function num(value, digits) {
+    return Number(value).toFixed(digits === undefined ? 2 : digits);
+  }
+
+  // The interval bounds are computed once, in scripts/experiment.py, and only read here.
+  function interval(entry) {
+    return "[" + num(entry.lo) + ", " + num(entry.hi) + "]";
+  }
+
+  function getJSON(path) {
+    return fetch(path).then(function (response) {
+      if (!response.ok) {
+        throw new Error(path + ": " + response.status);
+      }
+      return response.json();
+    });
+  }
+
+  function embeddedCriteria() {
+    var node = el("criteria-data");
+    return node ? JSON.parse(node.textContent) : null;
+  }
+
+  // ------------------------------------------------------------------ copy
+
+  function setUpCopy() {
+    var button = el("copy-file");
+    var template = el("agents-md-text");
+    var status = el("copy-status");
+    if (!button || !template) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var text = template.content.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        status.textContent = "Copied " + lab.countLines(text) + " lines to the clipboard.";
+      }, function () {
+        status.textContent = "The browser refused the clipboard. Use Download AGENTS.md instead.";
+      });
+    });
+  }
+
+  // ------------------------------------------------------------------ compare table
+
+  function bodyRows(table) {
+    return Array.prototype.slice.call(table.tBodies[0].rows).filter(function (row) {
+      return row.dataset.key !== undefined;
+    });
+  }
+
+  function checkedCriteria() {
+    return Array.prototype.slice.call(document.querySelectorAll("#matters input:checked"))
+      .map(function (input) { return Number(input.value); });
+  }
+
+  function applyFilters(table) {
+    var wanted = checkedCriteria();
+    var type = el("type-filter").value;
+    bodyRows(table).forEach(function (row) {
+      var bits = row.dataset.c || "";
+      var meets = wanted.every(function (index) { return bits.charAt(index) === "1"; });
+      var typed = type === "all" || row.dataset.type === type;
+      row.classList.toggle("faded", !(meets && typed));
+      var evidence = row.nextElementSibling;
+      if (evidence && evidence.classList.contains("evidence")) {
+        evidence.classList.toggle("faded", !(meets && typed));
+      }
+    });
+  }
+
+  function applySort(table) {
+    var how = el("sort-by").value;
+    var body = table.tBodies[0];
+    var rows = bodyRows(table);
+    rows.sort(function (a, b) {
+      if (how === "lines") {
+        return Number(a.dataset.lines) - Number(b.dataset.lines);
+      }
+      if (how === "stars") {
+        return Number(b.dataset.stars) - Number(a.dataset.stars);
+      }
+      return a.dataset.key.localeCompare(b.dataset.key);
+    });
+    rows.forEach(function (row) {
+      var evidence = row.nextElementSibling;
+      body.appendChild(row);
+      if (evidence && evidence.classList.contains("evidence")) {
+        body.appendChild(evidence);
+      }
+    });
+  }
+
+  function evidenceList(record) {
+    var items = criteria.criteria.map(function (criterion) {
+      var verdict = record.criteria[criterion.id];
+      var lines = verdict.evidence.map(function (item) {
+        var text = item.text === undefined ? "line only: this repository has no license"
+          : item.text.trim();
+        return '<li><span class="ln">' + item.line + "</span> " + esc(text) + "</li>";
+      });
+      if (!lines.length) {
+        lines = ["<li>no matching line</li>"];
+      }
+      return "<li><strong>" + esc(criterion.name) + "</strong> — "
+        + (verdict.pass ? "met" : "not met") + "<ul>" + lines.join("") + "</ul></li>";
+    });
+    return "<ul>" + items.join("") + "</ul>";
+  }
+
+  function toggleEvidence(table, button) {
+    var row = button.closest("tr");
+    var open = button.getAttribute("aria-expanded") === "true";
+    var next = row.nextElementSibling;
+    if (open) {
+      button.setAttribute("aria-expanded", "false");
+      button.textContent = "+";
+      if (next && next.classList.contains("evidence")) {
+        next.remove();
+      }
+      return;
+    }
+    var record = comparison.files.filter(function (item) {
+      return item.key === row.dataset.key;
+    })[0];
+    if (!record) {
+      return;
+    }
+    var holder = document.createElement("tr");
+    holder.className = "evidence";
+    var cell = document.createElement("td");
+    cell.colSpan = row.cells.length;
+    cell.innerHTML = evidenceList(record);
+    holder.appendChild(cell);
+    row.parentNode.insertBefore(holder, row.nextSibling);
+    button.setAttribute("aria-expanded", "true");
+    button.textContent = "−";
+  }
+
+  function makeRow(table, label, record, className) {
+    var row = document.createElement("tr");
+    row.className = "pinned " + className;
+    var head = document.createElement("th");
+    head.scope = "row";
+    head.className = "c-file";
+    head.textContent = label;
+    row.appendChild(head);
+    var cells = [record.type || "—", "—", String(record.lines), record.license || "—"];
+    var labels = ["Type", "Stars", "Lines", "License"];
+    cells.forEach(function (value, index) {
+      var cell = document.createElement("td");
+      cell.textContent = value;
+      cell.dataset.label = labels[index];
+      if (index === 1 || index === 2) {
+        cell.className = "num";
+      }
+      row.appendChild(cell);
+    });
+    criteria.criteria.forEach(function (criterion) {
+      var verdict = record.criteria[criterion.id];
+      var cell = document.createElement("td");
+      cell.className = "v " + (verdict.pass ? "met" : "unmet");
+      cell.dataset.label = criterion.name;
+      cell.textContent = verdict.pass ? "met" : "not met";
+      row.appendChild(cell);
+    });
+    var total = document.createElement("td");
+    total.className = "num met-count";
+    total.dataset.label = "Criteria met";
+    total.textContent = record.met + "/" + record.of;
+    row.appendChild(total);
+    return row;
+  }
+
+  function setPinnedRow(table, className, row) {
+    var existing = table.querySelector("tr." + className);
+    if (existing) {
+      existing.remove();
+    }
+    if (row) {
+      table.tBodies[0].insertBefore(row, table.tBodies[0].firstChild);
+    }
+  }
+
+  function buildMattersControls(table) {
+    var box = el("matters");
+    criteria.criteria.forEach(function (criterion, index) {
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.value = String(index);
+      input.addEventListener("change", function () { applyFilters(table); });
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(" " + criterion.name));
+      box.appendChild(label);
+    });
+  }
+
+  function setUpTable() {
+    var table = el("compare-table");
+    if (!table) {
+      return;
+    }
+    buildMattersControls(table);
+    el("compare-controls").hidden = false;
+    el("compare-controls-2").hidden = false;
+    el("type-filter").addEventListener("change", function () { applyFilters(table); });
+    el("sort-by").addEventListener("change", function () { applySort(table); });
+    el("show-ours").addEventListener("change", function (event) {
+      if (!comparison) {
+        return;
+      }
+      var record = comparison.ours;
+      record.type = "AGENTS.md";
+      setPinnedRow(table, "ours-row",
+        event.target.checked ? makeRow(table, "this repository — AGENTS.md", record, "ours-row") : null);
+    });
+    table.addEventListener("click", function (event) {
+      var button = event.target.closest("button.expand");
+      if (button && comparison) {
+        toggleEvidence(table, button);
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------ check panel
+
+  function verdictItem(criterion, verdict) {
+    var detail;
+    if (verdict.pass && verdict.evidence.length) {
+      detail = 'line ' + verdict.evidence[0].line + ": " + esc(verdict.evidence[0].text.trim());
+    } else if (verdict.pass) {
+      detail = "no line to quote: this criterion is a count, not a phrase";
+    } else {
+      detail = "One way to meet it: " + esc(criterion.example);
+    }
+    return '<li class="' + (verdict.pass ? "met" : "unmet") + '"><span class="mark">'
+      + (verdict.pass ? "✓" : "✗") + "</span> " + esc(criterion.name) + " — "
+      + (verdict.pass ? "met" : "not met") + '<span class="hint">' + detail + "</span></li>";
+  }
+
+  function runCheck() {
+    var text = el("check-text").value;
+    var name = el("check-name").value || "AGENTS.md";
+    var status = el("check-status");
+    if (!text.trim()) {
+      status.textContent = "Paste a file first.";
+      el("check-verdicts").innerHTML = "";
+      return;
+    }
+    var verdicts = lab.evaluate(text, name, criteria);
+    var met = lab.coverage(verdicts);
+    status.textContent = name + ": criteria met " + met + "/" + criteria.criteria.length + ".";
+    el("check-verdicts").innerHTML = criteria.criteria.map(function (criterion) {
+      return verdictItem(criterion, verdicts[criterion.id]);
+    }).join("");
+    var table = el("compare-table");
+    if (table) {
+      setPinnedRow(table, "yours-row", makeRow(table, "yours — " + name, {
+        type: name,
+        lines: lab.countLines(text),
+        license: "—",
+        criteria: verdicts,
+        met: met,
+        of: criteria.criteria.length
+      }, "yours-row"));
+    }
+  }
+
+  function setUpCheck() {
+    var button = el("check-run");
+    if (!button) {
+      return;
+    }
+    el("check-support").textContent =
+      "The check runs the same ten criteria the table uses, in this page.";
+    button.addEventListener("click", runCheck);
+  }
+
+  // ------------------------------------------------------------------ experiment
+
+  var PAD = 12, LABEL_W = 300, PLOT_X0 = 312, PLOT_W = 440, ROW_H = 30, HEAD_H = 30;
+  var PLOT_X1 = PLOT_X0 + PLOT_W, CHART_W = PLOT_X1 + 60;
+
+  function px(value) {
+    return Math.round(value * 10) / 10;
+  }
+
+  function metricLabel(metric) {
+    return metric.replace(/_/g, " ");
+  }
+
+  function cellsN(entry) {
+    var values = CONDITIONS.map(function (condition) {
+      var cell = entry.cells[condition];
+      return cell ? cell.n : 0;
+    }).filter(Boolean);
+    return values.length ? Math.max.apply(null, values) : 0;
+  }
+
+  function dotPlot(task, entry) {
+    var metrics = Object.keys(entry.comparison).sort();
+    if (!metrics.length) {
+      return "";
+    }
+    var height = HEAD_H + metrics.length * ROW_H + 20;
+    var svg = ['<svg class="chart" viewBox="0 0 ' + CHART_W + " " + height
+      + '" role="img" aria-label="Proportion of runs meeting each directed metric of '
+      + esc(task) + ', by condition, with 95% intervals">'];
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (tick) {
+      var x = PLOT_X0 + tick * PLOT_W;
+      svg.push('<line class="grid" x1="' + x + '" y1="' + (HEAD_H - 8) + '" x2="' + x
+        + '" y2="' + (height - 20) + '"/>');
+      svg.push('<text x="' + x + '" y="' + (HEAD_H - 14) + '" text-anchor="middle">'
+        + tick + "</text>");
+    });
+    metrics.forEach(function (metric, index) {
+      var stats = entry.comparison[metric];
+      var y = HEAD_H + index * ROW_H + ROW_H / 2;
+      if (index % 2 === 1) {
+        svg.push('<rect class="band" x="0" y="' + (HEAD_H + index * ROW_H) + '" width="'
+          + CHART_W + '" height="' + ROW_H + '"/>');
+      }
+      svg.push('<text class="rowlabel" x="' + PAD + '" y="' + (y + 4) + '">'
+        + esc(metricLabel(metric)) + "</text>");
+      svg.push('<text x="' + (PLOT_X0 - 8) + '" y="' + (y + 4) + '" text-anchor="end">'
+        + (stats.direction === "higher" ? "↑ better" : "↓ better") + "</text>");
+      CONDITIONS.forEach(function (condition, slot) {
+        var cell = stats.conditions[condition];
+        if (!cell) {
+          return;
+        }
+        var dy = y + (slot - 1) * 8;
+        var x = px(PLOT_X0 + cell.p * PLOT_W);
+        svg.push('<line class="bar c-' + condition + '" x1="' + px(PLOT_X0 + cell.lo * PLOT_W)
+          + '" y1="' + dy + '" x2="' + px(PLOT_X0 + cell.hi * PLOT_W) + '" y2="' + dy + '"/>');
+        svg.push('<circle class="dot c-' + condition + '" cx="' + x + '" cy="' + dy
+          + '" r="4"><title>' + condition + " " + cell.k + "/" + cell.n
+          + ", 95% interval " + interval(cell) + "</title></circle>");
+        if (condition === "ours") {
+          svg.push('<text class="rowlabel" x="' + (PLOT_X1 + 8) + '" y="' + (dy + 4) + '">'
+            + cell.k + "/" + cell.n + "</text>");
+        }
+      });
+    });
+    svg.push("</svg>");
+    return svg.join("");
+  }
+
+  function legend(n) {
+    var items = CONDITIONS.map(function (condition) {
+      return '<li><span class="swatch c-' + condition + '"></span>' + condition + "</li>";
+    });
+    return '<ul class="legend">' + items.join("")
+      + '<li><span class="nbadge">n = ' + n + " per cell</span></li></ul>";
+  }
+
+  function table(headers, rows) {
+    var head = headers.map(function (title) {
+      return '<th scope="col">' + esc(title) + "</th>";
+    }).join("");
+    var body = rows.map(function (row) {
+      return "<tr>" + row.map(function (cell, index) {
+        return index === 0 ? '<th scope="row">' + cell + "</th>" : "<td>" + cell + "</td>";
+      }).join("") + "</tr>";
+    }).join("");
+    return '<div class="tablewrap"><table><thead><tr>' + head + "</tr></thead><tbody>"
+      + body + "</tbody></table></div>";
+  }
+
+  function headlineTable(entry) {
+    var rows = CONDITIONS.filter(function (condition) {
+      return entry.headline[condition];
+    }).map(function (condition) {
+      var cell = entry.headline[condition];
+      return [
+        esc(condition),
+        cell.pro_up.length ? esc(cell.pro_up.map(metricLabel).join(", ")) : "—",
+        cell.con_up.length ? esc(cell.con_up.map(metricLabel).join(", ")) : "—",
+        cell.acceptance.k + "/" + cell.acceptance.n,
+        String(cell.delivered_runs),
+        cell.cost_ratio === null || cell.cost_ratio === undefined
+          ? "—" : "×" + num(cell.cost_ratio)
+      ];
+    });
+    return table(["Condition", "Advantages up vs none", "Disadvantages up vs none",
+      "Acceptance k/n", "Delivered runs", "Cost ratio vs none"], rows);
+  }
+
+  function comparisonTable(entry) {
+    var rows = Object.keys(entry.comparison).sort().map(function (metric) {
+      var stats = entry.comparison[metric];
+      var row = [esc(metricLabel(metric)),
+        stats.direction === "higher" ? "↑ better" : "↓ better"];
+      CONDITIONS.forEach(function (condition) {
+        var cell = stats.conditions[condition];
+        row.push(cell ? cell.k + "/" + cell.n + " " + interval(cell) : "—");
+      });
+      ["karpathy", "ours"].forEach(function (condition) {
+        var diff = stats.diff_vs_none[condition];
+        row.push(diff ? num(diff.diff) + " " + interval(diff) : "—");
+      });
+      return row;
+    });
+    return table(["Metric", "Direction", "none k/n [95% CI]", "karpathy k/n [95% CI]",
+      "ours k/n [95% CI]", "karpathy − none [95% CI]", "ours − none [95% CI]"], rows);
+  }
+
+  var CONTINUOUS = [["total_cost_usd", "cost (USD)", 4], ["num_turns", "turns", 1],
+    ["duration_ms", "duration (ms)", 0]];
+
+  function continuousTable(entry) {
+    var rows = CONTINUOUS.map(function (spec) {
+      var row = [esc(spec[1]), "↓ better"];
+      CONDITIONS.forEach(function (condition) {
+        var cell = entry.cells[condition];
+        var median = cell && cell.medians ? cell.medians[spec[0]] : undefined;
+        var text = median === undefined ? "—" : num(median, spec[2]);
+        var ratios = entry.cost_ratio_vs_none[condition];
+        if (ratios && ratios[spec[0]] && ratios[spec[0]].ratio !== null) {
+          text += " (×" + num(ratios[spec[0]].ratio) + ")";
+        }
+        row.push(text);
+      });
+      return row;
+    });
+    return table(["Metric", "Direction", "none median", "karpathy median (ratio)",
+      "ours median (ratio)"], rows);
+  }
+
+  function renderExperiment(data) {
+    var tasks = Object.keys(data.by_task).sort();
+    if (!tasks.length) {
+      return "";
+    }
+    var out = ['<p class="footnote">Data generated ' + esc(data.generated_utc)
+      + '. Every interval is computed in <code>scripts/experiment.py</code> and read from the '
+      + "committed JSON; nothing on this page recomputes one.</p>"];
+    tasks.forEach(function (task) {
+      var entry = data.by_task[task];
+      out.push('<div class="stack-l"><h3>' + esc(task) + "</h3>");
+      out.push(headlineTable(entry));
+      out.push(comparisonTable(entry));
+      out.push(legend(cellsN(entry)));
+      out.push(dotPlot(task, entry));
+      out.push("<h4>Cost, turns and duration</h4>");
+      out.push(continuousTable(entry));
+      out.push("</div>");
+    });
+    return out.join("");
+  }
+
+  function setUpExperiment() {
+    var holder = el("experiment-body");
+    if (!holder) {
+      return;
+    }
+    getJSON("data/experiment.json").then(function (data) {
+      var html = data && data.by_task ? renderExperiment(data) : "";
+      if (html) {
+        holder.innerHTML = html;
+      }
+    }, function () {
+      // The file is not published yet: the pre-registration sentence already in the page stands.
+    });
+  }
+
+  // ------------------------------------------------------------------ start
+
+  function start() {
+    setUpCopy();
+    getJSON("criteria.json").then(null, function () {
+      return embeddedCriteria();
+    }).then(function (loaded) {
+      criteria = loaded || embeddedCriteria();
+      if (!criteria) {
+        return;
+      }
+      setUpTable();
+      setUpCheck();
+      return getJSON("data/comparison.json").then(function (data) {
+        comparison = data;
+      }, function () {
+        // Without the data file there are no evidence lines to open, so the row buttons go
+        // away rather than sitting there doing nothing.
+        comparison = null;
+        Array.prototype.forEach.call(document.querySelectorAll("button.expand"), function (b) {
+          b.hidden = true;
+        });
+      });
+    });
+    setUpExperiment();
+  }
+
+  // Exported so tests/test_docs.py can render the experiment section in Node against a
+  // recorded run file, where there is no document to attach it to.
+  lab.renderExperiment = renderExperiment;
+
+  if (typeof document === "undefined") {
+    return;
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})(typeof globalThis !== "undefined" ? globalThis : this);

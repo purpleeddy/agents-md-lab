@@ -4,8 +4,8 @@ title: Rationale
 
 # Why each rule in `AGENTS.md` exists
 
-Draft. One row per rule of the root `AGENTS.md` (v1.0), in file order. Columns: the rule in one
-line, the sources it rests on (footnote keys defined in [references.md](references.md)), why it is
+One row per rule of the root `AGENTS.md` (v1.0), in file order. Columns: the rule in one
+line, the sources it rests on (citation keys defined in [references.md](references.html)), why it is
 there, and what changed from v0 — the 48-line file used as the `ours` condition in the pilot
 (commit `d957ac2`) — and why. A rule marked **hook** is enforceable by a hook (example in
 `.claude/settings.example.json`); a hook can only see the tool call, so the prose is what carries
@@ -122,7 +122,7 @@ Filled for this repository, per the v0 template.
 ## What the check says about this file
 
 `python3 scripts/compare.py --file AGENTS.md` reports coverage 10/10, and the way it got there
-matters more than the number. At commit `66adec0` the file scored 9/10: `done_verification` matched
+matters more than the number. At commit `66adec0` the file met 9 of 10: `done_verification` matched
 neither of the two sentences that state the completion condition — "Never claim a task is done
 unless every check in 'Done' ran and passed" (Boundaries) and "A task is complete only when the
 checks below ran and passed" (Done) — because the frozen pattern recognises a completion condition
