@@ -625,7 +625,7 @@ def verdict_cell(verdict):
     in the stacked view only, from the rules in the `labels` block."""
     state = "met" if verdict["pass"] else "unmet"
     word = "met" if verdict["pass"] else "not met"
-    return '<td class="v %s">%s</td>' % (state, word)
+    return '<td class="v %s"><span class="pill">%s</span></td>' % (state, word)
 
 
 def criterion_popover(index, criterion):

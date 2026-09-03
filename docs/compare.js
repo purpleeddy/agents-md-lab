@@ -226,35 +226,6 @@
     });
   }
 
-  // The one request to another host: GitHub's repository endpoint, read only. Starring needs a
-  // signed-in session, so the button is a link and the count a courtesy.
-  var STARS_URL = "https://api.github.com/repos/purpleeddy/agents-md-lab";
-
-  function setUpStar() {
-    var count = el("star-count");
-    if (!count) {
-      return;
-    }
-    function read() {
-      getJSON(STARS_URL).then(function (repo) {
-        if (typeof repo.stargazers_count !== "number") {
-          return;
-        }
-        var stars = repo.stargazers_count + "";
-        if (count.textContent && count.textContent !== stars) {
-          count.classList.add("bumped");
-          setTimeout(function () { count.classList.remove("bumped"); }, 200);
-        }
-        count.textContent = stars;
-      }, function () { /* offline or rate limited */ });
-    }
-    read();
-    // GitHub needs a moment to count a new star.
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden) { setTimeout(read, 2000); }
-    });
-  }
-
   // ------------------------------------------------------------------ compare table
 
   function bodyRows(table) {
@@ -374,7 +345,10 @@
       var verdict = record.criteria[criterion.id];
       var cell = document.createElement("td");
       cell.className = "v " + (verdict.pass ? "met" : "unmet");
-      cell.textContent = verdict.pass ? "met" : "not met";
+      var pill = document.createElement("span");
+      pill.className = "pill";
+      pill.textContent = verdict.pass ? "met" : "not met";
+      cell.appendChild(pill);
       row.appendChild(cell);
     });
     var total = document.createElement("td");
@@ -446,7 +420,9 @@
     var rows = files.map(function (record) {
       var row = ['<a href="' + esc(record.url_view) + '">' + esc(record.repo) + "</a>"];
       ids.forEach(function (id) {
-        row.push(record.criteria_content[id].pass ? "met" : "not met");
+        var pass = record.criteria_content[id].pass;
+        row.push('<span class="v ' + (pass ? "met" : "unmet") + '"><span class="pill">'
+          + (pass ? "met" : "not met") + "</span></span>");
       });
       row.push(record.met_content + "/" + record.of_content);
       return row;
@@ -746,7 +722,6 @@
 
   function start() {
     setUpCopy();
-    setUpStar();
     getJSON("criteria.json").then(null, function () {
       return embeddedCriteria();
     }).then(function (loaded) {

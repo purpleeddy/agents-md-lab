@@ -114,8 +114,12 @@ th.c-crit { min-width:96px; white-space:normal; }
 th.c-crit .cn { display:block; font-family:var(--mono); color:var(--ink); text-transform:none; letter-spacing:0; }
 th.c-crit .cl { display:block; text-transform:none; letter-spacing:0; font-size:12px; }
 td.v { white-space:nowrap; font-size:12px; }
-td.v.met { color:var(--met); } td.v.unmet { color:var(--unmet); }
-td.v.met::before { content:"\2713\00a0"; } td.v.unmet::before { content:"\2717\00a0"; }
+/* The verdict reads as a pill: filled for met, outlined for not met. The mark is drawn by CSS,
+   so a screen reader hears the word only. */
+.v .pill { display:inline-block; border-radius:999px; padding:1px var(--s2); border:1px solid transparent; }
+.v.met .pill { color:var(--met); background:color-mix(in srgb, var(--met) 14%, transparent); }
+.v.unmet .pill { color:var(--unmet); border-color:var(--rule); }
+.v.met .pill::before { content:"\2713\00a0"; } .v.unmet .pill::before { content:"\2717\00a0"; }
 .badge { font-size:12px; border:1px solid var(--rule); border-radius:999px; padding:0 var(--s2); }
 .cov { display:block; font-family:var(--mono); font-size:11px; font-weight:400; color:var(--muted); }
 .rowlinks { display:block; font-family:var(--mono); font-size:11px; }
@@ -220,7 +224,7 @@ h1 { font-size:30px; } h2 { font-size:25px; } h3 { font-size:20px; }
 #compare-table th.c-file { position:static; min-width:0; border-bottom:0; box-shadow:none; }
 #compare-table td { border-bottom:0; display:flex; justify-content:space-between; gap:var(--s3); padding:2px var(--s3); text-align:right; }
 #compare-table td::after { color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; order:-1; }
-#compare-table td.v::before { margin-left:auto; }
+#compare-table td.v .pill { margin-left:auto; }
 }
 @media (prefers-reduced-motion: reduce) {
 * { animation:none !important; transition:none !important; }

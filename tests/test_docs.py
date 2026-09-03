@@ -20,6 +20,7 @@ DOCS = REPO_ROOT / "docs"
 INDEX = DOCS / "index.html"
 COMPARE_JS = DOCS / "compare.js"
 SITE_CSS = DOCS / "site.css"
+STAR_JS = DOCS / "star.js"
 LAYOUT = DOCS / "_layouts" / "default.html"
 REFERENCES = DOCS / "references.md"
 README = REPO_ROOT / "README.md"
@@ -29,13 +30,15 @@ NODE = shutil.which("node")
 INDEX_MAX_BYTES = 60 * 1024
 COMPARE_JS_MAX_BYTES = 28 * 1024
 SITE_CSS_MAX_BYTES = 22 * 1024
+STAR_JS_MAX_BYTES = 3 * 1024
 
 # Hosts the page is allowed to link to. Everything else must be a relative path or a fragment:
 # the page loads no font, script, style or image from anywhere but itself.
 ALLOWED_HOSTS = ("https://github.com/", "https://raw.githubusercontent.com/")
 
 # The one request the page makes to another host, and the only place it may be written: the
-# star count is read from GitHub's API in docs/compare.js.
+# star count is read from GitHub's API in docs/star.js, which is the only file that talks to
+# another host.
 STARS_URL = "https://api.github.com/repos/purpleeddy/agents-md-lab"
 STAR_LINK = (
     '<a class="star" href="https://github.com/purpleeddy/agents-md-lab" target="_blank" '
@@ -232,15 +235,24 @@ class PageTest(unittest.TestCase):
         self.assertLessEqual(INDEX.stat().st_size, INDEX_MAX_BYTES)
         self.assertLessEqual(COMPARE_JS.stat().st_size, COMPARE_JS_MAX_BYTES)
         self.assertLessEqual(SITE_CSS.stat().st_size, SITE_CSS_MAX_BYTES)
+        self.assertLessEqual(STAR_JS.stat().st_size, STAR_JS_MAX_BYTES)
 
     def test_every_page_carries_the_star_link(self):
         for text in (self.html, LAYOUT.read_text(encoding="utf-8")):
             self.assertIn(STAR_LINK, text)
 
     def test_the_star_count_is_the_only_request_to_another_host(self):
-        script = COMPARE_JS.read_text(encoding="utf-8")
-        self.assertIn(STARS_URL, script)
-        self.assertEqual(re.findall(r"https?://[^\"'\s]+", script), [STARS_URL])
+        star = STAR_JS.read_text(encoding="utf-8")
+        self.assertIn(STARS_URL, star)
+        self.assertEqual(re.findall(r"https?://[^\"'\s]+", star), [STARS_URL])
+        self.assertEqual(re.findall(r"https?://", COMPARE_JS.read_text(encoding="utf-8")), [])
+        for text in (self.html, LAYOUT.read_text(encoding="utf-8")):
+            self.assertIn('<script src="star.js"></script>', text)
+
+    def test_the_verdicts_are_pills(self):
+        self.assertIn('<td class="v met"><span class="pill">met</span></td>', self.html)
+        self.assertIn('<td class="v unmet"><span class="pill">not met</span></td>', self.html)
+        self.assertIn(".pill", SITE_CSS.read_text(encoding="utf-8"))
 
     def test_the_pages_share_one_stylesheet(self):
         # The front page and the Markdown pages are styled by the same file, so the two cannot
