@@ -15,6 +15,7 @@ color-scheme: dark; --ground:#0F1519; --surface:#161E24; --ink:#E6ECF0; --muted:
 :root[data-theme="dark"] {
 color-scheme: dark; --ground:#0F1519; --surface:#161E24; --ink:#E6ECF0; --muted:#9AA8B3; --rule:#2A3640; --accent:#4FC3C8; --accent-soft:#123A3D; --met:#5BC58A; --unmet:#E0706A; --cond-none:#3987e5; --cond-karpathy:#d95926; --cond-ours:#199e70; }
 * { box-sizing:border-box; }
+[hidden] { display:none !important; }
 body { margin:0; background:var(--ground); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.55; -webkit-text-size-adjust:100%; }
 h1,h2,h3 { font-weight:600; letter-spacing:-0.01em; line-height:1.2; margin:0; }
 h1 { font-size:39px; } h2 { font-size:31px; } h3 { font-size:25px; }
@@ -83,7 +84,8 @@ tr.pinned th.c-file, tr.pinned td { background:var(--accent-soft); }
 .evidence ul { list-style:none; padding:0; display:flex; flex-direction:column; gap:var(--s1); }
 .evidence .ln { font-family:var(--mono); color:var(--accent); }
 .info { font:inherit; background:transparent; border:0; color:var(--accent); cursor:pointer; padding:0; }
-.pop { max-width:32ch; border:1px solid var(--rule); border-radius:6px; background:var(--surface); color:var(--ink); padding:var(--s3); font-size:13px; line-height:1.5; text-transform:none; letter-spacing:0; font-weight:400; }
+.pop { display:none; max-width:32ch; border:1px solid var(--rule); border-radius:6px; background:var(--surface); color:var(--ink); padding:var(--s3); font-size:13px; line-height:1.5; text-transform:none; letter-spacing:0; font-weight:400; }
+.pop:popover-open { display:block; }
 .pop p { margin:0 0 var(--s2); } .pop p:last-child { margin:0; }
 .pop-q { font-weight:600; } .pop-src { font-family:var(--mono); font-size:12px; }
 .footnote { font-size:13px; color:var(--muted); }
@@ -138,7 +140,12 @@ h1 { font-size:31px; } h2 { font-size:25px; } h3 { font-size:20px; }
 #compare-table tr { border-bottom:1px solid var(--rule); padding:var(--s3) 0; }
 #compare-table th.c-file { position:static; min-width:0; border-bottom:0; }
 #compare-table td { border-bottom:0; display:flex; justify-content:space-between; gap:var(--s3); padding:2px var(--s3); text-align:right; }
-#compare-table td::before { content:attr(data-label); color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; }
+#compare-table td::after { content:attr(data-label); color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; order:-1; }
+#compare-table td:nth-of-type(1)::after { content:"Type"; }
+#compare-table td:nth-of-type(2)::after { content:"Stars"; }
+#compare-table td:nth-of-type(3)::after { content:"Lines"; }
+#compare-table td:nth-of-type(4)::after { content:"License"; }
+#compare-table td.v::before { margin-left:auto; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
 </style>
@@ -251,10 +258,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <tbody>
 <tr data-key="agentsmd-sample" data-type="AGENTS.md" data-stars="24084" data-lines="43" data-met="4" data-c="1100000011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="agentsmd-sample" aria-expanded="false" aria-label="Evidence lines for openai/agents.md">+</button><a href="https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md">openai/agents.md</a><span class="rowlinks"><a href="https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/openai/agents.md/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md">raw</a> <a href="https://github.com/openai/agents.md/blob/HEAD/AGENTS.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">AGENTS.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">24,084</span></td>
-<td class="num" data-label="Lines">43</td>
-<td data-label="License">MIT</td>
+<td><span class="badge">AGENTS.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">24,084</span></td>
+<td class="num">43</td>
+<td>MIT</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -269,10 +276,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="anthropic-cca" data-type="CLAUDE.md" data-stars="8780" data-lines="44" data-met="3" data-c="1100000010">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="anthropic-cca" aria-expanded="false" aria-label="Evidence lines for anthropics/claude-code-action">+</button><a href="https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md">anthropics/claude-code-action</a><span class="rowlinks"><a href="https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/anthropics/claude-code-action/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md">raw</a> <a href="https://github.com/anthropics/claude-code-action/blob/HEAD/CLAUDE.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">CLAUDE.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">8,780</span></td>
-<td class="num" data-label="Lines">44</td>
-<td data-label="License">MIT</td>
+<td><span class="badge">CLAUDE.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">8,780</span></td>
+<td class="num">44</td>
+<td>MIT</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -287,10 +294,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="sentry" data-type="AGENTS.md" data-stars="44713" data-lines="137" data-met="5" data-c="1100000111">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="sentry" aria-expanded="false" aria-label="Evidence lines for getsentry/sentry">+</button><a href="https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md">getsentry/sentry</a><span class="rowlinks"><a href="https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/getsentry/sentry/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md">raw</a> <a href="https://github.com/getsentry/sentry/blob/HEAD/AGENTS.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">AGENTS.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">44,713</span></td>
-<td class="num" data-label="Lines">137</td>
-<td data-label="License">FSL-1.1-ALv2</td>
+<td><span class="badge">AGENTS.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">44,713</span></td>
+<td class="num">137</td>
+<td>FSL-1.1-ALv2</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -305,10 +312,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="ghostty" data-type="AGENTS.md" data-stars="60621" data-lines="39" data-met="4" data-c="1100000011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="ghostty" aria-expanded="false" aria-label="Evidence lines for ghostty-org/ghostty">+</button><a href="https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md">ghostty-org/ghostty</a><span class="rowlinks"><a href="https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/ghostty-org/ghostty/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md">raw</a> <a href="https://github.com/ghostty-org/ghostty/blob/HEAD/AGENTS.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">AGENTS.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">60,621</span></td>
-<td class="num" data-label="Lines">39</td>
-<td data-label="License">MIT</td>
+<td><span class="badge">AGENTS.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">60,621</span></td>
+<td class="num">39</td>
+<td>MIT</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -323,10 +330,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="temporal" data-type="AGENTS.md" data-stars="22796" data-lines="105" data-met="6" data-c="1110001011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="temporal" aria-expanded="false" aria-label="Evidence lines for temporalio/temporal">+</button><a href="https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md">temporalio/temporal</a><span class="rowlinks"><a href="https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/temporalio/temporal/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md">raw</a> <a href="https://github.com/temporalio/temporal/blob/HEAD/AGENTS.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">AGENTS.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">22,796</span></td>
-<td class="num" data-label="Lines">105</td>
-<td data-label="License">MIT</td>
+<td><span class="badge">AGENTS.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">22,796</span></td>
+<td class="num">105</td>
+<td>MIT</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v met" data-label="Verification before done">met</td>
@@ -341,10 +348,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="karpathy-multica" data-type="CLAUDE.md" data-stars="209716" data-lines="65" data-met="5" data-c="1010001011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="karpathy-multica" aria-expanded="false" aria-label="Evidence lines for multica-ai/andrej-karpathy-skills">+</button><a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md">multica-ai/andrej-karpathy-skills</a><span class="rowlinks"><a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/multica-ai/andrej-karpathy-skills/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md">raw</a> <a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/HEAD/CLAUDE.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">CLAUDE.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">209,716</span></td>
-<td class="num" data-label="Lines">65</td>
-<td data-label="License">NONE</td>
+<td><span class="badge">CLAUDE.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">209,716</span></td>
+<td class="num">65</td>
+<td>NONE</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v unmet" data-label="Runnable commands">not met</td>
 <td class="v met" data-label="Verification before done">met</td>
@@ -359,10 +366,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="humanlayer" data-type="CLAUDE.md" data-stars="11369" data-lines="88" data-met="4" data-c="1100000110">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="humanlayer" aria-expanded="false" aria-label="Evidence lines for humanlayer/humanlayer">+</button><a href="https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md">humanlayer/humanlayer</a><span class="rowlinks"><a href="https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/humanlayer/humanlayer/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md">raw</a> <a href="https://github.com/humanlayer/humanlayer/blob/HEAD/CLAUDE.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">CLAUDE.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">11,369</span></td>
-<td class="num" data-label="Lines">88</td>
-<td data-label="License">Apache-2.0</td>
+<td><span class="badge">CLAUDE.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">11,369</span></td>
+<td class="num">88</td>
+<td>Apache-2.0</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -377,10 +384,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="omarchy" data-type="AGENTS.md" data-stars="37413" data-lines="133" data-met="5" data-c="1000001111">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="omarchy" aria-expanded="false" aria-label="Evidence lines for omacom/omarchy">+</button><a href="https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md">omacom/omarchy</a><span class="rowlinks"><a href="https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/omacom/omarchy/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md">raw</a> <a href="https://github.com/omacom/omarchy/blob/HEAD/AGENTS.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">AGENTS.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">37,413</span></td>
-<td class="num" data-label="Lines">133</td>
-<td data-label="License">MIT</td>
+<td><span class="badge">AGENTS.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">37,413</span></td>
+<td class="num">133</td>
+<td>MIT</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v unmet" data-label="Runnable commands">not met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -395,10 +402,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="superpowers" data-type="CLAUDE.md" data-stars="280911" data-lines="115" data-met="4" data-c="1100000110">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="superpowers" aria-expanded="false" aria-label="Evidence lines for obra/superpowers">+</button><a href="https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md">obra/superpowers</a><span class="rowlinks"><a href="https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/obra/superpowers/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md">raw</a> <a href="https://github.com/obra/superpowers/blob/HEAD/CLAUDE.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">CLAUDE.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">280,911</span></td>
-<td class="num" data-label="Lines">115</td>
-<td data-label="License">MIT</td>
+<td><span class="badge">CLAUDE.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">280,911</span></td>
+<td class="num">115</td>
+<td>MIT</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -413,10 +420,10 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 </tr>
 <tr data-key="graphiti" data-type="CLAUDE.md" data-stars="30537" data-lines="181" data-met="4" data-c="1100000110">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="graphiti" aria-expanded="false" aria-label="Evidence lines for getzep/graphiti">+</button><a href="https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md">getzep/graphiti</a><span class="rowlinks"><a href="https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/getzep/graphiti/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md">raw</a> <a href="https://github.com/getzep/graphiti/blob/HEAD/CLAUDE.md">latest</a></span></th>
-<td data-label="Type"><span class="badge">CLAUDE.md</span></td>
-<td class="num" data-label="Stars"><span title="stars on 2026-09-03">30,537</span></td>
-<td class="num" data-label="Lines">181</td>
-<td data-label="License">Apache-2.0</td>
+<td><span class="badge">CLAUDE.md</span></td>
+<td class="num"><span title="stars on 2026-09-03">30,537</span></td>
+<td class="num">181</td>
+<td>Apache-2.0</td>
 <td class="v met" data-label="Length">met</td>
 <td class="v met" data-label="Runnable commands">met</td>
 <td class="v unmet" data-label="Verification before done">not met</td>
@@ -478,7 +485,7 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
       <p class="eyebrow">Experiment</p>
       <h2>What an instruction file changes</h2>
       <p>Three tasks (greenfield, brownfield, a one-line fix), three conditions (<code>none</code>, <code>karpathy</code>, <code>ours</code>), n = 10 runs per cell, model Opus 5. The tasks, the metrics and their directions were pre-registered and locked before any run.</p>
-      <p>The pre-registration is <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">locked at tag testset-v1.0</a>. Which file each condition wrote, and its hash, is recorded in the Main run section there.</p>
+      <p>The pre-registration is <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">locked at tag testset-v1.0</a>. Which file each condition wrote, and its hash, is recorded in the <a href="https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run">Main run section</a>, which is written after the tag and says so.</p>
     </div>
     <div id="experiment-body" class="stack-l">
       <p>Planned; the pre-registration is locked at tag <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">testset-v1.0</a>.</p>
@@ -555,7 +562,9 @@ python3 scripts/experiment.py run --task task1 --conditions none karpathy ours -
 <footer>
   <div class="wrap prose">
     <p>Method: ten published instruction files, pinned by commit, evaluated line by line against ten criteria taken from vendor documentation, practitioner guides and three studies; then a pre-registered experiment of three tasks by three conditions.</p>
-    <p id="footer-dates">Corpus pinned by commit. Star counts and criteria verdicts come from <code>docs/data/comparison.json</code>.</p>
+<!-- dates:start -->
+<p>Star counts read 2026-09-03. Corpus data generated 2026-09-03T05:22:01Z. Corpus pinned by commit; the experiment section carries its own generated date.</p>
+<!-- dates:end -->
     <p>MIT. Not affiliated with the AGENTS.md specification or with the Agentic AI Foundation. <a href="https://github.com/purpleeddy/agents-md-lab">Repository</a>.</p>
   </div>
 </footer>

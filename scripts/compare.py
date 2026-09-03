@@ -544,13 +544,16 @@ def render_comparison_html(data, criteria):
                 esc(record["url_latest"]),
             )
         )
-        out.append('<td data-label="Type"><span class="badge">%s</span></td>' % esc(record["type"]))
+        # The four fixed columns are labelled by the stylesheet in the stacked mobile view:
+        # their names are the table's own structure, not data, and repeating them on every row
+        # costs most of a kilobyte.
+        out.append('<td><span class="badge">%s</span></td>' % esc(record["type"]))
         out.append(
-            '<td class="num" data-label="Stars"><span title="stars on %s">%s</span></td>'
+            '<td class="num"><span title="stars on %s">%s</span></td>'
             % (esc(record["stars_at"]), "{:,}".format(record["stars"]))
         )
-        out.append('<td class="num" data-label="Lines">%d</td>' % record["lines"])
-        out.append('<td data-label="License">%s</td>' % esc(record["license"]))
+        out.append('<td class="num">%d</td>' % record["lines"])
+        out.append("<td>%s</td>" % esc(record["license"]))
         for criterion in criteria_list:
             out.append(verdict_cell(record["criteria"][criterion["id"]], criterion["name"]))
         out.append(
@@ -614,6 +617,18 @@ SIBLING_QUERY = (
 
 def met_count(data, criterion_id):
     return sum(1 for r in data["files"] if r["criteria"][criterion_id]["pass"])
+
+
+def render_dates_html(data):
+    """The dates in the footer. The experiment's own generated date is printed by the
+    experiment section, which is the only place that reads experiment.json."""
+    stars = sorted({record["stars_at"] for record in data["files"]})
+    span = stars[0] if len(stars) == 1 else "%s to %s" % (stars[0], stars[-1])
+    return (
+        "<p>Star counts read %s. Corpus data generated %s. Corpus pinned by commit; the "
+        "experiment section carries its own generated date.</p>"
+        % (esc(span), esc(data["generated_utc"]))
+    )
 
 
 def render_claims_html(data, criteria):
@@ -734,6 +749,7 @@ def rendered_outputs():
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
         page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
         page = replace_block(page, "claims", render_claims_html(data, criteria), INDEX_HTML)
+        page = replace_block(page, "dates", render_dates_html(data), INDEX_HTML)
         outputs[INDEX_HTML] = page
     if METHODOLOGY_MD.exists():
         page = METHODOLOGY_MD.read_text(encoding="utf-8")

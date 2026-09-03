@@ -329,12 +329,12 @@
     head.className = "c-file";
     head.textContent = label;
     row.appendChild(head);
+    // The four fixed columns take their stacked-view label from the stylesheet, like the
+    // rows the renderer writes.
     var cells = [record.type || "—", "—", String(record.lines), record.license || "—"];
-    var labels = ["Type", "Stars", "Lines", "License"];
     cells.forEach(function (value, index) {
       var cell = document.createElement("td");
       cell.textContent = value;
-      cell.dataset.label = labels[index];
       if (index === 1 || index === 2) {
         cell.className = "num";
       }

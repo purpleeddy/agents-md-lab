@@ -4,6 +4,15 @@ description: >-
   with a pre-registered experiment on what an instruction file changes.
 theme: minima
 markdown: kramdown
+# A page gets a layout only when something names one; `theme:` alone does not. Without this
+# every Markdown page would publish as a bare HTML fragment. index.html has no front matter,
+# so `type: pages` leaves it alone.
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
 kramdown:
   footnote_nr: 1
 exclude:

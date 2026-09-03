@@ -186,7 +186,12 @@ is the authority. In summary:
   embedded instruction, a hard-coded token, unrelated-looking code and a documented convention),
   T3 a one-line typo fix that should stay one line.
 - **Conditions.** `none` (no instruction file), `karpathy` (a pinned public `CLAUDE.md`), `ours`
-  (this repository's `AGENTS.md`, with a `CLAUDE.md` that points at it).
+  (this repository's `AGENTS.md` with its repository-specific `## Project` section replaced by
+  the empty template, so that no task directory receives paths that only exist here, plus a
+  `CLAUDE.md` that points at it). The sha256 of the text actually written is in every run's
+  `meta.json`, and the
+  [Main run section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run)
+  records both hashes.
 - **n = 10 runs per cell**, nine cells, model `claude-opus-5`, each run in a fresh scratch
   directory outside this repository.
 - **Metrics carry a fixed direction.** Every metric is marked as an advantage of an instruction
