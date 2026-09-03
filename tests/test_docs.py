@@ -334,6 +334,19 @@ class PageTest(unittest.TestCase):
         digest = hashlib.sha256(generic.encode("utf-8")).hexdigest()
         self.assertIn("offered file sha256 " + digest, self.html)
 
+    def test_the_hero_card_states_the_file_on_one_line_and_the_caveat_on_another(self):
+        # The numbers are the offered file's; the sentence next to them says why they read as
+        # they do. The three hashes stay in the title attribute, which the test above checks.
+        self.assertRegex(
+            self.html,
+            r'<p class="filemeta" title="[^"]+">v[\d.]+ \u00b7 MIT \u00b7 \d+ lines '
+            r'\u00b7 Rule criteria \d+/\d+ \u00b7 Content criteria \d+/\d+</p>',
+        )
+        self.assertIn(
+            '<p class="filenote">Written to the rule criteria, so meeting them is expected.',
+            self.html,
+        )
+
     def test_the_check_panel_carries_the_privacy_line(self):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)
 

@@ -92,7 +92,9 @@ section { padding:var(--s6) 0; border-top:1px solid var(--rule); }
 .filecard { background:var(--surface); border:1px solid var(--rule); border-radius:12px; display:flex; flex-direction:column; overflow:hidden; }
 .filecard .eyebrow { background:var(--surface-2); border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); }
 .preview { font-family:var(--mono); font-size:12.5px; line-height:1.55; margin:0; overflow-x:auto; white-space:pre; background:var(--surface); padding:var(--s3); max-height:340px; }
-.filemeta { font-family:var(--mono); font-size:12px; color:var(--muted); border-top:1px solid var(--rule); padding:var(--s2) var(--s3); }
+/* 11.5px is what keeps the whole line on one row in the two-column hero at 1280px. */
+.filemeta { font-family:var(--mono); font-size:11.5px; color:var(--ink); border-top:1px solid var(--rule); padding:var(--s2) var(--s3) 0; }
+.filenote { font-size:14px; color:var(--muted); padding:var(--s1) var(--s3) var(--s2); }
 .controls { display:flex; flex-wrap:wrap; gap:var(--s2); align-items:center; }
 .filecard .controls { border-top:1px solid var(--rule); background:var(--surface-2); padding:var(--s3); }
 .filecard .privacy { padding:0 var(--s3) var(--s3); }

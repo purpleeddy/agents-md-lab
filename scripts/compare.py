@@ -746,11 +746,11 @@ def render_preview_html(data, criteria, content):
     return (
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
         '<p class="filemeta" title="root sha256 %s, generic sha256 %s, offered file sha256 %s">'
-        'MIT. v%s. %d lines. '
-        "Rule criteria %d/%d \u00b7 Content criteria %d/%d (written to these criteria, so the "
-        "number is expected by construction; this file points at the rationale page by URL, "
-        "which the pointer criterion does not count, and the Project section you fill adds the "
-        "commands).</p>"
+        "v%s \u00b7 MIT \u00b7 %d lines \u00b7 Rule criteria %d/%d \u00b7 Content criteria "
+        "%d/%d</p>\n"
+        '<p class="filenote">Written to the rule criteria, so meeting them is expected. The '
+        "served file points at this site's rationale by URL, which the pointer check does not "
+        "count; the Project section you fill adds the rest.</p>"
         % (
             PREVIEW_LINES,
             esc("\n".join(lines)),
