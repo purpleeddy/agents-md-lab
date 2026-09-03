@@ -14,9 +14,8 @@
 # `python3 scripts/compare.py --refresh` into docs/data/comparison.json.
 #
 # Notes on resolution (2026-09-03):
-# - basecamp/omarchy now redirects to omacom/omarchy; the repository name here is the one the
-#   file is commonly cited under, and both raw.githubusercontent.com and api.github.com follow
-#   the redirect to the same commit.
+# - omacom/omarchy is the repository's current name; it is still widely cited as basecamp/omarchy,
+#   which redirects to it, so the former name is recorded in `formerly`.
 # - trailofbits was considered for [[excluded]] and dropped: trailofbits/claude-code-config has
 #   no AGENTS.md or CLAUDE.md at its root, and its `claude-md-template.md` is a template of 107
 #   lines, so the "over 200 lines" reason would not hold.
@@ -87,7 +86,8 @@ why = "The root file of the team that published 'Writing a good CLAUDE.md', so p
 
 [[files]]
 key = "omarchy"
-repo = "basecamp/omarchy"
+repo = "omacom/omarchy"
+formerly = "basecamp/omarchy"
 path = "AGENTS.md"
 commit = "1c8f728b25cb8a42f1d02e4d2441230132cedb6c"
 license = "MIT"

@@ -64,6 +64,26 @@ SNIPPETS = {
 }
 
 
+# Snippets added when the criteria were calibrated on the corpus on 2026-09-03. Each pair is one
+# behaviour that changed: the text that should now match, and the text that should not.
+CALIBRATION = {
+    "commands-bare-line": "make test-all\n",
+    "commands-prompt-line": "$ pytest -q\n",
+    "commands-not-a-runner": "omarchy-refresh-config hypr/hyprland.lua\n",
+    "done-command-table": "| `npm run lint` | Run ESLint checks. |\n",
+    "done-bun-comment": "bun test                # Run tests\n",
+    "done-approval-not-verification": "Show your partner the diff and get approval before submitting.\n",
+    "done-after-every-change": "Run tests after altering code or tests.\n",
+    "done-must-pass": "The lint job must pass before the branch is merged.\n",
+    "secrets-env-call": 'Use `Quickshell.env("OMARCHY_PATH")`; do not derive fallback paths.\n',
+    "secrets-env-file": "Never commit a .env file or the keys it holds.\n",
+    "pointer-capitalised-verb": "Consult `docs/` for user-facing documentation.\n",
+    "pointer-bare-nested-path": "- **Backend** (`src/**/*.py`) -> `src/AGENTS.md` (backend patterns)\n",
+    "pointer-verb-established-in": "Follow the patterns established in `mcp_server/cursor_rules.md`.\n",
+    "pointer-none": "Everything an agent needs is written out in this file.\n",
+}
+
+
 def criteria():
     return compare.load_criteria()
 
@@ -84,6 +104,8 @@ def parity_cases():
         cases.append((criterion_id + "-fail", failing))
     for criterion in criteria()["criteria"]:
         cases.append(("example-" + criterion["id"], criterion["example"] + "\n"))
+    for name, text in sorted(CALIBRATION.items()):
+        cases.append(("calibration-" + name, text))
     cases.append(("empty", ""))
     cases.append(("crlf", "IMPORTANT: run `npm test`\r\nSee docs/guide.md\r\n"))
     return cases
@@ -190,6 +212,42 @@ class EngineTest(unittest.TestCase):
         for verdict in verdicts.values():
             for item in verdict["evidence"]:
                 self.assertEqual(set(item), {"line"})
+
+
+class CalibrationTest(unittest.TestCase):
+    """The behaviours that changed when the criteria were calibrated on the corpus."""
+
+    def verdict(self, name, criterion_id):
+        return compare.evaluate(CALIBRATION[name], "AGENTS.md", criteria())[criterion_id]["pass"]
+
+    def test_commands_reads_a_line_that_is_itself_a_command(self):
+        self.assertTrue(self.verdict("commands-bare-line", "commands"))
+        self.assertTrue(self.verdict("commands-prompt-line", "commands"))
+        self.assertFalse(self.verdict("commands-not-a-runner", "commands"))
+
+    def test_done_verification_ignores_a_command_table(self):
+        self.assertFalse(self.verdict("done-command-table", "done_verification"))
+        self.assertFalse(self.verdict("done-bun-comment", "done_verification"))
+        self.assertTrue(self.verdict("done-after-every-change", "done_verification"))
+        self.assertTrue(self.verdict("done-must-pass", "done_verification"))
+
+    def test_done_verification_ignores_approval_before_submitting(self):
+        self.assertFalse(self.verdict("done-approval-not-verification", "done_verification"))
+
+    def test_secrets_ignores_an_env_method_call(self):
+        self.assertFalse(self.verdict("secrets-env-call", "secrets"))
+        self.assertTrue(self.verdict("secrets-env-file", "secrets"))
+
+    def test_pointer_reads_capitalised_verbs_and_bare_paths(self):
+        self.assertTrue(self.verdict("pointer-capitalised-verb", "pointer_not_copy"))
+        self.assertTrue(self.verdict("pointer-bare-nested-path", "pointer_not_copy"))
+        self.assertTrue(self.verdict("pointer-verb-established-in", "pointer_not_copy"))
+        self.assertFalse(self.verdict("pointer-none", "pointer_not_copy"))
+
+    def test_every_calibrated_criterion_records_a_note(self):
+        for criterion_id in ("commands", "done_verification", "secrets", "pointer_not_copy",
+                             "destructive_guard", "emphasis_restraint"):
+            self.assertTrue(criterion_by_id(criterion_id)["notes"], criterion_id)
 
 
 @unittest.skipIf(NODE is None, "node is not on PATH; the parity check needs it")

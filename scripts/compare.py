@@ -253,6 +253,7 @@ def refresh_file(entry, criteria, today):
         "commit": commit,
         "license": entry["license"],
         "license_note": entry.get("license_note", ""),
+        "formerly": entry.get("formerly", ""),
         "why": entry["why"],
         "url_view": VIEW_URL.format(repo=repo, ref=commit, path=path),
         "url_raw": raw_url,
