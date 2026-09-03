@@ -364,18 +364,26 @@ the buttons hand over that file itself, and there is one hash and one pair of nu
 three. The rows above the last one below name texts that are no longer in the working tree, so
 their hashes and numbers are recorded constants.
 
-The shipped file is now `AGENTS.md` v1.1. It applies the rest of the independent review, thirteen
-changes in all, and then cuts or merges every line a line audit could not tie to a measured effect
-or to a safety boundary; the audit, one row per line of v1.0.1, is on the
-[rationale page](rationale.md#line-audit-v101-to-v11). The file went from 52 lines and 5,456 bytes
-to 32 lines and 4,069 bytes, about 1,017 tokens by a bytes-over-four estimate, and its rule
-coverage went from 10/10 to 8/10: it names no runnable command, because the Project template is
-unfilled, and
-it no longer carries the sentence `done_verification` matched, which was cut on the merits. No
-line was written or kept to change a verdict. On 2026-09-04, before any round-2 run, four rule
-clauses were added from external feedback and the Project template was cut from five lines to two,
-which is the text and the sha256 the pre-registration records; each edit has a row in
-[the rationale](rationale.md#amendments-after-external-feedback-2026-09-04). The ninety runs measured v1.0; whether the
+v1.1 applied the rest of the independent review, thirteen changes in all, and then cut or merged
+every line a line audit could not tie to a measured effect or to a safety boundary; the audit, one
+row per line of v1.0.1, is on the [rationale page](rationale.md#line-audit-v101-to-v11). That took
+the file from 52 lines and 5,456 bytes to 32 lines and 4,069 bytes, and its rule coverage from
+10/10 to 8/10: it names no runnable command, because the Project template is unfilled, and it no
+longer carries the sentence `done_verification` matched, which was cut on the merits. On
+2026-09-04 four rule clauses were added from external feedback and the Project template was cut
+from five lines to two; each edit has a row in
+[the rationale](rationale.md#amendments-after-external-feedback-2026-09-04).
+
+The shipped file is now `AGENTS.md` v1.2, and it is the round-2 candidate. A second independent
+review, this one of v1.1's text against the design goals, returned 21 findings and one addition,
+and all of them were accepted; the revised text was adopted whole rather than clause by clause,
+and each finding has a row in
+[the rationale](rationale.md#v12-independent-design-review-2026-09-04). The file is 34 lines and
+4,645 bytes, about 1,161 tokens by a bytes-over-four estimate. Rule coverage falls again, from
+8/10 to 7/10, because the rewritten prompt-injection line no longer says "data, not commands" in
+the form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and
+the criterion is now a second worked example of the gap between a pattern and a statement. No line
+in any version was written or kept to change a verdict. The ninety runs measured v1.0; whether the
 compaction kept the advantages they showed is what the
 [round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md)
 measures, pre-registered before it runs.
@@ -389,7 +397,8 @@ measures, pre-registered before it runs.
 | `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
 | Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
 | Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
-| Root `AGENTS.md`, the file shipped now (v1.1) | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
+| Root `AGENTS.md` v1.1 as amended, the text v1.2 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
+| Root `AGENTS.md`, the file shipped now (v1.2) | `39e6fb97ab6428243b6e953e70c5bd0ab3edb8bc5c06575de7273a1ef6cc5440` | 7/10 | 1/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:

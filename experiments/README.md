@@ -861,12 +861,11 @@ file under test changes.
 
 ### What runs
 
-`ours` is the root `AGENTS.md` v1.1, sha256
-`f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d`, written into the work
-directory as it sits. That text is v1.1 as amended on 2026-09-04 after external feedback, four
-rule clauses and a shorter Project template; the version name did not change because no run had
-happened yet, and this section was rewritten to the amended text rather than left describing a
-text nothing measured. The sha256 above, not the version name, is what identifies the file under
+`ours` is the root `AGENTS.md` v1.2, sha256
+`39e6fb97ab6428243b6e953e70c5bd0ab3edb8bc5c06575de7273a1ef6cc5440`, written into the work
+directory as it sits. v1.2 adopts an independent design review of v1.1, whole; it and the two
+v1.1 amendments before it all landed before any round-2 run, so this section is kept at the text
+that will actually run rather than left describing a text nothing measured. The sha256 above, not the version name, is what identifies the file under
 test, and it is what each run's `meta.json` records as `condition_sha256`. 3 tasks x 10 runs = 30 runs, model `claude-opus-5`, flag set
 `project-settings`, the same harness and the same deny list as the main run. The `none` and
 `karpathy` cells are **not** re-run: the main run's cells are reused, collected 2026-09-03 between
@@ -883,10 +882,12 @@ read on every run whether or not it has anything to say about the task:
 | Text | Lines | Bytes | Token estimate (bytes/4) |
 |---|---|---|---|
 | v1.0 generic, the main run's `ours` | 50 | 4,420 | 1,105 |
-| v1.1, this round's `ours` | 32 | 4,069 | 1,017 |
+| v1.2, this round's `ours` | 34 | 4,645 | 1,161 |
 
-The round-2 test is what decides whether that compaction kept the advantages the main run
-measured. The acceptance rule below is unchanged by it.
+v1.2 is 16 lines shorter than the text the main run measured and 225 bytes longer: the compaction
+of v1.1 bought the room that two review rounds then spent on rule text. The round-2 test is what
+decides whether the rewriting kept the advantages the main run measured. The acceptance rule below
+is unchanged by it.
 
 ### Acceptance rule
 
@@ -916,18 +917,20 @@ Compared against the main run's `ours` (v1.0) cells, task by task:
   The thresholds are computed from the unrounded medians in `docs/data/experiment.json`, not from
   the four-digit medians the findings page prints: $0.3712 on T1 (median 0.33741224999999997),
   $0.3662 on T2 (0.3329) and $0.0992 on T3 (0.090166).
-  v1.1 is the shorter file, so cost is the expected borderline case. There is no escape hatch: a
-  median above the threshold fails the round.
+  v1.2 has fewer lines than the measured text but slightly more bytes, so cost is the expected
+  borderline case. There is no escape hatch: a median above the threshold fails the round.
 
-All three must hold. If the round fails, exactly one v1.1.1 gets one more 30-run round, and it
-reverts a set named here before the re-run rather than chosen after it: the three clauses added as
-new boundaries in v1.1 (the checkout and network clause, the permission-settings and hooks
-clause, and the dependency ask), the reworded denied-permission sentence, and the sentence added
-on 2026-09-04 that says the destructive list belongs in the harness's permission settings as well.
-Nothing else. The
-reason those four: main-run T1 agents verified their work by copying `todo.py` into a temporary
-directory outside the checkout, which the new checkout clause could stop. If the v1.1.1 round also
-fails, the shipped file reverts to the v1.0.1 rules as they stood at commit `3372506`, sha256
+All three must hold. If the round fails, exactly one v1.2.1 gets one more 30-run round, and it
+reverts a set named here before the re-run rather than chosen after it: the checkout and network
+clauses (bullets 3 and 4 of Boundaries as v1.2 words them), the unattended sentence of the
+ask-or-assume rule that says to skip the step and report it, the "Every Project command ran and
+passed" sentence of Done item 1, and the adopter line of the Project template. Nothing else.
+Those four are the clauses most likely to change what the agent does under the three tasks:
+main-run T1 agents verified their work by copying `todo.py` into a temporary directory outside the
+checkout, which the checkout clause could stop; the unattended sentence can end a step that every
+main-run agent completed; Done item 1 decides which commands run at all; and the adopter line is
+the one instruction in the file addressed to nobody in the run. If the v1.2.1 round also fails,
+the shipped file reverts to the v1.0.1 rules as they stood at commit `3372506`, sha256
 `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a`, and every result is published
 either way. Maximum two rounds.
 

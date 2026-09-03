@@ -59,11 +59,11 @@ OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/
 
 # The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 fixes
 # two defects across four rule lines after the independent review; v1.1 is the rewrite from the
-# rest of that review, compacted (see docs/methodology.md, "What the experiment tested and what is
-# shipped"). The texts below are not recoverable from the working tree, because the file they name
+# rest of that review, compacted; v1.2 adopts an independent design review of v1.1 (see
+# docs/methodology.md, "What the experiment tested and what is shipped"). The texts below are not recoverable from the working tree, because the file they name
 # has since changed or been deleted, so each is recorded with the hash and the two coverage
 # numbers measured on it at the time.
-OURS_VERSION = "1.1"
+OURS_VERSION = "1.2"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 RECORDED_TEXTS = (
     ("Generic file the experiment ran (v1.0)", TESTED_GENERIC_SHA256, 9, 0),
@@ -96,6 +96,12 @@ RECORDED_TEXTS = (
         "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
         8,
         0,
+    ),
+    (
+        "Root `AGENTS.md` v1.1 as amended, the text v1.2 replaces",
+        "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
+        8,
+        1,
     ),
 )
 

@@ -228,9 +228,9 @@ class KnownIssuesTest(unittest.TestCase):
         self.assertEqual(expected - listed, set())
 
     def test_every_row_carries_a_response(self):
-        allowed = ("fixed in v1.0.1", "applied in v1.1", "enforceable by the example settings",
-                   "v1.1 candidate", "disagree because", "covered by", "the line is cut in v1.1",
-                   "the rule stands")
+        allowed = ("fixed in v1.0.1", "applied in v1.1", "applied in v1.2",
+                   "enforceable by the example settings", "v1.1 candidate", "disagree because",
+                   "covered by", "the line is cut in v1.1", "the rule stands")
         for row in self.rows():
             response = row.split("|")[5]
             self.assertTrue(any(word in response for word in allowed), row)
