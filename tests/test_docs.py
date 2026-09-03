@@ -20,7 +20,7 @@ INDEX = DOCS / "index.html"
 COMPARE_JS = DOCS / "compare.js"
 REFERENCES = DOCS / "references.md"
 README = REPO_ROOT / "README.md"
-PILOT = REPO_ROOT / "experiments" / "pilot-round2.json"
+EXPERIMENT = REPO_ROOT / "docs" / "data" / "experiment.json"
 NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
@@ -140,12 +140,12 @@ class GeneratedBlockTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_every_marked_block_is_closed(self):
-        for path in (INDEX, DOCS / "methodology.md", README):
+        for path in (INDEX, DOCS / "methodology.md", DOCS / "findings.md", README):
             if not path.exists():
                 continue
             text = path.read_text(encoding="utf-8")
-            starts = re.findall(r"<!-- ([a-z]+):start -->", text)
-            ends = re.findall(r"<!-- ([a-z]+):end -->", text)
+            starts = re.findall(r"<!-- ([a-z-]+):start -->", text)
+            ends = re.findall(r"<!-- ([a-z-]+):end -->", text)
             self.assertEqual(starts, ends, path.name)
 
 
@@ -189,10 +189,29 @@ class PageTest(unittest.TestCase):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)
 
 
+class ClaimTest(unittest.TestCase):
+    """Every claim on the page carries a command, and every command prints the number the claim
+    states. The commands are run here, so a claim cannot drift away from the data."""
+
+    def test_each_claim_command_prints_a_number_the_claim_states(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        data = compare.with_ours(compare.read_json(compare.COMPARISON_JSON), compare.load_criteria())
+        items = compare.claims(data, compare.load_criteria(), compare.load_experiment())
+        self.assertGreaterEqual(len(items), 5)
+        for text, command in items:
+            result = subprocess.run(command, shell=True, capture_output=True, text=True,
+                                    cwd=str(REPO_ROOT))
+            self.assertEqual(result.returncode, 0, command + result.stderr)
+            printed = result.stdout.strip()
+            self.assertIn(printed, re.findall(r"\d+", text), "%r not stated in %r" % (printed, text))
+
+
 @unittest.skipIf(NODE is None, "node is not installed")
 class ExperimentRendererTest(unittest.TestCase):
     """The experiment section is built in JavaScript from experiment.json. It is rendered here
-    in Node against a recorded run file, so the shape is checked without a browser."""
+    in Node against the committed run file, so the shape is checked without a browser."""
 
     def render(self, source):
         script = (
@@ -205,8 +224,8 @@ class ExperimentRendererTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return result.stdout
 
-    def test_a_recorded_run_file_renders_tables_and_a_chart(self):
-        html = self.render("require(%s)" % json.dumps(str(PILOT)))
+    def test_the_committed_run_file_renders_tables_and_a_chart(self):
+        html = self.render("require(%s)" % json.dumps(str(EXPERIMENT)))
         for task in ("task1", "task2", "task3"):
             self.assertIn("<h3>%s</h3>" % task, html)
         self.assertIn("<svg class=\"chart\"", html)
@@ -218,10 +237,17 @@ class ExperimentRendererTest(unittest.TestCase):
         self.assertEqual(self.render('{"by_task":{},"generated_utc":"x"}'), "")
 
     def test_the_intervals_come_from_the_file(self):
-        data = json.loads(PILOT.read_text(encoding="utf-8"))
+        data = json.loads(EXPERIMENT.read_text(encoding="utf-8"))
         entry = data["by_task"]["task1"]["comparison"]["tests_written"]["conditions"]["ours"]
-        html = self.render("require(%s)" % json.dumps(str(PILOT)))
+        html = self.render("require(%s)" % json.dumps(str(EXPERIMENT)))
         self.assertIn("[%.2f, %.2f]" % (entry["lo"], entry["hi"]), html)
+
+    def test_every_cell_is_ten_runs(self):
+        data = json.loads(EXPERIMENT.read_text(encoding="utf-8"))
+        for task, entry in data["by_task"].items():
+            for condition, cell in entry["cells"].items():
+                self.assertEqual(cell["n"], 10, "%s %s" % (task, condition))
+                self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
 
 
 if __name__ == "__main__":

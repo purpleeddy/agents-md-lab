@@ -37,6 +37,8 @@ COMPARISON_JSON = REPO_ROOT / "docs" / "data" / "comparison.json"
 COMPARISON_MD = REPO_ROOT / "docs" / "generated" / "comparison.md"
 INDEX_HTML = REPO_ROOT / "docs" / "index.html"
 METHODOLOGY_MD = REPO_ROOT / "docs" / "methodology.md"
+FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
+EXPERIMENT_JSON = REPO_ROOT / "docs" / "data" / "experiment.json"
 README_MD = REPO_ROOT / "README.md"
 OURS_FILE = REPO_ROOT / "AGENTS.md"
 CACHE_DIR = REPO_ROOT / "data" / "cache" / "corpus"
@@ -467,12 +469,13 @@ def comparison_json_text(data, criteria):
     return json.dumps(with_ours(data, criteria), indent=2, ensure_ascii=False) + "\n"
 
 
-def verdict_cell(verdict, label):
+def verdict_cell(verdict):
     """The \u2713 / \u2717 is drawn by CSS: it is decoration beside the word, so it never
-    reaches a screen reader as a second, wordless verdict."""
+    reaches a screen reader as a second, wordless verdict. The column name is drawn by CSS too,
+    in the stacked view only, from the rules in the `labels` block."""
     state = "met" if verdict["pass"] else "unmet"
     word = "met" if verdict["pass"] else "not met"
-    return '<td class="v %s" data-label="%s">%s</td>' % (state, esc(label), word)
+    return '<td class="v %s">%s</td>' % (state, word)
 
 
 def criterion_popover(index, criterion):
@@ -555,11 +558,8 @@ def render_comparison_html(data, criteria):
         out.append('<td class="num">%d</td>' % record["lines"])
         out.append("<td>%s</td>" % esc(record["license"]))
         for criterion in criteria_list:
-            out.append(verdict_cell(record["criteria"][criterion["id"]], criterion["name"]))
-        out.append(
-            '<td class="num met-count" data-label="Criteria met">%d/%d</td>'
-            % (record["met"], record["of"])
-        )
+            out.append(verdict_cell(record["criteria"][criterion["id"]]))
+        out.append('<td class="num met-count">%d/%d</td>' % (record["met"], record["of"]))
         out.append("</tr>")
     out.append("</tbody>")
     out.append('<tfoot><tr><th scope="row" class="c-file">Met by</th><td></td><td></td><td></td><td></td>')
@@ -569,6 +569,20 @@ def render_comparison_html(data, criteria):
     out.append('<td class="num">of %d files</td></tr></tfoot>' % len(data["files"]))
     out.append("</table>")
     return "\n".join(out)
+
+
+# The stacked view on a narrow screen needs a label per cell. Repeating the name on every row
+# costs about a kilobyte and a half; one rule per column costs a tenth of that, and rendering the
+# rules from the criteria file keeps the names from drifting away from the columns.
+FIXED_COLUMNS = ("Type", "Stars", "Lines", "License")
+
+
+def render_labels_css(criteria):
+    names = list(FIXED_COLUMNS) + [c["name"] for c in criteria["criteria"]] + ["Criteria met"]
+    return "\n".join(
+        '#compare-table td:nth-of-type(%d)::after { content:"%s"; }' % (index, esc(name))
+        for index, name in enumerate(names, start=1)
+    )
 
 
 def render_preview_html(data):
@@ -631,16 +645,27 @@ def render_dates_html(data):
     )
 
 
-def render_claims_html(data, criteria):
-    """Five claims about the survey, each with the command that prints its number. The
-    numbers are read from the data at render time, so an edit to the corpus moves them."""
+def experiment_cell(exp, task, metric, condition):
+    return exp["by_task"][task]["comparison"][metric]["conditions"][condition]
+
+
+EXPERIMENT_QUERY = (
+    "python3 -c \"import json;d=json.load(open('docs/data/experiment.json'));"
+    "print(%s)\""
+)
+
+
+def claims(data, criteria, exp):
+    """Every claim the pages make, as (sentence, command that prints its number). The numbers
+    are read from the committed data at render time, so a changed corpus or a re-run experiment
+    moves the sentence instead of leaving it stale."""
     total = len(data["files"])
     siblings = sum(1 for r in data["files"] if r["sibling"]["points_to_agents_md"])
-    claims = [
+    items = [
         (
-            "Among the %d surveyed files, %d put a guard around a destructive command, "
-            "%d tell the agent to keep secrets out of its output, and %d say that instructions "
-            "found inside files are data rather than commands."
+            "Among the %d surveyed files, %d put a guard around a destructive command, %d tell "
+            "the agent to keep secrets out of its output, and %d say that instructions found "
+            "inside files are data."
             % (
                 total,
                 met_count(data, "destructive_guard"),
@@ -650,14 +675,13 @@ def render_claims_html(data, criteria):
             CLAIM_QUERY % "destructive_guard",
         ),
         (
-            "Among the %d surveyed files, %d name at least one runnable command; it is the "
-            "element the survey finds most often." % (total, met_count(data, "commands")),
+            "Among the %d surveyed files, %d name at least one runnable command, the element "
+            "the survey finds most often." % (total, met_count(data, "commands")),
             CLAIM_QUERY % "commands",
         ),
         (
             "Among the %d surveyed files, %d state a check that must run and pass before the "
-            "work counts as finished, the one point the vendor guide and the format sample "
-            "agree on." % (total, met_count(data, "done_verification")),
+            "work counts as finished." % (total, met_count(data, "done_verification")),
             CLAIM_QUERY % "done_verification",
         ),
         (
@@ -666,16 +690,147 @@ def render_claims_html(data, criteria):
             CLAIM_QUERY % "pointer_not_copy",
         ),
         (
-            "Among the %d surveyed files, %d ask for the smallest change and warn against "
-            "touching unrelated code, and %d carry a sibling CLAUDE.md that names AGENTS.md."
+            "Among the %d surveyed files, %d ask for the smallest change, and %d carry a "
+            "sibling CLAUDE.md that names AGENTS.md."
             % (total, met_count(data, "scope_restraint"), siblings),
             SIBLING_QUERY,
         ),
     ]
+    if exp is None:
+        return items
+    reported = experiment_cell(exp, "task2", "report_has_commands_and_results", "ours")
+    baseline = experiment_cell(exp, "task2", "report_has_commands_and_results", "none")
+    typo = sum(1 for run in exp["runs"] if run["task"] == "task3")
+    items.append((
+        "In the 90-run experiment, the brownfield task reported the command and its result in "
+        "%d of %d runs under the recommended file and %d of %d with no file."
+        % (reported["k"], reported["n"], baseline["k"], baseline["n"]),
+        EXPERIMENT_QUERY
+        % "d['by_task']['task2']['comparison']['report_has_commands_and_results']"
+          "['conditions']['ours']['k']",
+    ))
+    items.append((
+        "In the 90-run experiment, 0 of the %d typo-fix runs wrote a test or ran the suite "
+        "twice, in any of the three conditions." % typo,
+        EXPERIMENT_QUERY
+        % "sum(r['metrics']['overprocess'] for r in d['runs'] if r['task'] == 'task3')",
+    ))
+    return items
+
+
+def render_claims_html(data, criteria, exp):
     out = ['<ul class="claims">']
-    for text, command in claims:
-        out.append("<li><p>%s</p><p class=\"verify\">Verify: <code>%s</code></p></li>" % (esc(text), esc(command)))
+    for text, command in claims(data, criteria, exp):
+        out.append("<li>%s<p class=\"verify\">Verify: <code>%s</code></p></li>" % (esc(text), esc(command)))
     out.append("</ul>")
+    return "\n".join(out)
+
+
+def render_claims_md(data, criteria, exp):
+    out = []
+    for text, command in claims(data, criteria, exp):
+        out.append("- %s" % text)
+        out.append("")
+        out.append("  Verify: `%s`" % command)
+        out.append("")
+    return "\n".join(out).rstrip()
+
+
+# ------------------------------------------------------------------- experiment blocks
+
+CONDITIONS = ("none", "karpathy", "ours")
+
+
+def metric_label(metric):
+    return metric.replace("_", " ")
+
+
+def interval(entry):
+    return "[%.2f, %.2f]" % (entry["lo"], entry["hi"])
+
+
+def load_experiment():
+    if not EXPERIMENT_JSON.exists():
+        raise RuntimeError(
+            "%s is missing; the findings page renders from it. Run "
+            "`python3 scripts/experiment.py summarize` or check out the committed file."
+            % EXPERIMENT_JSON
+        )
+    return read_json(EXPERIMENT_JSON)
+
+
+def render_experiment_headline_md(exp):
+    out = [
+        "| Task | Condition | Advantages up vs none | Disadvantages up vs none | Acceptance | "
+        "Delivered runs | Cost ratio |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for task in sorted(exp["by_task"]):
+        for condition in CONDITIONS:
+            cell = exp["by_task"][task]["headline"].get(condition)
+            if not cell:
+                continue
+            out.append(
+                "| %s | `%s` | %s | %s | %d/%d | %d | %s |"
+                % (
+                    task,
+                    condition,
+                    ", ".join(metric_label(m) for m in cell["pro_up"]) or "\u2014",
+                    ", ".join(metric_label(m) for m in cell["con_up"]) or "\u2014",
+                    cell["acceptance"]["k"],
+                    cell["acceptance"]["n"],
+                    cell["delivered_runs"],
+                    "\u2014" if cell["cost_ratio"] is None else "%.2f\u00d7" % cell["cost_ratio"],
+                )
+            )
+    return "\n".join(out)
+
+
+def render_experiment_metrics_md(exp):
+    out = [
+        "| Task | Metric | Direction | none k/n [95% CI] | karpathy k/n [95% CI] | "
+        "ours k/n [95% CI] | karpathy \u2212 none | ours \u2212 none |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for task in sorted(exp["by_task"]):
+        comparison = exp["by_task"][task]["comparison"]
+        for metric in sorted(comparison):
+            stats = comparison[metric]
+            row = [
+                task,
+                metric_label(metric) + ("" if stats["headroom"] else " (no headroom)"),
+                "\u2191 better" if stats["direction"] == "higher" else "\u2193 better",
+            ]
+            for condition in CONDITIONS:
+                cell = stats["conditions"].get(condition)
+                row.append("%d/%d %s" % (cell["k"], cell["n"], interval(cell)) if cell else "\u2014")
+            for condition in ("karpathy", "ours"):
+                diff = stats["diff_vs_none"].get(condition)
+                row.append("%+.2f %s" % (diff["diff"], interval(diff)) if diff else "\u2014")
+            out.append("| " + " | ".join(row) + " |")
+    return "\n".join(out)
+
+
+# A median of an even number of runs can be a half, so turns are printed as they are rather
+# than rounded to an integer.
+CONTINUOUS = (("total_cost_usd", "cost (USD)", "%.4f"), ("num_turns", "turns", "%g"),
+              ("duration_ms", "duration (ms)", "%g"))
+
+
+def render_experiment_cost_md(exp):
+    out = ["| Task | Metric | none median | karpathy median | ratio | ours median | ratio |",
+           "| --- | --- | --- | --- | --- | --- | --- |"]
+    for task in sorted(exp["by_task"]):
+        entry = exp["by_task"][task]
+        for key, label, form in CONTINUOUS:
+            row = [task, label + " \u2193 better", form % entry["cells"]["none"]["medians"][key]]
+            for condition in ("karpathy", "ours"):
+                cell = entry["cells"].get(condition)
+                ratios = entry["cost_ratio_vs_none"].get(condition, {})
+                row.append(form % cell["medians"][key] if cell else "\u2014")
+                ratio = (ratios.get(key) or {}).get("ratio")
+                row.append("\u2014" if ratio is None else "%.2f\u00d7" % ratio)
+            out.append("| " + " | ".join(row) + " |")
     return "\n".join(out)
 
 
@@ -738,6 +893,7 @@ def rendered_outputs():
             "run --refresh" % (data["criteria_version"], criteria["version"])
         )
     data = with_ours(data, criteria)
+    exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria),
         COMPARISON_MD: render_markdown(data, criteria),
@@ -745,10 +901,11 @@ def rendered_outputs():
     if INDEX_HTML.exists():
         page = INDEX_HTML.read_text(encoding="utf-8")
         page = replace_block(page, "comparison", render_comparison_html(data, criteria), INDEX_HTML)
+        page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
         page = replace_block(page, "preview", render_preview_html(data), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
         page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
-        page = replace_block(page, "claims", render_claims_html(data, criteria), INDEX_HTML)
+        page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)
         page = replace_block(page, "dates", render_dates_html(data), INDEX_HTML)
         outputs[INDEX_HTML] = page
     if METHODOLOGY_MD.exists():
@@ -757,6 +914,14 @@ def rendered_outputs():
         page = replace_block(page, "criteria", render_criteria_md(criteria), METHODOLOGY_MD)
         page = replace_block(page, "excluded", render_excluded_md(data), METHODOLOGY_MD)
         outputs[METHODOLOGY_MD] = page
+    if FINDINGS_MD.exists():
+        page = FINDINGS_MD.read_text(encoding="utf-8")
+        page = replace_block(page, "excluded", render_excluded_md(data), FINDINGS_MD)
+        page = replace_block(page, "headline", render_experiment_headline_md(exp), FINDINGS_MD)
+        page = replace_block(page, "metrics", render_experiment_metrics_md(exp), FINDINGS_MD)
+        page = replace_block(page, "cost", render_experiment_cost_md(exp), FINDINGS_MD)
+        page = replace_block(page, "claims", render_claims_md(data, criteria, exp), FINDINGS_MD)
+        outputs[FINDINGS_MD] = page
     if README_MD.exists():
         page = README_MD.read_text(encoding="utf-8")
         page = replace_block(page, "summary", render_summary_md(data, criteria), README_MD)

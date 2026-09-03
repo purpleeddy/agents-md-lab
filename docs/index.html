@@ -22,9 +22,8 @@ h1 { font-size:39px; } h2 { font-size:31px; } h3 { font-size:25px; }
 p, ul, ol, dl { margin:0; }
 a { color:var(--accent); }
 a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-code, pre, .num, .badge, td.v, .mono { font-family:var(--mono); font-variant-numeric:tabular-nums; }
+code, pre, .num, .badge, td.v { font-family:var(--mono); font-variant-numeric:tabular-nums; }
 code { font-size:13px; }
-.sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 .skip { position:absolute; left:-999px; }
 .skip:focus { left:var(--s3); top:var(--s2); z-index:20; background:var(--surface); color:var(--ink); padding:var(--s2) var(--s3); border:1px solid var(--rule); border-radius:4px; }
 .wrap { max-width:1120px; margin:0 auto; padding:0 var(--s4); }
@@ -111,6 +110,8 @@ label { font-size:14px; }
 .chart .grid { stroke:var(--rule); stroke-width:1; }
 .chart .band { fill:var(--rule); opacity:0.3; }
 .chart .bar { stroke-width:2; }
+.t-wide th[scope=row] { min-width:184px; }
+.t-wide td { white-space:nowrap; }
 .nbadge { font-family:var(--mono); font-size:12px; color:var(--muted); border:1px solid var(--rule); border-radius:999px; padding:0 var(--s2); }
 .chart .c-none { fill:var(--cond-none); stroke:var(--cond-none); }
 .chart .c-karpathy { fill:var(--cond-karpathy); stroke:var(--cond-karpathy); }
@@ -128,6 +129,7 @@ h4 { font-size:16px; font-weight:600; letter-spacing:-0.01em; margin:0; }
 .card { background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:var(--s4); display:flex; flex-direction:column; gap:var(--s2); }
 .claims { list-style:none; padding:0; display:flex; flex-direction:column; gap:var(--s3); max-width:75ch; }
 .claims li { border-left:3px solid var(--accent); padding-left:var(--s3); }
+.claims p { margin-top:var(--s1); }
 .verify { font-size:13px; color:var(--muted); }
 .verify code { overflow-wrap:anywhere; }
 pre.block { background:var(--surface); border:1px solid var(--rule); border-radius:4px; padding:var(--s3); overflow-x:auto; font-size:12.5px; }
@@ -140,12 +142,25 @@ h1 { font-size:31px; } h2 { font-size:25px; } h3 { font-size:20px; }
 #compare-table tr { border-bottom:1px solid var(--rule); padding:var(--s3) 0; }
 #compare-table th.c-file { position:static; min-width:0; border-bottom:0; }
 #compare-table td { border-bottom:0; display:flex; justify-content:space-between; gap:var(--s3); padding:2px var(--s3); text-align:right; }
-#compare-table td::after { content:attr(data-label); color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; order:-1; }
+#compare-table td::after { color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; order:-1; }
+#compare-table td.v::before { margin-left:auto; }
+<!-- labels:start -->
 #compare-table td:nth-of-type(1)::after { content:"Type"; }
 #compare-table td:nth-of-type(2)::after { content:"Stars"; }
 #compare-table td:nth-of-type(3)::after { content:"Lines"; }
 #compare-table td:nth-of-type(4)::after { content:"License"; }
-#compare-table td.v::before { margin-left:auto; }
+#compare-table td:nth-of-type(5)::after { content:"Length"; }
+#compare-table td:nth-of-type(6)::after { content:"Runnable commands"; }
+#compare-table td:nth-of-type(7)::after { content:"Verification before done"; }
+#compare-table td:nth-of-type(8)::after { content:"Guard on destructive commands"; }
+#compare-table td:nth-of-type(9)::after { content:"Secrets"; }
+#compare-table td:nth-of-type(10)::after { content:"Instructions in files are data"; }
+#compare-table td:nth-of-type(11)::after { content:"Scope restraint"; }
+#compare-table td:nth-of-type(12)::after { content:"Pointer instead of copy"; }
+#compare-table td:nth-of-type(13)::after { content:"Emphasis restraint"; }
+#compare-table td:nth-of-type(14)::after { content:"Tool neutrality"; }
+#compare-table td:nth-of-type(15)::after { content:"Criteria met"; }
+<!-- labels:end -->
 }
 @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
 </style>
@@ -262,17 +277,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">24,084</span></td>
 <td class="num">43</td>
 <td>MIT</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v unmet" data-label="Pointer instead of copy">not met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v met" data-label="Tool neutrality">met</td>
-<td class="num met-count" data-label="Criteria met">4/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="num met-count">4/10</td>
 </tr>
 <tr data-key="anthropic-cca" data-type="CLAUDE.md" data-stars="8780" data-lines="44" data-met="3" data-c="1100000010">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="anthropic-cca" aria-expanded="false" aria-label="Evidence lines for anthropics/claude-code-action">+</button><a href="https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md">anthropics/claude-code-action</a><span class="rowlinks"><a href="https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/anthropics/claude-code-action/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md">raw</a> <a href="https://github.com/anthropics/claude-code-action/blob/HEAD/CLAUDE.md">latest</a></span></th>
@@ -280,17 +295,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">8,780</span></td>
 <td class="num">44</td>
 <td>MIT</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v unmet" data-label="Pointer instead of copy">not met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v unmet" data-label="Tool neutrality">not met</td>
-<td class="num met-count" data-label="Criteria met">3/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="num met-count">3/10</td>
 </tr>
 <tr data-key="sentry" data-type="AGENTS.md" data-stars="44713" data-lines="137" data-met="5" data-c="1100000111">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="sentry" aria-expanded="false" aria-label="Evidence lines for getsentry/sentry">+</button><a href="https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md">getsentry/sentry</a><span class="rowlinks"><a href="https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/getsentry/sentry/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md">raw</a> <a href="https://github.com/getsentry/sentry/blob/HEAD/AGENTS.md">latest</a></span></th>
@@ -298,17 +313,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">44,713</span></td>
 <td class="num">137</td>
 <td>FSL-1.1-ALv2</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v met" data-label="Pointer instead of copy">met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v met" data-label="Tool neutrality">met</td>
-<td class="num met-count" data-label="Criteria met">5/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="num met-count">5/10</td>
 </tr>
 <tr data-key="ghostty" data-type="AGENTS.md" data-stars="60621" data-lines="39" data-met="4" data-c="1100000011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="ghostty" aria-expanded="false" aria-label="Evidence lines for ghostty-org/ghostty">+</button><a href="https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md">ghostty-org/ghostty</a><span class="rowlinks"><a href="https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/ghostty-org/ghostty/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md">raw</a> <a href="https://github.com/ghostty-org/ghostty/blob/HEAD/AGENTS.md">latest</a></span></th>
@@ -316,17 +331,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">60,621</span></td>
 <td class="num">39</td>
 <td>MIT</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v unmet" data-label="Pointer instead of copy">not met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v met" data-label="Tool neutrality">met</td>
-<td class="num met-count" data-label="Criteria met">4/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="num met-count">4/10</td>
 </tr>
 <tr data-key="temporal" data-type="AGENTS.md" data-stars="22796" data-lines="105" data-met="6" data-c="1110001011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="temporal" aria-expanded="false" aria-label="Evidence lines for temporalio/temporal">+</button><a href="https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md">temporalio/temporal</a><span class="rowlinks"><a href="https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/temporalio/temporal/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md">raw</a> <a href="https://github.com/temporalio/temporal/blob/HEAD/AGENTS.md">latest</a></span></th>
@@ -334,17 +349,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">22,796</span></td>
 <td class="num">105</td>
 <td>MIT</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v met" data-label="Verification before done">met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v met" data-label="Scope restraint">met</td>
-<td class="v unmet" data-label="Pointer instead of copy">not met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v met" data-label="Tool neutrality">met</td>
-<td class="num met-count" data-label="Criteria met">6/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="num met-count">6/10</td>
 </tr>
 <tr data-key="karpathy-multica" data-type="CLAUDE.md" data-stars="209716" data-lines="65" data-met="5" data-c="1010001011">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="karpathy-multica" aria-expanded="false" aria-label="Evidence lines for multica-ai/andrej-karpathy-skills">+</button><a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md">multica-ai/andrej-karpathy-skills</a><span class="rowlinks"><a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/multica-ai/andrej-karpathy-skills/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md">raw</a> <a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/HEAD/CLAUDE.md">latest</a></span></th>
@@ -352,17 +367,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">209,716</span></td>
 <td class="num">65</td>
 <td>NONE</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v unmet" data-label="Runnable commands">not met</td>
-<td class="v met" data-label="Verification before done">met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v met" data-label="Scope restraint">met</td>
-<td class="v unmet" data-label="Pointer instead of copy">not met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v met" data-label="Tool neutrality">met</td>
-<td class="num met-count" data-label="Criteria met">5/10</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="num met-count">5/10</td>
 </tr>
 <tr data-key="humanlayer" data-type="CLAUDE.md" data-stars="11369" data-lines="88" data-met="4" data-c="1100000110">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="humanlayer" aria-expanded="false" aria-label="Evidence lines for humanlayer/humanlayer">+</button><a href="https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md">humanlayer/humanlayer</a><span class="rowlinks"><a href="https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/humanlayer/humanlayer/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md">raw</a> <a href="https://github.com/humanlayer/humanlayer/blob/HEAD/CLAUDE.md">latest</a></span></th>
@@ -370,17 +385,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">11,369</span></td>
 <td class="num">88</td>
 <td>Apache-2.0</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v met" data-label="Pointer instead of copy">met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v unmet" data-label="Tool neutrality">not met</td>
-<td class="num met-count" data-label="Criteria met">4/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="num met-count">4/10</td>
 </tr>
 <tr data-key="omarchy" data-type="AGENTS.md" data-stars="37413" data-lines="133" data-met="5" data-c="1000001111">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="omarchy" aria-expanded="false" aria-label="Evidence lines for omacom/omarchy">+</button><a href="https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md">omacom/omarchy</a><span class="rowlinks"><a href="https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md">view</a> <a href="https://raw.githubusercontent.com/omacom/omarchy/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md">raw</a> <a href="https://github.com/omacom/omarchy/blob/HEAD/AGENTS.md">latest</a></span></th>
@@ -388,17 +403,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">37,413</span></td>
 <td class="num">133</td>
 <td>MIT</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v unmet" data-label="Runnable commands">not met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v met" data-label="Scope restraint">met</td>
-<td class="v met" data-label="Pointer instead of copy">met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v met" data-label="Tool neutrality">met</td>
-<td class="num met-count" data-label="Criteria met">5/10</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="num met-count">5/10</td>
 </tr>
 <tr data-key="superpowers" data-type="CLAUDE.md" data-stars="280911" data-lines="115" data-met="4" data-c="1100000110">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="superpowers" aria-expanded="false" aria-label="Evidence lines for obra/superpowers">+</button><a href="https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md">obra/superpowers</a><span class="rowlinks"><a href="https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/obra/superpowers/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md">raw</a> <a href="https://github.com/obra/superpowers/blob/HEAD/CLAUDE.md">latest</a></span></th>
@@ -406,17 +421,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">280,911</span></td>
 <td class="num">115</td>
 <td>MIT</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v met" data-label="Pointer instead of copy">met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v unmet" data-label="Tool neutrality">not met</td>
-<td class="num met-count" data-label="Criteria met">4/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="num met-count">4/10</td>
 </tr>
 <tr data-key="graphiti" data-type="CLAUDE.md" data-stars="30537" data-lines="181" data-met="4" data-c="1100000110">
 <th scope="row" class="c-file"><button type="button" class="expand" data-key="graphiti" aria-expanded="false" aria-label="Evidence lines for getzep/graphiti">+</button><a href="https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md">getzep/graphiti</a><span class="rowlinks"><a href="https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md">view</a> <a href="https://raw.githubusercontent.com/getzep/graphiti/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md">raw</a> <a href="https://github.com/getzep/graphiti/blob/HEAD/CLAUDE.md">latest</a></span></th>
@@ -424,17 +439,17 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 <td class="num"><span title="stars on 2026-09-03">30,537</span></td>
 <td class="num">181</td>
 <td>Apache-2.0</td>
-<td class="v met" data-label="Length">met</td>
-<td class="v met" data-label="Runnable commands">met</td>
-<td class="v unmet" data-label="Verification before done">not met</td>
-<td class="v unmet" data-label="Guard on destructive commands">not met</td>
-<td class="v unmet" data-label="Secrets">not met</td>
-<td class="v unmet" data-label="Instructions in files are data">not met</td>
-<td class="v unmet" data-label="Scope restraint">not met</td>
-<td class="v met" data-label="Pointer instead of copy">met</td>
-<td class="v met" data-label="Emphasis restraint">met</td>
-<td class="v unmet" data-label="Tool neutrality">not met</td>
-<td class="num met-count" data-label="Criteria met">4/10</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v unmet">not met</td>
+<td class="v met">met</td>
+<td class="v met">met</td>
+<td class="v unmet">not met</td>
+<td class="num met-count">4/10</td>
 </tr>
 </tbody>
 <tfoot><tr><th scope="row" class="c-file">Met by</th><td></td><td></td><td></td><td></td>
@@ -490,7 +505,7 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
     <div id="experiment-body" class="stack-l">
       <p>Planned; the pre-registration is locked at tag <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">testset-v1.0</a>.</p>
     </div>
-    <p class="footnote prose">Limitations: with n = 10 per cell the intervals are wide, and a difference of one or two runs is inside them. The author of the <code>ours</code> file knew all three tasks when writing it, which the <code>karpathy</code> file's author did not. Acceptance passes sit near the ceiling on every condition, so that metric has little room to move.</p>
+    <p class="footnote prose">Limitations: with n = 10 per cell the intervals are wide, and a difference of one or two runs is inside them. The author of the <code>ours</code> file knew all three tasks when writing it, which the <code>karpathy</code> file's author did not. Acceptance is at the ceiling on the typo-fix task and, for two of the three conditions, on the greenfield task; where it does move, on the brownfield task, it moves with the documented-convention metric and not with correctness, which is 10/10 in every condition. <a href="findings.html#what-was-not-shown">What was not shown</a>.</p>
   </div>
 </section>
 
@@ -498,16 +513,18 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
   <div class="stack-l">
     <div class="stack prose">
       <p class="eyebrow">How and why</p>
-      <h2>Five claims you can check</h2>
-      <p>Each line below is a count taken from the committed data. The command next to it prints the number.</p>
+      <h2>Claims you can check</h2>
+      <p>Each line is a count read from the committed data. The command next to it prints the number.</p>
     </div>
 <!-- claims:start -->
 <ul class="claims">
-<li><p>Among the 10 surveyed files, 0 put a guard around a destructive command, 0 tell the agent to keep secrets out of its output, and 0 say that instructions found inside files are data rather than commands.</p><p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;destructive_guard&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
-<li><p>Among the 10 surveyed files, 8 name at least one runnable command; it is the element the survey finds most often.</p><p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;commands&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
-<li><p>Among the 10 surveyed files, 2 state a check that must run and pass before the work counts as finished, the one point the vendor guide and the format sample agree on.</p><p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;done_verification&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
-<li><p>Among the 10 surveyed files, 5 point at another document instead of copying its content in.</p><p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;pointer_not_copy&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
-<li><p>Among the 10 surveyed files, 3 ask for the smallest change and warn against touching unrelated code, and 2 carry a sibling CLAUDE.md that names AGENTS.md.</p><p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;sibling&#x27;][&#x27;points_to_agents_md&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 0 put a guard around a destructive command, 0 tell the agent to keep secrets out of its output, and 0 say that instructions found inside files are data.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;destructive_guard&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 8 name at least one runnable command, the element the survey finds most often.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;commands&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 2 state a check that must run and pass before the work counts as finished.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;done_verification&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 5 point at another document instead of copying its content in.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;pointer_not_copy&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 3 ask for the smallest change, and 2 carry a sibling CLAUDE.md that names AGENTS.md.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;sibling&#x27;][&#x27;points_to_agents_md&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>In the 90-run experiment, the brownfield task reported the command and its result in 10 of 10 runs under the recommended file and 2 of 10 with no file.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(d[&#x27;by_task&#x27;][&#x27;task2&#x27;][&#x27;comparison&#x27;][&#x27;report_has_commands_and_results&#x27;][&#x27;conditions&#x27;][&#x27;ours&#x27;][&#x27;k&#x27;])&quot;</code></p></li>
+<li>In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(sum(r[&#x27;metrics&#x27;][&#x27;overprocess&#x27;] for r in d[&#x27;runs&#x27;] if r[&#x27;task&#x27;] == &#x27;task3&#x27;))&quot;</code></p></li>
 </ul>
 <!-- claims:end -->
     <div class="cards">

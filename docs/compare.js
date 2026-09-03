@@ -344,13 +344,11 @@
       var verdict = record.criteria[criterion.id];
       var cell = document.createElement("td");
       cell.className = "v " + (verdict.pass ? "met" : "unmet");
-      cell.dataset.label = criterion.name;
       cell.textContent = verdict.pass ? "met" : "not met";
       row.appendChild(cell);
     });
     var total = document.createElement("td");
     total.className = "num met-count";
-    total.dataset.label = "Criteria met";
     total.textContent = record.met + "/" + record.of;
     row.appendChild(total);
     return row;
@@ -539,7 +537,7 @@
       + '<li><span class="nbadge">n = ' + n + " per cell</span></li></ul>";
   }
 
-  function table(headers, rows) {
+  function table(headers, rows, className) {
     var head = headers.map(function (title) {
       return '<th scope="col">' + esc(title) + "</th>";
     }).join("");
@@ -548,8 +546,8 @@
         return index === 0 ? '<th scope="row">' + cell + "</th>" : "<td>" + cell + "</td>";
       }).join("") + "</tr>";
     }).join("");
-    return '<div class="tablewrap"><table><thead><tr>' + head + "</tr></thead><tbody>"
-      + body + "</tbody></table></div>";
+    return '<div class="tablewrap"><table class="' + (className || "") + '"><thead><tr>'
+      + head + "</tr></thead><tbody>" + body + "</tbody></table></div>";
   }
 
   function headlineTable(entry) {
@@ -587,11 +585,14 @@
       return row;
     });
     return table(["Metric", "Direction", "none k/n [95% CI]", "karpathy k/n [95% CI]",
-      "ours k/n [95% CI]", "karpathy − none [95% CI]", "ours − none [95% CI]"], rows);
+      "ours k/n [95% CI]", "karpathy − none [95% CI]", "ours − none [95% CI]"], rows, "t-wide");
   }
 
-  var CONTINUOUS = [["total_cost_usd", "cost (USD)", 4], ["num_turns", "turns", 1],
-    ["duration_ms", "duration (ms)", 0]];
+  // Cost is rounded to four decimals; turns and duration are printed as the median is, because
+  // an even number of runs can put it on a half and rounding it here would disagree with the
+  // same number rendered by scripts/compare.py on the findings page.
+  var CONTINUOUS = [["total_cost_usd", "cost (USD)", 4], ["num_turns", "turns", null],
+    ["duration_ms", "duration (ms)", null]];
 
   function continuousTable(entry) {
     var rows = CONTINUOUS.map(function (spec) {
@@ -599,7 +600,8 @@
       CONDITIONS.forEach(function (condition) {
         var cell = entry.cells[condition];
         var median = cell && cell.medians ? cell.medians[spec[0]] : undefined;
-        var text = median === undefined ? "—" : num(median, spec[2]);
+        var text = median === undefined ? "—"
+          : (spec[2] === null ? String(median) : num(median, spec[2]));
         var ratios = entry.cost_ratio_vs_none[condition];
         if (ratios && ratios[spec[0]] && ratios[spec[0]].ratio !== null) {
           text += " (×" + num(ratios[spec[0]].ratio) + ")";
@@ -609,7 +611,7 @@
       return row;
     });
     return table(["Metric", "Direction", "none median", "karpathy median (ratio)",
-      "ours median (ratio)"], rows);
+      "ours median (ratio)"], rows, "t-wide");
   }
 
   function renderExperiment(data) {

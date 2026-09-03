@@ -41,11 +41,17 @@ or the [front page](https://purpleeddy.github.io/agents-md-lab/#compare).
 
 ## What the experiment showed
 
-The main run is recorded after the test set was locked at tag `testset-v1.0`; the numbers and the
-observations are written into [the findings page](docs/findings.md) once the run is complete, so
-that nothing on it predates the data. The design is fixed in advance and does not wait on the
-results: three tasks, three conditions, ten runs per cell, every metric marked as an advantage, a
-disadvantage or context before any run, and intervals rather than significance tests.
+Ninety runs, three tasks by three conditions by ten, all of them delivered. On the greenfield
+task the recommended file took `tests_written` from 0/10 with no instruction file to 6/10, and
+reporting the command and its result from 0/10 to 9/10; on the brownfield task it took the
+documented-convention metric from 5/10 to 10/10, and acceptance followed it exactly, 5/10 to
+10/10. On the one-line typo fix nothing moved at all: every boolean metric is identical across
+the three conditions. The file is paid for on every task — median cost 1.95× the no-file
+condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
+
+The numbers, the intervals, the null results and what the experiment does not show are on
+[the findings page](docs/findings.md); the design was locked before any run at tag
+`testset-v1.0`.
 
 ## Documentation
 

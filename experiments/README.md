@@ -869,13 +869,13 @@ Medians per cell, with the ratio to `none`.
 | task | condition | cost (USD) | ratio | turns | ratio | duration (ms) | ratio |
 |---|---|---|---|---|---|---|---|
 | task1 | none | 0.1729 | - | 6 | - | 37345 | - |
-| task1 | karpathy | 0.2403 | 1.39x | 8 | 1.33x | 54536 | 1.46x |
-| task1 | ours | 0.3374 | 1.95x | 11 | 1.83x | 74634 | 2.00x |
+| task1 | karpathy | 0.2403 | 1.39x | 8 | 1.33x | 54536.5 | 1.46x |
+| task1 | ours | 0.3374 | 1.95x | 11 | 1.83x | 74634.5 | 2.00x |
 | task2 | none | 0.2294 | - | 13 | - | 49379 | - |
 | task2 | karpathy | 0.2187 | 0.95x | 10.5 | 0.81x | 47115 | 0.95x |
-| task2 | ours | 0.3329 | 1.45x | 17 | 1.31x | 65964 | 1.34x |
+| task2 | ours | 0.3329 | 1.45x | 17 | 1.31x | 65964.5 | 1.34x |
 | task3 | none | 0.0700 | - | 4 | - | 8912 | - |
-| task3 | karpathy | 0.0810 | 1.16x | 4 | 1.00x | 8790 | 0.99x |
+| task3 | karpathy | 0.0810 | 1.16x | 4 | 1.00x | 8790.5 | 0.99x |
 | task3 | ours | 0.0902 | 1.29x | 4 | 1.00x | 8977 | 1.01x |
 
 #### Discriminability
