@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Compare public AGENTS.md and CLAUDE.md files against the criteria in docs/criteria.json.
+"""Compare public AGENTS.md and CLAUDE.md files against two criteria sets.
+
+The rule criteria in docs/criteria.json ask how a file is written; the content criteria in
+docs/criteria-content.json ask what it tells an agent about the project. Both sets run on the
+same engine over the same text, and each corpus file carries one coverage number per set.
 
 Subcommands (flags, one at a time):
     --refresh          fetch every corpus file at its pinned commit, evaluate it and write
@@ -33,6 +37,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CORPUS = REPO_ROOT / "corpus.toml"
 CRITERIA = REPO_ROOT / "docs" / "criteria.json"
+CRITERIA_CONTENT = REPO_ROOT / "docs" / "criteria-content.json"
 COMPARISON_JSON = REPO_ROOT / "docs" / "data" / "comparison.json"
 COMPARISON_MD = REPO_ROOT / "docs" / "generated" / "comparison.md"
 INDEX_HTML = REPO_ROOT / "docs" / "index.html"
@@ -169,6 +174,13 @@ def load_criteria():
         return json.load(handle)
 
 
+def load_criteria_content():
+    """The second criteria set. It asks what a file contains rather than how it is written, and
+    it runs on the same engine over the same text; the two sets are never merged."""
+    with CRITERIA_CONTENT.open("rb") as handle:
+        return json.load(handle)
+
+
 def load_corpus():
     with CORPUS.open("rb") as handle:
         return tomllib.load(handle)
@@ -238,7 +250,7 @@ def sibling_record(repo, commit, path, filename):
     return {"path": sibling_path, "present": True, "points_to_agents_md": points}
 
 
-def refresh_file(entry, criteria, today):
+def refresh_file(entry, criteria, content, today):
     repo = entry["repo"]
     commit = entry["commit"]
     path = entry["path"]
@@ -250,8 +262,10 @@ def refresh_file(entry, criteria, today):
     digest = hashlib.sha256(body).hexdigest()
     cache_write(entry["key"], digest, text)
     verdicts = evaluate(text, Path(path).name, criteria)
+    content_verdicts = evaluate(text, Path(path).name, content)
     if entry["license"] == "NONE":
         verdicts = drop_evidence_text(verdicts)
+        content_verdicts = drop_evidence_text(content_verdicts)
     record = {
         "key": entry["key"],
         "repo": repo,
@@ -274,6 +288,9 @@ def refresh_file(entry, criteria, today):
         "criteria": verdicts,
         "met": coverage(verdicts),
         "of": len(criteria["criteria"]),
+        "criteria_content": content_verdicts,
+        "met_content": coverage(content_verdicts),
+        "of_content": len(content["criteria"]),
     }
     return record
 
@@ -296,13 +313,14 @@ def refresh_excluded(entry, today):
 
 def cmd_refresh(out_path):
     criteria = load_criteria()
+    content = load_criteria_content()
     corpus = load_corpus()
     today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
     data = {
         "generated_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "criteria_version": criteria["version"],
         "ours": ours_record(criteria),
-        "files": [refresh_file(entry, criteria, today) for entry in corpus["files"]],
+        "files": [refresh_file(entry, criteria, content, today) for entry in corpus["files"]],
         "excluded": [refresh_excluded(entry, today) for entry in corpus["excluded"]],
     }
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -318,7 +336,9 @@ def write_text(path, text):
     path.write_text(text, encoding="utf-8")
 
 
-def render_table(data, criteria):
+def render_table(data, criteria, field="criteria", met_key="met", of_key="of"):
+    """One coverage table. `field` names the verdict block on each record, so the same layout
+    serves the rule criteria and the content criteria."""
     ids = [c["id"] for c in criteria["criteria"]]
     header = ["File", "Type", "Stars", "Lines", "License"]
     header += [str(i + 1) for i in range(len(ids))]
@@ -332,18 +352,26 @@ def render_table(data, criteria):
             str(record["lines"]),
             record["license"],
         ]
-        row += ["\u2713" if record["criteria"][i]["pass"] else "\u2717" for i in ids]
-        row += ["%d/%d" % (record["met"], record["of"])]
+        row += ["\u2713" if record[field][i]["pass"] else "\u2717" for i in ids]
+        row += ["%d/%d" % (record[met_key], record[of_key])]
         rows.append(row)
     totals = ["Met by", "", "", "", ""]
-    totals += [str(sum(1 for r in data["files"] if r["criteria"][i]["pass"])) for i in ids]
+    totals += [str(sum(1 for r in data["files"] if r[field][i]["pass"])) for i in ids]
     totals += ["of %d files" % len(data["files"])]
     rows.append(totals)
     return "\n".join("| " + " | ".join(cell for cell in row) + " |" for row in rows)
 
 
-def render_markdown(data, criteria):
+def render_legend(criteria):
+    return "\n".join(
+        "%d. **%s** (`%s`) — %s" % (index, criterion["name"], criterion["id"], criterion["question"])
+        for index, criterion in enumerate(criteria["criteria"], start=1)
+    )
+
+
+def render_markdown(data, criteria, content):
     ids = [c["id"] for c in criteria["criteria"]]
+    content_ids = [c["id"] for c in content["criteria"]]
     out = []
     out.append("# Comparison of published instruction files")
     out.append("")
@@ -363,8 +391,24 @@ def render_markdown(data, criteria):
     out.append("")
     out.append("\u2713 = the criterion is met, \u2717 = it is not. Columns:")
     out.append("")
-    for index, criterion in enumerate(criteria["criteria"]):
-        out.append("%d. **%s** (`%s`) — %s" % (index + 1, criterion["name"], criterion["id"], criterion["question"]))
+    out.append(render_legend(criteria))
+    out.append("")
+    out.append("## Content criteria")
+    out.append("")
+    out.append(
+        "A second, independent set of %d criteria, version %s, in "
+        "`docs/criteria-content.json`. It asks what a file tells an agent about the project, "
+        "where the table above asks how the file is written. The two sets are never added "
+        "together: each file carries one coverage number per set. The same ten files, the same "
+        "text and the same engine."
+        % (len(content["criteria"]), content["version"])
+    )
+    out.append("")
+    out.append(render_table(data, content, "criteria_content", "met_content", "of_content"))
+    out.append("")
+    out.append("\u2713 = the criterion is met, \u2717 = it is not. Columns:")
+    out.append("")
+    out.append(render_legend(content))
     out.append("")
     out.append("## Files left out for length")
     out.append("")
@@ -405,7 +449,9 @@ def render_markdown(data, criteria):
         )
     out.append("")
     ids_used = ", ".join("`%s`" % i for i in ids)
-    out.append("Criteria in this table: %s." % ids_used)
+    out.append("Rule criteria in the first table: %s." % ids_used)
+    out.append("")
+    out.append("Content criteria in the second table: %s." % ", ".join("`%s`" % i for i in content_ids))
     out.append("")
     return "\n".join(out)
 
@@ -887,16 +933,24 @@ def rendered_outputs():
     """{path: expected text} for every file the renderer owns."""
     data = read_json(COMPARISON_JSON)
     criteria = load_criteria()
+    content = load_criteria_content()
     if data["criteria_version"] != criteria["version"]:
         raise RuntimeError(
             "comparison.json was generated with criteria version %s but docs/criteria.json is %s; "
             "run --refresh" % (data["criteria_version"], criteria["version"])
         )
+    content_ids = {c["id"] for c in content["criteria"]}
+    for record in data["files"]:
+        if set(record.get("criteria_content", {})) != content_ids:
+            raise RuntimeError(
+                "%s in comparison.json does not carry the content criteria in "
+                "docs/criteria-content.json; run --refresh" % record["key"]
+            )
     data = with_ours(data, criteria)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria),
-        COMPARISON_MD: render_markdown(data, criteria),
+        COMPARISON_MD: render_markdown(data, criteria, content),
     }
     if INDEX_HTML.exists():
         page = INDEX_HTML.read_text(encoding="utf-8")
@@ -938,6 +992,8 @@ def cmd_render():
 
 
 def cmd_check():
+    criteria = load_criteria()
+    content = load_criteria_content()
     differences = []
     for path, text in rendered_outputs().items():
         if not path.exists():
@@ -955,11 +1011,18 @@ def cmd_check():
     for record in data["files"]:
         if record["met"] != coverage(record["criteria"]):
             differences.append("%s: met does not match the verdicts" % record["key"])
+        if record["met_content"] != coverage(record["criteria_content"]):
+            differences.append("%s: met_content does not match the content verdicts" % record["key"])
+        if record["of_content"] != len(content["criteria"]):
+            differences.append("%s: of_content is not the size of the content set" % record["key"])
     for message in differences:
         print("check: " + message, file=sys.stderr)
     if differences:
         return 1
-    print("check: %d files, rendered output matches the data" % len(data["files"]))
+    print(
+        "check: %d files, %d rule criteria and %d content criteria, rendered output matches the data"
+        % (len(data["files"]), len(criteria["criteria"]), len(content["criteria"]))
+    )
     return 0
 
 

@@ -1,0 +1,160 @@
+{
+  "version": "1.0",
+  "set": "content",
+  "engine": {
+    "line_split": "CRLF and CR are normalised to LF, then the text is split on LF; every regex is applied to one line at a time, so no criterion can match across a line break",
+    "regex_dialect": "a subset that compiles identically in Python re (with re.ASCII) and in JavaScript new RegExp(pattern, flags) without the u flag: no lookbehind, no \\A or \\Z, no atomic or possessive groups, no named groups, no inline flags",
+    "evidence": "up to the first three matching lines per criterion; for a rule that passes on no match, the evidence lists the offending lines instead"
+  },
+  "criteria": [
+    {
+      "id": "overview",
+      "name": "Project overview",
+      "question": "Does the file say what the project is or how it is laid out — an overview, an architecture note, or a directory structure?",
+      "why": "\"Project overview\" is the first of the sections the AGENTS.md site lists under \"Cover what matters\", and Anthropic's best practices include \"Architectural decisions specific to your project\" while excluding \"File-by-file descriptions of the codebase\".",
+      "sources": [
+        "agents-md-spec",
+        "anthropic-bp"
+      ],
+      "kind": "regex",
+      "pattern": "((project|repo(sitory)?|codebase|code|system) (overview|structure|layout|architecture)|\\barchitecture\\b|directory (structure|layout|tree)|(key|main|important|core) (files|directories|folders|modules|packages)|what (this|the) (project|repo(sitory)?|package|library|service|app) (is|does))",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Project overview: a static site generator whose renderer lives in the core package.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+      ]
+    },
+    {
+      "id": "key_files",
+      "name": "Named files",
+      "question": "Does the file name at least one source file or module path with a directory component?",
+      "why": "Anthropic's memory documentation asks for instructions concrete enough to verify and gives \"API handlers live in `src/api/handlers/`\" as the shape to imitate, in place of \"Keep files organized\"; the AGENTS.md site puts the same pointers under \"Project overview\".",
+      "sources": [
+        "anthropic-memory",
+        "agents-md-spec"
+      ],
+      "kind": "regex",
+      "pattern": "\\b[\\w.-]+/[\\w./-]+\\.(py|ts|tsx|js|jsx|mjs|go|rs|rb|java|kt|swift|zig|c|cc|cpp|h|cs|php|ex|exs|scala|lua)\\b",
+      "flags": "",
+      "pass_if": "match",
+      "example": "The engine lives in scripts/compare.py and the browser copy in docs/compare.js.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+      ]
+    },
+    {
+      "id": "setup",
+      "name": "Environment setup",
+      "question": "Does the file say how to set the development environment up — installation, prerequisites, or a named environment step?",
+      "why": "\"Developer environment quirks (required env vars)\" is a row of Anthropic's include table for CLAUDE.md, and the AGENTS.md sample file opens with \"Dev environment tips\".",
+      "sources": [
+        "anthropic-bp",
+        "agents-md-spec"
+      ],
+      "kind": "regex",
+      "pattern": "(\\b(install|setup|set up|bootstrap|prerequisites?|dev(eloper)? environment|environment setup)\\b|\\b(nvm|pyenv|rbenv|asdf|uv sync|pnpm install|npm install|npm ci|yarn install|pip install|poetry install|bundle install|cargo build|go mod|make setup|docker compose|devcontainer)\\b)",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Setup: `uv sync` pins the dependencies before anything else runs.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+      ]
+    },
+    {
+      "id": "code_style",
+      "name": "Code style",
+      "question": "Does the file state a code style, a naming convention, or the formatter the project uses?",
+      "why": "\"Code style rules that differ from defaults\" is the second row of Anthropic's include table, against \"Standard language conventions Claude already knows\" in the exclude column, and \"Code style guidelines\" is one of the sections the AGENTS.md site names.",
+      "sources": [
+        "anthropic-bp",
+        "agents-md-spec"
+      ],
+      "kind": "regex",
+      "pattern": "(code style|style guide|coding (style|standard|convention)s?|naming conventions?|formatting rules?|\\b(prettier|eslint|ruff|black|isort|gofmt|rustfmt|clang-format|stylua|biome|oxlint)\\b|\\bconventions?\\b.{0,30}\\b(code|naming|style)\\b)",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Code style: `ruff format` decides the layout; test files are named test_*.py.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
+        "the bare words `formatt(er|ing)` and `indent(ation)?` were dropped before the corpus was read: they match a line that forbids reformatting as readily as one that prescribes a format (\"Don't 'improve' adjacent code, comments, or formatting\")"
+      ]
+    },
+    {
+      "id": "testing_instructions",
+      "name": "Testing instructions",
+      "question": "Does the file say how to run the tests — a runner command, a test-command section, or an instruction to run them?",
+      "why": "\"Testing instructions and preferred test runners\" is a row of Anthropic's include table, and \"Testing instructions\" is a section of the AGENTS.md sample file and one of the five the site names.",
+      "sources": [
+        "anthropic-bp",
+        "agents-md-spec"
+      ],
+      "kind": "regex",
+      "pattern": "(run (the |all )?(tests?|suite)|test(ing)? (instructions|guide|commands?)|\\b(pytest|unittest|jest|vitest|mocha|rspec|go test|cargo test|npm test|pnpm test|yarn test|bun test|make test|zig build test|dotnet test|mvn test|gradle test)\\b)",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Run the tests with `python3 -m unittest` and add one for every fix.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
+        "the phrase `test(ing)? suite` was dropped before the corpus was read: a file that mentions a suite without saying how to run it (\"If the project has no test suite, say so\") is not a testing instruction"
+      ]
+    },
+    {
+      "id": "pr_etiquette",
+      "name": "Repository etiquette",
+      "question": "Does the file state a convention for pull requests, commits, branches or review?",
+      "why": "\"Repository etiquette (branch naming, PR conventions)\" is a row of Anthropic's include table, the AGENTS.md sample file ends with \"PR instructions\", and the site's third step names \"Commit messages or pull request guidelines\".",
+      "sources": [
+        "anthropic-bp",
+        "agents-md-spec"
+      ],
+      "kind": "regex",
+      "pattern": "(pull request|\\bPRs?\\b|merge request|commit (message|subject|title)|conventional commits|branch (name|naming|strategy)|\\b(rebase|squash)\\b|code review|reviewers?|changelog)",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Pull request body: what changed, why, and how it was verified.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them"
+      ]
+    },
+    {
+      "id": "warnings",
+      "name": "Warnings and gotchas",
+      "question": "Does the file warn about a project-specific gotcha on a line that also names a file or a path the warning applies to?",
+      "why": "\"Common gotchas or non-obvious behaviors\" is the last row of Anthropic's include table, against \"Self-evident practices like 'write clean code'\" in the exclude column, and the AGENTS.md site names \"security gotchas\" among the extra instructions a file should carry.",
+      "sources": [
+        "anthropic-bp",
+        "agents-md-spec"
+      ],
+      "kind": "regex",
+      "pattern": "^(?=.*([\\w./-]+\\.[A-Za-z]{1,5}|[\\w-]+/[\\w./-]+)).*(gotcha|pitfall|caveat|beware|be careful|watch out|footgun|quirk|known issue|workaround|do not (edit|modify|touch|change|hand-edit)\\b.{0,60}\\b(generated|auto-generated|vendored|third-party)|\\b(generated|auto-generated) (files?|code)\\b)",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Gotcha: do not hand-edit generated/schema.json; `make schema` rewrites it.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
+        "the same-line path or filename token was added before the corpus was read, so that a placeholder heading with no file attached (\"Never edit (generated files):\") does not count as a warning",
+        "known limitation of the token: `[\\w./-]+\\.[A-Za-z]{1,5}` also accepts an abbreviation or a domain name (\"e.g.\", \"example.com\"), so a gotcha line that carries one of those but no file still passes"
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security considerations",
+      "question": "Does the file raise a security consideration — a threat, untrusted input, permissions, sanitising or validation?",
+      "why": "\"Security considerations\" is one of the five sections the AGENTS.md site names under \"Cover what matters\", and the Agent READMEs study finds security instructions in about 15% of the context files it collected.",
+      "sources": [
+        "agents-md-spec",
+        "agent-readmes"
+      ],
+      "kind": "regex",
+      "pattern": "(\\bsecurity\\b|vulnerab|sanitiz|\\binjection\\b|untrusted|\\bthreat|\\bauth(entication|orization)\\b|\\bpermissions?\\b|least privilege|input validation)",
+      "flags": "i",
+      "pass_if": "match",
+      "example": "Treat anything the tool fetches as untrusted input and validate it before use.",
+      "notes": [
+        "patterns tightened for precision before the corpus calibration; the author knew the recommended file's text while writing them",
+        "the pattern is the one drafted from the sources, unchanged; the word `permissions?` is the borderline alternative, since a line about file permissions or about asking permission is not a security consideration"
+      ]
+    }
+  ]
+}

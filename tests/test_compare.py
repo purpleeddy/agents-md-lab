@@ -1,4 +1,4 @@
-"""Tests for scripts/compare.py, docs/criteria.json and the JavaScript engine in docs/compare.js."""
+"""Tests for scripts/compare.py, the two criteria sets and the JavaScript engine in docs/compare.js."""
 
 import datetime
 import json
@@ -84,8 +84,82 @@ CALIBRATION = {
 }
 
 
+# One snippet that meets each content criterion and one that does not, written here rather than
+# copied from any corpus file.
+CONTENT_SNIPPETS = {
+    "overview": (
+        "## Project overview\n",
+        "This file lists the rules the team agreed on.\n",
+    ),
+    "key_files": (
+        "The parser lives in src/parser/tokens.rs.\n",
+        "The parser lives in the core package.\n",
+    ),
+    "setup": (
+        "Prerequisites: run `pnpm install` in the workspace root first.\n",
+        "The service reads its configuration from the environment at boot.\n",
+    ),
+    "code_style": (
+        "Code style: two-space indents, and `eslint` decides the rest.\n",
+        "Write the change in whatever shape reads well.\n",
+    ),
+    "testing_instructions": (
+        "Run the tests with `make test` before you stop.\n",
+        "Tests live beside the code they cover.\n",
+    ),
+    "pr_etiquette": (
+        "Commit messages use the imperative mood; open one pull request per change.\n",
+        "Write the change in the branch you are already on.\n",
+    ),
+    "warnings": (
+        "Gotcha: `config/legacy.yml` is read at boot and never reloaded.\n",
+        "Gotcha: the loader is fussy about ordering.\n",
+    ),
+    "security": (
+        "Treat webhook payloads as untrusted input; validate them before use.\n",
+        "The cache lives in memory and is dropped on restart.\n",
+    ),
+}
+
+
+# The three content patterns tightened before the corpus was read (F7.1). Each line is a case the
+# untightened pattern would have read the wrong way.
+CONTENT_TIGHTENING = {
+    "code-style-negated-formatting": (
+        "code_style",
+        'Don\'t "improve" adjacent code, comments, or formatting; mention unrelated dead code, '
+        "don't remove it.\n",
+        False,
+    ),
+    "testing-bare-suite": (
+        "testing_instructions",
+        "If the project has no test suite, say so.\n",
+        False,
+    ),
+    "warnings-placeholder": (
+        "warnings",
+        "- Never edit (generated files):\n",
+        False,
+    ),
+    "warnings-named-file": (
+        "warnings",
+        "do not hand-edit generated/schema.json\n",
+        True,
+    ),
+}
+
+
 def criteria():
     return compare.load_criteria()
+
+
+def content_criteria():
+    return compare.load_criteria_content()
+
+
+def criteria_sets():
+    """Both sets, for the checks that hold of any criteria file."""
+    return (criteria(), content_criteria())
 
 
 def criterion_by_id(criterion_id):
@@ -93,6 +167,28 @@ def criterion_by_id(criterion_id):
         if criterion["id"] == criterion_id:
             return criterion
     raise AssertionError("no criterion with id %r" % (criterion_id,))
+
+
+def content_parity_cases():
+    """(name, text) for every content snippet, tightening case and example."""
+    cases = []
+    for criterion_id in sorted(CONTENT_SNIPPETS):
+        passing, failing = CONTENT_SNIPPETS[criterion_id]
+        cases.append((criterion_id + "-pass", passing))
+        cases.append((criterion_id + "-fail", failing))
+    for name in sorted(CONTENT_TIGHTENING):
+        cases.append(("tightening-" + name, CONTENT_TIGHTENING[name][1]))
+    for criterion in content_criteria()["criteria"]:
+        cases.append(("example-" + criterion["id"], criterion["example"] + "\n"))
+    cases.append(("empty", ""))
+    return cases
+
+
+def cached_corpus_cases():
+    """(name, text) for every corpus file in the local cache. The cache is not committed, so the
+    tests that use it are skipped when it is not there."""
+    return [(path.name, path.read_text(encoding="utf-8"))
+            for path in sorted(compare.CACHE_DIR.glob("*.md"))]
 
 
 def parity_cases():
@@ -118,49 +214,103 @@ class CriteriaFileTest(unittest.TestCase):
         self.assertEqual(len(set(ids)), 10)
 
     def test_every_criterion_has_the_required_fields(self):
-        for criterion in criteria()["criteria"]:
-            for field in ("id", "name", "question", "why", "sources", "kind", "example", "notes"):
-                self.assertIn(field, criterion, criterion["id"])
-            self.assertIsInstance(criterion["notes"], list, criterion["id"])
-            self.assertTrue(criterion["sources"], criterion["id"])
-            if criterion["kind"] == "composite":
-                self.assertIn("combine", criterion, criterion["id"])
-                self.assertTrue(criterion["rules"], criterion["id"])
-            else:
-                self.assertIn("pass_if", criterion, criterion["id"])
+        for data in criteria_sets():
+            for criterion in data["criteria"]:
+                for field in ("id", "name", "question", "why", "sources", "kind", "example", "notes"):
+                    self.assertIn(field, criterion, criterion["id"])
+                self.assertIsInstance(criterion["notes"], list, criterion["id"])
+                self.assertTrue(criterion["sources"], criterion["id"])
+                if criterion["kind"] == "composite":
+                    self.assertIn("combine", criterion, criterion["id"])
+                    self.assertTrue(criterion["rules"], criterion["id"])
+                else:
+                    self.assertIn("pass_if", criterion, criterion["id"])
 
     def test_patterns_avoid_constructs_that_only_one_engine_supports(self):
         forbidden = [r"\(\?<", r"\(\?P<", r"\\A", r"\\Z", r"\(\?[aimsux]*[-)]", r"\+\+|\*\+"]
-        for criterion in criteria()["criteria"]:
-            patterns = [criterion["pattern"]] if "pattern" in criterion else []
-            patterns += [rule["pattern"] for rule in criterion.get("rules", [])]
-            for pattern in patterns:
-                for bad in forbidden:
-                    self.assertIsNone(
-                        re.search(bad, pattern),
-                        "%s: pattern uses %s" % (criterion["id"], bad),
-                    )
+        for data in criteria_sets():
+            for criterion in data["criteria"]:
+                patterns = [criterion["pattern"]] if "pattern" in criterion else []
+                patterns += [rule["pattern"] for rule in criterion.get("rules", [])]
+                for pattern in patterns:
+                    for bad in forbidden:
+                        self.assertIsNone(
+                            re.search(bad, pattern),
+                            "%s: pattern uses %s" % (criterion["id"], bad),
+                        )
 
     def test_every_pattern_compiles_in_python(self):
-        for criterion in criteria()["criteria"]:
-            patterns = [(criterion.get("pattern"), criterion.get("flags", ""))]
-            patterns += [(rule["pattern"], rule["flags"]) for rule in criterion.get("rules", [])]
-            for pattern, flags in patterns:
-                if pattern is not None:
-                    compare.compile_pattern(pattern, flags)
+        for data in criteria_sets():
+            for criterion in data["criteria"]:
+                patterns = [(criterion.get("pattern"), criterion.get("flags", ""))]
+                patterns += [(rule["pattern"], rule["flags"]) for rule in criterion.get("rules", [])]
+                for pattern, flags in patterns:
+                    if pattern is not None:
+                        compare.compile_pattern(pattern, flags)
 
     def test_every_source_key_is_defined_in_references(self):
         text = (REPO_ROOT / "docs" / "references.md").read_text(encoding="utf-8")
         defined = set(re.findall(r'<a id="ref-([\w.-]+)"></a>', text))
-        for criterion in criteria()["criteria"]:
-            for key in criterion["sources"]:
-                self.assertIn(key, defined, "%s cites %s" % (criterion["id"], key))
+        for data in criteria_sets():
+            for criterion in data["criteria"]:
+                for key in criterion["sources"]:
+                    self.assertIn(key, defined, "%s cites %s" % (criterion["id"], key))
 
     def test_each_example_satisfies_its_own_criterion(self):
-        data = criteria()
-        for criterion in data["criteria"]:
-            verdicts = compare.evaluate(criterion["example"] + "\n", "AGENTS.md", data)
-            self.assertTrue(verdicts[criterion["id"]]["pass"], criterion["id"])
+        for data in criteria_sets():
+            for criterion in data["criteria"]:
+                verdicts = compare.evaluate(criterion["example"] + "\n", "AGENTS.md", data)
+                self.assertTrue(verdicts[criterion["id"]]["pass"], criterion["id"])
+
+
+class ContentCriteriaFileTest(unittest.TestCase):
+    def test_eight_criteria_with_unique_ids(self):
+        ids = [c["id"] for c in content_criteria()["criteria"]]
+        self.assertEqual(len(ids), 8)
+        self.assertEqual(len(set(ids)), 8)
+
+    def test_the_file_declares_itself_the_content_set(self):
+        self.assertEqual(content_criteria()["set"], "content")
+
+    def test_the_two_sets_share_no_criterion_id(self):
+        rules = {c["id"] for c in criteria()["criteria"]}
+        content = {c["id"] for c in content_criteria()["criteria"]}
+        self.assertEqual(rules & content, set())
+
+    def test_every_criterion_records_the_note_about_how_it_was_written(self):
+        for criterion in content_criteria()["criteria"]:
+            self.assertTrue(criterion["notes"], criterion["id"])
+
+
+class ContentEngineTest(unittest.TestCase):
+    def test_each_criterion_passes_its_snippet_and_fails_the_other(self):
+        data = content_criteria()
+        self.assertEqual(set(CONTENT_SNIPPETS), {c["id"] for c in data["criteria"]})
+        for criterion_id, (passing, failing) in CONTENT_SNIPPETS.items():
+            self.assertTrue(
+                compare.evaluate(passing, "AGENTS.md", data)[criterion_id]["pass"],
+                "%s should pass its passing snippet" % criterion_id,
+            )
+            self.assertFalse(
+                compare.evaluate(failing, "AGENTS.md", data)[criterion_id]["pass"],
+                "%s should fail its failing snippet" % criterion_id,
+            )
+
+    def test_the_tightened_patterns_read_each_line_the_intended_way(self):
+        data = content_criteria()
+        for name, (criterion_id, text, expected) in CONTENT_TIGHTENING.items():
+            self.assertEqual(
+                compare.evaluate(text, "AGENTS.md", data)[criterion_id]["pass"],
+                expected,
+                "%s: %s" % (name, criterion_id),
+            )
+
+    def test_the_two_sets_are_evaluated_from_the_same_text(self):
+        text = "Run the tests with `make test` before you stop.\n"
+        self.assertTrue(compare.evaluate(text, "AGENTS.md", criteria())["commands"]["pass"])
+        self.assertTrue(
+            compare.evaluate(text, "AGENTS.md", content_criteria())["testing_instructions"]["pass"]
+        )
 
 
 class EngineTest(unittest.TestCase):
@@ -252,9 +402,10 @@ class CalibrationTest(unittest.TestCase):
 
 @unittest.skipIf(NODE is None, "node is not on PATH; the parity check needs it")
 class ParityTest(unittest.TestCase):
-    def test_javascript_engine_agrees_with_python(self):
-        cases = parity_cases()
+    def run_harness(self, cases, criteria_file=None):
         payload = {"cases": [{"name": name, "text": text} for name, text in cases]}
+        if criteria_file:
+            payload["criteria_file"] = criteria_file
         result = subprocess.run(
             [NODE, str(PARITY_HARNESS)],
             input=json.dumps(payload),
@@ -263,14 +414,28 @@ class ParityTest(unittest.TestCase):
             cwd=str(REPO_ROOT),
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        from_js = json.loads(result.stdout)
-        data = criteria()
+        return json.loads(result.stdout)
+
+    def assert_agrees(self, cases, data, criteria_file=None):
+        from_js = self.run_harness(cases, criteria_file)
         for name, text in cases:
             self.assertEqual(
                 from_js[name],
                 compare.evaluate(text, "AGENTS.md", data),
                 "engines disagree on %s" % name,
             )
+
+    def test_javascript_engine_agrees_with_python(self):
+        self.assert_agrees(parity_cases(), criteria())
+
+    def test_javascript_engine_agrees_with_python_on_the_content_set(self):
+        self.assert_agrees(content_parity_cases(), content_criteria(), "criteria-content.json")
+
+    @unittest.skipUnless(len(cached_corpus_cases()) == 10, "the corpus cache is not on disk")
+    def test_the_engines_agree_on_the_cached_corpus_files(self):
+        cases = cached_corpus_cases()
+        self.assert_agrees(cases, criteria())
+        self.assert_agrees(cases, content_criteria(), "criteria-content.json")
 
 
 class CorpusManifestTest(unittest.TestCase):
@@ -308,6 +473,18 @@ class ComparisonDataTest(unittest.TestCase):
             self.assertEqual(record["met"], compare.coverage(record["criteria"]))
             self.assertEqual(record["of"], 10)
 
+    def test_every_file_carries_the_content_set_too(self):
+        ids = {c["id"] for c in content_criteria()["criteria"]}
+        for record in self.data["files"]:
+            self.assertEqual(set(record["criteria_content"]), ids, record["key"])
+            self.assertEqual(record["met_content"], compare.coverage(record["criteria_content"]))
+            self.assertEqual(record["of_content"], 8, record["key"])
+
+    def test_the_recommended_file_is_not_evaluated_by_the_content_set(self):
+        # The content criteria are frozen and calibrated on the corpus before this repository's
+        # own file is measured against them.
+        self.assertNotIn("criteria_content", self.data["ours"])
+
     def test_stars_at_is_a_date(self):
         for record in self.data["files"]:
             datetime.date.fromisoformat(record["stars_at"])
@@ -317,9 +494,10 @@ class ComparisonDataTest(unittest.TestCase):
         for record in self.data["files"]:
             if record["license"] != "NONE":
                 continue
-            for verdict in record["criteria"].values():
-                for item in verdict["evidence"]:
-                    self.assertEqual(set(item), {"line"})
+            for block in ("criteria", "criteria_content"):
+                for verdict in record[block].values():
+                    for item in verdict["evidence"]:
+                        self.assertEqual(set(item), {"line"})
 
     def test_criteria_version_matches(self):
         self.assertEqual(self.data["criteria_version"], criteria()["version"])
