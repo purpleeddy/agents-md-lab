@@ -240,7 +240,7 @@ Three things about these patterns are worth stating plainly rather than leaving 
 
 ## Why the recommended file meets the rule criteria
 
-The recommended file meets 9 of the 10 rule criteria, and that number is not evidence of
+The recommended file meets 8 of the 10 rule criteria, and that number is not evidence of
 anything. The criteria and the file were written by the same author, in the same weeks, from the
 same sources — [anthropic-bp](references.md#ref-anthropic-bp),
 [anthropic-memory](references.md#ref-anthropic-memory),
@@ -363,6 +363,18 @@ the buttons hand over that file itself, and there is one hash and one pair of nu
 three. The rows above the last one below name texts that are no longer in the working tree, so
 their hashes and numbers are recorded constants.
 
+The shipped file is now `AGENTS.md` v1.1. It applies the rest of the independent review, thirteen
+changes in all, and then cuts or merges every line a line audit could not tie to a measured effect
+or to a safety boundary; the audit, one row per line of v1.0.1, is on the
+[rationale page](rationale.md#line-audit-v101-to-v11). The file went from 52 lines and 5,456 bytes
+to 35 lines and 3,840 bytes, about 960 tokens by a bytes-over-four estimate, and its rule coverage
+went from 10/10 to 8/10: it names no runnable command, because the Project template is empty, and
+it no longer carries the sentence `done_verification` matched, which was cut on the merits. No
+line was written or kept to change a verdict. The ninety runs measured v1.0; whether the
+compaction kept the advantages they showed is what the
+[round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md)
+measures, pre-registered before it runs.
+
 <!-- shipped:start -->
 | Text | sha256 | Rule criteria | Content criteria |
 | --- | --- | --- | --- |
@@ -370,7 +382,8 @@ their hashes and numbers are recorded constants.
 | Root `AGENTS.md` with this repository's Project section filled in (v1.0.1), recorded constant | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 10/10 | 3/8 |
 | Generic text, that Project section emptied (v1.0.1), recorded constant | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
 | `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
-| Root `AGENTS.md`, the file shipped now (v1.0.1) | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
+| Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
+| Root `AGENTS.md`, the file shipped now (v1.1) | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:

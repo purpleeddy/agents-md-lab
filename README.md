@@ -13,9 +13,11 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 
 ## Adopt the file
 
-The file is `AGENTS.md` v1.0.1: the text the experiment ran, with two defects fixed across four
-rule lines after an independent review. What changed and what it means for the results is in
-[methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped).
+The file is `AGENTS.md` v1.1: the text the experiment ran, amended after an independent review
+and then cut to the lines that carry a measured effect or a safety boundary. 35 lines, 3,840
+bytes, about 960 tokens. What changed and what it means for the results is in
+[methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by line in
+[the audit](docs/rationale.md#line-audit-v101-to-v11).
 
 1. Put the file in your repository root:
 
@@ -26,9 +28,9 @@ rule lines after an independent review. What changed and what it means for the r
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
-   and where the details live. That section is the part no one else can write for you. The other
-   line to edit is the pointer in the header, which names this site's rationale page: point it at
-   your own document, or drop it.
+   and where the details live. That section is the part no one else can write for you, and it is
+   the reason the file as served meets neither the runnable-command criterion nor any content
+   criterion.
 
 ## What the survey found
 
@@ -70,8 +72,10 @@ documented-convention metric from 5/10 to 10/10, and acceptance followed it exac
 the three conditions. The file is paid for on every task — median cost 1.95× the no-file
 condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
 
-The runs measured v1.0; the file offered above is v1.0.1, amended after an independent review
-(see [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)). The
+The runs measured v1.0; the file offered above is v1.1, amended after an independent review and
+then compacted (see
+[the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)). Whether
+the compaction kept these results is the question the pre-registered round-2 test asks. The
 numbers, the intervals, the null results and what the experiment does not show are on
 [the findings page](docs/findings.md); the design was locked before any run at tag
 `testset-v1.0`.

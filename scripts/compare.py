@@ -58,11 +58,12 @@ PREVIEW_LINES = 12
 OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md"
 
 # The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 fixes
-# two defects across four rule lines after the independent review (see docs/methodology.md, "What
-# the experiment tested and what is shipped"). The texts below are not recoverable from the
-# working tree, because the file they name has since changed or been deleted, so each is recorded
-# with the hash and the two coverage numbers measured on it at the time.
-OURS_VERSION = "1.0.1"
+# two defects across four rule lines after the independent review; v1.1 is the rewrite from the
+# rest of that review, compacted (see docs/methodology.md, "What the experiment tested and what is
+# shipped"). The texts below are not recoverable from the working tree, because the file they name
+# has since changed or been deleted, so each is recorded with the hash and the two coverage
+# numbers measured on it at the time.
+OURS_VERSION = "1.1"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 RECORDED_TEXTS = (
     ("Generic file the experiment ran (v1.0)", TESTED_GENERIC_SHA256, 9, 0),
@@ -82,6 +83,12 @@ RECORDED_TEXTS = (
         "`docs/generated/agents-generic.md`, the file the button offered (v1.0.1)",
         "2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4",
         8,
+        0,
+    ),
+    (
+        "Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template)",
+        "cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a",
+        9,
         0,
     ),
 )
@@ -705,7 +712,16 @@ def render_labels_css(criteria):
     )
 
 
-def render_preview_html(data):
+def unmet_names(ours, criteria):
+    """The rule criteria the shipped file does not meet, named as the criteria file spells them,
+    so the card cannot round its own number up."""
+    names = {c["id"]: c["name"] for c in criteria["criteria"]}
+    return ", ".join(
+        names[key] for key, verdict in ours["criteria"].items() if not verdict["pass"]
+    )
+
+
+def render_preview_html(data, criteria):
     """The hero card. One text: the root file, which is what the buttons hand over and what both
     numbers were measured on, so one hash names it."""
     lines = OURS_FILE.read_text(encoding="utf-8").split("\n")[:PREVIEW_LINES]
@@ -715,9 +731,9 @@ def render_preview_html(data):
         '<p class="filemeta" title="sha256 %s">'
         "v%s \u00b7 MIT \u00b7 %d lines \u00b7 Rule criteria %d/%d \u00b7 Content criteria "
         "%d/%d</p>\n"
-        '<p class="filenote">Written to the rule criteria, so meeting them is expected. The '
-        "content criteria ask for what the Project section you fill in holds, which is why that "
-        "number reads as it does.</p>"
+        '<p class="filenote">Written to the rule criteria, so meeting them is expected, and the '
+        "number is published as the engine reports it; unmet: %s. The content criteria ask for "
+        "what the Project section you fill in holds.</p>"
         % (
             PREVIEW_LINES,
             esc("\n".join(lines)),
@@ -728,6 +744,7 @@ def render_preview_html(data):
             ours["of"],
             ours["met_content"],
             ours["of_content"],
+            esc(unmet_names(ours, criteria)),
         )
     )
 
@@ -1174,7 +1191,7 @@ def rendered_outputs():
         page = INDEX_HTML.read_text(encoding="utf-8")
         page = replace_block(page, "comparison", render_comparison_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
-        page = replace_block(page, "preview", render_preview_html(data), INDEX_HTML)
+        page = replace_block(page, "preview", render_preview_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
         page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
         page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)

@@ -7,6 +7,7 @@ size budgets.
 """
 
 import hashlib
+import html
 import json
 import re
 import shutil
@@ -223,8 +224,9 @@ class KnownIssuesTest(unittest.TestCase):
         self.assertEqual(expected - listed, set())
 
     def test_every_row_carries_a_response(self):
-        allowed = ("fixed in v1.0.1", "enforceable by the example settings",
-                   "v1.1 candidate", "disagree because", "covered by")
+        allowed = ("fixed in v1.0.1", "applied in v1.1", "enforceable by the example settings",
+                   "v1.1 candidate", "disagree because", "covered by", "the line is cut in v1.1",
+                   "the rule stands")
         for row in self.rows():
             response = row.split("|")[5]
             self.assertTrue(any(word in response for word in allowed), row)
@@ -329,7 +331,8 @@ class PageTest(unittest.TestCase):
         # The copy button and the hero preview show the same text the download link serves, and
         # the card names that file's one hash.
         root = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")
-        self.assertIn(root.split("\n")[5], self.html)
+        # The preview is HTML-escaped, so the line is compared in the form the page carries.
+        self.assertIn(html.escape(root.split("\n")[5], quote=True), self.html)
         digest = hashlib.sha256(root.encode("utf-8")).hexdigest()
         self.assertIn('title="sha256 ' + digest + '"', self.html)
 
@@ -342,9 +345,18 @@ class PageTest(unittest.TestCase):
             r'\u00b7 Rule criteria \d+/\d+ \u00b7 Content criteria \d+/\d+</p>',
         )
         self.assertIn(
-            '<p class="filenote">Written to the rule criteria, so meeting them is expected.',
+            '<p class="filenote">Written to the rule criteria, so meeting them is expected,',
             self.html,
         )
+        # The card names the criteria it does not meet, from the data, so it cannot round up.
+        import json
+
+        ours = json.loads((DOCS / "data" / "comparison.json").read_text(encoding="utf-8"))["ours"]
+        criteria = json.loads((DOCS / "criteria.json").read_text(encoding="utf-8"))
+        names = {c["id"]: c["name"] for c in criteria["criteria"]}
+        for key, verdict in ours["criteria"].items():
+            if not verdict["pass"]:
+                self.assertIn(names[key], self.html)
 
     def test_the_check_panel_carries_the_privacy_line(self):
         self.assertIn("Nothing is sent or stored; the check runs in your browser.", self.html)
