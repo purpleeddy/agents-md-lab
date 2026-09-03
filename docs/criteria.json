@@ -56,7 +56,8 @@
       "pass_if": "match",
       "example": "Before you report the task as done, run the tests and paste the result.",
       "notes": [
-        "calibrated on the corpus on 2026-09-03: a pattern that matched any 'run the tests' phrasing -> a pattern that requires a completion condition (a verification tied to before/after, or a modal saying it must pass) -> the old pattern read command tables as done-conditions in six of its eight hits (openai/agents.md AGENTS.md:35, anthropics/claude-code-action CLAUDE.md:6, getsentry/sentry AGENTS.md:82, humanlayer/humanlayer CLAUDE.md:45, getzep/graphiti CLAUDE.md:31)."
+        "calibrated on the corpus on 2026-09-03: a pattern that matched any 'run the tests' phrasing -> a pattern that requires a completion condition (a verification tied to before/after, or a modal saying it must pass) -> the old pattern read command tables as done-conditions in six of its eight hits (openai/agents.md AGENTS.md:35, anthropics/claude-code-action CLAUDE.md:6, getsentry/sentry AGENTS.md:82, humanlayer/humanlayer CLAUDE.md:45, getzep/graphiti CLAUDE.md:31).",
+        "known false negative recorded on 2026-09-03: a 'checks ran and passed' formulation (this repository's AGENTS.md, Boundaries and Done) is not matched by the frozen pattern; candidate for criteria v1.1, which would re-evaluate the whole corpus"
       ]
     },
     {

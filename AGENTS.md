@@ -25,15 +25,14 @@ system prompt outranks this file. Where each line came from: docs/rationale.md.
 - No compatibility shims, fallbacks, or stopgaps in internal code: remove the obsolete path instead. This never extends to migrations, schema, stored data, or public API, which fall under "Boundaries".
 - Comments explain why (a constraint the code can't express), never what or edit history.
 - Handle errors where they occur. No catch-all handlers or silent fallbacks that hide failures.
-- Read the part of a file or log you need, not the whole thing.
+- Run the targeted test before the suite. Read the part of a file or log you need, not the whole thing.
 
 ## Done
 A task is complete only when the checks below ran and passed:
 1. The checks relevant to the change: code changes run format, lint, typecheck, and tests; docs-only or config-only changes run the checks that cover them. If "Project" below is empty, find the commands in package.json, Makefile, pyproject, or CONTRIBUTING; do not guess.
-2. Run the targeted test first, then the suite the change belongs to.
-3. Bug fix: a test reproduced the bug before the fix and passes after. Feature: the new behavior has a test. If the project has no test suite, say so in the report instead of inventing one.
-4. `git diff` reviewed: no unrelated changes, debug output, or leftover files.
-5. If a command fails twice with the same error, stop and report instead of looping.
+2. Bug fix: a test reproduced the bug before the fix and passes after. Feature: the new behavior has a test. If the project has no test suite, say so in the report instead of inventing one.
+3. `git diff` reviewed: no unrelated changes, debug output, or leftover files.
+4. If a command fails twice with the same error, stop and report instead of looping.
 
 ## Reporting
 - Lead with what changed and what was verified (commands and results), then risks, open questions, and assumptions you made.

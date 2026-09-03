@@ -760,5 +760,17 @@ pinned by commit and written for no task in this repository. The pilot's `ours` 
 existed in the repository — `experiments/task1` first appears at 01:15 and `experiments/task3` at
 12:49 the same day — so the pilot does not carry this limitation and the main run does. No rule
 in v1.0 was written against a task: every change is traced in `docs/rationale.md` to a cited
-source or to an observation in `docs/generated/comparison.md`. A reader who wants the
-task-blind comparison should read the pilot, not the main run.
+source, to a corpus observation in `docs/generated/comparison.md`, or to the pre-task v1 text
+at commit `f095752` (marked as such). A reader who wants the task-blind comparison should read
+the pilot, not the main run.
+
+Deviation from the Conditions section above: that section (above the Lock line, and therefore
+unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0` tag. It does not.
+The approved plan and this section define the main run's `ours` as the v1.0 file, written after
+the lock: commit `66adec0` plus the wording commit that adds this paragraph, sha256
+`381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). It was written
+from the v1 text at `f095752` and from the corpus comparison in `docs/generated/comparison.md`,
+not from the pilot results. The test set itself — the three tasks, their hidden acceptance tests,
+the metrics and their fixed directions — is unchanged, so the version is not bumped; the file
+under test is the thing that changed, and each run's `meta.json` records the sha256 actually
+written.
