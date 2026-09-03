@@ -436,6 +436,43 @@ a review, and no run measured them. The reviewers' other
 findings, and what was done with each, are in
 [rationale.md](rationale.md#known-issues-independent-review-2026-09-03).
 
+## How the file evolves
+
+Four grounds, each with a limit. **Measured effect** on the locked test set is the only ground for
+adopting a rule; its limit is the test set, ten runs a cell, three tasks, one model, so a rule
+aimed at behaviour the tasks never exercise needs a new task and a version bump first.
+**Independent review** is the ground for a safety boundary, because every harm metric sits at the
+floor in all three conditions and the runs cannot separate a boundary that works from one nobody
+tested; reasoning is not measurement, so a boundary still passes through the acceptance rule.
+**Sources and corpus prevalence** give a rule standing, not warrant: they record what other
+projects do. The content criteria are a yardstick for a repository's filled-in file, never a
+target for the generic one. **Size** is reported as a cost on every version, in lines, bytes and a
+token estimate.
+
+Then subtraction. Each version re-reads the `none` cells for the current model, because
+[anthropic-harness-design](references.md#ref-anthropic-harness-design) is right that assumptions
+grow stale as the model gets more capable while the cost, security and interface boundaries stay.
+A rule whose behaviour `none` already shows at the ceiling is a deletion candidate unless it is a
+safety boundary: [anthropic-bp](references.md#ref-anthropic-bp) asks "would removing this cause
+Claude to make mistakes?", and
+[anthropic-context-engineering](references.md#ref-anthropic-context-engineering) argues for the
+smallest possible set of high-signal tokens, since smarter models require less prescriptive
+engineering. [eth-agents-md](references.md#ref-eth-agents-md) supports both halves: instructions
+are followed, overviews are not helpful, cost rises about 20%.
+[mini-swe-agent](references.md#ref-mini-swe-agent) is the limit case, about a hundred lines above
+74% on SWE-bench Verified; [weng-harness](references.md#ref-weng-harness) is the counterpoint that
+the interface with context and tools remains. A version that raises cost without moving any metric
+is a failed version.
+
+The loop: propose from review or from a cited source, pre-register the acceptance rule and the
+revert set, run, adopt or revert, record every text by hash, at most two rounds.
+
+**Karpathy phrase check.** The one corpus file with no license is never quoted here, and the check
+stores no phrases: take the cached pinned file, keep every fifth line longer than 40 characters,
+take the first six and grep each against every published file. It is reproducible from the cache
+and the rule, it leaves no copy of the text behind to leak, and it runs in the test suite, where
+it currently returns nothing.
+
 ## Author bias and limitations
 
 - The `ours` file is written by the author of this project, who knew all three tasks when

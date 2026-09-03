@@ -299,6 +299,36 @@ class PageTest(unittest.TestCase):
         self.assertIn('<td class="v unmet"><span class="pill">not met</span></td>', self.html)
         self.assertIn(".pill", SITE_CSS.read_text(encoding="utf-8"))
 
+    def test_no_phrase_of_the_unlicensed_corpus_file_is_published(self):
+        # The one corpus file with no license is recorded by line number only. The check derives
+        # its phrases from the cache at run time rather than storing them, so the guard against
+        # reproducing that text does not reproduce it either.
+        cached = (
+            REPO_ROOT / "data" / "cache" / "corpus" / "karpathy-multica-694a2d72.md"
+        ).read_text(encoding="utf-8").split("\n")
+        phrases = [
+            line.strip()
+            for number, line in enumerate(cached, start=1)
+            if number % 5 == 0 and len(line.strip()) > 40
+        ][:6]
+        self.assertEqual(len(phrases), 6, "the cached file no longer yields six phrases")
+        suffixes = {".md", ".html", ".json", ".js", ".css", ".py", ".toml"}
+        published = [
+            path
+            for path in REPO_ROOT.rglob("*")
+            if path.is_file()
+            and path.suffix in suffixes
+            and ".git" not in path.parts
+            and "cache" not in path.parts
+        ]
+        hits = [
+            str(path.relative_to(REPO_ROOT))
+            for path in published
+            for phrase in phrases
+            if phrase in path.read_text(encoding="utf-8", errors="replace")
+        ]
+        self.assertEqual(hits, [])
+
     def test_the_muted_ink_passes_aa_on_every_light_surface(self):
         # --muted carries the captions, the evidence rows and the hero note. The tightest pairing
         # is on --surface-2, where the tinted rows sit; #71717A reached only 4.40 there.

@@ -79,8 +79,8 @@ Coverage on the content set is lower and flatter than on the rule set. The crite
 <!-- content-note:end -->
 
 The file this project offers meets one of the eight, and that one is a false positive. Every
-content criterion asks for something a repository knows about itself — its layout, its setup, its
-style, its test command, its conventions, its gotchas — and the file carries an unfilled
+content criterion asks for something a repository knows about itself: its layout, its setup, its
+style, its test command, its conventions, its gotchas. The file carries an unfilled
 `## Project` template where all of it belongs. The line the check counts, "Generated files never
 to edit ...", asks the adopter for the warning rather than stating one; the pattern was not
 changed and the verdict is published as it comes out, recorded in that criterion's `notes`. The

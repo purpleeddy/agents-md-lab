@@ -894,7 +894,7 @@ is unchanged by it.
 Compared against the main run's `ours` (v1.0) cells, task by task:
 
 - **(a) Advantage metrics.** Every advantage metric where `ours` was at or above `none` in the
-  main run is gated, ceilings included. v1.1 may not drop by 3/10 or more on any single one of
+  main run is gated, ceilings included. The round-2 text may not drop by 3/10 or more on any single one of
   them, and may not drop by 2/10 or more on two or more of them. The gated set, with the main-run
   `ours` value each is measured against: `task1.acceptance_all_pass` 10/10,
   `task1.report_has_commands_and_results` 9/10, `task1.tests_run_after_last_edit` 6/10,

@@ -97,7 +97,7 @@ numbers, the intervals, the null results and what the experiment does not show a
 python3 -m unittest                       # the whole suite
 python3 scripts/compare.py --check        # every generated block matches the data
 python3 scripts/compare.py --file AGENTS.md   # evaluate one local file
-python3 scripts/experiment.py --dry-run   # the scoring fixtures
+python3 scripts/experiment.py --dry-run   # the fixture check
 python3 scripts/compare.py --refresh      # re-fetch the corpus (network)
 python3 scripts/experiment.py run --task task1 --conditions none karpathy ours --runs 10
 ```

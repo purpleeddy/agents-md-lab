@@ -6,7 +6,7 @@
 python3 -m unittest                            # test all
 python3 -m unittest tests.test_experiment      # test one
 python3 scripts/compare.py --check             # every generated block matches the data
-python3 scripts/experiment.py --dry-run        # the scoring fixtures
+python3 scripts/experiment.py --dry-run        # the fixture check
 ```
 
 `python3 scripts/experiment.py summarize --runs <dir>… --out <file>` writes the summary and a

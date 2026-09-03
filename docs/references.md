@@ -18,7 +18,15 @@ The pages the vendors publish about their own instruction files.
 
 - <a id="ref-anthropic-bp"></a>**anthropic-bp** — Anthropic. "Best practices for Claude Code." Claude Code documentation. https://code.claude.com/docs/en/best-practices — accessed 2026-09-03. Archive: https://web.archive.org/web/20260902085003/https://code.claude.com/docs/en/best-practices.
 
-  Cited for: "Give Claude a way to verify its work", the include/exclude guidance for CLAUDE.md content, and the emphasis warning ("If you emphasize many lines, none of them stands out"). The content criteria take their list from the Include column of that table: "Bash commands Claude can't guess", "Code style rules that differ from defaults", "Testing instructions and preferred test runners", "Repository etiquette (branch naming, PR conventions)", "Architectural decisions specific to your project", "Developer environment quirks (required env vars)" and "Common gotchas or non-obvious behaviors", against the Exclude column's "File-by-file descriptions of the codebase", "Standard language conventions Claude already knows" and "Self-evident practices like 'write clean code'".
+  Cited for: "Give Claude a way to verify its work", the include/exclude guidance for CLAUDE.md content, and the emphasis warning ("If you emphasize many lines, none of them stands out"). The content criteria take their list from the Include column of that table: "Bash commands Claude can't guess", "Code style rules that differ from defaults", "Testing instructions and preferred test runners", "Repository etiquette (branch naming, PR conventions)", "Architectural decisions specific to your project", "Developer environment quirks (required env vars)" and "Common gotchas or non-obvious behaviors", against the Exclude column's "File-by-file descriptions of the codebase", "Standard language conventions Claude already knows" and "Self-evident practices like 'write clean code'". Also for the pruning question this project applies on every version, "would removing this cause Claude to make mistakes?", and the instruction to leave out what Claude already does.
+
+- <a id="ref-anthropic-harness-design"></a>**anthropic-harness-design** — Anthropic. "Harnessing Claude's intelligence." https://claude.com/blog/harnessing-claudes-intelligence — accessed 2026-09-04 (HTTP 200), published 2026-04-02.
+
+  Cited for: the design direction this project's subtraction rule follows, that a harness's assumptions grow stale as Claude gets more capable, while the boundaries a harness exists to hold, its interface, its cost and its security, do not.
+
+- <a id="ref-anthropic-context-engineering"></a>**anthropic-context-engineering** — Anthropic. "Effective context engineering for AI agents." https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents — accessed 2026-09-04 (HTTP 200), published 2025-09-29.
+
+  Cited for: "the smallest possible set of high-signal tokens" as the target for a context, and the observation that smarter models require less prescriptive engineering.
 
 - <a id="ref-anthropic-memory"></a>**anthropic-memory** — Anthropic. "How Claude remembers your project." Claude Code documentation. https://code.claude.com/docs/en/memory — accessed 2026-09-03. Archive: https://web.archive.org/web/20260902085027/https://code.claude.com/docs/en/memory.
 
@@ -47,6 +55,14 @@ Written by people who maintain instruction files rather than the tools that read
 - <a id="ref-karpathy-multica"></a>**karpathy-multica** — Forrest Chang (multica-ai). `CLAUDE.md` in `multica-ai/andrej-karpathy-skills`, "derived from Andrej Karpathy's observations on LLM coding pitfalls". https://github.com/multica-ai/andrej-karpathy-skills — accessed 2026-09-03; pinned in `corpus.toml` at commit `8462496b34419f20b32778610571ac723e91f94c`. The repository has no license file (checked 2026-09-02), so its contents are never reproduced here: only line numbers and derived facts. Not written by Karpathy.
 
   Cited for: the surgical-change rule.
+
+- <a id="ref-mini-swe-agent"></a>**mini-swe-agent** — SWE-agent. `mini-swe-agent`. https://github.com/SWE-agent/mini-swe-agent — accessed 2026-09-04 (HTTP 200).
+
+  Cited for: the limit case the subtraction rule points at, a scaffold of about 100 lines of Python reporting above 74% on SWE-bench Verified, which its authors read as the model doing the work rather than the scaffold. Read as a bound on how much scaffolding a capable model needs, not as a measurement of instruction files.
+
+- <a id="ref-weng-harness"></a>**weng-harness** — Lilian Weng. "On harnesses." https://lilianweng.github.io/posts/2026-07-04-harness/ — accessed 2026-09-04 (HTTP 200), published 2026-07-04.
+
+  Cited for the counterpoint: as models improve the scaffolding shrinks, and the interface that supplies context and tools does not go away with it. It is the reason the subtraction rule deletes rules rather than aiming at an empty file.
 
 - <a id="ref-hernanz-agents-md"></a>**hernanz-agents-md** — Marcos Hernanz. "After doing ~60B tokens, this is my full AGENTS.md." X, 2026. https://x.com/MarcosHernanz/status/2083954734487212511 — accessed 2026-09-03. The page serves its body only with JavaScript and viewing it may require an account, so no archived copy of the text is available here; the file text was transcribed from an image of the post supplied by the project author on 2026-09-03, and the seven bullets are summarised in [rationale.md](rationale.md), not reproduced.
 
