@@ -124,10 +124,13 @@ class CitationTest(unittest.TestCase):
 
     def test_every_criteria_source_has_a_definition(self):
         defined = defined_keys()
-        criteria = json.loads((DOCS / "criteria.json").read_text(encoding="utf-8"))
-        for criterion in criteria["criteria"]:
-            for key in criterion["sources"]:
-                self.assertIn(key, defined, "criterion %s cites %s" % (criterion["id"], key))
+        sets = json.loads((DOCS / "criteria.json").read_text(encoding="utf-8"))["sets"]
+        for name, criteria in sets.items():
+            for criterion in criteria["criteria"]:
+                for key in criterion["sources"]:
+                    self.assertIn(
+                        key, defined, "%s criterion %s cites %s" % (name, criterion["id"], key)
+                    )
 
     def test_every_reference_link_points_at_a_defined_key(self):
         defined = defined_keys()
@@ -353,7 +356,7 @@ class PageTest(unittest.TestCase):
         import json
 
         ours = json.loads((DOCS / "data" / "comparison.json").read_text(encoding="utf-8"))["ours"]
-        criteria = json.loads((DOCS / "criteria.json").read_text(encoding="utf-8"))
+        criteria = json.loads((DOCS / "criteria.json").read_text(encoding="utf-8"))["sets"]["rules"]
         names = {c["id"]: c["name"] for c in criteria["criteria"]}
         for key, verdict in ours["criteria"].items():
             if not verdict["pass"]:
@@ -413,15 +416,15 @@ class ExperimentRendererTest(unittest.TestCase):
 
     def test_the_content_matrix_agrees_with_the_committed_data(self):
         data = json.loads((DOCS / "data" / "comparison.json").read_text(encoding="utf-8"))
-        content = json.loads((DOCS / "criteria-content.json").read_text(encoding="utf-8"))
+        content = json.loads((DOCS / "criteria.json").read_text(encoding="utf-8"))["sets"]["content"]
         script = (
             "const lab=require(%s);"
-            "const d=require(%s);const c=require(%s);"
+            "const d=require(%s);const c=require(%s).sets.content;"
             "process.stdout.write(lab.contentMatrix(d.files, c));"
             % (
                 json.dumps(str(COMPARE_JS)),
                 json.dumps(str(DOCS / "data" / "comparison.json")),
-                json.dumps(str(DOCS / "criteria-content.json")),
+                json.dumps(str(DOCS / "criteria.json")),
             )
         )
         result = subprocess.run([NODE, "-e", script], capture_output=True, text=True)

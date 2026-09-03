@@ -329,9 +329,6 @@ class ContentCriteriaFileTest(unittest.TestCase):
         self.assertEqual(len(ids), 8)
         self.assertEqual(len(set(ids)), 8)
 
-    def test_the_file_declares_itself_the_content_set(self):
-        self.assertEqual(content_criteria()["set"], "content")
-
     def test_the_two_sets_share_no_criterion_id(self):
         rules = {c["id"] for c in criteria()["criteria"]}
         content = {c["id"] for c in content_criteria()["criteria"]}
@@ -480,10 +477,10 @@ class CalibrationTest(unittest.TestCase):
 
 @unittest.skipIf(NODE is None, "node is not on PATH; the parity check needs it")
 class ParityTest(unittest.TestCase):
-    def run_harness(self, cases, criteria_file=None):
+    def run_harness(self, cases, criteria_set=None):
         payload = {"cases": [{"name": name, "text": text} for name, text in cases]}
-        if criteria_file:
-            payload["criteria_file"] = criteria_file
+        if criteria_set:
+            payload["set"] = criteria_set
         result = subprocess.run(
             [NODE, str(PARITY_HARNESS)],
             input=json.dumps(payload),
@@ -494,8 +491,8 @@ class ParityTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout)
 
-    def assert_agrees(self, cases, data, criteria_file=None):
-        from_js = self.run_harness(cases, criteria_file)
+    def assert_agrees(self, cases, data, criteria_set=None):
+        from_js = self.run_harness(cases, criteria_set)
         for name, text in cases:
             self.assertEqual(
                 from_js[name],
@@ -507,13 +504,13 @@ class ParityTest(unittest.TestCase):
         self.assert_agrees(parity_cases(), criteria())
 
     def test_javascript_engine_agrees_with_python_on_the_content_set(self):
-        self.assert_agrees(content_parity_cases(), content_criteria(), "criteria-content.json")
+        self.assert_agrees(content_parity_cases(), content_criteria(), "content")
 
     @unittest.skipUnless(len(cached_corpus_cases()) == 10, "the corpus cache is not on disk")
     def test_the_engines_agree_on_the_cached_corpus_files(self):
         cases = cached_corpus_cases()
         self.assert_agrees(cases, criteria())
-        self.assert_agrees(cases, content_criteria(), "criteria-content.json")
+        self.assert_agrees(cases, content_criteria(), "content")
 
 
 class CorpusManifestTest(unittest.TestCase):
@@ -692,6 +689,50 @@ class ShippedFileTest(unittest.TestCase):
         command = hook["hooks"][0]["command"]
         for path in ("/.claude/", "/.github/workflows/", "AGENTS.md", "CLAUDE.md"):
             self.assertIn(path, command)
+
+
+# The commit before the two criteria files were merged into one. Both sets were frozen and
+# calibrated on the corpus before the merge, so the merge must not have touched a pattern.
+PRE_MERGE_COMMIT = "870a8cf"
+ENGINE_FIELDS = ("id", "kind", "pattern", "flags", "pass_if", "rules")
+
+
+def engine_fields(criteria):
+    """Only what the engine reads, in the order of the criteria list: the names, questions and
+    notes around them can be edited, a pattern cannot."""
+    return [
+        [(key, criterion[key]) for key in ENGINE_FIELDS if key in criterion]
+        for criterion in criteria["criteria"]
+    ]
+
+
+class FrozenPatternTest(unittest.TestCase):
+    def committed(self, path):
+        result = subprocess.run(
+            ["git", "show", "%s:%s" % (PRE_MERGE_COMMIT, path)],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT),
+        )
+        if result.returncode != 0:
+            self.skipTest("%s is not in this checkout: %s" % (PRE_MERGE_COMMIT, result.stderr))
+        return json.loads(result.stdout)
+
+    def test_the_rule_patterns_survived_the_merge(self):
+        before = self.committed("docs/criteria.json")
+        self.assertEqual(engine_fields(criteria()), engine_fields(before))
+        self.assertEqual(criteria()["version"], before["version"])
+
+    def test_the_content_patterns_survived_the_merge(self):
+        before = self.committed("docs/criteria-content.json")
+        self.assertEqual(engine_fields(content_criteria()), engine_fields(before))
+        self.assertEqual(content_criteria()["version"], before["version"])
+
+    def test_the_two_sets_share_one_engine_description(self):
+        merged = json.loads((REPO_ROOT / "docs" / "criteria.json").read_text(encoding="utf-8"))
+        self.assertEqual(sorted(merged["sets"]), ["content", "rules"])
+        self.assertEqual(merged["engine"], self.committed("docs/criteria.json")["engine"])
+        self.assertEqual(merged["engine"], self.committed("docs/criteria-content.json")["engine"])
 
 
 class CommandLineTest(unittest.TestCase):

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Compare public AGENTS.md and CLAUDE.md files against two criteria sets.
 
-The rule criteria in docs/criteria.json ask how a file is written; the content criteria in
-docs/criteria-content.json ask what it tells an agent about the project. Both sets run on the
-same engine over the same text, and each corpus file carries one coverage number per set.
+Both sets live in docs/criteria.json: `sets.rules` asks how a file is written, `sets.content`
+asks what it tells an agent about the project. They run on the same engine over the same text,
+and each corpus file carries one coverage number per set.
 
 Subcommands (flags, one at a time):
     --refresh          fetch every corpus file at its pinned commit, evaluate it and write
@@ -37,7 +37,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CORPUS = REPO_ROOT / "corpus.toml"
 CRITERIA = REPO_ROOT / "docs" / "criteria.json"
-CRITERIA_CONTENT = REPO_ROOT / "docs" / "criteria-content.json"
 COMPARISON_JSON = REPO_ROOT / "docs" / "data" / "comparison.json"
 COMPARISON_MD = REPO_ROOT / "docs" / "generated" / "comparison.md"
 INDEX_HTML = REPO_ROOT / "docs" / "index.html"
@@ -213,16 +212,21 @@ def drop_evidence_text(verdicts):
 # --------------------------------------------------------------------------- input
 
 
-def load_criteria():
+def load_criteria_sets():
+    """Both named sets from docs/criteria.json. Each carries its own version and criteria list;
+    the engine description above them is shared, because both sets run on the same engine."""
     with CRITERIA.open("rb") as handle:
-        return json.load(handle)
+        return json.load(handle)["sets"]
+
+
+def load_criteria():
+    return load_criteria_sets()["rules"]
 
 
 def load_criteria_content():
-    """The second criteria set. It asks what a file contains rather than how it is written, and
-    it runs on the same engine over the same text; the two sets are never merged."""
-    with CRITERIA_CONTENT.open("rb") as handle:
-        return json.load(handle)
+    """The second set. It asks what a file contains rather than how it is written, and its
+    numbers are never added to the first set's: each file carries one coverage number per set."""
+    return load_criteria_sets()["content"]
 
 
 def load_corpus():
@@ -444,8 +448,8 @@ def render_markdown(data, criteria, content):
     out.append("## Content criteria")
     out.append("")
     out.append(
-        "A second, independent set of %d criteria, version %s, in "
-        "`docs/criteria-content.json`. It asks what a file tells an agent about the project, "
+        "A second, independent set of %d criteria, version %s, the `content` set in "
+        "`docs/criteria.json`. It asks what a file tells an agent about the project, "
         "where the table above asks how the file is written. The two sets are never added "
         "together: each file carries one coverage number per set. The same ten files, the same "
         "text and the same engine."
@@ -1175,8 +1179,8 @@ def rendered_outputs():
         )
     if data["criteria_content_version"] != content["version"]:
         raise RuntimeError(
-            "comparison.json was generated with content criteria version %s but "
-            "docs/criteria-content.json is %s; run --refresh"
+            "comparison.json was generated with content criteria version %s but the "
+            "`content` set in docs/criteria.json is %s; run --refresh"
             % (data["criteria_content_version"], content["version"])
         )
     content_ids = {c["id"] for c in content["criteria"]}
@@ -1184,7 +1188,7 @@ def rendered_outputs():
         if set(record.get("criteria_content", {})) != content_ids:
             raise RuntimeError(
                 "%s in comparison.json does not carry the content criteria in "
-                "docs/criteria-content.json; run --refresh" % record["key"]
+                "docs/criteria.json; run --refresh" % record["key"]
             )
     data = with_ours(data, criteria, content)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None

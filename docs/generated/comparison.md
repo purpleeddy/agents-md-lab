@@ -33,7 +33,7 @@ Criteria version 1.0, data generated 2026-09-03T07:57:16Z. Every file is pinned 
 
 ## Content criteria
 
-A second, independent set of 8 criteria, version 1.0, in `docs/criteria-content.json`. It asks what a file tells an agent about the project, where the table above asks how the file is written. The two sets are never added together: each file carries one coverage number per set. The same ten files, the same text and the same engine.
+A second, independent set of 8 criteria, version 1.0, the `content` set in `docs/criteria.json`. It asks what a file tells an agent about the project, where the table above asks how the file is written. The two sets are never added together: each file carries one coverage number per set. The same ten files, the same text and the same engine.
 
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

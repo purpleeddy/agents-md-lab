@@ -1,6 +1,7 @@
 // Evaluation engine for AGENTS.md / CLAUDE.md files, in the browser and in Node.
 //
-// The same criteria file (docs/criteria.json) drives this engine and scripts/compare.py, and
+// The same criteria file (docs/criteria.json, whose `sets.rules` and `sets.content` hold the
+// two sets) drives this engine and scripts/compare.py, and
 // tests/test_compare.py proves that the two produce identical verdicts. Keep every change in
 // step with the Python engine: the regexes come from the JSON, and the only logic here is how
 // lines are split, counted and combined.
@@ -726,24 +727,22 @@
 
   function start() {
     setUpCopy();
-    getJSON("criteria.json").then(null, function () {
-      return embeddedCriteria();
-    }).then(function (loaded) {
-      criteria = loaded || embeddedCriteria();
-      if (!criteria) {
+    // One fetch: both sets live in docs/criteria.json, so the page cannot end up with one of
+    // them and not the other.
+    getJSON("criteria.json").then(function (loaded) {
+      return loaded && loaded.sets ? loaded.sets : null;
+    }, function () {
+      var embedded = embeddedCriteria();
+      return embedded ? { rules: embedded, content: null } : null;
+    }).then(function (sets) {
+      if (!sets) {
         return;
       }
+      criteria = sets.rules;
+      contentCriteria = sets.content;
       setUpTable();
       setUpCheck();
-      return getJSON("criteria-content.json").then(function (loadedContent) {
-        contentCriteria = loadedContent;
-      }, function () {
-        // Without the second criteria file the page keeps the rule table and says so through
-        // the link under it; nothing on the page claims a content number it cannot compute.
-        contentCriteria = null;
-      }).then(function () {
-        return getJSON("data/comparison.json");
-      }).then(function (data) {
+      return getJSON("data/comparison.json").then(function (data) {
         comparison = data;
         setUpSetSwitch();
       }, function () {

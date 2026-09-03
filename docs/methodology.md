@@ -139,8 +139,8 @@ and version-stamped. The list below is generated from that file.
 
 ## The content criteria
 
-A second set of eight criteria, in
-[`docs/criteria-content.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/criteria-content.json),
+A second set of eight criteria, the `content` set in
+[`docs/criteria.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/criteria.json),
 version-stamped like the first. The rule criteria ask how a file is written; the content criteria
 ask what it tells an agent about the project. They are taken from the two vendor lists of what to
 put in an instruction file: the Include column of
