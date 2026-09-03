@@ -862,7 +862,7 @@ file under test changes.
 ### What runs
 
 `ours` is the root `AGENTS.md` v1.2, sha256
-`39e6fb97ab6428243b6e953e70c5bd0ab3edb8bc5c06575de7273a1ef6cc5440`, written into the work
+`e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc`, written into the work
 directory as it sits. v1.2 adopts an independent design review of v1.1, whole; it and the two
 v1.1 amendments before it all landed before any round-2 run, so this section is kept at the text
 that will actually run rather than left describing a text nothing measured. The sha256 above, not the version name, is what identifies the file under
@@ -882,9 +882,9 @@ read on every run whether or not it has anything to say about the task:
 | Text | Lines | Bytes | Token estimate (bytes/4) |
 |---|---|---|---|
 | v1.0 generic, the main run's `ours` | 50 | 4,420 | 1,105 |
-| v1.2, this round's `ours` | 34 | 4,645 | 1,161 |
+| v1.2, this round's `ours` | 33 | 4,514 | 1,128 |
 
-v1.2 is 16 lines shorter than the text the main run measured and 225 bytes longer: the compaction
+v1.2 is 17 lines shorter than the text the main run measured and 94 bytes longer: the compaction
 of v1.1 bought the room that two review rounds then spent on rule text. The round-2 test is what
 decides whether the rewriting kept the advantages the main run measured. The acceptance rule below
 is unchanged by it.
@@ -923,13 +923,12 @@ Compared against the main run's `ours` (v1.0) cells, task by task:
 All three must hold. If the round fails, exactly one v1.2.1 gets one more 30-run round, and it
 reverts a set named here before the re-run rather than chosen after it: the checkout and network
 clauses (bullets 3 and 4 of Boundaries as v1.2 words them), the unattended sentence of the
-ask-or-assume rule that says to skip the step and report it, the "Every Project command ran and
-passed" sentence of Done item 1, and the adopter line of the Project template. Nothing else.
-Those four are the clauses most likely to change what the agent does under the three tasks:
+ask-or-assume rule that says to skip the step and report it, and the "Every Project command ran
+and passed" sentence of Done item 1. Nothing else.
+Those three are the clauses most likely to change what the agent does under the three tasks:
 main-run T1 agents verified their work by copying `todo.py` into a temporary directory outside the
 checkout, which the checkout clause could stop; the unattended sentence can end a step that every
-main-run agent completed; Done item 1 decides which commands run at all; and the adopter line is
-the one instruction in the file addressed to nobody in the run. If the v1.2.1 round also fails,
+main-run agent completed; and Done item 1 decides which commands run at all. If the v1.2.1 round also fails,
 the shipped file reverts to the v1.0.1 rules as they stood at commit `3372506`, sha256
 `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a`, and every result is published
 either way. Maximum two rounds.

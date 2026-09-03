@@ -31,4 +31,3 @@ A task is complete only when all of the following hold:
 - Stack and package manager: `…`
 - Commands: build `…` / test one `…` / test all `…` / lint `…` / typecheck `…` / format check `…`
 - Generated files never to edit: `…` / Public API is a compatibility contract: `yes|no` / Details: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md
-- Adopter: mirror the Boundaries list in the harness's permission settings; prose alone does not stop a command. Delete this line.

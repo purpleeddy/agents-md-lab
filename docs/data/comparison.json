@@ -7,14 +7,14 @@
     "version": "1.2",
     "license": "MIT",
     "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
-    "lines": 34,
-    "bytes": 4645,
-    "sha256": "39e6fb97ab6428243b6e953e70c5bd0ab3edb8bc5c06575de7273a1ef6cc5440",
+    "lines": 33,
+    "bytes": 4514,
+    "sha256": "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc",
     "criteria": {
       "length": {
         "pass": true,
         "evidence": [],
-        "lines": 34
+        "lines": 33
       },
       "commands": {
         "pass": false,
@@ -68,7 +68,7 @@
         "pass": true,
         "evidence": [],
         "emphatic_lines": 0,
-        "nonempty_lines": 27
+        "nonempty_lines": 26
       },
       "tool_neutral": {
         "pass": true,

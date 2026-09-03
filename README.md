@@ -18,7 +18,7 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    That is `AGENTS.md` v1.2. The experiment measured v1.0; v1.2 is that text amended after an
    independent review, cut to the lines that carry a measured effect or a safety boundary, and
    revised again after an independent design review, and its own 30-run check is pre-registered
-   and pending. 34 lines, 4,645 bytes, about 1,161 tokens. What changed and what it means for the results is in
+   and pending. 33 lines, 4,514 bytes, about 1,128 tokens. What changed and what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v11).
 

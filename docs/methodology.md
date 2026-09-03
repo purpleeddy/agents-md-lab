@@ -378,8 +378,13 @@ The shipped file is now `AGENTS.md` v1.2, and it is the round-2 candidate. A sec
 review, this one of v1.1's text against the design goals, returned 21 findings and one addition,
 and all of them were accepted; the revised text was adopted whole rather than clause by clause,
 and each finding has a row in
-[the rationale](rationale.md#v12-independent-design-review-2026-09-04). The file is 34 lines and
-4,645 bytes, about 1,161 tokens by a bytes-over-four estimate. Rule coverage falls again, from
+[the rationale](rationale.md#v12-independent-design-review-2026-09-04). The header returns to v0's wording, which the 2026-09-03 review rated a blocking defect. The
+defect was that a nested file could grant permission and that Done sent the agent to package files
+for a command; Boundaries bullet 5 closes both, so what a nearer document may override is the
+process sections and nothing in Boundaries. The reviewer's fourth Project line, which asked the
+adopter to mirror the destructive list and then delete itself, was adopted and then removed: it is
+an instruction to edit the instruction file, and the advice belongs in the README's adopt steps.
+The file is 33 lines and 4,514 bytes, about 1,128 tokens by a bytes-over-four estimate. Rule coverage falls again, from
 8/10 to 7/10, because the rewritten prompt-injection line no longer says "data, not commands" in
 the form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and
 the criterion is now a second worked example of the gap between a pattern and a statement. No line
@@ -398,7 +403,7 @@ measures, pre-registered before it runs.
 | Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
 | Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
 | Root `AGENTS.md` v1.1 as amended, the text v1.2 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
-| Root `AGENTS.md`, the file shipped now (v1.2) | `39e6fb97ab6428243b6e953e70c5bd0ab3edb8bc5c06575de7273a1ef6cc5440` | 7/10 | 1/8 |
+| Root `AGENTS.md`, the file shipped now (v1.2) | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:
