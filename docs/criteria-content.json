@@ -54,7 +54,7 @@
         "agents-md-spec"
       ],
       "kind": "regex",
-      "pattern": "(\\b(nvm|pyenv|rbenv|asdf|mise|direnv|uv sync|pnpm install|npm install|npm ci|yarn install|pip install|pip install -e|poetry install|bundle install|cargo build|go mod|go mod download|make setup|make install|just setup|docker compose|devcontainer)\\b|\\b(dev(eloper)? environment|environment setup|development setup|getting started)\\b|prerequisites:|^#+ .*(setup|set up|install|environment|getting started|prerequisites))",
+      "pattern": "(\\b(nvm|pyenv|rbenv|asdf|mise|direnv|uv sync|pnpm install|npm install|npm ci|yarn install|pip install|poetry install|bundle install|cargo build|go mod|make setup|make install|just setup|docker compose|devcontainer)\\b|\\b(dev(eloper)? environment|environment setup|development setup|getting started)\\b|prerequisites:|^#+ .*(setup|set up|install|environment|getting started|prerequisites))",
       "flags": "im",
       "pass_if": "match",
       "example": "Setup: `uv sync` pins the dependencies before anything else runs.",
@@ -62,8 +62,8 @@
         "the author knew the recommended file's text while writing the patterns",
         "calibrated on the corpus on 2026-09-03: the bare words `install|setup|set up|bootstrap|prerequisites?` -> a command or tool from the list, a named phrase (developer environment, environment setup, development setup, getting started, \"prerequisites:\"), or a heading (`^#+ .*(setup|set up|install|environment|getting started|prerequisites)`) -> the bare words matched a repository name (anthropics/claude-code-action CLAUDE.md:37, `install-test`), permissions prose (CLAUDE.md:24), a skill's bootstrap file (obra/superpowers CLAUDE.md:76, 91) and a sentence about test-cluster setup (temporalio/temporal AGENTS.md:79); the surviving evidence is of the shape getsentry/sentry AGENTS.md:22 \"#### Setup\" and getzep/graphiti CLAUDE.md:23 `uv sync --extra dev`.",
         "ambiguous case recorded on 2026-09-03: omacom/omarchy AGENTS.md documents the `install/` scripts of a product that is itself an installer (AGENTS.md:51 \"`install-` - install optional software\"), which is packaging rather than developer-environment setup; after the change none of those lines matches, and the file meets the criterion through a different and better line, the heading AGENTS.md:61 \"# Runtime Environment\" over the section that documents the required `$OMARCHY_PATH` variable.",
-        "`go mod download` and `pip install -e` are already matched by the shorter `go mod` and `pip install` alternatives that precede them; they are listed for readability and change no verdict.",
-        "known limitation of the heading form, recorded on 2026-09-03: a per-line engine cannot tell a markdown heading from a `#` shell comment inside a fenced block, so getzep/graphiti CLAUDE.md:22 (\"# Install dependencies\", a comment above `uv sync`) is read as a heading. The same file meets the criterion through `uv sync` on the next line, so no verdict in this corpus rests on the confusion; the `overview` heading form carries the same exposure."
+        "known limitation of the heading form, recorded on 2026-09-03: a per-line engine cannot tell a markdown heading from a `#` shell comment inside a fenced block, so getzep/graphiti CLAUDE.md:22 (\"# Install dependencies\", a comment above `uv sync`) is read as a heading. The same file meets the criterion through `uv sync` on the next line, so no verdict in this corpus rests on the confusion; the `overview` heading form carries the same exposure.",
+        "calibrated on the corpus on 2026-09-03: the alternatives `go mod download` and `pip install -e` -> removed -> the shorter `go mod` and `pip install` precede them in the same list and match the same text, so neither could ever fire; removing them changes no verdict."
       ]
     },
     {
@@ -116,14 +116,14 @@
         "agents-md-spec"
       ],
       "kind": "regex",
-      "pattern": "(pull request|PR (title|body|description|template|instructions|guidelines|checklist|requirements)|merge request|commit (message|subject|title)|conventional commits|branch (name|naming|strategy)|\\b(rebase|squash)\\b|code review|reviewers?|changelog)",
+      "pattern": "(pull request|PR (title|description|template|instructions|guidelines|checklist|requirements)|merge request|commit (message|subject|title)|conventional commits|branch (name|naming|strategy)|\\b(rebase|squash)\\b|code review|reviewers?|changelog)",
       "flags": "i",
       "pass_if": "match",
       "example": "Pull request body: what changed, why, and how it was verified.",
       "notes": [
         "the author knew the recommended file's text while writing the patterns",
         "calibrated on the corpus on 2026-09-03: a bare `\\bPRs?\\b` -> `PR (title|body|description|template|instructions|guidelines|checklist|requirements)` -> the bare abbreviation matched a product description (anthropics/claude-code-action CLAUDE.md:14, \"mentions on issues/PRs\", and CLAUDE.md:28); the files that state an actual convention keep the criterion through \"pull request\" or a heading of that shape (getsentry/sentry AGENTS.md:131 \"## Pull Requests\", ghostty-org/ghostty AGENTS.md:34 \"## Issue and PR Guidelines\").",
-        "known limitation recorded on 2026-09-03: the added `PR (title|body|...)` alternative reads one line of the description that the bare abbreviation used to read, anthropics/claude-code-action CLAUDE.md:28 (\"The prompt includes issue/PR body, comments, diff, and CI status\"), so that file still meets the criterion on a line that states no convention."
+        "calibrated on the corpus on 2026-09-03: `PR (title|body|...)` -> `body` removed -> the artefact list was added to replace the bare abbreviation, but `PR body` read the same product description the abbreviation had, anthropics/claude-code-action CLAUDE.md:28 (\"The prompt includes issue/PR body, comments, diff, and CI status\"), which was that file's only hit; after the removal it no longer meets the criterion. A file that states a convention names the artefact some other way (obra/superpowers CLAUDE.md:13, \"Read the entire PR template\")."
       ]
     },
     {

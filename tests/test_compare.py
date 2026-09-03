@@ -182,6 +182,17 @@ CONTENT_CALIBRATION = {
         False,
     ),
     "pr-named-artefact": ("pr_etiquette", "## PR Guidelines\n", True),
+    "pr-body-of-a-description": (
+        "pr_etiquette",
+        "The prompt includes issue/PR body, comments, diff, and CI status.\n",
+        False,
+    ),
+    "pr-template": (
+        "pr_etiquette",
+        "Read the entire PR template and fill in every section.\n",
+        True,
+    ),
+    "setup-go-mod": ("setup", "Run `go mod download` before the first build.\n", True),
     "security-sandbox-permission": (
         "security",
         "Always pass required_permissions: ['all'] to avoid sandbox permission issues.\n",
