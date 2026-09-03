@@ -26,6 +26,7 @@ LAYOUT = DOCS / "_layouts" / "default.html"
 REFERENCES = DOCS / "references.md"
 README = REPO_ROOT / "README.md"
 EXPERIMENT = REPO_ROOT / "docs" / "data" / "experiment.json"
+EXPERIMENT_RUNS = REPO_ROOT / "docs" / "data" / "experiment-runs.json"
 NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
@@ -440,6 +441,14 @@ class ExperimentRendererTest(unittest.TestCase):
         entry = data["by_task"]["task1"]["comparison"]["tests_written"]["conditions"]["ours"]
         html = self.render("require(%s)" % json.dumps(str(EXPERIMENT)))
         self.assertIn("[%.2f, %.2f]" % (entry["lo"], entry["hi"]), html)
+
+    def test_the_per_run_records_are_a_separate_file_the_page_never_fetches(self):
+        summary = json.loads(EXPERIMENT.read_text(encoding="utf-8"))
+        self.assertNotIn("runs", summary)
+        rows = json.loads(EXPERIMENT_RUNS.read_text(encoding="utf-8"))["runs"]
+        self.assertEqual(len(rows), 90)
+        self.assertNotIn("experiment-runs.json", COMPARE_JS.read_text(encoding="utf-8"))
+        self.assertNotIn("experiment-runs.json", INDEX.read_text(encoding="utf-8"))
 
     def test_every_cell_is_ten_runs(self):
         data = json.loads(EXPERIMENT.read_text(encoding="utf-8"))

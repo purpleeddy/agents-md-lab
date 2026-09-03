@@ -869,7 +869,7 @@ def claims(data, criteria, exp):
         return items
     reported = experiment_cell(exp, "task2", "report_has_commands_and_results", "ours")
     baseline = experiment_cell(exp, "task2", "report_has_commands_and_results", "none")
-    typo = sum(1 for run in exp["runs"] if run["task"] == "task3")
+    overprocess = exp["by_task"]["task3"]["comparison"]["overprocess"]["conditions"]
     items.append((
         "In the 90-run experiment, the brownfield task reported the command and its result in "
         "%d of %d runs under the recommended file and %d of %d with no file."
@@ -879,10 +879,15 @@ def claims(data, criteria, exp):
           "['conditions']['ours']['k']",
     ))
     items.append((
-        "In the 90-run experiment, 0 of the %d typo-fix runs wrote a test or ran the suite "
-        "twice, in any of the three conditions." % typo,
+        "In the 90-run experiment, %d of the %d typo-fix runs wrote a test or ran the suite "
+        "twice, in any of the three conditions."
+        % (
+            sum(cell["k"] for cell in overprocess.values()),
+            sum(cell["n"] for cell in overprocess.values()),
+        ),
         EXPERIMENT_QUERY
-        % "sum(r['metrics']['overprocess'] for r in d['runs'] if r['task'] == 'task3')",
+        % "sum(c['k'] for c in "
+        "d['by_task']['task3']['comparison']['overprocess']['conditions'].values())",
     ))
     return items
 

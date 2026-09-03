@@ -4,7 +4,8 @@
 Subcommands:
     run        execute N isolated `claude -p` runs for one task x condition
     score      recompute metrics.json for saved run directories
-    summarize  aggregate metrics over run directories
+    summarize  aggregate metrics over run directories into a summary and a sibling
+               <out>-runs.json holding the per-run records
     smoke      check that a nested `claude` run is isolated, loads CLAUDE.md and denies curl
 
 Top-level `--dry-run` scores the checked-in fixtures and compares with their
@@ -1357,6 +1358,12 @@ def relativize(value, prefixes):
     return value
 
 
+def runs_path_for(out_path):
+    """Where the per-run records go, beside the summary. The page and the generated blocks read
+    the summary only, so the 90 records that make it ten times larger are published separately."""
+    return out_path.with_name(out_path.stem + "-runs" + out_path.suffix)
+
+
 def cmd_summarize(args):
     rows = []
     roots = [Path(directory).resolve() for directory in args.runs]
@@ -1426,13 +1433,15 @@ def cmd_summarize(args):
     summary = {
         "generated_utc": utc_now(),
         "ours_from": str(ours_from) if ours_from else None,
-        "runs": rows,
         "by_task": by_task,
         "pooled": {"cells": pooled, "differences": differences(pooled)},
         "discriminability": discriminability(by_task),
     }
-    Path(args.out).write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    print(f"wrote {args.out} ({len(rows)} runs)")
+    out_path = Path(args.out)
+    runs_path = runs_path_for(out_path)
+    out_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    runs_path.write_text(json.dumps({"runs": rows}, indent=2), encoding="utf-8")
+    print(f"wrote {out_path} and {runs_path} ({len(rows)} runs)")
     if args.markdown:
         print()
         print(markdown_table(rows))

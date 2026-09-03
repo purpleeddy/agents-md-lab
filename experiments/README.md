@@ -1065,4 +1065,6 @@ either way. Maximum two rounds.
 `--ours-from <batch dir>` names the batch whose `ours` rows count; `ours` rows from any other
 batch are dropped, and `none` and `karpathy` rows are kept from all of them. The flag writes its
 value into the summary as `ours_from`, so the output says which batch supplied the condition under
-test. Output: `docs/data/experiment-round2.json`.
+test. Output: `docs/data/experiment-round2.json` for the summary and
+`docs/data/experiment-round2-runs.json` for the per-run records, the same split the main run's
+`docs/data/experiment.json` and `docs/data/experiment-runs.json` carry.

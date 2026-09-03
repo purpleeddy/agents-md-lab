@@ -9,7 +9,10 @@ says what ten published instruction files contain. The experiment says what an i
 changed on three tasks, in both directions. Every number on this page is read from
 [`docs/data/comparison.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/comparison.json)
 or [`docs/data/experiment.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/experiment.json),
-and the tables are generated from them. How both were built is in [methodology.md](methodology.md).
+and the tables are generated from them; the 90 per-run records behind the experiment summary sit
+beside it in
+[`docs/data/experiment-runs.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/experiment-runs.json).
+How both were built is in [methodology.md](methodology.md).
 
 ## What the ten files contain
 
@@ -106,7 +109,8 @@ their directions were fixed before any run; the
 [pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md)
 is the authority on them and the
 [Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-03-opus-5)
-carries the run-level detail.
+records the run directories, the hashes and the telemetry; the per-run records themselves are in
+`docs/data/experiment-runs.json`.
 
 ### Headline
 
@@ -273,7 +277,7 @@ Each line is a count read from the committed data. The command next to it prints
 
 - In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.
 
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(sum(r['metrics']['overprocess'] for r in d['runs'] if r['task'] == 'task3'))"`
+  Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(sum(c['k'] for c in d['by_task']['task3']['comparison']['overprocess']['conditions'].values()))"`
 <!-- claims:end -->
 
 ## What was not shown

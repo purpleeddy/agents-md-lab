@@ -292,7 +292,19 @@ class SummarizeTest(unittest.TestCase):
         )
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(experiment.cmd_summarize(args), 0)
+        self.runs_file = experiment.runs_path_for(out)
         return json.loads(out.read_text(encoding="utf-8"))
+
+    def test_the_per_run_records_are_written_beside_the_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            summary = self.summarize(tmp)
+            self.assertNotIn("runs", summary)
+            self.assertEqual(self.runs_file.name, "summary-runs.json")
+            rows = json.loads(self.runs_file.read_text(encoding="utf-8"))["runs"]
+            self.assertEqual(len(rows), sum(len(r) for r in self.plan.values()))
+            self.assertEqual(
+                {row["condition"] for row in rows}, set(self.plan),
+            )
 
     def test_headline_discriminability_headroom_and_cost_ratio(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -808,7 +820,10 @@ class SummarizeOursFromTest(unittest.TestCase):
         )
         with contextlib.redirect_stdout(io.StringIO()):
             experiment.cmd_summarize(args)
-        return json.loads(out.read_text(encoding="utf-8"))
+        summary = json.loads(out.read_text(encoding="utf-8"))
+        runs_file = experiment.runs_path_for(out)
+        summary["runs"] = json.loads(runs_file.read_text(encoding="utf-8"))["runs"]
+        return summary
 
     def test_only_the_named_batch_supplies_the_ours_rows(self):
         with tempfile.TemporaryDirectory() as tmp:

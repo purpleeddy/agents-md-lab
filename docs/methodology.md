@@ -336,7 +336,8 @@ is the authority. In summary:
   [Main run section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run)
   records both hashes.
 - **n = 10 runs per cell**, nine cells, model `claude-opus-5`, each run in a fresh scratch
-  directory outside this repository.
+  directory outside this repository. The summary the pages read is `docs/data/experiment.json`;
+  the 90 per-run records it was built from are in `docs/data/experiment-runs.json`.
 - **Metrics carry a fixed direction.** Every metric is marked as an advantage of an instruction
   file, a disadvantage, or context with no claimed direction — before the runs. A file that makes
   an agent write tests nobody asked for on a one-line typo fix is doing damage, and the metric
