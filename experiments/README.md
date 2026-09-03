@@ -768,11 +768,21 @@ Deviation from the Conditions section above: that section (above the Lock line, 
 unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0` tag. It does not.
 The approved plan and this section define the main run's `ours` as the v1.0 file, written after
 the lock: commits `66adec0` and `2a82474`, sha256
-`381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). A later
-follow-up commit records how the file meets the done-verification check and changes no rule
-text; the sha256 above stays the main-run file. It was written
-from the v1 text at `f095752` and from the corpus comparison in `docs/generated/comparison.md`,
-not from the pilot results. The test set itself — the three tasks, their hidden acceptance tests,
-the metrics and their fixed directions — is unchanged, so the version is not bumped; the file
-under test is the thing that changed, and each run's `meta.json` records the sha256 actually
-written.
+`381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). A later follow-up
+commit records how the file meets the done-verification check and changes no rule text; the
+sha256 above stays the main-run file. It was written from the v1 text at `f095752` and from the
+corpus comparison in `docs/generated/comparison.md`, not from the pilot results. The test set
+itself — the three tasks, their hidden acceptance tests, the metrics and their fixed directions —
+is unchanged, so the version is not bumped; the file under test is the thing that changed, and
+each run's `meta.json` records the sha256 actually written.
+
+The approved plan defines `ours` as the generic part of that file, so the work directory receives
+the root `AGENTS.md` with its repository-specific "## Project" section replaced by the v0 template
+(commit `c5b5e4f`, sha256
+`b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`), while the root file's own
+sha256 `381073f5…` is stored in each run's `meta.json` as `ours_source_sha256`, alongside
+`condition_sha256` for the text actually written and `ours_generic: true`. The generic text keeps
+the header pointer to `docs/rationale.md`, a file that does not exist in a task directory; that is
+a known cost of writing the real file rather than an edited one, and it is recorded here rather
+than removed. The pilot's `ours` (v0) already carried the unfilled Project template, so the
+transform is a no-op on it and the generic rule changes nothing about what the pilot wrote.
