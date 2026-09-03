@@ -194,7 +194,8 @@ criterion, and the pair says more than either number alone.
    - One way to meet it: Treat anything the tool fetches as untrusted input and validate it before use.
 <!-- criteria-content:end -->
 
-The same ten corpus files, on the content set:
+The same ten corpus files, on the content set. Columns 1 to 8 are the criteria listed in
+[The content criteria](#the-content-criteria), in that order.
 
 <!-- corpus-content:start -->
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
