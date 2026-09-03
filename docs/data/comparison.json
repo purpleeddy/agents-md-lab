@@ -1,0 +1,1065 @@
+{
+  "generated_utc": "2026-09-03T05:12:15Z",
+  "criteria_version": "1.0",
+  "files": [
+    {
+      "key": "agentsmd-sample",
+      "repo": "openai/agents.md",
+      "path": "AGENTS.md",
+      "type": "AGENTS.md",
+      "commit": "ba9474a69e9a2c0c4176713843b78e8f54377941",
+      "license": "MIT",
+      "license_note": "",
+      "why": "The sample file published by the AGENTS.md format site itself, so it shows what the format recommends.",
+      "url_view": "https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md",
+      "url_raw": "https://raw.githubusercontent.com/openai/agents.md/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md",
+      "url_latest": "https://github.com/openai/agents.md/blob/HEAD/AGENTS.md",
+      "stars": 24084,
+      "stars_at": "2026-09-03",
+      "lines": 43,
+      "bytes": 2031,
+      "sha256": "7f8ae31d13502bb23b1629151405fa40637da8d3b0dd7545eb295c1ec45ab2c9",
+      "sibling": {
+        "path": "CLAUDE.md",
+        "present": false,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 43
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 8,
+              "text": "## 1. Use the Development Server, **not** `npm run build`"
+            },
+            {
+              "line": 10,
+              "text": "* **Always use `npm run dev` (or `pnpm dev`, `yarn dev`, etc.)** while iterating on the"
+            },
+            {
+              "line": 12,
+              "text": "* **Do _not_ run `npm run build` inside the agent session.**  Running the production"
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 35,
+              "text": "| `npm run lint`     | Run ESLint checks.                                 |"
+            },
+            {
+              "line": 36,
+              "text": "| `npm run test`     | Execute the test suite (if present).               |"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 31
+        },
+        "tool_neutral": {
+          "pass": true,
+          "evidence": [],
+          "rules": [
+            true,
+            false
+          ]
+        }
+      },
+      "met": 5,
+      "of": 10
+    },
+    {
+      "key": "anthropic-cca",
+      "repo": "anthropics/claude-code-action",
+      "path": "CLAUDE.md",
+      "type": "CLAUDE.md",
+      "commit": "7057f3318b938a2dd095fd89f786c11772b08197",
+      "license": "MIT",
+      "license_note": "",
+      "why": "A CLAUDE.md maintained by Anthropic in a shipping product repository, next to the vendor's own written guidance.",
+      "url_view": "https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md",
+      "url_raw": "https://raw.githubusercontent.com/anthropics/claude-code-action/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md",
+      "url_latest": "https://github.com/anthropics/claude-code-action/blob/HEAD/CLAUDE.md",
+      "stars": 8780,
+      "stars_at": "2026-09-03",
+      "lines": 44,
+      "bytes": 3532,
+      "sha256": "02715cb8e2e4445167e01ce6e15e78b632ec55f59e4fd025e5c40f302886259a",
+      "sibling": {
+        "path": "AGENTS.md",
+        "present": false,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 44
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 41,
+              "text": "- Runtime is Bun, not Node. Use `bun test`, not `jest`."
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 6,
+              "text": "bun test                # Run tests"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 29
+        },
+        "tool_neutral": {
+          "pass": false,
+          "evidence": [
+            {
+              "line": 18,
+              "text": "Single entrypoint: `src/entrypoints/run.ts` orchestrates everything — prepare (auth, permissions, trigger check, branch/comment creation), install Claude Code CLI, execute Claude via `base-action/` functions (imported directly, not subprocess), then cleanup (update tracking comment, write step summary). SSH signing cleanup and token revocation are separate `always()` steps in `action.yml`."
+            },
+            {
+              "line": 44,
+              "text": "- MCP servers are auto-installed at runtime to `~/.claude/mcp/github-{type}-server/`."
+            }
+          ],
+          "rules": [
+            false,
+            false
+          ]
+        }
+      },
+      "met": 4,
+      "of": 10
+    },
+    {
+      "key": "sentry",
+      "repo": "getsentry/sentry",
+      "path": "AGENTS.md",
+      "type": "AGENTS.md",
+      "commit": "7395d32708261ef723e33be460da1641c36a9e0e",
+      "license": "FSL-1.1-ALv2",
+      "license_note": "",
+      "why": "A large product team's single source of truth, with a CLAUDE.md that only points at it.",
+      "url_view": "https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md",
+      "url_raw": "https://raw.githubusercontent.com/getsentry/sentry/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md",
+      "url_latest": "https://github.com/getsentry/sentry/blob/HEAD/AGENTS.md",
+      "stars": 44713,
+      "stars_at": "2026-09-03",
+      "lines": 137,
+      "bytes": 7503,
+      "sha256": "c1e35dff9fef3143589c8d30c43f7395ed0c110e2c2d765c7669a1e7c5b43a24",
+      "sibling": {
+        "path": "CLAUDE.md",
+        "present": true,
+        "points_to_agents_md": true
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 137
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 53,
+              "text": "For backend-scoped changes, prioritize running the individual relevant pytest files or nodeids locally. `make test-selective` is not optimized for routine local development, so use it only when useful for a particular investigation. If a PR's backend CI fails, inspect the `select-tests` job in `.github/workflows/backend.yml` and its selected-test output to identify the exact nodeids CI ran, then run those locally."
+            },
+            {
+              "line": 62,
+              "text": "Creating/applying migrations and resolving rebase conflicts (`makemigrations`, `django migrate`, `update-migration`) → use the **`generate-migration`** skill. To reset the database (`make reset-db`) or other environment tasks → use the **`setup-dev`** skill."
+            },
+            {
+              "line": 77,
+              "text": "Run the `pnpm run typecheck` script. It checks the whole project and does not accept file paths. DO NOT use `tsc` directly."
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 82,
+              "text": "pnpm run lint:js                          # all JS/TS"
+            },
+            {
+              "line": 83,
+              "text": "pnpm run lint:js components/avatar.tsx    # specific file(s)"
+            },
+            {
+              "line": 90,
+              "text": "pnpm test-ci <file_path>                       # run tests"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 3,
+              "text": "> **IMPORTANT**: AGENTS.md files are the source of truth for AI agent instructions. Always update the relevant AGENTS.md file when adding or modifying agent guidance. Do not add to CLAUDE.md or Cursor rules."
+            },
+            {
+              "line": 11,
+              "text": "**CRITICAL**: Python commands (pytest, mypy, prek, etc.) MUST run in the virtualenv. Prefix the full relative path, or source the activate script:"
+            },
+            {
+              "line": 77,
+              "text": "Run the `pnpm run typecheck` script. It checks the whole project and does not accept file paths. DO NOT use `tsc` directly."
+            }
+          ],
+          "emphatic_lines": 3,
+          "nonempty_lines": 85
+        },
+        "tool_neutral": {
+          "pass": true,
+          "evidence": [],
+          "rules": [
+            true,
+            true
+          ]
+        }
+      },
+      "met": 5,
+      "of": 10
+    },
+    {
+      "key": "ghostty",
+      "repo": "ghostty-org/ghostty",
+      "path": "AGENTS.md",
+      "type": "AGENTS.md",
+      "commit": "9897d6caba05c0cbf256f86bec2e2935f164a9c7",
+      "license": "MIT",
+      "license_note": "",
+      "why": "A deliberately minimal file, the short end of the length range in the survey.",
+      "url_view": "https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md",
+      "url_raw": "https://raw.githubusercontent.com/ghostty-org/ghostty/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md",
+      "url_latest": "https://github.com/ghostty-org/ghostty/blob/HEAD/AGENTS.md",
+      "stars": 60621,
+      "stars_at": "2026-09-03",
+      "lines": 39,
+      "bytes": 1388,
+      "sha256": "4939dae26b5551d1aee737e4cdae126499a1051585c8e72768c0b79f0b857121",
+      "sibling": {
+        "path": "CLAUDE.md",
+        "present": false,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 39
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 7,
+              "text": "- **Build:** `zig build`"
+            },
+            {
+              "line": 11,
+              "text": "- **Test (Zig):** `zig build test`"
+            },
+            {
+              "line": 14,
+              "text": "- **Test filter (Zig)**: `zig build test -Dtest-filter=<test name>`"
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": false,
+          "evidence": []
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 30
+        },
+        "tool_neutral": {
+          "pass": true,
+          "evidence": [],
+          "rules": [
+            true,
+            false
+          ]
+        }
+      },
+      "met": 4,
+      "of": 10
+    },
+    {
+      "key": "temporal",
+      "repo": "temporalio/temporal",
+      "path": "AGENTS.md",
+      "type": "AGENTS.md",
+      "commit": "109a38e8ca4827ae8c624fc1a9382290dcae0f69",
+      "license": "MIT",
+      "license_note": "",
+      "why": "A workflow-heavy file that makes a review step mandatory before implementation.",
+      "url_view": "https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md",
+      "url_raw": "https://raw.githubusercontent.com/temporalio/temporal/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md",
+      "url_latest": "https://github.com/temporalio/temporal/blob/HEAD/AGENTS.md",
+      "stars": 22796,
+      "stars_at": "2026-09-03",
+      "lines": 105,
+      "bytes": 8528,
+      "sha256": "2ec2443e9df66074fa4573302f782c67dccfd4ac663324ff196026971b7e2699",
+      "sibling": {
+        "path": "CLAUDE.md",
+        "present": false,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 105
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 50,
+              "text": "- Fast Go linting (changed packages): `make lint-code-fast`"
+            },
+            {
+              "line": 51,
+              "text": "- Full Go linting (all packages): `make lint-code`"
+            },
+            {
+              "line": 52,
+              "text": "- Formatting imports: `make fmt-imports`"
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 77,
+              "text": "- Run tests after altering code or tests"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 11,
+              "text": "- **Confirm Ambiguity/Expansion:** Do not take significant actions beyond the clear scope of the request without confirming with the user. If asked *how* to do something, explain first, don't just do it."
+            }
+          ]
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 2,
+              "text": "Before starting the implementation of any request, you MUST REVIEW the following development guide and best practices."
+            },
+            {
+              "line": 6,
+              "text": "- **Libraries/Frameworks:** NEVER assume a library/framework is available or appropriate. Verify its established usage within the project (check imports, and 'go.mod') before employing it."
+            },
+            {
+              "line": 9,
+              "text": "- **Comments:** Add code comments sparingly. Focus on *why* something is done, especially for complex logic, rather than *what* is done. Only add high-value comments if necessary for clarity or if requested by the user. Do not edit comments that are separate from the code you are changing. *NEVER* talk to the user or describe your changes through comments."
+            }
+          ],
+          "emphatic_lines": 6,
+          "nonempty_lines": 95
+        },
+        "tool_neutral": {
+          "pass": true,
+          "evidence": [],
+          "rules": [
+            true,
+            false
+          ]
+        }
+      },
+      "met": 6,
+      "of": 10
+    },
+    {
+      "key": "karpathy-multica",
+      "repo": "multica-ai/andrej-karpathy-skills",
+      "path": "CLAUDE.md",
+      "type": "CLAUDE.md",
+      "commit": "8462496b34419f20b32778610571ac723e91f94c",
+      "license": "NONE",
+      "license_note": "No license file in the repository as of 2026-09-02; contents are never redistributed, only line numbers and derived facts",
+      "why": "The widely shared behavioural ruleset distilled from Andrej Karpathy's posts by Forrest Chang, and the second condition of this repository's experiment.",
+      "url_view": "https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md",
+      "url_raw": "https://raw.githubusercontent.com/multica-ai/andrej-karpathy-skills/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md",
+      "url_latest": "https://github.com/multica-ai/andrej-karpathy-skills/blob/HEAD/CLAUDE.md",
+      "stars": 209715,
+      "stars_at": "2026-09-03",
+      "lines": 65,
+      "bytes": 2357,
+      "sha256": "694a2d721e41c385f3db492838c23299826df5ba9809e3b0721aac70021e196a",
+      "sibling": {
+        "path": "AGENTS.md",
+        "present": false,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 65
+        },
+        "commands": {
+          "pass": false,
+          "evidence": []
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 52
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 19
+            },
+            {
+              "line": 34
+            },
+            {
+              "line": 35
+            }
+          ]
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 44
+        },
+        "tool_neutral": {
+          "pass": true,
+          "evidence": [],
+          "rules": [
+            true,
+            false
+          ]
+        }
+      },
+      "met": 5,
+      "of": 10
+    },
+    {
+      "key": "humanlayer",
+      "repo": "humanlayer/humanlayer",
+      "path": "CLAUDE.md",
+      "type": "CLAUDE.md",
+      "commit": "6014ccf95edf71b2d0ba31bcd65a9297a3decb65",
+      "license": "Apache-2.0",
+      "license_note": "",
+      "why": "The root file of the team that published 'Writing a good CLAUDE.md', so practice can be read against their own advice.",
+      "url_view": "https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md",
+      "url_raw": "https://raw.githubusercontent.com/humanlayer/humanlayer/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md",
+      "url_latest": "https://github.com/humanlayer/humanlayer/blob/HEAD/CLAUDE.md",
+      "stars": 11368,
+      "stars_at": "2026-09-03",
+      "lines": 88,
+      "bytes": 3176,
+      "sha256": "691b0125049b38f4f79aaf5ade216b3e34d5d46cd59e840f2214c47721c52b61",
+      "sibling": {
+        "path": "AGENTS.md",
+        "present": false,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 88
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 42,
+              "text": "- `make setup` - Resolve dependencies and installation issues across the monorepo"
+            },
+            {
+              "line": 43,
+              "text": "- `make check-test` - Run all checks and tests"
+            },
+            {
+              "line": 44,
+              "text": "- `make check` - Run linting and type checking"
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 44,
+              "text": "- `make check` - Run linting and type checking"
+            },
+            {
+              "line": 45,
+              "text": "- `make test` - Run all test suites"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 64
+        },
+        "tool_neutral": {
+          "pass": false,
+          "evidence": [
+            {
+              "line": 3,
+              "text": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository."
+            },
+            {
+              "line": 27,
+              "text": "- `hld/` - Go daemon that coordinates approvals and manages Claude Code sessions"
+            },
+            {
+              "line": 30,
+              "text": "- `claudecode-go/` - Go SDK for programmatically launching Claude Code sessions"
+            }
+          ],
+          "rules": [
+            false,
+            false
+          ]
+        }
+      },
+      "met": 4,
+      "of": 10
+    },
+    {
+      "key": "omarchy",
+      "repo": "basecamp/omarchy",
+      "path": "AGENTS.md",
+      "type": "AGENTS.md",
+      "commit": "1c8f728b25cb8a42f1d02e4d2441230132cedb6c",
+      "license": "MIT",
+      "license_note": "",
+      "why": "A widely followed project file written in prose rather than as a rule list.",
+      "url_view": "https://github.com/basecamp/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md",
+      "url_raw": "https://raw.githubusercontent.com/basecamp/omarchy/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md",
+      "url_latest": "https://github.com/basecamp/omarchy/blob/HEAD/AGENTS.md",
+      "stars": 37414,
+      "stars_at": "2026-09-03",
+      "lines": 133,
+      "bytes": 7831,
+      "sha256": "1afac6a1c253c93c79157a280c5ad648900b2197851836e3f753e188ad560802",
+      "sibling": {
+        "path": "CLAUDE.md",
+        "present": true,
+        "points_to_agents_md": true
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 133
+        },
+        "commands": {
+          "pass": false,
+          "evidence": []
+        },
+        "done_verification": {
+          "pass": false,
+          "evidence": []
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 64,
+              "text": "- Commands in `bin/` and Quickshell QML should rely on `$OMARCHY_PATH` / `Quickshell.env(\"OMARCHY_PATH\")`; do not derive fallback paths from `HOME`, `Quickshell.shellDir`, or re-export/default `OMARCHY_PATH` manually."
+            }
+          ]
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 74,
+              "text": "- Commits should be atomic: include only one coherent change or fix, and do not mix unrelated work."
+            }
+          ]
+        },
+        "pointer_not_copy": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 95,
+              "text": "  [`docs/menu.md`](docs/menu.md) covers the schema, guards, and providers."
+            },
+            {
+              "line": 108,
+              "text": "[`docs/testing.md`](docs/testing.md) covers how the suites are shaped. Current"
+            }
+          ]
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 94
+        },
+        "tool_neutral": {
+          "pass": true,
+          "evidence": [],
+          "rules": [
+            true,
+            false
+          ]
+        }
+      },
+      "met": 6,
+      "of": 10
+    },
+    {
+      "key": "superpowers",
+      "repo": "obra/superpowers",
+      "path": "CLAUDE.md",
+      "type": "CLAUDE.md",
+      "commit": "1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402",
+      "license": "MIT",
+      "license_note": "",
+      "why": "A file from a Claude Code skills project, where the instructions are about how the agent works rather than about a codebase.",
+      "url_view": "https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md",
+      "url_raw": "https://raw.githubusercontent.com/obra/superpowers/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md",
+      "url_latest": "https://github.com/obra/superpowers/blob/HEAD/CLAUDE.md",
+      "stars": 280907,
+      "stars_at": "2026-09-03",
+      "lines": 115,
+      "bytes": 8873,
+      "sha256": "4607f59c377df203611d6312074b68e63b16304a342e289ae6733e5671326e2b",
+      "sibling": {
+        "path": "AGENTS.md",
+        "present": true,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 115
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 87,
+              "text": "- Wrapping with `npx skills` or similar at-runtime shims"
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 18,
+              "text": "6. **Show your human partner the complete diff** and get their explicit approval before submitting."
+            },
+            {
+              "line": 112,
+              "text": "- Read `.github/PULL_REQUEST_TEMPLATE.md` before submitting"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 104,
+              "text": "Skill-behavior evals live in [superpowers-evals](https://github.com/prime-radiant-inc/superpowers-evals/), cloned into `evals/` — see `evals/README.md` for setup. Drill (the harness) drives real tmux sessions of Claude Code / Codex / Gemini CLI and judges skill compliance with an LLM verifier. Plugin-infrastructure tests still live at `tests/`."
+            }
+          ]
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 11,
+              "text": "Before you open a PR against this repo, you MUST:"
+            },
+            {
+              "line": 26,
+              "text": "**Before opening a PR, you MUST search for existing PRs** — both open AND closed — that address the same problem or a related area. Reference what you found in the \"Existing PRs\" section. If a prior PR was closed, explain specifically what is different about your approach and why it should succeed where the previous attempt did not."
+            },
+            {
+              "line": 30,
+              "text": "**Submitters MUST identify themselves.** Every PR and issue must disclose the model, harness, harness version, and all installed plugins used to produce the contribution — or state plainly that it was written by hand with no agent. This is not optional. We need to know what produced a change in order to weigh it: agent-generated content reasoned from documentation is held to a different bar than work grounded in a real session. Contributions that hide their authoring environment will be closed."
+            }
+          ],
+          "emphatic_lines": 5,
+          "nonempty_lines": 65
+        },
+        "tool_neutral": {
+          "pass": false,
+          "evidence": [
+            {
+              "line": 104,
+              "text": "Skill-behavior evals live in [superpowers-evals](https://github.com/prime-radiant-inc/superpowers-evals/), cloned into `evals/` — see `evals/README.md` for setup. Drill (the harness) drives real tmux sessions of Claude Code / Codex / Gemini CLI and judges skill compliance with an LLM verifier. Plugin-infrastructure tests still live at `tests/`."
+            }
+          ],
+          "rules": [
+            false,
+            false
+          ]
+        }
+      },
+      "met": 5,
+      "of": 10
+    },
+    {
+      "key": "graphiti",
+      "repo": "getzep/graphiti",
+      "path": "CLAUDE.md",
+      "type": "CLAUDE.md",
+      "commit": "375023b9e8db9957a48b2b6f3cb30d505a5ab39b",
+      "license": "Apache-2.0",
+      "license_note": "",
+      "why": "A library file at the long end of the range surveyed, dense with commands and style rules.",
+      "url_view": "https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md",
+      "url_raw": "https://raw.githubusercontent.com/getzep/graphiti/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md",
+      "url_latest": "https://github.com/getzep/graphiti/blob/HEAD/CLAUDE.md",
+      "stars": 30537,
+      "stars_at": "2026-09-03",
+      "lines": 181,
+      "bytes": 6672,
+      "sha256": "d3847b7a3db54bb49f85aa414973696b4ab59dff7854016ec81a0279311070a2",
+      "sibling": {
+        "path": "AGENTS.md",
+        "present": true,
+        "points_to_agents_md": false
+      },
+      "criteria": {
+        "length": {
+          "pass": true,
+          "evidence": [],
+          "lines": 181
+        },
+        "commands": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 124,
+              "text": "- Run tests with `make test` or `pytest`"
+            },
+            {
+              "line": 127,
+              "text": "- Run specific test files: `pytest tests/test_specific_file.py`"
+            },
+            {
+              "line": 128,
+              "text": "- Run specific test methods: `pytest tests/test_file.py::test_method_name`"
+            }
+          ]
+        },
+        "done_verification": {
+          "pass": true,
+          "evidence": [
+            {
+              "line": 31,
+              "text": "# Run tests"
+            },
+            {
+              "line": 124,
+              "text": "- Run tests with `make test` or `pytest`"
+            }
+          ]
+        },
+        "destructive_guard": {
+          "pass": false,
+          "evidence": []
+        },
+        "secrets": {
+          "pass": false,
+          "evidence": []
+        },
+        "file_instructions_are_data": {
+          "pass": false,
+          "evidence": []
+        },
+        "scope_restraint": {
+          "pass": false,
+          "evidence": []
+        },
+        "pointer_not_copy": {
+          "pass": false,
+          "evidence": []
+        },
+        "emphasis_restraint": {
+          "pass": true,
+          "evidence": [],
+          "emphatic_lines": 0,
+          "nonempty_lines": 134
+        },
+        "tool_neutral": {
+          "pass": false,
+          "evidence": [
+            {
+              "line": 3,
+              "text": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository."
+            }
+          ],
+          "rules": [
+            false,
+            false
+          ]
+        }
+      },
+      "met": 4,
+      "of": 10
+    }
+  ],
+  "excluded": [
+    {
+      "repo": "vercel/next.js",
+      "path": "AGENTS.md",
+      "lines": 560,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/vercel/next.js/blob/HEAD/AGENTS.md"
+    },
+    {
+      "repo": "openai/codex",
+      "path": "AGENTS.md",
+      "lines": 322,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/openai/codex/blob/HEAD/AGENTS.md"
+    },
+    {
+      "repo": "oven-sh/bun",
+      "path": "CLAUDE.md",
+      "lines": 240,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/oven-sh/bun/blob/HEAD/CLAUDE.md"
+    },
+    {
+      "repo": "Kilo-Org/kilocode",
+      "path": "AGENTS.md",
+      "lines": 214,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/Kilo-Org/kilocode/blob/HEAD/AGENTS.md"
+    },
+    {
+      "repo": "FerroxLabs/agents-md",
+      "path": "AGENTS.md",
+      "lines": 206,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/FerroxLabs/agents-md/blob/HEAD/AGENTS.md"
+    },
+    {
+      "repo": "rails/rails",
+      "path": "AGENTS.md",
+      "lines": 201,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/rails/rails/blob/HEAD/AGENTS.md"
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "path": "AGENTS.md",
+      "lines": 353,
+      "lines_at": "2026-09-03",
+      "reason": "over 200 lines",
+      "url_latest": "https://github.com/github/awesome-copilot/blob/HEAD/AGENTS.md"
+    }
+  ]
+}

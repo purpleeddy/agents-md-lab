@@ -1,0 +1,165 @@
+# Corpus manifest for the instruction-file comparison.
+#
+# Each [[files]] entry pins one public AGENTS.md or CLAUDE.md by commit. Only files of 200 lines
+# or fewer are surveyed, because the comparison is about what a short instruction file says, not
+# about how much a long one can say. Files left out for length are listed under [[excluded]].
+#
+# commit  : full 40-hex SHA of a commit that contains the file at `path`
+# license : SPDX identifier of the source repository, or "NONE" when the repository has no
+#           license file; a "NONE" entry is never quoted, only counted and cited by line number
+# type    : the file name, "AGENTS.md" or "CLAUDE.md"
+# why     : why the file is in the survey
+#
+# Machine fields (stars, sha256, bytes, lines, verdicts) are written by
+# `python3 scripts/compare.py --refresh` into docs/data/comparison.json.
+#
+# Notes on resolution (2026-09-03):
+# - basecamp/omarchy now redirects to omacom/omarchy; the repository name here is the one the
+#   file is commonly cited under, and both raw.githubusercontent.com and api.github.com follow
+#   the redirect to the same commit.
+# - trailofbits was considered for [[excluded]] and dropped: trailofbits/claude-code-config has
+#   no AGENTS.md or CLAUDE.md at its root, and its `claude-md-template.md` is a template of 107
+#   lines, so the "over 200 lines" reason would not hold.
+
+[[files]]
+key = "agentsmd-sample"
+repo = "openai/agents.md"
+path = "AGENTS.md"
+commit = "ba9474a69e9a2c0c4176713843b78e8f54377941"
+license = "MIT"
+type = "AGENTS.md"
+why = "The sample file published by the AGENTS.md format site itself, so it shows what the format recommends."
+
+[[files]]
+key = "anthropic-cca"
+repo = "anthropics/claude-code-action"
+path = "CLAUDE.md"
+commit = "7057f3318b938a2dd095fd89f786c11772b08197"
+license = "MIT"
+type = "CLAUDE.md"
+why = "A CLAUDE.md maintained by Anthropic in a shipping product repository, next to the vendor's own written guidance."
+
+[[files]]
+key = "sentry"
+repo = "getsentry/sentry"
+path = "AGENTS.md"
+commit = "7395d32708261ef723e33be460da1641c36a9e0e"
+license = "FSL-1.1-ALv2"
+type = "AGENTS.md"
+why = "A large product team's single source of truth, with a CLAUDE.md that only points at it."
+
+[[files]]
+key = "ghostty"
+repo = "ghostty-org/ghostty"
+path = "AGENTS.md"
+commit = "9897d6caba05c0cbf256f86bec2e2935f164a9c7"
+license = "MIT"
+type = "AGENTS.md"
+why = "A deliberately minimal file, the short end of the length range in the survey."
+
+[[files]]
+key = "temporal"
+repo = "temporalio/temporal"
+path = "AGENTS.md"
+commit = "109a38e8ca4827ae8c624fc1a9382290dcae0f69"
+license = "MIT"
+type = "AGENTS.md"
+why = "A workflow-heavy file that makes a review step mandatory before implementation."
+
+[[files]]
+key = "karpathy-multica"
+repo = "multica-ai/andrej-karpathy-skills"
+path = "CLAUDE.md"
+commit = "8462496b34419f20b32778610571ac723e91f94c"
+license = "NONE"
+license_note = "No license file in the repository as of 2026-09-02; contents are never redistributed, only line numbers and derived facts"
+type = "CLAUDE.md"
+why = "The widely shared behavioural ruleset distilled from Andrej Karpathy's posts by Forrest Chang, and the second condition of this repository's experiment."
+
+[[files]]
+key = "humanlayer"
+repo = "humanlayer/humanlayer"
+path = "CLAUDE.md"
+commit = "6014ccf95edf71b2d0ba31bcd65a9297a3decb65"
+license = "Apache-2.0"
+type = "CLAUDE.md"
+why = "The root file of the team that published 'Writing a good CLAUDE.md', so practice can be read against their own advice."
+
+[[files]]
+key = "omarchy"
+repo = "basecamp/omarchy"
+path = "AGENTS.md"
+commit = "1c8f728b25cb8a42f1d02e4d2441230132cedb6c"
+license = "MIT"
+type = "AGENTS.md"
+why = "A widely followed project file written in prose rather than as a rule list."
+
+[[files]]
+key = "superpowers"
+repo = "obra/superpowers"
+path = "CLAUDE.md"
+commit = "1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402"
+license = "MIT"
+type = "CLAUDE.md"
+why = "A file from a Claude Code skills project, where the instructions are about how the agent works rather than about a codebase."
+
+[[files]]
+key = "graphiti"
+repo = "getzep/graphiti"
+path = "CLAUDE.md"
+commit = "375023b9e8db9957a48b2b6f3cb30d505a5ab39b"
+license = "Apache-2.0"
+type = "CLAUDE.md"
+why = "A library file at the long end of the range surveyed, dense with commands and style rules."
+
+# Well-known files left out because they are over 200 lines. Line counts are `wc -l` semantics
+# (newline-terminated lines) measured at the default-branch HEAD on `lines_at`.
+
+[[excluded]]
+repo = "vercel/next.js"
+path = "AGENTS.md"
+lines = 560
+lines_at = "2026-09-03"
+reason = "over 200 lines"
+
+[[excluded]]
+repo = "openai/codex"
+path = "AGENTS.md"
+lines = 322
+lines_at = "2026-09-03"
+reason = "over 200 lines"
+
+[[excluded]]
+repo = "oven-sh/bun"
+path = "CLAUDE.md"
+lines = 240
+lines_at = "2026-09-03"
+reason = "over 200 lines"
+
+[[excluded]]
+repo = "Kilo-Org/kilocode"
+path = "AGENTS.md"
+lines = 214
+lines_at = "2026-09-03"
+reason = "over 200 lines"
+
+[[excluded]]
+repo = "FerroxLabs/agents-md"
+path = "AGENTS.md"
+lines = 206
+lines_at = "2026-09-03"
+reason = "over 200 lines"
+
+[[excluded]]
+repo = "rails/rails"
+path = "AGENTS.md"
+lines = 201
+lines_at = "2026-09-03"
+reason = "over 200 lines"
+
+[[excluded]]
+repo = "github/awesome-copilot"
+path = "AGENTS.md"
+lines = 353
+lines_at = "2026-09-03"
+reason = "over 200 lines"
