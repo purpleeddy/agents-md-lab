@@ -144,6 +144,38 @@ class CitationTest(unittest.TestCase):
                 self.assertEqual(target, "index.html", "%s links to %s" % (path.name, target))
 
 
+class AnchorTest(unittest.TestCase):
+    """Every link into another page of this site lands on a heading that exists. The published
+    pages are Markdown converted by kramdown, whose heading id is the text lower-cased with
+    everything but letters, digits, spaces and hyphens removed and the spaces turned into
+    hyphens; an explicit `<a id="...">` counts too."""
+
+    HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$", re.MULTILINE)
+    EXPLICIT = re.compile(r'<a id="([^"]+)">')
+    LINK = re.compile(r'(?:href="|\]\()(?:docs/)?([a-z]+)\.(?:html|md)#([^"\)]+)')
+
+    def slug(self, title):
+        text = re.sub(r"<[^>]+>", "", title).replace("`", "").replace("*", "")
+        text = re.sub(r"[^\w\s-]", "", text, flags=re.UNICODE)
+        return re.sub(r"\s+", "-", text.strip()).lower()
+
+    def anchors(self, page):
+        text = page.read_text(encoding="utf-8")
+        found = {self.slug(title) for title in self.HEADING.findall(text)}
+        return found | set(self.EXPLICIT.findall(text))
+
+    def test_every_cross_page_fragment_exists(self):
+        pages = {path.stem: path for path in DOCS.glob("*.md")}
+        anchors = {name: self.anchors(path) for name, path in pages.items()}
+        sources = [INDEX, README] + list(pages.values())
+        for source in sources:
+            for page, fragment in self.LINK.findall(source.read_text(encoding="utf-8")):
+                if page not in anchors:
+                    continue
+                self.assertIn(fragment, anchors[page], "%s links to %s#%s"
+                              % (source.name, page, fragment))
+
+
 class GeneratedBlockTest(unittest.TestCase):
     def test_check_passes_on_every_generated_block(self):
         result = subprocess.run(
@@ -248,6 +280,13 @@ class PageTest(unittest.TestCase):
         self.assertEqual(re.findall(r"https?://", COMPARE_JS.read_text(encoding="utf-8")), [])
         for text in (self.html, LAYOUT.read_text(encoding="utf-8")):
             self.assertIn('<script src="star.js"></script>', text)
+
+    def test_each_criteria_set_carries_its_own_caption(self):
+        self.assertIn("Coverage of ten sourced rule criteria", self.html)
+        self.assertIn(
+            "Coverage of eight sourced content criteria",
+            COMPARE_JS.read_text(encoding="utf-8"),
+        )
 
     def test_the_verdicts_are_pills(self):
         self.assertIn('<td class="v met"><span class="pill">met</span></td>', self.html)

@@ -43,7 +43,7 @@ The same three criteria are unmet outside the corpus too, in the practitioner fi
 project's rules came from, five of the v0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
 
 <!-- hernanz:start -->
-Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (length, scope restraint, emphasis restraint, tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — guard on destructive commands, secrets, instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
+Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (Length, Scope restraint, Emphasis restraint, Tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — Guard on destructive commands, Secrets, Instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
 <!-- hernanz:end -->
 
 Coverage counts what a text contains. It is not a measure of quality, and the file with the
@@ -72,7 +72,7 @@ never added together; each file carries one number per set.
 <!-- content:end -->
 
 <!-- content-note:start -->
-Coverage on the content set is lower and flatter than on the rule set. The criterion the corpus meets most often is testing instructions (7 of 10 files); the highest coverage any file reaches is 5 of 8 (getsentry/sentry, getzep/graphiti) and the lowest is 0 of 8. No file in the corpus meets warnings and gotchas. The columns, in the order of the criteria file, and the files that meet each, out of 10: 1 project overview 5; 2 named files 4; 3 environment setup 4; 4 code style 5; 5 testing instructions 7; 6 repository etiquette 4; 7 warnings and gotchas 0; 8 security considerations 1.
+Coverage on the content set is lower and flatter than on the rule set. The criterion the corpus meets most often is Testing instructions (7 of 10 files); the highest coverage any file reaches is 5 of 8 (getsentry/sentry, getzep/graphiti) and the lowest is 0 of 8. No file in the corpus meets Warnings and gotchas. The columns, in the order of the criteria file, and the files that meet each, out of 10: 1 Project overview 5; 2 Named files 4; 3 Environment setup 4; 4 Code style 5; 5 Testing instructions 7; 6 Repository etiquette 4; 7 Warnings and gotchas 0; 8 Security considerations 1.
 <!-- content-note:end -->
 
 The generic file this project offers meets none of the eight. That is not a technicality to be
@@ -255,7 +255,11 @@ Each line is a count read from the committed data. The command next to it prints
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['pointer_not_copy']['pass'] for r in d['files']))"`
 
-- Among the 10 surveyed files, 3 ask for the smallest change, and 2 carry a sibling CLAUDE.md that names AGENTS.md.
+- Among the 10 surveyed files, 3 ask for the smallest change.
+
+  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['scope_restraint']['pass'] for r in d['files']))"`
+
+- Among the 10 surveyed files, 2 carry a sibling CLAUDE.md that names AGENTS.md.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['sibling']['points_to_agents_md'] for r in d['files']))"`
 

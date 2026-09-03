@@ -78,7 +78,7 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
 - Never game a check: no weakened assertions, skipped tests, disabled linters, or `--no-verify`. Fix the cause or report the failure.
 - Do not assert that a function, API, flag, or file exists unless you verified it in this session.
 - Destructive or irreversible operations are not allowed without a backup and an explicit ask: `rm -rf`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data, or public API. Opening issues, PRs, or comments also needs an explicit ask.</pre>
-<p class="filemeta" title="root sha256 ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012, generic sha256 f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36, offered file sha256 2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4">MIT. v1.0.1. 52 lines. Rule criteria 8/10 · Content criteria 0/8 (this file points at the rationale page by URL, which the pointer criterion does not count; the Project section you fill adds the commands).</p>
+<p class="filemeta" title="root sha256 ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012, generic sha256 f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36, offered file sha256 2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4">MIT. v1.0.1. 52 lines. Rule criteria 8/10 · Content criteria 0/8 (written to these criteria, so the number is expected by construction; this file points at the rationale page by URL, which the pointer criterion does not count, and the Project section you fill adds the commands).</p>
 <!-- preview:end -->
     <div class="controls">
       <button type="button" class="btn" id="copy-file">Copy file</button>
@@ -94,7 +94,7 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
     <div class="stack prose">
       <p class="eyebrow">Compare</p>
       <h2>Ten files, two criteria sets</h2>
-      <p>Coverage of sourced criteria, not quality; every &#10003; has an evidence line. The switch above the table changes the set: how a file is written, or what it says about its project.</p>
+      <p>Two criteria sets: ten rule criteria, eight content criteria, never added together. The switch above the table changes the set, and every &#10003; has an evidence line.</p>
     </div>
     <div class="controls" id="set-controls" hidden>
       <label for="criteria-set">Criteria set</label>
@@ -126,7 +126,7 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
     <div class="tablewrap">
 <!-- comparison:start -->
 <table id="compare-table">
-<caption>Coverage of ten sourced criteria by ten published instruction files, each pinned by commit. ✓ met, ✗ not met.</caption>
+<caption>Coverage of ten sourced rule criteria by ten published instruction files, each pinned by commit. ✓ met, ✗ not met.</caption>
 <thead><tr>
 <th scope="col" class="c-file">File</th>
 <th scope="col">Type</th>
@@ -375,11 +375,12 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
     <div class="stack prose">
       <p class="eyebrow">Experiment</p>
       <h2>What an instruction file changes</h2>
-      <p>Three tasks (greenfield, brownfield, a one-line fix), three conditions (<code>none</code>, <code>karpathy</code>, <code>ours</code>), n = 10 runs per cell, model Opus 5. The tasks, the metrics and their directions were pre-registered and locked before any run.</p>
+      <p>Three tasks (greenfield, brownfield, a one-line fix), three conditions (<code>none</code>, no instruction file; <code>karpathy</code>, a public CLAUDE.md derived from Andrej Karpathy's notes, pinned by commit, not written by him; <code>ours</code>, the file this page offers), n = 10 runs per cell, model Opus 5. The tasks, the metrics and their directions were pre-registered and locked before any run.</p>
+      <p>The runs measured v1.0. The file offered above is v1.0.1, amended after an independent review; what changed is in <a href="methodology.html#what-the-experiment-tested-and-what-is-shipped">the methodology</a>.</p>
       <p>The pre-registration is <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">locked at tag testset-v1.0</a>. Which file each condition wrote, and its hash, is recorded in the <a href="https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run">Main run section</a>, which is written after the tag and says so.</p>
     </div>
     <div id="experiment-body" class="stack-l">
-      <p>Planned; the pre-registration is locked at tag <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">testset-v1.0</a>.</p>
+      <p>Ninety runs, all delivered. On the greenfield task the recommended file took tests written from 0/10 to 6/10 and the report carrying its commands and results from 0/10 to 9/10; on the brownfield task it took the documented-convention metric from 5/10 to 10/10; on the one-line typo fix no boolean metric moved at all. It is paid for on every task: median cost 1.95×, 1.45× and 1.29× the no-file condition. The tables, the intervals and the null results are on <a href="findings.html">the findings page</a>.</p>
     </div>
     <p class="footnote prose">Limitations: with n = 10 per cell the intervals are wide, and a difference of one or two runs is inside them. The author of the <code>ours</code> file knew all three tasks when writing it, which the <code>karpathy</code> file's author did not. Acceptance is at the ceiling on the typo-fix task and, for two of the three conditions, on the greenfield task; where it does move, on the brownfield task, it moves with the documented-convention metric and not with correctness, which is 10/10 in every condition. <a href="findings.html#what-was-not-shown">What was not shown</a>.</p>
   </div>
@@ -398,7 +399,8 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
 <li>Among the 10 surveyed files, 8 name at least one runnable command, the element the survey finds most often.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;commands&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>Among the 10 surveyed files, 2 state a check that must run and pass before the work counts as finished.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;done_verification&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>Among the 10 surveyed files, 5 point at another document instead of copying its content in.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;pointer_not_copy&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
-<li>Among the 10 surveyed files, 3 ask for the smallest change, and 2 carry a sibling CLAUDE.md that names AGENTS.md.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;sibling&#x27;][&#x27;points_to_agents_md&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 3 ask for the smallest change.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;criteria&#x27;][&#x27;scope_restraint&#x27;][&#x27;pass&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
+<li>Among the 10 surveyed files, 2 carry a sibling CLAUDE.md that names AGENTS.md.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(sum(r[&#x27;sibling&#x27;][&#x27;points_to_agents_md&#x27;] for r in d[&#x27;files&#x27;]))&quot;</code></p></li>
 <li>The generic file this project offers meets 0 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/comparison.json&#x27;));print(d[&#x27;ours&#x27;][&#x27;met_content&#x27;])&quot;</code></p></li>
 <li>In the 90-run experiment, the brownfield task reported the command and its result in 10 of 10 runs under the recommended file and 2 of 10 with no file.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(d[&#x27;by_task&#x27;][&#x27;task2&#x27;][&#x27;comparison&#x27;][&#x27;report_has_commands_and_results&#x27;][&#x27;conditions&#x27;][&#x27;ours&#x27;][&#x27;k&#x27;])&quot;</code></p></li>
 <li>In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.<p class="verify">Verify: <code>python3 -c &quot;import json;d=json.load(open(&#x27;docs/data/experiment.json&#x27;));print(sum(r[&#x27;metrics&#x27;][&#x27;overprocess&#x27;] for r in d[&#x27;runs&#x27;] if r[&#x27;task&#x27;] == &#x27;task3&#x27;))&quot;</code></p></li>
@@ -456,7 +458,7 @@ python3 scripts/experiment.py run --task task1 --conditions none karpathy ours -
 <footer>
   <div class="wrap">
     <div>
-      <p class="prose">Method: ten published instruction files, pinned by commit, evaluated line by line against ten criteria taken from vendor documentation, practitioner guides and three studies; then a pre-registered experiment of three tasks by three conditions.</p>
+      <p class="prose">Method: ten published instruction files, pinned by commit, evaluated line by line against ten rule criteria and eight content criteria taken from vendor documentation, practitioner guides and three studies. Then a pre-registered experiment of three tasks by three conditions, ten runs per cell.</p>
       <div class="meta">
 <!-- dates:start -->
 <p>Star counts read 2026-09-03. Corpus data generated 2026-09-03T07:57:16Z. Corpus pinned by commit; the experiment section carries its own generated date.</p>

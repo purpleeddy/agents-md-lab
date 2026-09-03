@@ -399,7 +399,7 @@
       var record = comparison.ours;
       record.type = "AGENTS.md";
       setPinnedRow(table, "ours-row",
-        event.target.checked ? makeRow(table, "this repository — AGENTS.md", record, "ours-row") : null);
+        event.target.checked ? makeRow(table, "this repository, root AGENTS.md", record, "ours-row") : null);
     });
     table.addEventListener("click", function (event) {
       var button = event.target.closest("button.expand");
@@ -438,7 +438,10 @@
     var headers = ["File"].concat(content.criteria.map(function (criterion) {
       return criterion.name;
     })).concat(["Criteria met"]);
-    return table(headers, rows, "t-wide");
+    // The caption swaps with the set: the static table above carries the rule-set sentence.
+    return table(headers, rows, "t-wide",
+      "Coverage of eight sourced content criteria by ten published instruction files, each "
+      + "pinned by commit.");
   }
 
   function setUpSetSwitch() {
@@ -604,7 +607,7 @@
       + '<li><span class="nbadge">n = ' + n + " per cell</span></li></ul>";
   }
 
-  function table(headers, rows, className) {
+  function table(headers, rows, className, caption) {
     var head = headers.map(function (title) {
       return '<th scope="col">' + esc(title) + "</th>";
     }).join("");
@@ -613,8 +616,9 @@
         return index === 0 ? '<th scope="row">' + cell + "</th>" : "<td>" + cell + "</td>";
       }).join("") + "</tr>";
     }).join("");
-    return '<div class="tablewrap"><table class="' + (className || "") + '"><thead><tr>'
-      + head + "</tr></thead><tbody>" + body + "</tbody></table></div>";
+    return '<div class="tablewrap"><table class="' + (className || "") + '">'
+      + (caption ? "<caption>" + esc(caption) + "</caption>" : "")
+      + "<thead><tr>" + head + "</tr></thead><tbody>" + body + "</tbody></table></div>";
   }
 
   function headlineTable(entry) {

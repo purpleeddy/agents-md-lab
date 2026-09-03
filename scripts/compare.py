@@ -652,7 +652,7 @@ def render_comparison_html(data, criteria):
     out = []
     out.append('<table id="compare-table">')
     out.append(
-        "<caption>Coverage of ten sourced criteria by ten published instruction files, "
+        "<caption>Coverage of ten sourced rule criteria by ten published instruction files, "
         "each pinned by commit. \u2713 met, \u2717 not met.</caption>"
     )
     out.append("<thead><tr>")
@@ -747,9 +747,10 @@ def render_preview_html(data, criteria, content):
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
         '<p class="filemeta" title="root sha256 %s, generic sha256 %s, offered file sha256 %s">'
         'MIT. v%s. %d lines. '
-        "Rule criteria %d/%d \u00b7 Content criteria %d/%d (this file points at the rationale "
-        "page by URL, which the pointer criterion does not count; the Project section you fill "
-        "adds the commands).</p>"
+        "Rule criteria %d/%d \u00b7 Content criteria %d/%d (written to these criteria, so the "
+        "number is expected by construction; this file points at the rationale page by URL, "
+        "which the pointer criterion does not count, and the Project section you fill adds the "
+        "commands).</p>"
         % (
             PREVIEW_LINES,
             esc("\n".join(lines)),
@@ -864,9 +865,13 @@ def claims(data, criteria, exp):
             CLAIM_QUERY % "pointer_not_copy",
         ),
         (
-            "Among the %d surveyed files, %d ask for the smallest change, and %d carry a "
-            "sibling CLAUDE.md that names AGENTS.md."
-            % (total, met_count(data, "scope_restraint"), siblings),
+            "Among the %d surveyed files, %d ask for the smallest change."
+            % (total, met_count(data, "scope_restraint")),
+            CLAIM_QUERY % "scope_restraint",
+        ),
+        (
+            "Among the %d surveyed files, %d carry a sibling CLAUDE.md that names AGENTS.md."
+            % (total, siblings),
             SIBLING_QUERY,
         ),
     ]
@@ -1077,7 +1082,7 @@ def render_content_observation_md(data, content):
         c["id"]: sum(1 for r in data["files"] if r["criteria_content"][c["id"]]["pass"])
         for c in content["criteria"]
     }
-    name = {c["id"]: c["name"].lower() for c in content["criteria"]}
+    name = {c["id"]: c["name"] for c in content["criteria"]}
     top = max(counts, key=lambda i: counts[i])
     none_met = [i for i in counts if counts[i] == 0]
     best = max(r["met_content"] for r in data["files"])
@@ -1130,7 +1135,7 @@ def render_stuffed_md(data):
 def render_hernanz_md(criteria, content):
     """One sentence about the file five of this project's rules came from, with the criteria it
     meets and the ones it does not named from the criteria file."""
-    names = {c["id"]: c["name"].lower() for c in criteria["criteria"]}
+    names = {c["id"]: c["name"] for c in criteria["criteria"]}
     order = [c["id"] for c in criteria["criteria"]]
     met = [names[i] for i in HERNANZ_MET_IDS]
     unmet_middle = [names[i] for i in order[3:6]]
