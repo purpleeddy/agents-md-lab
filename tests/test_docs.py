@@ -299,6 +299,34 @@ class PageTest(unittest.TestCase):
         self.assertIn('<td class="v unmet"><span class="pill">not met</span></td>', self.html)
         self.assertIn(".pill", SITE_CSS.read_text(encoding="utf-8"))
 
+    def test_the_muted_ink_passes_aa_on_every_light_surface(self):
+        # --muted carries the captions, the evidence rows and the hero note. The tightest pairing
+        # is on --surface-2, where the tinted rows sit; #71717A reached only 4.40 there.
+        css = SITE_CSS.read_text(encoding="utf-8")
+        root = css.split(":root {", 1)[1].split("}", 1)[0]
+        token = dict(re.findall(r"(--[\w-]+)\s*:\s*(#[0-9A-Fa-f]{6})", root))
+
+        def luminance(value):
+            channels = [int(value[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+            channels = [
+                c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in channels
+            ]
+            return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+        muted = luminance(token["--muted"])
+        for name in ("--ground", "--surface", "--surface-2"):
+            back = luminance(token[name])
+            ratio = (max(muted, back) + 0.05) / (min(muted, back) + 0.05)
+            self.assertGreaterEqual(round(ratio, 2), 4.5, name)
+
+    def test_the_unmet_pill_is_filled_and_unbordered(self):
+        # Both verdicts read as filled pills; the outline made the unmet one louder than the met
+        # one, which is a ranking the page does not make.
+        css = SITE_CSS.read_text(encoding="utf-8")
+        rule = [line for line in css.split("\n") if line.startswith(".v.unmet .pill {")]
+        self.assertEqual(len(rule), 1, css)
+        self.assertNotIn("border-color", rule[0])
+
     def test_every_token_the_components_use_is_defined_in_the_light_root(self):
         # A component reading a token no theme defines renders with no colour at all, and the
         # light :root block is the one every theme starts from.

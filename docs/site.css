@@ -4,7 +4,7 @@
 
 :root {
 color-scheme: light;
---ground:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F5; --ink:#09090B; --muted:#71717A;
+--ground:#FAFAFA; --surface:#FFFFFF; --surface-2:#F4F4F5; --ink:#09090B; --muted:#52525B;
 --rule:#E4E4E7; --accent:#2563EB; --accent-on:#FFFFFF; --accent-soft:#DBEAFE;
 --met:#059669; --met-soft:#D1FAE5; --met-ink:#047857;
 --unmet:#DC2626; --unmet-soft:#FEE2E2; --unmet-ink:#B91C1C;
@@ -136,7 +136,7 @@ td.v { white-space:nowrap; font-size:12px; }
 .v .pill { display:inline-block; border-radius:999px; padding:1px var(--s2); border:1px solid transparent; }
 /* The fill needs a darker ink than the verdict colour to stay readable at 12px. */
 .v.met .pill { color:var(--met-ink); background:var(--met-soft); }
-.v.unmet .pill { color:var(--unmet-ink); background:var(--unmet-soft); border-color:var(--rule); }
+.v.unmet .pill { color:var(--unmet-ink); background:var(--unmet-soft); }
 .v.met .pill::before { content:"\2713\00a0"; } .v.unmet .pill::before { content:"\2717\00a0"; }
 .badge { font-size:12px; border:1px solid var(--rule); border-radius:999px; padding:0 var(--s2); }
 .cov { display:block; font-family:var(--mono); font-size:11px; font-weight:400; color:var(--muted); }
