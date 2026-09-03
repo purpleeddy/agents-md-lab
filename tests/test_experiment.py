@@ -287,7 +287,9 @@ class SummarizeTest(unittest.TestCase):
         root.mkdir()
         self.build_runs(root)
         out = Path(tmp) / "summary.json"
-        args = argparse.Namespace(runs=[str(root)], out=str(out), markdown=False)
+        args = argparse.Namespace(
+            runs=[str(root)], out=str(out), markdown=False, ours_from=None
+        )
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(experiment.cmd_summarize(args), 0)
         return json.loads(out.read_text(encoding="utf-8"))
@@ -768,6 +770,79 @@ class SmokeCheckTest(unittest.TestCase):
         self.assertEqual(experiment.unexpected_init_fields(clean), [])
         dirty = smoke_result(init={"mcp_servers": ["a"], "plugins": ["b"], "agents": [], "skills": []})
         self.assertEqual(experiment.unexpected_init_fields(dirty), ["mcp_servers", "plugins"])
+
+
+class SummarizeOursFromTest(unittest.TestCase):
+    """Round 2 re-runs only the `ours` cells and reuses the main run's `none` and `karpathy`
+    cells, so summarize has to take batches from two dates and keep exactly one `ours` batch."""
+
+    def write_run(self, batch, name, task, condition):
+        run_dir = batch / name
+        run_dir.mkdir(parents=True)
+        (run_dir / "metrics.json").write_text(
+            json.dumps(
+                {
+                    "run_id": name,
+                    "task": task,
+                    "condition": condition,
+                    "stop_reason": "completed",
+                    "total_cost_usd": 0.1,
+                    "num_turns": 4,
+                    "duration_ms": 1000,
+                    "final_text": "",
+                }
+            ),
+            encoding="utf-8",
+        )
+        (run_dir / "meta.json").write_text(
+            json.dumps({"condition": condition}), encoding="utf-8"
+        )
+
+    def summarize(self, tmp, runs, ours_from=None):
+        out = Path(tmp) / ("summary-%s.json" % (ours_from and "filtered" or "all"))
+        args = argparse.Namespace(
+            runs=[str(r) for r in runs],
+            out=str(out),
+            markdown=False,
+            ours_from=str(ours_from) if ours_from else None,
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            experiment.cmd_summarize(args)
+        return json.loads(out.read_text(encoding="utf-8"))
+
+    def test_only_the_named_batch_supplies_the_ours_rows(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = Path(tmp) / "20260903-000000"
+            new = Path(tmp) / "20260910-000000"
+            self.write_run(old, "task1-none-01", "task1", "none")
+            self.write_run(old, "task1-karpathy-01", "task1", "karpathy")
+            self.write_run(old, "task1-ours-01", "task1", "ours")
+            self.write_run(new, "task1-ours-02", "task1", "ours")
+
+            everything = self.summarize(tmp, [old, new])
+            self.assertEqual(
+                sorted(r["run_id"] for r in everything["runs"] if r["condition"] == "ours"),
+                ["task1-ours-01", "task1-ours-02"],
+            )
+            self.assertIsNone(everything["ours_from"])
+
+            filtered = self.summarize(tmp, [old, new], ours_from=new)
+            ids = {r["condition"]: [] for r in filtered["runs"]}
+            for row in filtered["runs"]:
+                ids[row["condition"]].append(row["run_id"])
+            self.assertEqual(ids["ours"], ["task1-ours-02"])
+            # The reused cells are untouched.
+            self.assertEqual(ids["none"], ["task1-none-01"])
+            self.assertEqual(ids["karpathy"], ["task1-karpathy-01"])
+            self.assertEqual(filtered["ours_from"], str(new.resolve()))
+            self.assertEqual(filtered["by_task"]["task1"]["cells"]["ours"]["n"], 1)
+
+    def test_a_batch_outside_runs_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            batch = Path(tmp) / "20260903-000000"
+            self.write_run(batch, "task1-ours-01", "task1", "ours")
+            with self.assertRaises(SystemExit):
+                self.summarize(tmp, [batch], ours_from=Path(tmp) / "elsewhere")
 
 
 class EnvironmentTest(unittest.TestCase):

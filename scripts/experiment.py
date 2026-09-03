@@ -1360,6 +1360,14 @@ def relativize(value, prefixes):
 def cmd_summarize(args):
     rows = []
     roots = [Path(directory).resolve() for directory in args.runs]
+    # Round 2 re-runs only the `ours` cells and reuses the `none` and `karpathy` cells of the
+    # main run, so the summary is built from batches collected on two dates. --ours-from names
+    # the batch whose `ours` rows count; `ours` rows from any other batch are dropped.
+    ours_from = Path(args.ours_from).resolve() if args.ours_from else None
+    if ours_from is not None and not any(
+        ours_from == root or ours_from.is_relative_to(root) for root in roots
+    ):
+        raise SystemExit("--ours-from %s is not one of the --runs directories" % args.ours_from)
     metrics_paths = sorted(
         path for directory in args.runs for path in Path(directory).rglob("metrics.json")
     )
@@ -1374,12 +1382,15 @@ def cmd_summarize(args):
             (str(resolved.relative_to(root.parent)) for root in roots if resolved.is_relative_to(root)),
             run_dir.name,
         )
+        condition = metrics.get("condition", meta.get("condition"))
+        if ours_from is not None and condition == "ours" and not resolved.is_relative_to(ours_from):
+            continue
         rows.append(
             {
                 "run_id": metrics.get("run_id", run_dir.name),
                 "run_dir": relative,
                 "task": metrics.get("task"),
-                "condition": metrics.get("condition", meta.get("condition")),
+                "condition": condition,
                 "metrics": metrics,
                 "final_text": metrics.get("final_text", ""),
                 "meta": meta,
@@ -1414,6 +1425,7 @@ def cmd_summarize(args):
 
     summary = {
         "generated_utc": utc_now(),
+        "ours_from": str(ours_from) if ours_from else None,
         "runs": rows,
         "by_task": by_task,
         "pooled": {"cells": pooled, "differences": differences(pooled)},
@@ -1697,6 +1709,7 @@ def build_parser():
     summarize_parser = subparsers.add_parser("summarize")
     summarize_parser.add_argument("--runs", required=True, nargs="+")
     summarize_parser.add_argument("--out", required=True)
+    summarize_parser.add_argument("--ours-from")
     summarize_parser.add_argument("--markdown", action="store_true")
     summarize_parser.set_defaults(func=cmd_summarize)
 
