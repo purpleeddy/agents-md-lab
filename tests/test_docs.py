@@ -19,6 +19,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCS = REPO_ROOT / "docs"
 INDEX = DOCS / "index.html"
 COMPARE_JS = DOCS / "compare.js"
+SITE_CSS = DOCS / "site.css"
+LAYOUT = DOCS / "_layouts" / "default.html"
 REFERENCES = DOCS / "references.md"
 README = REPO_ROOT / "README.md"
 EXPERIMENT = REPO_ROOT / "docs" / "data" / "experiment.json"
@@ -26,6 +28,7 @@ NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
 COMPARE_JS_MAX_BYTES = 28 * 1024
+SITE_CSS_MAX_BYTES = 22 * 1024
 
 # Hosts the page is allowed to link to. Everything else must be a relative path or a fragment:
 # the page loads no font, script, style or image from anywhere but itself.
@@ -219,6 +222,23 @@ class PageTest(unittest.TestCase):
     def test_sizes_stay_inside_the_budget(self):
         self.assertLessEqual(INDEX.stat().st_size, INDEX_MAX_BYTES)
         self.assertLessEqual(COMPARE_JS.stat().st_size, COMPARE_JS_MAX_BYTES)
+        self.assertLessEqual(SITE_CSS.stat().st_size, SITE_CSS_MAX_BYTES)
+
+    def test_the_pages_share_one_stylesheet(self):
+        # The front page and the Markdown pages are styled by the same file, so the two cannot
+        # drift apart; index.html keeps only the generated stacked-table labels inline.
+        self.assertIn('<link rel="stylesheet" href="site.css">', self.html)
+        layout = LAYOUT.read_text(encoding="utf-8")
+        self.assertIn('<link rel="stylesheet" href="site.css">', layout)
+        self.assertIn("{{ content }}", layout)
+        self.assertNotIn("theme:", (DOCS / "_config.yml").read_text(encoding="utf-8"))
+
+    def test_every_navigation_target_exists(self):
+        # The layout's navigation names published pages; a page publishes from its Markdown
+        # source, so the source has to be there.
+        for text in (self.html, LAYOUT.read_text(encoding="utf-8")):
+            for target in re.findall(r'href="([a-z]+)\.html', text):
+                self.assertTrue((DOCS / (target + ".md")).exists() or target == "index", target)
 
     def test_the_compare_section_offers_both_criteria_sets(self):
         self.assertIn('<select id="criteria-set">', self.html)

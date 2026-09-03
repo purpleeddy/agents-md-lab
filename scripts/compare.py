@@ -735,10 +735,10 @@ def render_labels_css(criteria):
     )
 
 
-def render_preview_html(data):
-    """The hero card. The numbers are the generic file's, on both criteria sets, because the
-    generic file is what the button offers; the root file above it differs only in the Project
-    section, and both hashes are on the card so the two can be told apart."""
+def render_preview_html(data, criteria, content):
+    """The hero card. The numbers are the offered file's, on both criteria sets, because that
+    file is what the button downloads; the root file above it differs in the Project section and
+    in one pointer line, and all three hashes are on the card so the texts can be told apart."""
     offered = download_text()
     lines = offered.split("\n")[:PREVIEW_LINES]
     ours = data["ours"]
@@ -747,8 +747,9 @@ def render_preview_html(data):
         '<pre class="preview" aria-label="The first %d lines of AGENTS.md">%s</pre>\n'
         '<p class="filemeta" title="root sha256 %s, generic sha256 %s, offered file sha256 %s">'
         'MIT. v%s. %d lines. '
-        "Rule criteria %d/%d \u00b7 Content criteria %d/%d (generic file; the Project section "
-        "you fill adds the commands).</p>"
+        "Rule criteria %d/%d \u00b7 Content criteria %d/%d (this file points at the rationale "
+        "page by URL, which the pointer criterion does not count; the Project section you fill "
+        "adds the commands).</p>"
         % (
             PREVIEW_LINES,
             esc("\n".join(lines)),
@@ -757,10 +758,10 @@ def render_preview_html(data):
             esc(hashlib.sha256(offered.encode("utf-8")).hexdigest()),
             OURS_VERSION,
             generic["lines"],
-            generic["met"],
-            generic["of"],
-            ours["met_content"],
-            ours["of_content"],
+            coverage(evaluate(offered, OURS_FILE.name, criteria)),
+            len(criteria["criteria"]),
+            coverage(evaluate(offered, OURS_FILE.name, content)),
+            len(content["criteria"]),
         )
     )
 
@@ -1214,7 +1215,7 @@ def rendered_outputs():
         page = INDEX_HTML.read_text(encoding="utf-8")
         page = replace_block(page, "comparison", render_comparison_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
-        page = replace_block(page, "preview", render_preview_html(data), INDEX_HTML)
+        page = replace_block(page, "preview", render_preview_html(data, criteria, content), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
         page = replace_block(page, "criteria", render_criteria_json(criteria), INDEX_HTML)
         page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)

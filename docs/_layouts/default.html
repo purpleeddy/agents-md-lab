@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title }} · agents-md-lab</title>
+<!-- Every page of this site sits in the same directory, so the links are plain relative paths
+     and do not depend on a baseurl the configuration does not set. -->
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="index.html">agents-md-lab</a>
+    <ul>
+      <li><a href="index.html#compare">Compare</a></li>
+      <li><a href="index.html#check">Check</a></li>
+      <li><a href="index.html#experiment">Experiment</a></li>
+      <li><a href="methodology.html">Methodology</a></li>
+      <li><a href="findings.html">Findings</a></li>
+      <li><a href="rationale.html">Rationale</a></li>
+      <li><a href="references.html">References</a></li>
+    </ul>
+    <a class="btn cta" href="index.html#check">Check your file</a>
+  </div>
+</nav>
+
+<main id="main" class="page">
+  <div class="wrap">
+    <article>
+{{ content }}
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="prose">Method: ten published instruction files, pinned by commit, evaluated line by line against ten criteria taken from vendor documentation, practitioner guides and three studies; then a pre-registered experiment of three tasks by three conditions.</p>
+    </div>
+    <ul>
+      <li><a href="https://github.com/purpleeddy/agents-md-lab">Repository</a></li>
+      <li><a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">Pre-registration</a></li>
+      <li><a href="https://github.com/purpleeddy/agents-md-lab/blob/main/LICENSE">License MIT</a></li>
+      <li>Not affiliated with the AGENTS.md specification or with the Agentic AI Foundation.</li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

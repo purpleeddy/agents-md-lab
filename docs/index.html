@@ -5,146 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>agents-md-lab</title>
 <meta name="description" content="A survey of ten published AGENTS.md and CLAUDE.md files against ten sourced criteria, with a pre-registered experiment on what an instruction file changes.">
+<link rel="stylesheet" href="site.css">
 <style>
-:root {
-color-scheme: light; --ground:#F6F8F9; --surface:#FFFFFF; --ink:#16212B; --muted:#5B6B78; --rule:#D7DEE3; --accent:#0E6F76; --accent-soft:#DDEFF0; --met:#1F7A4D; --unmet:#B23A3A; --cond-none:#2a78d6; --cond-karpathy:#eb6834; --cond-ours:#1baf7a; --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace; --s1:4px; --s2:8px; --s3:12px; --s4:20px; --s5:32px; --s6:52px; }
-@media (prefers-color-scheme: dark) {
-:root:not([data-theme="light"]) {
-color-scheme: dark; --ground:#0F1519; --surface:#161E24; --ink:#E6ECF0; --muted:#9AA8B3; --rule:#2A3640; --accent:#4FC3C8; --accent-soft:#123A3D; --met:#5BC58A; --unmet:#E0706A; --cond-none:#3987e5; --cond-karpathy:#d95926; --cond-ours:#199e70; }
-}
-:root[data-theme="dark"] {
-color-scheme: dark; --ground:#0F1519; --surface:#161E24; --ink:#E6ECF0; --muted:#9AA8B3; --rule:#2A3640; --accent:#4FC3C8; --accent-soft:#123A3D; --met:#5BC58A; --unmet:#E0706A; --cond-none:#3987e5; --cond-karpathy:#d95926; --cond-ours:#199e70; }
-* { box-sizing:border-box; }
-[hidden] { display:none !important; }
-body { margin:0; background:var(--ground); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.55; -webkit-text-size-adjust:100%; }
-h1,h2,h3 { font-weight:600; letter-spacing:-0.01em; line-height:1.2; margin:0; }
-h1 { font-size:39px; } h2 { font-size:31px; } h3 { font-size:25px; }
-p, ul, ol, dl { margin:0; }
-a { color:var(--accent); }
-a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, summary:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-code, pre, .num, .badge, td.v { font-family:var(--mono); font-variant-numeric:tabular-nums; }
-code { font-size:13px; }
-.skip { position:absolute; left:-999px; }
-.skip:focus { left:var(--s3); top:var(--s2); z-index:20; background:var(--surface); color:var(--ink); padding:var(--s2) var(--s3); border:1px solid var(--rule); border-radius:4px; }
-.wrap { max-width:1120px; margin:0 auto; padding:0 var(--s4); }
-.prose { max-width:65ch; }
-.eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); margin:0; }
-.stack { display:flex; flex-direction:column; gap:var(--s3); }
-.stack-l { display:flex; flex-direction:column; gap:var(--s4); }
-section { padding:var(--s6) 0; border-top:1px solid var(--rule); }
-/* nav */
-.nav { position:sticky; top:0; z-index:10; background:var(--surface); border-bottom:1px solid var(--rule); }
-.nav .wrap { display:flex; align-items:center; gap:var(--s3); flex-wrap:wrap; min-height:52px; }
-.nav .brand { font-weight:600; letter-spacing:-0.01em; text-decoration:none; color:var(--ink); }
-.nav ul { display:flex; gap:var(--s3); list-style:none; padding:0; flex-wrap:wrap; }
-.nav a { text-decoration:none; font-size:14px; }
-.nav a:hover { text-decoration:underline; }
-.nav .cta { margin-left:auto; }
-.btn { font:inherit; font-size:14px; background:var(--accent); color:var(--surface); border:1px solid var(--accent); border-radius:4px; padding:var(--s1) var(--s3); cursor:pointer; text-decoration:none; display:inline-block; }
-.btn.ghost { background:transparent; color:var(--accent); }
-/* hero */
-.hero { display:grid; gap:var(--s5); padding:var(--s6) 0; }
-@media (min-width:900px) { .hero { grid-template-columns:1fr 1fr; align-items:start; } }
-/* A grid or flex item defaults to min-width:auto, so the file preview's longest line would
-   widen its column and push the whole page wider than the viewport. */
-.hero > *, .filecard > *, .stack-l > *, .tablewrap { min-width:0; }
-.lede { font-size:20px; color:var(--ink); }
-.chips { display:flex; flex-wrap:wrap; gap:var(--s2); list-style:none; padding:0; }
-.chips a { display:inline-block; font-size:13px; text-decoration:none; border:1px solid var(--rule); background:var(--surface); border-radius:999px; padding:var(--s1) var(--s3); }
-.chips a:hover { border-color:var(--accent); }
-.filecard { background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:var(--s4); display:flex; flex-direction:column; gap:var(--s3); }
-.preview { font-size:12.5px; line-height:1.5; margin:0; overflow-x:auto; white-space:pre; background:var(--ground); border:1px solid var(--rule); border-radius:4px; padding:var(--s3); }
-.filemeta { font-family:var(--mono); font-size:13px; color:var(--muted); }
-.controls { display:flex; flex-wrap:wrap; gap:var(--s2); align-items:center; }
-/* tables */
-.tablewrap { overflow-x:auto; border:1px solid var(--rule); border-radius:6px; background:var(--surface); }
-table { border-collapse:collapse; width:100%; font-size:13px; }
-caption { text-align:left; padding:var(--s3); color:var(--muted); font-size:13px; }
-th, td { border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); text-align:left; vertical-align:top; }
-thead th { font-size:12px; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
-tfoot th, tfoot td { color:var(--muted); }
-td.num, th.num { text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
-th.c-file { position:sticky; left:0; background:var(--surface); min-width:232px; z-index:1; font-weight:600; }
-thead th.c-file { z-index:2; }
-th.c-crit { min-width:96px; white-space:normal; }
-th.c-crit .cn { display:block; font-family:var(--mono); color:var(--ink); }
-th.c-crit .cl { display:block; text-transform:none; letter-spacing:0; font-size:12px; }
-td.v { white-space:nowrap; font-size:12px; }
-td.v.met { color:var(--met); } td.v.unmet { color:var(--unmet); }
-td.v.met::before { content:"\2713\00a0"; } td.v.unmet::before { content:"\2717\00a0"; }
-.badge { font-size:12px; border:1px solid var(--rule); border-radius:3px; padding:0 var(--s1); }
-.cov { display:block; font-size:11px; font-weight:400; color:var(--muted); }
-.rowlinks { display:block; font-family:var(--mono); font-size:11px; }
-.rowlinks a { margin-right:var(--s2); }
-.expand { font:inherit; font-family:var(--mono); background:transparent; border:1px solid var(--rule); border-radius:3px; color:var(--ink); cursor:pointer; margin-right:var(--s2); padding:0 5px; }
-tr.faded { opacity:0.38; }
-tr.pinned th.c-file, tr.pinned td { background:var(--accent-soft); }
-.evidence td { font-size:12px; color:var(--muted); }
-.evidence ul { list-style:none; padding:0; display:flex; flex-direction:column; gap:var(--s1); }
-.evidence .ln { font-family:var(--mono); color:var(--accent); }
-.info { font:inherit; background:transparent; border:0; color:var(--accent); cursor:pointer; padding:0; }
-.pop { display:none; max-width:32ch; border:1px solid var(--rule); border-radius:6px; background:var(--surface); color:var(--ink); padding:var(--s3); font-size:13px; line-height:1.5; text-transform:none; letter-spacing:0; font-weight:400; }
-.pop:popover-open { display:block; }
-.pop p { margin:0 0 var(--s2); } .pop p:last-child { margin:0; }
-.pop-q { font-weight:600; } .pop-src { font-family:var(--mono); font-size:12px; }
-.footnote { font-size:13px; color:var(--muted); }
-/* check panel */
-.panel { background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:var(--s4); display:flex; flex-direction:column; gap:var(--s3); }
-textarea { font-family:var(--mono); font-size:13px; width:100%; min-height:180px; padding:var(--s3); border:1px solid var(--rule); border-radius:4px; background:var(--ground); color:var(--ink); resize:vertical; }
-input[type=text], select { font:inherit; font-size:14px; padding:var(--s1) var(--s2); border:1px solid var(--rule); border-radius:4px; background:var(--ground); color:var(--ink); }
-label { font-size:14px; }
-.verdicts { list-style:none; padding:0; display:flex; flex-direction:column; gap:var(--s2); }
-.verdicts li { border-left:3px solid var(--rule); padding-left:var(--s3); }
-.verdicts li.met { border-left-color:var(--met); }
-.verdicts li.unmet { border-left-color:var(--unmet); }
-.verdicts .mark { font-family:var(--mono); }
-.verdicts li.met .mark { color:var(--met); } .verdicts li.unmet .mark { color:var(--unmet); }
-.verdicts .hint { display:block; font-size:13px; color:var(--muted); }
-.verdicts li.sep { border-left:none; padding-left:0; font-weight:600; }
-.privacy { font-size:13px; color:var(--muted); }
-/* charts */
-.legend { display:flex; gap:var(--s4); flex-wrap:wrap; list-style:none; padding:0; font-size:13px; font-family:var(--mono); }
-.legend .swatch { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:var(--s1); }
-.chart { width:100%; height:auto; }
-.chart text { font-family:var(--mono); font-size:11px; fill:var(--muted); }
-.chart text.rowlabel { fill:var(--ink); }
-.chart .grid { stroke:var(--rule); stroke-width:1; }
-.chart .band { fill:var(--rule); opacity:0.3; }
-.chart .bar { stroke-width:2; }
-.t-wide th[scope=row] { min-width:184px; }
-.t-wide td { white-space:nowrap; }
-.nbadge { font-family:var(--mono); font-size:12px; color:var(--muted); border:1px solid var(--rule); border-radius:999px; padding:0 var(--s2); }
-.chart .c-none { fill:var(--cond-none); stroke:var(--cond-none); }
-.chart .c-karpathy { fill:var(--cond-karpathy); stroke:var(--cond-karpathy); }
-.chart .c-ours { fill:var(--cond-ours); stroke:var(--cond-ours); }
-.swatch.c-none { background:var(--cond-none); }
-.swatch.c-karpathy { background:var(--cond-karpathy); }
-.swatch.c-ours { background:var(--cond-ours); }
-h4 { font-size:16px; font-weight:600; letter-spacing:-0.01em; margin:0; }
-#matters { border:1px solid var(--rule); border-radius:4px; padding:var(--s2) var(--s3); gap:var(--s3); }
-#matters legend { padding:0 var(--s1); }
-.evidence ul ul { padding-left:var(--s3); }
-/* cards */
-.cards { display:grid; gap:var(--s3); }
-@media (min-width:760px) { .cards { grid-template-columns:repeat(3,1fr); } }
-.card { background:var(--surface); border:1px solid var(--rule); border-radius:6px; padding:var(--s4); display:flex; flex-direction:column; gap:var(--s2); }
-.claims { list-style:none; padding:0; display:flex; flex-direction:column; gap:var(--s3); max-width:75ch; }
-.claims li { border-left:3px solid var(--accent); padding-left:var(--s3); }
-.claims p { margin-top:var(--s1); }
-.verify { font-size:13px; color:var(--muted); }
-.verify code { overflow-wrap:anywhere; }
-pre.block { background:var(--surface); border:1px solid var(--rule); border-radius:4px; padding:var(--s3); overflow-x:auto; font-size:12.5px; }
-footer { border-top:1px solid var(--rule); padding:var(--s5) 0; color:var(--muted); font-size:13px; }
-footer p { margin-bottom:var(--s2); }
+/* The stacked-table labels are generated from the criteria, so they stay in the page the
+   renderer owns; every other rule is in site.css. */
 @media (max-width:640px) {
-h1 { font-size:31px; } h2 { font-size:25px; } h3 { font-size:20px; }
-#compare-table, #compare-table tbody, #compare-table tr, #compare-table td, #compare-table th { display:block; }
-#compare-table thead, #compare-table tfoot { display:none; }
-#compare-table tr { border-bottom:1px solid var(--rule); padding:var(--s3) 0; }
-#compare-table th.c-file { position:static; min-width:0; border-bottom:0; }
-#compare-table td { border-bottom:0; display:flex; justify-content:space-between; gap:var(--s3); padding:2px var(--s3); text-align:right; }
-#compare-table td::after { color:var(--muted); text-align:left; font-family:var(--body); font-size:12px; order:-1; }
-#compare-table td.v::before { margin-left:auto; }
 <!-- labels:start -->
 #compare-table td:nth-of-type(1)::after { content:"Type"; }
 #compare-table td:nth-of-type(2)::after { content:"Stars"; }
@@ -163,7 +28,6 @@ h1 { font-size:31px; } h2 { font-size:25px; } h3 { font-size:20px; }
 #compare-table td:nth-of-type(15)::after { content:"Criteria met"; }
 <!-- labels:end -->
 }
-@media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
@@ -173,10 +37,12 @@ h1 { font-size:31px; } h2 { font-size:25px; } h3 { font-size:20px; }
     <a class="brand" href="#top">agents-md-lab</a>
     <ul>
       <li><a href="#compare">Compare</a></li>
+      <li><a href="#check">Check</a></li>
       <li><a href="#experiment">Experiment</a></li>
-      <li><a href="#how">How and why</a></li>
-      <li><a href="#contribute">Contribute</a></li>
       <li><a href="methodology.html">Methodology</a></li>
+      <li><a href="findings.html">Findings</a></li>
+      <li><a href="rationale.html">Rationale</a></li>
+      <li><a href="references.html">References</a></li>
     </ul>
     <a class="btn cta" href="#check">Check your file</a>
   </div>
@@ -187,6 +53,7 @@ h1 { font-size:31px; } h2 { font-size:25px; } h3 { font-size:20px; }
 
 <header id="top" class="hero">
   <div class="stack-l">
+    <p class="eyebrow">Survey · criteria · experiment</p>
     <h1>What belongs in an instruction file for a coding agent</h1>
     <p class="lede">A survey of ten widely used AGENTS.md and CLAUDE.md files, ten sourced criteria, and a pre-registered experiment on what an instruction file changes.</p>
     <ul class="chips">
@@ -211,12 +78,12 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
 - Never game a check: no weakened assertions, skipped tests, disabled linters, or `--no-verify`. Fix the cause or report the failure.
 - Do not assert that a function, API, flag, or file exists unless you verified it in this session.
 - Destructive or irreversible operations are not allowed without a backup and an explicit ask: `rm -rf`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema, stored data, or public API. Opening issues, PRs, or comments also needs an explicit ask.</pre>
-<p class="filemeta" title="root sha256 ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012, generic sha256 f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36, offered file sha256 2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4">MIT. v1.0.1. 52 lines. Rule criteria 9/10 · Content criteria 0/8 (generic file; the Project section you fill adds the commands).</p>
+<p class="filemeta" title="root sha256 ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012, generic sha256 f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36, offered file sha256 2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4">MIT. v1.0.1. 52 lines. Rule criteria 8/10 · Content criteria 0/8 (this file points at the rationale page by URL, which the pointer criterion does not count; the Project section you fill adds the commands).</p>
 <!-- preview:end -->
     <div class="controls">
       <button type="button" class="btn" id="copy-file">Copy file</button>
       <a class="btn ghost" href="https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/docs/generated/agents-generic.md">Download (save as AGENTS.md)</a>
-      <a class="btn ghost" href="rationale.html">Why each rule</a>
+      <a class="btn link" href="rationale.html">Why each rule</a>
     </div>
     <p class="privacy" id="copy-status" aria-live="polite"></p>
   </div>
@@ -226,8 +93,8 @@ file. Where each line came from: https://purpleeddy.github.io/agents-md-lab/rati
   <div class="stack-l">
     <div class="stack prose">
       <p class="eyebrow">Compare</p>
-      <h2>Ten files, ten criteria</h2>
-      <p>Coverage of sourced criteria, not quality; every &#10003; has an evidence line.</p>
+      <h2>Ten files, two criteria sets</h2>
+      <p>Coverage of sourced criteria, not quality; every &#10003; has an evidence line. The switch above the table changes the set: how a file is written, or what it says about its project.</p>
     </div>
     <div class="controls" id="set-controls" hidden>
       <label for="criteria-set">Criteria set</label>
@@ -587,12 +454,21 @@ python3 scripts/experiment.py run --task task1 --conditions none karpathy ours -
 </main>
 
 <footer>
-  <div class="wrap prose">
-    <p>Method: ten published instruction files, pinned by commit, evaluated line by line against ten criteria taken from vendor documentation, practitioner guides and three studies; then a pre-registered experiment of three tasks by three conditions.</p>
+  <div class="wrap">
+    <div>
+      <p class="prose">Method: ten published instruction files, pinned by commit, evaluated line by line against ten criteria taken from vendor documentation, practitioner guides and three studies; then a pre-registered experiment of three tasks by three conditions.</p>
+      <div class="meta">
 <!-- dates:start -->
 <p>Star counts read 2026-09-03. Corpus data generated 2026-09-03T07:57:16Z. Corpus pinned by commit; the experiment section carries its own generated date.</p>
 <!-- dates:end -->
-    <p>MIT. Not affiliated with the AGENTS.md specification or with the Agentic AI Foundation. <a href="https://github.com/purpleeddy/agents-md-lab">Repository</a>.</p>
+      </div>
+    </div>
+    <ul>
+      <li><a href="https://github.com/purpleeddy/agents-md-lab">Repository</a></li>
+      <li><a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md">Pre-registration</a></li>
+      <li><a href="https://github.com/purpleeddy/agents-md-lab/blob/main/LICENSE">License MIT</a></li>
+      <li>Not affiliated with the AGENTS.md specification or with the Agentic AI Foundation.</li>
+    </ul>
   </div>
 </footer>
 
