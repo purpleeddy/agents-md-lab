@@ -66,7 +66,7 @@ section { padding:var(--s6) 0; border-top:1px solid var(--rule); }
 /* header */
 /* The header floats over the page, so it is the surface at 80% with the page blurred
    behind it where the browser supports that filter. */
-.nav { position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--surface) 80%, transparent); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--rule); }
+.nav { position:sticky; top:0; z-index:10; background:var(--surface); background:color-mix(in srgb, var(--surface) 80%, transparent); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--rule); }
 .nav .wrap { display:flex; align-items:center; gap:var(--s4); min-height:56px; }
 .nav .brand { font-family:var(--mono); font-size:15px; font-weight:600; text-decoration:none; color:var(--ink); white-space:nowrap; display:flex; align-items:center; gap:var(--s2); }
 .nav .brand::before { content:""; width:10px; height:10px; border-radius:2px; background:var(--accent); }
