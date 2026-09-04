@@ -1,10 +1,10 @@
 {
   "generated_utc": "2026-09-03T07:57:16Z",
-  "criteria_version": "1.0",
-  "criteria_content_version": "1.0",
+  "criteria_version": "1.0.0",
+  "criteria_content_version": "1.0.0",
   "ours": {
     "path": "AGENTS.md",
-    "version": "1.2",
+    "version": "1.2.0",
     "license": "MIT",
     "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
     "lines": 33,

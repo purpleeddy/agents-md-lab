@@ -43,7 +43,7 @@ How both were built is in [methodology.md](methodology.md).
    rule and not by pointing at `AGENTS.md`.
 
 The same three criteria are unmet outside the corpus too, in the practitioner file three of this
-project's rules came from, five of the v0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
+project's rules came from, five of the v0.1.0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
 
 <!-- hernanz:start -->
 Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (Length, Scope restraint, Emphasis restraint, Tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — Guard on destructive commands, Secrets, Instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
@@ -97,7 +97,7 @@ Ninety runs: three tasks by three conditions by ten runs, model `claude-opus-5`,
 fresh directory outside this repository. All ninety ended `completed`, none timed out and none
 produced an empty diff, so every cell below is ten delivered runs. The design, the metrics and
 their directions were fixed before any run; the
-[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md)
+[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md)
 is the authority on them and the
 [Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-03-opus-5)
 records the run directories, the hashes and the telemetry; the per-run records themselves are in

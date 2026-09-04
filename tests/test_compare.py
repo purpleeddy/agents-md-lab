@@ -709,6 +709,12 @@ def engine_fields(criteria):
     ]
 
 
+def three_part(version):
+    """The version each set carried before the merge, in the three-part notation the project uses
+    now. The sets themselves are unchanged, so the only difference is the trailing part."""
+    return version + ".0"
+
+
 class FrozenPatternTest(unittest.TestCase):
     def committed(self, path):
         result = subprocess.run(
@@ -724,12 +730,12 @@ class FrozenPatternTest(unittest.TestCase):
     def test_the_rule_patterns_survived_the_merge(self):
         before = self.committed("docs/criteria.json")
         self.assertEqual(engine_fields(criteria()), engine_fields(before))
-        self.assertEqual(criteria()["version"], before["version"])
+        self.assertEqual(criteria()["version"], three_part(before["version"]))
 
     def test_the_content_patterns_survived_the_merge(self):
         before = self.committed("docs/criteria-content.json")
         self.assertEqual(engine_fields(content_criteria()), engine_fields(before))
-        self.assertEqual(content_criteria()["version"], before["version"])
+        self.assertEqual(content_criteria()["version"], three_part(before["version"]))
 
     def test_the_two_sets_share_one_engine_description(self):
         merged = json.loads((REPO_ROOT / "docs" / "criteria.json").read_text(encoding="utf-8"))

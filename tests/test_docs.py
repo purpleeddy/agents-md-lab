@@ -228,9 +228,9 @@ class KnownIssuesTest(unittest.TestCase):
         self.assertEqual(expected - listed, set())
 
     def test_every_row_carries_a_response(self):
-        allowed = ("fixed in v1.0.1", "applied in v1.1", "applied in v1.2",
-                   "enforceable by the example settings", "v1.1 candidate", "disagree because",
-                   "covered by", "the line is cut in v1.1", "the rule stands")
+        allowed = ("fixed in v1.0.1", "applied in v1.1.0", "applied in v1.2.0",
+                   "enforceable by the example settings", "v1.1.0 candidate", "disagree because",
+                   "covered by", "the line is cut in v1.1.0", "the rule stands")
         for row in self.rows():
             response = row.split("|")[5]
             self.assertTrue(any(word in response for word in allowed), row)
@@ -537,6 +537,47 @@ class ExperimentRendererTest(unittest.TestCase):
             for condition, cell in entry["cells"].items():
                 self.assertEqual(cell["n"], 10, "%s %s" % (task, condition))
                 self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
+
+
+# Every version name the project publishes carries three parts, so that a reader never has to
+# guess whether "v1.1" and "v1.1.0" are the same text. Two names are exempt: the locked region of
+# experiments/README.md, which cannot change after the tag, and the git tag `testset-v1.0` where
+# the sentence below the Lock line says which commit it names.
+VERSION_TOKEN = re.compile(r"\bv\d+(?:\.\d+)*")
+# Anchors carry the version with its dots removed (#line-audit-v101-to-v110), which is a slug and
+# not a version name.
+ANCHOR = re.compile(r"#[a-z0-9-]+")
+LOCK_HEADING = "\n## Lock\n"
+TAG_SENTENCE = (
+    "The tag `testset-v1.0.0` names the same commit as `testset-v1.0`; the three-part name is\n"
+    "the one used on the site.\n"
+)
+COMPARE_PY = REPO_ROOT / "scripts" / "compare.py"
+PRE_REGISTRATION = REPO_ROOT / "experiments" / "README.md"
+
+
+class VersionNotationTest(unittest.TestCase):
+    def scanned(self):
+        pages = [README, REPO_ROOT / "CONTRIBUTING.md", INDEX, COMPARE_PY]
+        pages += sorted(DOCS.glob("*.md"))
+        texts = {
+            str(path.relative_to(REPO_ROOT)): path.read_text(encoding="utf-8") for path in pages
+        }
+        tail = PRE_REGISTRATION.read_text(encoding="utf-8").split(LOCK_HEADING, 1)[1]
+        self.assertIn(TAG_SENTENCE, tail)
+        texts["experiments/README.md below the Lock line"] = tail.replace(TAG_SENTENCE, "")
+        return texts
+
+    def test_every_version_name_has_three_parts(self):
+        for name, text in self.scanned().items():
+            for token in VERSION_TOKEN.findall(ANCHOR.sub("", text)):
+                self.assertEqual(token.count("."), 2, "%s names %s" % (name, token))
+
+    def test_the_experiment_lead_names_the_shipped_version(self):
+        source = COMPARE_PY.read_text(encoding="utf-8")
+        version = re.search(r'^OURS_VERSION = "([^"]+)"', source, re.M).group(1)
+        section = INDEX.read_text(encoding="utf-8").split('<section id="experiment">', 1)[1]
+        self.assertIn("is v%s" % version, section.split("</section>", 1)[0])
 
 
 if __name__ == "__main__":

@@ -57,16 +57,16 @@ PREVIEW_LINES = 12
 # The page offers the root file itself: one text, one hash, one set of numbers.
 OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md"
 
-# The version of the recommended file itself. v1.0 is the text the experiment ran; v1.0.1 fixes
-# two defects across four rule lines after the independent review; v1.1 is the rewrite from the
-# rest of that review, compacted; v1.2 adopts an independent design review of v1.1 (see
+# The version of the recommended file itself. v1.0.0 is the text the experiment ran; v1.0.1 fixes
+# two defects across four rule lines after the independent review; v1.1.0 is the rewrite from the
+# rest of that review, compacted; v1.2.0 adopts an independent design review of v1.1.0 (see
 # docs/methodology.md, "What the experiment tested and what is shipped"). The texts below are not recoverable from the working tree, because the file they name
 # has since changed or been deleted, so each is recorded with the hash and the two coverage
 # numbers measured on it at the time.
-OURS_VERSION = "1.2"
+OURS_VERSION = "1.2.0"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 RECORDED_TEXTS = (
-    ("Generic file the experiment ran (v1.0)", TESTED_GENERIC_SHA256, 9, 0),
+    ("Generic file the experiment ran (v1.0.0)", TESTED_GENERIC_SHA256, 9, 0),
     (
         "Root `AGENTS.md` with this repository's Project section filled in (v1.0.1)",
         "ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012",
@@ -92,13 +92,13 @@ RECORDED_TEXTS = (
         0,
     ),
     (
-        "Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment",
+        "Root `AGENTS.md` v1.1.0 as first written, before the 2026-09-04 amendment",
         "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
         8,
         0,
     ),
     (
-        "Root `AGENTS.md` v1.1 as amended, the text v1.2 replaces",
+        "Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces",
         "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
         8,
         1,
@@ -202,7 +202,7 @@ def evaluate_criterion(criterion, text, lines):
 
 def evaluate(text, filename, criteria):
     """{criterion id: verdict} for one file. `filename` is accepted for parity with the
-    JavaScript engine and is not read by any criterion in version 1.0."""
+    JavaScript engine and is not read by any criterion in version 1.0.0."""
     lines = split_lines(text)
     return {c["id"]: evaluate_criterion(c, text, lines) for c in criteria["criteria"]}
 

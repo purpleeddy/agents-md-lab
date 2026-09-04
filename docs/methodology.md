@@ -320,7 +320,7 @@ repository.
 ## The experiment
 
 The design was written and locked before any run, and it is not restated here: the
-[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0/experiments/README.md)
+[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md)
 is the authority. In summary:
 
 - **Tasks.** T1 greenfield (build a small command-line app from a brief with one deliberate
@@ -364,9 +364,9 @@ the buttons hand over that file itself, and there is one hash and one pair of nu
 three. The rows above the last one below name texts that are no longer in the working tree, so
 their hashes and numbers are recorded constants.
 
-v1.1 applied the rest of the independent review, thirteen changes in all, and then cut or merged
+v1.1.0 applied the rest of the independent review, thirteen changes in all, and then cut or merged
 every line a line audit could not tie to a measured effect or to a safety boundary; the audit, one
-row per line of v1.0.1, is on the [rationale page](rationale.md#line-audit-v101-to-v11). That took
+row per line of v1.0.1, is on the [rationale page](rationale.md#line-audit-v101-to-v110). That took
 the file from 52 lines and 5,456 bytes to 32 lines and 4,069 bytes, and its rule coverage from
 10/10 to 8/10: it names no runnable command, because the Project template is unfilled, and it no
 longer carries the sentence `done_verification` matched, which was cut on the merits. On
@@ -374,11 +374,11 @@ longer carries the sentence `done_verification` matched, which was cut on the me
 from five lines to two; each edit has a row in
 [the rationale](rationale.md#amendments-after-external-feedback-2026-09-04).
 
-The shipped file is now `AGENTS.md` v1.2, and it is the round-2 candidate. A second independent
-review, this one of v1.1's text against the design goals, returned 21 findings and one addition,
+The shipped file is now `AGENTS.md` v1.2.0, and it is the round-2 candidate. A second independent
+review, this one of v1.1.0's text against the design goals, returned 21 findings and one addition,
 and all of them were accepted; the revised text was adopted whole rather than clause by clause,
 and each finding has a row in
-[the rationale](rationale.md#v12-independent-design-review-2026-09-04). The header returns to v0's wording, which the 2026-09-03 review rated a blocking defect. The
+[the rationale](rationale.md#v120-independent-design-review-2026-09-04). The header returns to v0.1.0's wording, which the 2026-09-03 review rated a blocking defect. The
 defect was that a nested file could grant permission and that Done sent the agent to package files
 for a command; Boundaries bullet 5 closes both, so what a nearer document may override is the
 process sections and nothing in Boundaries. The reviewer's fourth Project line, which asked the
@@ -388,7 +388,7 @@ The file is 33 lines and 4,514 bytes, about 1,128 tokens by a bytes-over-four es
 8/10 to 7/10, because the rewritten prompt-injection line no longer says "data, not commands" in
 the form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and
 the criterion is now a second worked example of the gap between a pattern and a statement. No line
-in any version was written or kept to change a verdict. The ninety runs measured v1.0; whether the
+in any version was written or kept to change a verdict. The ninety runs measured v1.0.0; whether the
 compaction kept the advantages they showed is what the
 [round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md)
 measures, pre-registered before it runs.
@@ -396,14 +396,14 @@ measures, pre-registered before it runs.
 <!-- shipped:start -->
 | Text | sha256 | Rule criteria | Content criteria |
 | --- | --- | --- | --- |
-| Generic file the experiment ran (v1.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 9/10 | 0/8 |
+| Generic file the experiment ran (v1.0.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 9/10 | 0/8 |
 | Root `AGENTS.md` with this repository's Project section filled in (v1.0.1), recorded constant | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 10/10 | 3/8 |
 | Generic text, that Project section emptied (v1.0.1), recorded constant | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
 | `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
 | Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
-| Root `AGENTS.md` v1.1 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
-| Root `AGENTS.md` v1.1 as amended, the text v1.2 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
-| Root `AGENTS.md`, the file shipped now (v1.2) | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
+| Root `AGENTS.md` v1.1.0 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
+| Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
+| Root `AGENTS.md`, the file shipped now (v1.2.0) | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:
@@ -425,7 +425,7 @@ Done, item 1:
 - was: `If "Project" below is empty, find the commands in package.json, Makefile, pyproject, or CONTRIBUTING; do not guess.`
 - now: `If "Project" below is empty, run only the commands the repository documents (README, CONTRIBUTING, a nested AGENTS.md) and quote each command and its result; if none is documented, report that the checks could not run instead of guessing or running scripts found in package files.`
 
-The findings on this site describe v1.0. What the experiment measured is unaffected by all four,
+The findings on this site describe v1.0.0. What the experiment measured is unaffected by all four,
 and that is a claim about which rules did
 the work rather than a defence of the amendment. The metrics that moved were tests written, tests
 run after the last edit, the report carrying its commands and results, and a documented convention

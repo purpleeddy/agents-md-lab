@@ -15,12 +15,12 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
 
-   That is `AGENTS.md` v1.2. The experiment measured v1.0; v1.2 is that text amended after an
+   That is `AGENTS.md` v1.2.0. The experiment measured v1.0.0; v1.2.0 is that text amended after an
    independent review, cut to the lines that carry a measured effect or a safety boundary, and
    revised again after an independent design review, and its own 30-run check is pre-registered
    and pending. 33 lines, 4,514 bytes, about 1,128 tokens. What changed and what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
-   line in [the audit](docs/rationale.md#line-audit-v101-to-v11).
+   line in [the audit](docs/rationale.md#line-audit-v101-to-v110).
 
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
@@ -74,13 +74,13 @@ the three conditions. The file is paid for on every task: median cost 1.95× the
 condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
 <!-- summary-experiment:end -->
 
-The runs measured v1.0; the file offered above is v1.2, amended after an independent review and
+The runs measured v1.0.0; the file offered above is v1.2.0, amended after an independent review and
 then compacted (see
 [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)). Whether
 the compaction kept these results is the question the pre-registered round-2 test asks. The
 numbers, the intervals, the null results and what the experiment does not show are on
 [the findings page](docs/findings.md); the design was locked before any run at tag
-`testset-v1.0`.
+`testset-v1.0.0`.
 
 ## Documentation
 
@@ -89,7 +89,7 @@ numbers, the intervals, the null results and what the experiment does not show a
 - [Findings](docs/findings.md) — what the comparison and the experiment showed.
 - [Rationale](docs/rationale.md) — one row per rule of `AGENTS.md`: sources, reason, what changed.
 - [References](docs/references.md) — every citation key, with the date read and an archive link.
-- [Pre-registration](experiments/README.md) — the experiment as it was locked at `testset-v1.0`.
+- [Pre-registration](experiments/README.md) — the experiment as it was locked at `testset-v1.0.0`.
 
 ## Reproduce it
 

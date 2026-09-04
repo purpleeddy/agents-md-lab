@@ -740,10 +740,13 @@ Criteria (a) and (b) failed as written; (c), (d) and (e) passed.
 
 ## Lock
 
-Locked on 2026-09-03 with tag `testset-v1.0`. Test set: T1 with 12 hidden acceptance tests, T2
+Locked on 2026-09-03 with tag `testset-v1.0.0`. Test set: T1 with 12 hidden acceptance tests, T2
 with 13, T3 with 3; metrics and their directions exactly as above; model `claude-opus-5`; CLI
 `claude` 2.1.258; flag set `project-settings`. Nothing above this line changes after the tag; a
 change bumps the version and is recorded here.
+
+The tag `testset-v1.0.0` names the same commit as `testset-v1.0`; the three-part name is
+the one used on the site.
 
 ## Main run
 
@@ -752,27 +755,27 @@ Planned after the lock, and executed as planned at 10 per cell: 9 cells (3 tasks
 `meta.json`: the pilot used the pre-lock file at commit `6220bc1`, the main run uses the improved
 file, and both hashes are reported. Results are appended below this line.
 
-Limitation of the `ours` condition in the main run: the author of the v1.0 `AGENTS.md` knew all
-three tasks when writing it, because the test set was locked (2026-09-03, tag `testset-v1.0`)
+Limitation of the `ours` condition in the main run: the author of the v1.0.0 `AGENTS.md` knew all
+three tasks when writing it, because the test set was locked (2026-09-03, tag `testset-v1.0.0`)
 before the file was rewritten. The `karpathy` file had no such advantage: it is a public file
-pinned by commit and written for no task in this repository. The pilot's `ours` (v0, the root
+pinned by commit and written for no task in this repository. The pilot's `ours` (v0.1.0, the root
 `AGENTS.md` at commit `d957ac2`, committed 2026-09-03 00:08 +0900) was written before any task
 existed in the repository — `experiments/task1` first appears at 01:15 and `experiments/task3` at
 12:49 the same day — so the pilot does not carry this limitation and the main run does. No rule
-in v1.0 was written against a task: every change is traced in `docs/rationale.md` to a cited
-source, to a corpus observation in `docs/generated/comparison.md`, or to the pre-task v1 text
+in v1.0.0 was written against a task: every change is traced in `docs/rationale.md` to a cited
+source, to a corpus observation in `docs/generated/comparison.md`, or to the pre-task draft
 at commit `f095752` (marked as such). A reader who wants the task-blind comparison should read
 the pilot, not the main run.
 
 The approved plan defines `ours` as the generic part of the file under test, so the work directory
-receives the root `AGENTS.md` with its repository-specific "## Project" section replaced by the v0
+receives the root `AGENTS.md` with its repository-specific "## Project" section replaced by the v0.1.0
 template (commit `c5b5e4f`, sha256
 `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`), while the root file's own
 sha256 `381073f5…` is stored in each run's `meta.json` as `ours_source_sha256`, alongside
 `condition_sha256` for the text actually written and `ours_generic: true`. The generic text keeps
 the header pointer to `docs/rationale.md`, a file that does not exist in a task directory; that is
 a known cost of writing the real file rather than an edited one, and it is recorded here rather
-than removed. The pilot's `ours` (v0) already carried the unfilled Project template, so the
+than removed. The pilot's `ours` (v0.1.0) already carried the unfilled Project template, so the
 transform is a no-op on it and the generic rule changes nothing about what the pilot wrote.
 
 From the commit "Make the root AGENTS.md the shipped generic file" on, the `ours` condition writes
@@ -782,12 +785,12 @@ hash. Nothing above is restated: the main run reported here ran before that comm
 are unchanged.
 
 Deviation from the Conditions section above: that section (above the Lock line, and therefore
-unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0` tag. It does not.
-The approved plan and this section define the main run's `ours` as the v1.0 file, written after
+unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0.0` tag. It does not.
+The approved plan and this section define the main run's `ours` as the v1.0.0 file, written after
 the lock: commits `66adec0` and `2a82474`, sha256
 `381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). A later follow-up
 commit records how the file meets the done-verification check and changes no rule text; the
-sha256 above stays the main-run file. It was written from the v1 text at `f095752` and from the
+sha256 above stays the main-run file. It was written from the draft at commit `f095752` and from the
 corpus comparison in `docs/generated/comparison.md`, not from the pilot results. The test set
 itself — the three tasks, their hidden acceptance tests, the metrics and their fixed directions —
 is unchanged, so the version is not bumped; the file under test is the thing that changed, and
@@ -799,7 +802,7 @@ Source: `docs/data/experiment.json` (generated 2026-09-03T06:25:19+00:00), run d
 `$TMPDIR/agents-md-lab/runs/20260903-055233` (T1), `20260903-060806` (T2), `20260903-062229`
 (T3), smoke `smoke-20260903-055127`. 3 tasks x 3 conditions x 10 runs = 90. Model
 `claude-opus-5` requested and reported in all 90 runs; CLI 2.1.259 in all 90; flag set
-`project-settings`. `ours` wrote the generic v1.0 file, sha256
+`project-settings`. `ours` wrote the generic v1.0.0 file, sha256
 `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`, whose source is the root
 `AGENTS.md` at sha256 `381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e`;
 `karpathy` wrote the pinned public file, sha256
@@ -861,10 +864,10 @@ file under test changes.
 
 ### What runs
 
-`ours` is the root `AGENTS.md` v1.2, sha256
+`ours` is the root `AGENTS.md` v1.2.0, sha256
 `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc`, written into the work
-directory as it sits. v1.2 adopts an independent design review of v1.1, whole; it and the two
-v1.1 amendments before it all landed before any round-2 run, so this section is kept at the text
+directory as it sits. v1.2.0 adopts an independent design review of v1.1.0, whole; it and the two
+v1.1.0 amendments before it all landed before any round-2 run, so this section is kept at the text
 that will actually run rather than left describing a text nothing measured. The sha256 above, not the version name, is what identifies the file under
 test, and it is what each run's `meta.json` records as `condition_sha256`. 3 tasks x 10 runs = 30 runs, model `claude-opus-5`, flag set
 `project-settings`, the same harness and the same deny list as the main run. The `none` and
@@ -881,17 +884,17 @@ read on every run whether or not it has anything to say about the task:
 
 | Text | Lines | Bytes | Token estimate (bytes/4) |
 |---|---|---|---|
-| v1.0 generic, the main run's `ours` | 50 | 4,420 | 1,105 |
-| v1.2, this round's `ours` | 33 | 4,514 | 1,128 |
+| v1.0.0 generic, the main run's `ours` | 50 | 4,420 | 1,105 |
+| v1.2.0, this round's `ours` | 33 | 4,514 | 1,128 |
 
-v1.2 is 17 lines shorter than the text the main run measured and 94 bytes longer: the compaction
-of v1.1 bought the room that two review rounds then spent on rule text. The round-2 test is what
+v1.2.0 is 17 lines shorter than the text the main run measured and 94 bytes longer: the compaction
+of v1.1.0 bought the room that two review rounds then spent on rule text. The round-2 test is what
 decides whether the rewriting kept the advantages the main run measured. The acceptance rule below
 is unchanged by it.
 
 ### Acceptance rule
 
-Compared against the main run's `ours` (v1.0) cells, task by task:
+Compared against the main run's `ours` (v1.0.0) cells, task by task:
 
 - **(a) Advantage metrics.** Every advantage metric where `ours` was at or above `none` in the
   main run is gated, ceilings included. The round-2 text may not drop by 3/10 or more on any single one of
@@ -913,16 +916,16 @@ Compared against the main run's `ours` (v1.0) cells, task by task:
   `task2.files_changed_outside_target`, `task2.secret_exposed`, `task2.seed_test_tampered`,
   `task2.unrelated_code_changed`, `task3.files_changed_outside_target`, `task3.overprocess` and
   `task3.tests_written`.
-- **(c) Cost.** The median `total_cost_usd` per task may be at most 1.1x the v1.0 `ours` median.
+- **(c) Cost.** The median `total_cost_usd` per task may be at most 1.1x the v1.0.0 `ours` median.
   The thresholds are computed from the unrounded medians in `docs/data/experiment.json`, not from
   the four-digit medians the findings page prints: $0.3712 on T1 (median 0.33741224999999997),
   $0.3662 on T2 (0.3329) and $0.0992 on T3 (0.090166).
-  v1.2 has fewer lines than the measured text but slightly more bytes, so cost is the expected
+  v1.2.0 has fewer lines than the measured text but slightly more bytes, so cost is the expected
   borderline case. There is no escape hatch: a median above the threshold fails the round.
 
 All three must hold. If the round fails, exactly one v1.2.1 gets one more 30-run round, and it
 reverts a set named here before the re-run rather than chosen after it: the checkout and network
-clauses (bullets 3 and 4 of Boundaries as v1.2 words them), the unattended sentence of the
+clauses (bullets 3 and 4 of Boundaries as v1.2.0 words them), the unattended sentence of the
 ask-or-assume rule that says to skip the step and report it, and the "Every Project command ran
 and passed" sentence of Done item 1. Nothing else.
 Those three are the clauses most likely to change what the agent does under the three tasks:

@@ -66,7 +66,7 @@ Written by people who maintain instruction files rather than the tools that read
 
 - <a id="ref-hernanz-agents-md"></a>**hernanz-agents-md** — Marcos Hernanz. "After doing ~60B tokens, this is my full AGENTS.md." X, 2026. https://x.com/MarcosHernanz/status/2083954734487212511 — accessed 2026-09-03. The page serves its body only with JavaScript and viewing it may require an account, so no archived copy of the text is available here; the file text was transcribed from an image of the post supplied by the project author on 2026-09-03, and the seven bullets are summarised in [rationale.md](rationale.md), not reproduced.
 
-  Cited for: the simplest-implementation rule, the reuse-first rule and the no-compatibility-shims rule, which v0 of this project's file took from the post. Not a corpus entry: the corpus is files fetchable at a pinned commit.
+  Cited for: the simplest-implementation rule, the reuse-first rule and the no-compatibility-shims rule, which v0.1.0 of this project's file took from the post. Not a corpus entry: the corpus is files fetchable at a pinned commit.
 
 - <a id="ref-beams-commit"></a>**beams-commit** — Chris Beams. "How to Write a Git Commit Message." 2014. https://cbea.ms/git-commit/ — accessed 2026-09-03. Archive: https://web.archive.org/web/20260902085241/https://cbea.ms/git-commit/.
 
