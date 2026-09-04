@@ -22,7 +22,7 @@ The pages the vendors publish about their own instruction files.
 
 - <a id="ref-anthropic-harness-design"></a>**anthropic-harness-design** — Anthropic. "Harnessing Claude's intelligence." https://claude.com/blog/harnessing-claudes-intelligence — accessed 2026-09-04 (HTTP 200), published 2026-04-02.
 
-  Cited for: the design direction this project's subtraction rule follows, that a harness's assumptions grow stale as Claude gets more capable, while the boundaries a harness exists to hold, its interface, its cost and its security, do not.
+  Cited for: the design direction this project's subtraction rule follows, that a harness's assumptions grow stale as Claude gets more capable, while the boundaries a harness exists to hold, its UX, its cost and its security, do not.
 
 - <a id="ref-anthropic-context-engineering"></a>**anthropic-context-engineering** — Anthropic. "Effective context engineering for AI agents." https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents — accessed 2026-09-04 (HTTP 200), published 2025-09-29.
 

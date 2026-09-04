@@ -451,14 +451,14 @@ token estimate.
 
 Then subtraction. Each version re-reads the `none` cells for the current model, because
 [anthropic-harness-design](references.md#ref-anthropic-harness-design) is right that assumptions
-grow stale as the model gets more capable while the cost, security and interface boundaries stay.
+grow stale as the model gets more capable while the UX, cost and security boundaries stay.
 A rule whose behaviour `none` already shows at the ceiling is a deletion candidate unless it is a
 safety boundary: [anthropic-bp](references.md#ref-anthropic-bp) asks "would removing this cause
 Claude to make mistakes?", and
 [anthropic-context-engineering](references.md#ref-anthropic-context-engineering) argues for the
 smallest possible set of high-signal tokens, since smarter models require less prescriptive
 engineering. [eth-agents-md](references.md#ref-eth-agents-md) supports both halves: instructions
-are followed, overviews are not helpful, cost rises about 20%.
+are followed, overviews are not helpful, cost rises by over 20% on average.
 [mini-swe-agent](references.md#ref-mini-swe-agent) is the limit case, about a hundred lines above
 74% on SWE-bench Verified; [weng-harness](references.md#ref-weng-harness) is the counterpoint that
 the interface with context and tools remains. A version that raises cost without moving any metric
