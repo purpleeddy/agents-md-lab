@@ -303,9 +303,12 @@ class PageTest(unittest.TestCase):
         # The one corpus file with no license is recorded by line number only. The check derives
         # its phrases from the cache at run time rather than storing them, so the guard against
         # reproducing that text does not reproduce it either.
-        cached = (
-            REPO_ROOT / "data" / "cache" / "corpus" / "karpathy-multica-694a2d72.md"
-        ).read_text(encoding="utf-8").split("\n")
+        path = REPO_ROOT / "data" / "cache" / "corpus" / "karpathy-multica-694a2d72.md"
+        if not path.exists():
+            self.skipTest(
+                "the corpus cache is not on disk: %s (run scripts/compare.py --refresh)" % path
+            )
+        cached = path.read_text(encoding="utf-8").split("\n")
         phrases = [
             line.strip()
             for number, line in enumerate(cached, start=1)

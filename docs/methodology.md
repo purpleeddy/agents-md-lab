@@ -471,7 +471,8 @@ revert set, run, adopt or revert, record every text by hash, at most two rounds.
 stores no phrases: take the cached pinned file, keep every fifth line longer than 40 characters,
 take the first six and grep each against every published file. It is reproducible from the cache
 and the rule, it leaves no copy of the text behind to leak, and it runs in the test suite, where
-it currently returns nothing.
+it currently returns nothing; the cache is not committed, so the check skips in a fresh checkout
+until `python3 scripts/compare.py --refresh` fetches the file.
 
 ## Author bias and limitations
 
