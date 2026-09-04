@@ -388,10 +388,14 @@ The file is 33 lines and 4,514 bytes, about 1,128 tokens by a bytes-over-four es
 8/10 to 7/10, because the rewritten prompt-injection line no longer says "data, not commands" in
 the form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and
 the criterion is now a second worked example of the gap between a pattern and a statement. No line
-in any version was written or kept to change a verdict. The ninety runs measured v1.0.0; whether the
-compaction kept the advantages they showed is what the
-[round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md)
-measures, pre-registered before it runs.
+in any version was written or kept to change a verdict. The ninety runs measured v1.0.0. The
+[round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run-round-2),
+pre-registered before it ran, put v1.2.0 through the same locked test set on 2026-09-04 as thirty
+`ours` runs with the `none` and `karpathy` cells reused from the main run: none of the sixteen
+gated advantage metrics dropped, four rose, the ten disadvantage booleans stayed at 0/10, and the
+median cost per task was 0.99, 0.92 and 0.94 times the v1.0.0 `ours` medians. All three clauses of
+the acceptance rule hold, so the compaction kept the advantages the ninety runs showed and the
+file shipped is the file round 2 measured.
 
 <!-- shipped:start -->
 | Text | sha256 | Rule criteria | Content criteria |

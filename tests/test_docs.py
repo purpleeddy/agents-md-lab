@@ -27,6 +27,9 @@ REFERENCES = DOCS / "references.md"
 README = REPO_ROOT / "README.md"
 EXPERIMENT = REPO_ROOT / "docs" / "data" / "experiment.json"
 EXPERIMENT_RUNS = REPO_ROOT / "docs" / "data" / "experiment-runs.json"
+ROUND2 = REPO_ROOT / "docs" / "data" / "experiment-round2.json"
+ROUND2_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round2-runs.json"
+FINDINGS = DOCS / "findings.md"
 NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
@@ -531,12 +534,123 @@ class ExperimentRendererTest(unittest.TestCase):
         self.assertNotIn("experiment-runs.json", COMPARE_JS.read_text(encoding="utf-8"))
         self.assertNotIn("experiment-runs.json", INDEX.read_text(encoding="utf-8"))
 
+    def test_the_round_two_file_renders_with_the_same_renderer(self):
+        html = self.render("require(%s)" % json.dumps(str(ROUND2)))
+        for task in ("task1", "task2", "task3"):
+            self.assertIn("<h3>%s</h3>" % task, html)
+        self.assertIn("Cost, turns and duration", html)
+        self.assertIn("\u2191 better", html)
+
     def test_every_cell_is_ten_runs(self):
         data = json.loads(EXPERIMENT.read_text(encoding="utf-8"))
         for task, entry in data["by_task"].items():
             for condition, cell in entry["cells"].items():
                 self.assertEqual(cell["n"], 10, "%s %s" % (task, condition))
                 self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
+
+
+class RoundTwoTest(unittest.TestCase):
+    """The round-2 block on the findings page is rendered from docs/data/experiment-round2.json
+    against the main run's `ours` cells. The rule it applies was fixed before the runs, so the
+    tests here check that the block states what the two summaries actually hold, and that the
+    same renderer prints a failure when the data fails."""
+
+    def setUp(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        self.compare = compare
+        self.exp = compare.load_experiment()
+        self.round2 = compare.load_round2()
+        page = FINDINGS.read_text(encoding="utf-8")
+        self.block = page.split("<!-- round2:start -->", 1)[1].split("<!-- round2:end -->", 1)[0]
+
+    def test_the_gated_metrics_are_the_sixteen_the_rule_names(self):
+        """The list is pre-registered text: it may not be derived from the new data, and it may
+        not quietly lose a metric."""
+        pre_registration = PRE_REGISTRATION.read_text(encoding="utf-8")
+        clause = pre_registration.split("(a) Advantage", 1)[1].split("(b) Disadvantage", 1)[0]
+        named = re.findall(r"`(task\d)\.([a-z_]+)`\s+\d+/10", clause)
+        self.assertEqual(sorted(named), sorted(self.compare.ROUND2_GATED))
+        self.assertEqual(len(self.compare.ROUND2_GATED), 16)
+
+    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+        for task, metric in self.compare.ROUND2_GATED:
+            before = self.compare.round2_metric(self.exp, task, metric)
+            after = self.compare.round2_metric(self.round2, task, metric)
+            row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
+                task, metric.replace("_", " "), before["k"], before["n"],
+                after["k"], after["n"], after["k"] - before["k"],
+            )
+            self.assertIn(row, self.block)
+
+    def test_the_verdict_states_the_outcome_the_data_gives(self):
+        drops = [
+            self.compare.round2_metric(self.exp, task, metric)["k"]
+            - self.compare.round2_metric(self.round2, task, metric)["k"]
+            for task, metric in self.compare.ROUND2_GATED
+        ]
+        harms = [
+            self.compare.round2_metric(self.round2, task, metric)["k"]
+            for task, metric in self.compare.ROUND2_DISADVANTAGE
+        ]
+        over = [
+            entry for entry in self.compare.round2_cost(self.exp, self.round2)
+            if entry[2] > entry[4]
+        ]
+        held = (
+            max(drops) < 3
+            and len([drop for drop in drops if drop >= 2]) < 2
+            and max(harms) < 2
+            and not over
+        )
+        for clause, ok in (("(a)", max(drops) < 3 and len([d for d in drops if d >= 2]) < 2),
+                           ("(b)", max(harms) < 2), ("(c)", not over)):
+            self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
+        self.assertEqual("All three clauses hold" in self.block, held)
+
+    def test_the_renderer_prints_a_failure_when_a_gated_metric_drops(self):
+        """The block is not a fixed sentence: doctoring one metric down by 3 flips the verdict."""
+        doctored = json.loads(json.dumps(self.round2))
+        cell = doctored["by_task"]["task1"]["comparison"]["tests_written"]["conditions"]["ours"]
+        cell["k"] = self.compare.round2_metric(self.exp, "task1", "tests_written")["k"] - 3
+        text = self.compare.render_round2_md(self.exp, doctored)
+        self.assertIn("Clause (a) fails", text)
+        self.assertIn("The round fails", text)
+        self.assertNotIn("All three clauses hold", text)
+
+    def test_the_renderer_prints_a_failure_when_the_cost_limit_is_passed(self):
+        doctored = json.loads(json.dumps(self.round2))
+        before = self.exp["by_task"]["task3"]["cells"]["ours"]["medians"]["total_cost_usd"]
+        doctored["by_task"]["task3"]["cells"]["ours"]["medians"]["total_cost_usd"] = before * 1.2
+        text = self.compare.render_round2_md(self.exp, doctored)
+        self.assertIn("Clause (c) fails", text)
+        self.assertIn("The round fails", text)
+
+    def test_the_round_two_summary_is_thirty_ours_runs_and_the_reused_cells(self):
+        for task, entry in self.round2["by_task"].items():
+            for condition, cell in entry["cells"].items():
+                self.assertEqual(cell["n"], 10, "%s %s" % (task, condition))
+                self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
+        rows = json.loads(ROUND2_RUNS.read_text(encoding="utf-8"))["runs"]
+        ours = [row for row in rows if row["condition"] == "ours"]
+        self.assertEqual(len(ours), 30)
+        self.assertEqual(
+            {row["meta"]["condition_sha256"] for row in ours},
+            {hashlib.sha256((REPO_ROOT / "AGENTS.md").read_bytes()).hexdigest()},
+        )
+
+    def test_the_page_labels_the_round_two_section_with_the_shipped_version(self):
+        source = COMPARE_JS.read_text(encoding="utf-8")
+        self.assertIn(
+            "Round 2, <code>ours</code> = v%s" % self.compare.OURS_VERSION, source
+        )
+
+    def test_the_page_reads_the_summary_and_never_the_per_run_file(self):
+        source = COMPARE_JS.read_text(encoding="utf-8")
+        self.assertIn("data/experiment-round2.json", source)
+        self.assertNotIn("experiment-round2-runs.json", source)
+        self.assertNotIn("experiment-round2-runs.json", INDEX.read_text(encoding="utf-8"))
 
 
 # Every version name the project publishes carries three parts, so that a reader never has to
@@ -549,8 +663,8 @@ VERSION_TOKEN = re.compile(r"\bv\d+(?:\.\d+)*")
 ANCHOR = re.compile(r"#[a-z0-9-]+")
 LOCK_HEADING = "\n## Lock\n"
 TAG_SENTENCE = (
-    "The tag `testset-v1.0.0` names the same commit as `testset-v1.0`; the three-part name is\n"
-    "the one used on the site.\n"
+    "the tag `testset-v1.0.0`, added 2026-09-04, names the same commit as\n"
+    "`testset-v1.0`, and the three-part name is the one used on the site. "
 )
 COMPARE_PY = REPO_ROOT / "scripts" / "compare.py"
 PRE_REGISTRATION = REPO_ROOT / "experiments" / "README.md"

@@ -375,7 +375,7 @@ Nearer project docs (nested AGENTS.md, README, CONTRIBUTING) override everything
       <p class="eyebrow">Experiment</p>
       <h2>What an instruction file changes</h2>
       <p>Three tasks (greenfield, brownfield, a one-line fix), three conditions (<code>none</code>, no instruction file; <code>karpathy</code>, a public CLAUDE.md derived from Andrej Karpathy's notes, pinned by commit, not written by him; <code>ours</code>, the file this page offers), n = 10 runs per cell, model Opus 5. The tasks, the metrics and their directions were pre-registered and locked before any run.</p>
-      <p>The runs measured v1.0.0. The file offered above is v1.2.0, amended after an independent review and then compacted; what changed is in <a href="methodology.html#what-the-experiment-tested-and-what-is-shipped">the methodology</a>.</p>
+      <p>The runs measured v1.0.0. The file offered above is v1.2.0, amended after an independent review and then compacted, and a second pre-registered round of 30 runs on the same locked test set measured it on 2026-09-04: no gated metric dropped, four rose, and the median cost per task came in under the v1.0.0 file, so the file offered is the file round 2 measured. What changed is in <a href="methodology.html#what-the-experiment-tested-and-what-is-shipped">the methodology</a>.</p>
       <p>The pre-registration is <a href="https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md">locked at tag testset-v1.0.0</a>. Which file each condition wrote, and its hash, is recorded in the <a href="https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run">Main run section</a>, which is written after the tag and says so.</p>
     </div>
     <div id="experiment-body" class="stack-l">

@@ -134,7 +134,7 @@
   }
 
   // {criterion id: verdict} for one file. `filename` is accepted for parity with the Python
-  // engine and is not read by any criterion in version 1.0.
+  // engine and is not read by any criterion in version 1.0.0.
   function evaluate(text, filename, criteria) {
     var lines = splitLines(text);
     var verdicts = {};
@@ -703,6 +703,9 @@
     return out.join("");
   }
 
+  var ROUND2_LABEL = '<h3>Round 2, <code>ours</code> = v1.2.0, <code>none</code> and '
+    + '<code>karpathy</code> reused from the main run</h3>';
+
   function setUpExperiment() {
     var holder = el("experiment-body");
     if (!holder) {
@@ -710,9 +713,18 @@
     }
     getJSON("data/experiment.json").then(function (data) {
       var html = data && data.by_task ? renderExperiment(data) : "";
-      if (html) {
-        holder.innerHTML = html;
+      if (!html) {
+        return null;
       }
+      holder.innerHTML = html;
+      // Round 2 is appended after the main run by the same renderer, and fetched second so
+      // the order on the page cannot depend on the network.
+      return getJSON("data/experiment-round2.json").then(function (round2) {
+        var extra = round2 && round2.by_task ? renderExperiment(round2) : "";
+        if (extra) {
+          holder.insertAdjacentHTML("beforeend", ROUND2_LABEL + extra);
+        }
+      }, function () {});
     }, function () {
       // The file is not published yet: the pre-registration sentence already in the page stands.
     });

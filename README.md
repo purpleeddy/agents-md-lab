@@ -17,8 +17,10 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 
    That is `AGENTS.md` v1.2.0. The experiment measured v1.0.0; v1.2.0 is that text amended after an
    independent review, cut to the lines that carry a measured effect or a safety boundary, and
-   revised again after an independent design review, and its own 30-run check is pre-registered
-   and pending. 33 lines, 4,514 bytes, about 1,128 tokens. What changed and what it means for the results is in
+   revised again after an independent design review, and its own pre-registered 30-run check
+   adopted it on 2026-09-04: no gated metric dropped, four rose, and it cost less per task than
+   the text the experiment measured. 33 lines, 4,514 bytes, about 1,128 tokens. What changed and
+   what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v110).
 
@@ -76,8 +78,10 @@ condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the
 
 The runs measured v1.0.0; the file offered above is v1.2.0, amended after an independent review and
 then compacted (see
-[the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)). Whether
-the compaction kept these results is the question the pre-registered round-2 test asks. The
+[the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)). The
+pre-registered round-2 test asked whether the compaction kept these results, ran 30 `ours` runs on
+2026-09-04 and adopted v1.2.0; its table is on
+[the findings page](docs/findings.md#round-2-the-file-this-project-offers-measured). The
 numbers, the intervals, the null results and what the experiment does not show are on
 [the findings page](docs/findings.md); the design was locked before any run at tag
 `testset-v1.0.0`.

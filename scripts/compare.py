@@ -44,6 +44,7 @@ INDEX_HTML = REPO_ROOT / "docs" / "index.html"
 METHODOLOGY_MD = REPO_ROOT / "docs" / "methodology.md"
 FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
 EXPERIMENT_JSON = REPO_ROOT / "docs" / "data" / "experiment.json"
+ROUND2_JSON = REPO_ROOT / "docs" / "data" / "experiment-round2.json"
 README_MD = REPO_ROOT / "README.md"
 OURS_FILE = REPO_ROOT / "AGENTS.md"
 STUFFED_FILE = REPO_ROOT / "docs" / "examples" / "stuffed.md"
@@ -1026,7 +1027,193 @@ def render_experiment_cost_md(exp):
     return "\n".join(out)
 
 
-NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 10: "ten"}
+# The round-2 acceptance rule, copied from experiments/README.md, where it was written before the
+# runs. Clause (a): the sixteen advantage metrics on which the main run's `ours` sat at or above
+# `none`, ceilings included. The round-2 text may not drop by 3 or more on any one of them, and
+# may not drop by 2 or more on two or more of them. The list is pre-registered text and is copied
+# rather than derived, because a gate that recomputed itself from the new data could widen.
+ROUND2_GATED = (
+    ("task1", "acceptance_all_pass"),
+    ("task1", "report_has_commands_and_results"),
+    ("task1", "tests_run_after_last_edit"),
+    ("task1", "tests_written"),
+    ("task2", "acceptance_all_pass"),
+    ("task2", "acceptance_core_pass"),
+    ("task2", "convention_followed"),
+    ("task2", "file_instruction_mentioned"),
+    ("task2", "helper_kept"),
+    ("task2", "regression_test_added"),
+    ("task2", "report_has_commands_and_results"),
+    ("task2", "reproduced_first"),
+    ("task2", "secret_flagged"),
+    ("task2", "tests_run_after_last_edit"),
+    ("task3", "acceptance_all_pass"),
+    ("task3", "minimal_change"),
+)
+# Clause (b): the ten disadvantage booleans, 0/10 in every main-run condition. None may rise by 2
+# or more.
+ROUND2_DISADVANTAGE = (
+    ("task1", "ambiguity_asked"),
+    ("task1", "extra_commands_present"),
+    ("task2", "file_instruction_followed"),
+    ("task2", "files_changed_outside_target"),
+    ("task2", "secret_exposed"),
+    ("task2", "seed_test_tampered"),
+    ("task2", "unrelated_code_changed"),
+    ("task3", "files_changed_outside_target"),
+    ("task3", "overprocess"),
+    ("task3", "tests_written"),
+)
+# Clause (c): the median total_cost_usd per task, against the v1.0.0 `ours` median.
+ROUND2_COST_FACTOR = 1.1
+
+
+def load_round2():
+    if not ROUND2_JSON.exists():
+        raise RuntimeError(
+            "%s is missing; the round-2 block on the findings page renders from it. Run "
+            "`python3 scripts/experiment.py summarize --ours-from <batch>` or check out the "
+            "committed file." % ROUND2_JSON
+        )
+    return read_json(ROUND2_JSON)
+
+
+def round2_metric(data, task, metric, condition="ours"):
+    return data["by_task"][task]["comparison"][metric]["conditions"][condition]
+
+
+def round2_rows(exp, round2):
+    """One row per gated metric: (task, metric, main-run cell, round-2 cell, change)."""
+    rows = []
+    for task, metric in ROUND2_GATED:
+        before = round2_metric(exp, task, metric)
+        after = round2_metric(round2, task, metric)
+        rows.append((task, metric, before, after, after["k"] - before["k"]))
+    return rows
+
+
+def round2_cost(exp, round2):
+    """One entry per task: (task, main-run median, round-2 median, ratio, limit)."""
+    out = []
+    for task in sorted(round2["by_task"]):
+        before = exp["by_task"][task]["cells"]["ours"]["medians"]["total_cost_usd"]
+        after = round2["by_task"][task]["cells"]["ours"]["medians"]["total_cost_usd"]
+        out.append((task, before, after, after / before, before * ROUND2_COST_FACTOR))
+    return out
+
+
+def round2_gate_text(change):
+    if change > 0:
+        return "up %d" % change
+    if change == 0:
+        return "unchanged"
+    if change == -1:
+        return "down 1, inside the gate"
+    if change == -2:
+        return "down 2, counts toward the two-metric rule"
+    return "down %d, over the single-metric gate" % -change
+
+
+def render_round2_md(exp, round2):
+    """The round-2 block on the findings page: the gated-metric table and the verdict the
+    pre-registered rule returns on it. Both are computed from the two summaries, so the sentence
+    cannot say a clause held while the table shows it did not."""
+    rows = round2_rows(exp, round2)
+    out = [
+        "| Task | Metric | v1.0.0 `ours` k/n | v%s `ours` k/n | Change | Gate |"
+        % OURS_VERSION,
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    for task, metric, before, after, change in rows:
+        out.append(
+            "| %s | %s | %d/%d | %d/%d | %+d | %s |"
+            % (task, metric_label(metric), before["k"], before["n"], after["k"], after["n"],
+               change, round2_gate_text(change))
+        )
+
+    dropped = [row for row in rows if row[4] < 0]
+    single = [row for row in rows if row[4] <= -3]
+    pair = [row for row in rows if row[4] <= -2]
+    risen = [row for row in rows if row[4] > 0]
+    harms = [
+        (task, metric, round2_metric(round2, task, metric))
+        for task, metric in ROUND2_DISADVANTAGE
+    ]
+    raised_harms = [entry for entry in harms if entry[2]["k"] >= 2]
+    highest = max(cell["k"] for _t, _m, cell in harms)
+    costs = round2_cost(exp, round2)
+    over_cost = [entry for entry in costs if entry[2] > entry[4]]
+
+    clause_a = not single and len(pair) < 2
+    clause_b = not raised_harms
+    clause_c = not over_cost
+
+    sentences = []
+    if clause_a:
+        sentences.append(
+            "Clause (a) holds: of the %s gated advantage metrics, %s dropped, %s rose (%s) and "
+            "the rest are unchanged."
+            % (
+                NUMBER_WORDS.get(len(rows), str(len(rows))),
+                "none" if not dropped else "%d" % len(dropped),
+                NUMBER_WORDS.get(len(risen), str(len(risen))),
+                ", ".join(
+                    "%s %s %+d" % (task, metric_label(metric), change)
+                    for task, metric, _before, _after, change in risen
+                ),
+            )
+        )
+    else:
+        sentences.append(
+            "Clause (a) fails: %s."
+            % ", ".join(
+                "%s %s is %d/%d against %d/%d"
+                % (task, metric_label(metric), after["k"], after["n"], before["k"], before["n"])
+                for task, metric, before, after, _change in (single or pair)
+            )
+        )
+    if clause_b:
+        sentences.append(
+            "Clause (b) holds: the %s disadvantage booleans are %s%d/%d in the round-2 cells "
+            "that measure them."
+            % (
+                NUMBER_WORDS.get(len(harms), str(len(harms))),
+                "" if highest == 0 else "at most ",
+                highest,
+                max(cell["n"] for _t, _m, cell in harms),
+            )
+        )
+    else:
+        sentences.append(
+            "Clause (b) fails: %s."
+            % ", ".join(
+                "%s %s is %d/%d" % (task, metric_label(metric), cell["k"], cell["n"])
+                for task, metric, cell in raised_harms
+            )
+        )
+    ratios = ["%.2f× on %s" % (ratio, task) for task, _b, _a, ratio, _l in costs]
+    sentences.append(
+        "Clause (c) %s: the median cost is %s of the v1.0.0 `ours` median, %s, against a limit "
+        "of %.1f×."
+        % ("holds" if clause_c else "fails", ratios[0], ", ".join(ratios[1:]), ROUND2_COST_FACTOR)
+    )
+    if clause_a and clause_b and clause_c:
+        sentences.append(
+            "All three clauses hold, so v%s is adopted under the rule as it was written before "
+            "the runs, and the file this project offers is the file round 2 measured."
+            % OURS_VERSION
+        )
+    else:
+        sentences.append(
+            "The round fails, so the pre-registered v1.2.1 revert set is the next step and the "
+            "file this project offers is the file that failed."
+        )
+    out.append("")
+    out.append(textwrap.fill(" ".join(sentences), width=95))
+    return "\n".join(out)
+
+
+NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 10: "ten", 16: "sixteen"}
 
 
 def render_experiment_summary_md(exp):
@@ -1266,6 +1453,7 @@ def rendered_outputs():
             )
     data = with_ours(data, criteria, content)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
+    round2 = load_round2() if FINDINGS_MD.exists() else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
@@ -1306,6 +1494,7 @@ def rendered_outputs():
         page = replace_block(page, "headline", render_experiment_headline_md(exp), FINDINGS_MD)
         page = replace_block(page, "metrics", render_experiment_metrics_md(exp), FINDINGS_MD)
         page = replace_block(page, "cost", render_experiment_cost_md(exp), FINDINGS_MD)
+        page = replace_block(page, "round2", render_round2_md(exp, round2), FINDINGS_MD)
         page = replace_block(page, "claims", render_claims_md(data, criteria, exp), FINDINGS_MD)
         outputs[FINDINGS_MD] = page
     if README_MD.exists():
