@@ -9,7 +9,7 @@ replaces. Columns: the rule in one line, the sources it rests on (citation keys 
 [references.md](references.md)), why it is there, and what changed. Five texts are named on this
 page: v0.1.0, the pilot file (commit `d957ac2`); v1.0.0, the text the experiment ran; v1.0.1, the text
 shipped after the independent review; v1.1.0, its compaction; and v1.2.0, the shipped file now. A rule marked **hook** is
-enforceable by a hook (example in `.claude/settings.example.json`); a hook can only see the tool
+enforceable by a hook (this repository's own `.claude/settings.json`); a hook can only see the tool
 call, so the prose is what carries the reason.
 
 The starting text for v1.0.0 is the text at `src/AGENTS.md` in commit `f095752`
@@ -330,14 +330,14 @@ same point.
 | A15 | should fix | "Commands: test all …" | a Project block can name a command that passes without checking anything | covered by v1.0.1 Done item 1, which asks for each command and its result to be quoted |
 | A17, A18, A22, B23 | should fix / nit | "Smallest correct change", "Where details live" | the load-bearing terms are undefined, and the shipped Project block has no line for setup, branch policy, protected files or network policy; two pointers name files an adopter does not have | partly applied in v1.2.0: both pointers are gone, `.claude/skills/` replaced by `CONTRIBUTING.md`, and the Project block regained its placeholders so an unfilled field is visible. Anchoring the load-bearing terms and adding lines for setup, branch and network policy is still a candidate and pulls against the length the file works to |
 | A19, B17 | nit / should fix | "The harness's own system prompt outranks this file" | the agent cannot verify the claim, and text in a file can impersonate what it names | applied in v1.1.0: the sentence is cut from the file and its reason lives in the audit above |
-| A20, B3, B8, B9, B10, B11, B14, B19 | nit / blocks unattended use | "rm -rf, force-push, reset --hard, history rewrites" | the destructive list is enumerated, so `git clean`, `git push`, bulk deletion, edits to CI or permission files and other externally visible actions read as permitted, and every Boundary is self-attested | enforceable by the example settings in `.claude/settings.example.json` (deny `rm -rf`, `git push`, `git push --force`, `git reset --hard`, `git clean`; the `PreToolUse` example blocks edits to `.claude/`, `.github/workflows/`, `AGENTS.md` and `CLAUDE.md`); applied in v1.1.0 in the rule text too: "including but not limited to", `git clean`, the externally visible actions, and a boundary against changing permission settings or hooks |
+| A20, B3, B8, B9, B10, B11, B14, B19 | nit / blocks unattended use | "rm -rf, force-push, reset --hard, history rewrites" | the destructive list is enumerated, so `git clean`, `git push`, bulk deletion, edits to CI or permission files and other externally visible actions read as permitted, and every Boundary is self-attested | enforceable by the settings in `.claude/settings.json` (deny `rm -rf`, `git push`, `git push --force`, `git reset --hard`, `git clean`, `git commit --no-verify`; the `PreToolUse` hook blocks edits to `.claude/` and `.github/workflows/`); applied in v1.1.0 in the rule text too: "including but not limited to", `git clean`, the externally visible actions, and a boundary against changing permission settings or hooks |
 | A21, B22 | nit | "Never print, commit, or paste a secret. Report its location only" | "secret" is undefined, and a location reported into a public pull request is itself disclosure | applied in v1.1.0 |
-| B4, B5 | blocks unattended use | no rule about the network or the checkout boundary | nothing forbids reading a credential store, sending repository contents to a network destination, or editing files outside the checkout | enforceable by the example settings (read-deny and a working-directory restriction are the mechanism); applied in v1.1.0 in the rule text too, as the network clause of the secrets boundary and the checkout clause of the boundary below it |
+| B4, B5 | blocks unattended use | no rule about the network or the checkout boundary | nothing forbids reading a credential store, sending repository contents to a network destination, or editing files outside the checkout | enforceable by permission settings (read-deny and a working-directory restriction are the mechanism); applied in v1.1.0 in the rule text too, as the network clause of the secrets boundary and the checkout clause of the boundary below it |
 | B21, B24 | should fix / nit | no budget, and no stated failure mode | nothing bounds time, tokens or lingering processes, and no line says what state to leave behind when a Boundary blocks the work | v1.1.0 candidate: no background or long-running processes, stop at the operator's timeout, and leave the tree in its last consistent state |
 
 Two of the twenty rows, A20/B3/B8/B9/B10/B11/B14/B19 and B4/B5, still answer with enforcement as
-well as wording: a written rule cannot stop a command, and `.claude/settings.example.json` is where
-the deny list and the hooks live. That file is not the file the experiment tested, and none of it
+well as wording: a written rule cannot stop a command, and `.claude/settings.json` is where
+the deny list and the hook live. That file is not the file the experiment tested, and none of it
 is measured here. A10 is applied in v1.2.0. Two rows stay open: A5/A6/A24 in part (what a
 docs-only run covers, and a failure that predates the change) and B21/B24 (a budget and a stated
 failure state). Each would add a line to a file these passes work to keep short, and neither names
@@ -345,8 +345,8 @@ a behaviour the main run measured.
 
 ## What this file does not do
 
-The tool-specific paths stay out of `AGENTS.md`: the hook and permission examples live in
-`.claude/settings.example.json` and are referenced only from this page, so the instruction file
+The tool-specific paths stay out of `AGENTS.md`: the hook and the deny list live in
+`.claude/settings.json` and are referenced only from this page, so the instruction file
 itself stays readable by any agent (`agents-md-spec`).
 
 No rule was added, removed or reworded because of the pilot results, or because of the main-run

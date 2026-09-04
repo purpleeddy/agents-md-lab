@@ -28,7 +28,7 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    and where the details live. That section is the part no one else can write for you, and it is
    the reason the file as served does not meet the runnable-command criterion.
 4. Mirror the destructive list in your harness's permission settings; this repository's own
-   `.claude/settings.example.json` is one example. A written rule cannot stop a command, which is
+   `.claude/settings.json` is one example. A written rule cannot stop a command, which is
    why the file says so in the rule itself.
 
 ## What the survey found

@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"import json,sys; p=json.load(sys.stdin).get('tool_input',{}).get('file_path',''); blocked=[m for m in ('/migrations/', '/.claude/', '/.github/workflows/') if m in p] or [n for n in ('AGENTS.md', 'CLAUDE.md') if p.endswith('/' + n) or p == n]; print('Blocked by settings.example.json: editing ' + blocked[0] + ' needs an explicit ask.', file=sys.stderr) if blocked else None; sys.exit(2 if blocked else 0)\""
+            "command": "python3 -c \"import json,sys; p=json.load(sys.stdin).get('tool_input',{}).get('file_path',''); blocked=[m for m in ('/.claude/', '/.github/workflows/') if m in p]; print('Blocked by settings.json: editing ' + blocked[0] + ' needs an explicit ask.', file=sys.stderr) if blocked else None; sys.exit(2 if blocked else 0)\""
           }
         ]
       }

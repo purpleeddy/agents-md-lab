@@ -474,6 +474,13 @@ and the rule, it leaves no copy of the text behind to leak, and it runs in the t
 it currently returns nothing; the cache is not committed, so the check skips in a fresh checkout
 until `python3 scripts/compare.py --refresh` fetches the file.
 
+**Permission settings.** The destructive list the file recommends is applied to this
+repository itself, in `.claude/settings.json`: it denies `rm -rf`, `git push`,
+`git reset --hard`, `git clean` and `git commit --no-verify`, and a `PreToolUse` hook blocks
+edits to `.claude/` and `.github/workflows/`. An agent session here cannot publish anything,
+so a person runs `git push`. Those settings are not part of the text under test and nothing
+about them is measured.
+
 ## Author bias and limitations
 
 - The `ours` file is written by the author of this project, who knew all three tasks when

@@ -16,6 +16,14 @@ tables to stdout as well.
 Python 3.11 or newer, standard library only; there is nothing to install. There is no build,
 lint, typecheck or format command; do not invent one.
 
+## Permission settings
+
+`.claude/settings.json` applies the destructive list this project recommends to the project
+itself: it denies `rm -rf`, `git push`, `git reset --hard`, `git clean` and
+`git commit --no-verify`, and a `PreToolUse` hook blocks edits to `.claude/` and
+`.github/workflows/`. An agent session in this repository therefore cannot publish anything:
+a person runs `git push`.
+
 ## Changing AGENTS.md
 
 The root `AGENTS.md` is the file this project publishes and the file the `ours` condition of the
