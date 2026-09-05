@@ -33,9 +33,11 @@ writes. `tests/test_hook_guard.py` proves its behaviour by running it, case by c
 The guard is wired here. `.claude/settings.json` is byte for byte the file checked in at
 [`docs/examples/settings.json`](docs/examples/settings.json), so the four tiers above are the
 permissions a session in this repository runs under: the nine deny entries, both `PreToolUse`
-matchers pointed at the guard, and delivery left allowed, so a session can push the branch it
-created for its task and open a pull request. One line installs the same file in an adopting
-repository:
+matchers pointed at the guard, and a push of the branch a task created left allowed. That is
+looser than the shipped `AGENTS.md`, whose Boundaries override this file and hold every push
+behind an explicit ask: the settings permit the push, the shipped line still asks for the human
+ask first, and the deny list is a floor and not a licence. One line installs the same file in an
+adopting repository:
 
 ```
 cp docs/examples/settings.json .claude/settings.json
