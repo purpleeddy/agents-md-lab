@@ -18,11 +18,48 @@ lint, typecheck or format command; do not invent one.
 
 ## Permission settings
 
-`.claude/settings.json` applies the destructive list this project recommends to the project
-itself: it denies `rm -rf`, `git push`, `git reset --hard`, `git clean` and
-`git commit --no-verify`, and a `PreToolUse` hook blocks edits to `.claude/` and
-`.github/workflows/`. An agent session in this repository therefore cannot publish anything:
-a person runs `git push`.
+These are the tiers this project recommends, in four levels. Deny what nothing takes back:
+`rm -rf`, `git clean`, `git reset --hard`, the three force-push forms, `git commit --no-verify`
+and `-n`, and `gh pr merge`. Guard what has to be read rather than matched by name: a push that
+targets `main` or `master`, one carrying a force flag or a `+` refspec, and a write to
+`.claude/`, `.github/workflows/` or the guard itself. Allow everything else, including a push of
+the branch a task created and `gh pr create`, so an agent session delivers its own work and a
+person merges it. Behind all three, the branch protection below.
+
+[`scripts/hook_guard.py`](scripts/hook_guard.py) implements the guard tier: it reads a
+`PreToolUse` payload on stdin and exits 2 with a reason on stderr for exactly those pushes and
+writes. `tests/test_hook_guard.py` proves its behaviour by running it, case by case.
+
+Nothing is wired to it yet. What `.claude/settings.json` holds today is the older and stricter
+list: it denies `rm -rf`, `git push` outright, `git reset --hard`, `git clean` and
+`git commit --no-verify`, and its `PreToolUse` hook is an inline command that blocks edits to
+`.claude/` and `.github/workflows/`. So a session here still commits and reports rather than
+pushing, and the guard script is not consulted at all. The settings that wire it are checked in
+at [`docs/examples/settings.json`](docs/examples/settings.json), and one line installs them:
+
+```
+cp docs/examples/settings.json .claude/settings.json
+```
+
+A person runs that line. Both the hook in place today and the guard that replaces it reserve
+`.claude/` for a human ask, so an agent session here cannot install the permissions it works
+under, and one that could would be the reason not to trust them. Both hook entries in the example
+file run the same wrapper:
+
+```
+sh -c 'g="${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py"; [ -f "$g" ] || exit 0; exec python3 "$g"'
+```
+
+which falls back to the working directory when the variable is unset and exits 0 when the script
+is missing, so a checkout without it works rather than refusing every tool call. Wired or not,
+the hook is a convenience: a command written in a form it cannot parse goes through, which is why
+the guarantee is the branch protection below.
+
+## Branch protection
+
+A ruleset on `main` requires a pull request and blocks force-push and deletion. It asks for zero
+approvals, because this repository has one maintainer and a rule nobody can satisfy is a rule
+that gets bypassed; an adopter with a second maintainer should raise the count.
 
 ## Changing AGENTS.md
 

@@ -34,9 +34,14 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
    and where the details live. That section is the part no one else can write for you, and it is
    the reason the file as served does not meet the runnable-command criterion.
-4. Mirror the destructive list in your harness's permission settings; this repository's own
-   `.claude/settings.json` is one example. A written rule cannot stop a command, which is
-   why the file says so in the rule itself.
+4. Mirror the destructive list in your harness's permission settings: deny what nothing takes
+   back, and leave delivery allowed, so the agent can still push its own task branch and open a
+   pull request. [`CONTRIBUTING.md`](CONTRIBUTING.md) sets the four tiers out,
+   [`docs/examples/settings.json`](docs/examples/settings.json) is a settings file to copy, and
+   [`scripts/hook_guard.py`](scripts/hook_guard.py) is the guard it calls, which reads the pushes
+   a deny rule can only match by name. A written rule cannot stop a command: the file states
+   the boundary, the settings refuse the command, and branch protection on the server is what
+   holds when a session gets past both.
 
 ## What the survey found
 

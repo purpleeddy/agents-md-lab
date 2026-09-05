@@ -700,6 +700,37 @@ class ShippedFileTest(unittest.TestCase):
     def test_the_settings_are_the_repository_own_and_not_an_example(self):
         self.assertFalse((REPO_ROOT / ".claude" / "settings.example.json").exists())
 
+    def test_the_example_settings_wire_the_guard(self):
+        """The tiers CONTRIBUTING.md recommends, as a file a maintainer can copy over
+        .claude/settings.json. An agent session may not install its own permissions, so this is
+        the checked-in form of the settings rather than the settings themselves."""
+        settings = json.loads(
+            (REPO_ROOT / "docs" / "examples" / "settings.json").read_text(encoding="utf-8")
+        )
+        deny = settings["permissions"]["deny"]
+        self.assertEqual(len(deny), 9)
+        for rule in ("Bash(rm -rf:*)", "Bash(git clean:*)", "Bash(git reset --hard:*)",
+                     "Bash(git push --force:*)", "Bash(git push -f:*)",
+                     "Bash(git push --force-with-lease:*)", "Bash(git commit --no-verify:*)",
+                     "Bash(git commit -n:*)", "Bash(gh pr merge:*)"):
+            self.assertIn(rule, deny)
+        # Delivery stays allowed: the file lets an agent push the branch it made for its own task,
+        # and a blanket deny would take that back. Which push is out of bounds is a question about
+        # its arguments, and the guard is what reads them.
+        self.assertNotIn("Bash(git push:*)", deny)
+        entries = settings["hooks"]["PreToolUse"]
+        matchers = {entry["matcher"] for entry in entries}
+        self.assertIn("Edit|Write|NotebookEdit", matchers)
+        self.assertIn("Bash", matchers)
+        for entry in entries:
+            for hook in entry["hooks"]:
+                self.assertIn("scripts/hook_guard.py", hook["command"])
+                # Unset variable or missing script: the wrapper falls back and then falls open,
+                # rather than refusing every tool call in a checkout that has neither.
+                self.assertIn("CLAUDE_PROJECT_DIR:-$PWD", hook["command"])
+                self.assertIn('[ -f "$g" ] || exit 0', hook["command"])
+        self.assertTrue((REPO_ROOT / "scripts" / "hook_guard.py").exists())
+
 
 # The commit before the two criteria files were merged into one. Both sets were frozen and
 # calibrated on the corpus before the merge, so the merge must not have touched a pattern.

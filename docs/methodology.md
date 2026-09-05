@@ -495,9 +495,18 @@ until `python3 scripts/compare.py --refresh` fetches the file.
 **Permission settings.** The destructive list the file recommends is applied to this
 repository itself, in `.claude/settings.json`: it denies `rm -rf`, `git push`,
 `git reset --hard`, `git clean` and `git commit --no-verify`, and a `PreToolUse` hook blocks
-edits to `.claude/` and `.github/workflows/`. An agent session here cannot publish anything,
-so a person runs `git push`. Those settings are not part of the text under test and nothing
-about them is measured.
+edits to `.claude/` and `.github/workflows/`. That is stricter than the file it enforces, which
+allows a push of the branch an agent made for its own task, and it is stricter because a deny
+rule matches a command by name and cannot tell one push from another. `scripts/hook_guard.py`
+is the guard that reads the arguments instead: once wired it would block a push that targets
+`main` or `master`, one carrying a force flag or a `+` refspec, and a write to `.claude/`,
+`.github/workflows/` or itself, and let a task branch through. It is written and tested but not
+installed: replacing the permission file is a maintainer's job, so the settings that call it are
+checked in at
+[`docs/examples/settings.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/examples/settings.json)
+for a person to copy. The guarantee behind either is the server: a ruleset on `main` that
+requires a pull request and blocks force-push and deletion. None of this is part of the text
+under test and nothing about it is measured.
 
 ## Author bias and limitations
 
