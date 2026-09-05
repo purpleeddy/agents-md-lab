@@ -6,12 +6,17 @@ title: What we found
 
 Two measurements, reported separately because they answer different questions. The comparison
 says what ten published instruction files contain. The experiment says what an instruction file
-changed on three tasks, in both directions. Every number on this page is read from
-[`docs/data/comparison.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/comparison.json)
-or [`docs/data/experiment.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/experiment.json),
-and the tables are generated from them; the 90 per-run records behind the experiment summary sit
-beside it in
-[`docs/data/experiment-runs.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/experiment-runs.json).
+changed on three tasks, in both directions. Every number on this page is read from the JSON
+committed in
+[`docs/data/`](https://github.com/purpleeddy/agents-md-lab/tree/main/docs/data): `comparison.json`
+for the survey, `experiment.json` for the main run, and one `experiment-round<N>.json` for each
+round after it, `-round2`, `-round3` and `-round4` so far. The per-run records sit beside each
+summary: the 90 behind the main run in
+[`docs/data/experiment-runs.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/experiment-runs.json),
+and a round's in its own `experiment-round<N>-runs.json`. The tables are generated from those
+files by `scripts/compare.py`, which `python3 scripts/compare.py --check` verifies, with one
+exception: the same-environment table under round 4 is transcribed by hand from
+`experiment-round3.json` and `experiment-round4.json`.
 How both were built is in [methodology.md](methodology.md).
 
 ## What the ten files contain
