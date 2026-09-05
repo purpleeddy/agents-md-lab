@@ -29,6 +29,7 @@ EXPERIMENT = REPO_ROOT / "docs" / "data" / "experiment.json"
 EXPERIMENT_RUNS = REPO_ROOT / "docs" / "data" / "experiment-runs.json"
 ROUND2 = REPO_ROOT / "docs" / "data" / "experiment-round2.json"
 ROUND2_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round2-runs.json"
+ROUND3_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round3-runs.json"
 FINDINGS = DOCS / "findings.md"
 NODE = shutil.which("node")
 
@@ -657,6 +658,120 @@ class RoundTwoTest(unittest.TestCase):
         self.assertIn("data/experiment-round2.json", source)
         self.assertNotIn("experiment-round2-runs.json", source)
         self.assertNotIn("experiment-round2-runs.json", INDEX.read_text(encoding="utf-8"))
+
+
+# The sha256 of the root `AGENTS.md` as round 3 measured it, v1.3.0. Round 3 did not adopt it, so
+# it is a recorded constant here and not the file the working tree holds.
+ROUND3_SHA256 = "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd"
+
+
+class RoundThreeTest(unittest.TestCase):
+    """The round-3 block on the findings page is rendered from docs/data/experiment-round3.json
+    against the round-2 `ours` cells, by the same renderer as round 2. The rule it applies was
+    fixed before the runs and it returns a failure on this data, so the tests here check that the
+    block states the failure the two summaries hold, and that the same renderer still prints the
+    holding branch when the data holds."""
+
+    def setUp(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        self.compare = compare
+        self.round2 = compare.load_round2()
+        self.round3 = compare.load_round3()
+        page = FINDINGS.read_text(encoding="utf-8")
+        self.block = page.split("<!-- round3:start -->", 1)[1].split("<!-- round3:end -->", 1)[0]
+
+    def clause(self):
+        """Clause (a) of the round-3 rule, not round 2's: the pre-registration carries both."""
+        section = PRE_REGISTRATION.read_text(encoding="utf-8").split(
+            "\n## Main run, round 3\n", 1
+        )[1]
+        return section.split("(a) Advantage", 1)[1].split("(b) Disadvantage", 1)[0]
+
+    def test_the_gated_metrics_are_the_sixteen_the_rule_names(self):
+        named = re.findall(r"`(task\d)\.([a-z_]+)`\s+\d+/10", self.clause())
+        self.assertEqual(sorted(named), sorted(self.compare.ROUND3_GATED))
+        self.assertEqual(len(self.compare.ROUND3_GATED), 16)
+
+    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+        for task, metric in self.compare.ROUND3_GATED:
+            before = self.compare.round2_metric(self.round2, task, metric)
+            after = self.compare.round2_metric(self.round3, task, metric)
+            row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
+                task, metric.replace("_", " "), before["k"], before["n"],
+                after["k"], after["n"], after["k"] - before["k"],
+            )
+            self.assertIn(row, self.block)
+
+    def test_the_verdict_states_the_outcome_the_data_gives(self):
+        drops = [
+            self.compare.round2_metric(self.round2, task, metric)["k"]
+            - self.compare.round2_metric(self.round3, task, metric)["k"]
+            for task, metric in self.compare.ROUND3_GATED
+        ]
+        harms = [
+            self.compare.round2_metric(self.round3, task, metric)["k"]
+            for task, metric in self.compare.ROUND3_DISADVANTAGE
+        ]
+        over = [
+            entry for entry in self.compare.round3_cost(self.round2, self.round3)
+            if entry[2] > entry[4]
+        ]
+        clause_a = max(drops) < 3 and len([drop for drop in drops if drop >= 2]) < 2
+        for clause, ok in (("(a)", clause_a), ("(b)", max(harms) < 2), ("(c)", not over)):
+            self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
+        held = clause_a and max(harms) < 2 and not over
+        self.assertEqual("All three clauses hold" in self.block, held)
+        # This is the round that failed, and the page has to say so from the data.
+        self.assertFalse(held)
+        self.assertIn("v1.3.0 is not adopted", self.block)
+
+    def test_the_renderer_prints_the_holding_branch_when_the_data_holds(self):
+        """The failure is not a fixed sentence either: restoring the one metric and the one
+        median that fail turns the same renderer to the adopting branch."""
+        doctored = json.loads(json.dumps(self.round3))
+        cell = doctored["by_task"]["task2"]["comparison"]["regression_test_added"]["conditions"]["ours"]
+        cell["k"] = self.compare.round2_metric(self.round2, "task2", "regression_test_added")["k"]
+        base = self.round2["by_task"]["task1"]["cells"]["ours"]["medians"]["total_cost_usd"]
+        doctored["by_task"]["task1"]["cells"]["ours"]["medians"]["total_cost_usd"] = base
+        text = self.compare.render_round3_md(self.round2, doctored)
+        self.assertIn("Clause (a) holds", text)
+        self.assertIn("Clause (c) holds", text)
+        self.assertIn("All three clauses hold", text)
+        self.assertNotIn("is not adopted", text)
+
+    def test_the_renderer_prints_a_failure_when_a_disadvantage_boolean_rises(self):
+        doctored = json.loads(json.dumps(self.round3))
+        doctored["by_task"]["task3"]["comparison"]["overprocess"]["conditions"]["ours"]["k"] = 4
+        text = self.compare.render_round3_md(self.round2, doctored)
+        self.assertIn("Clause (b) fails", text)
+        # textwrap.fill can break the phrase across lines, so the whitespace is normalised.
+        self.assertIn("task3 overprocess is 4/10", " ".join(text.split()))
+
+    def test_the_round_three_summary_is_thirty_ours_runs_and_the_reused_cells(self):
+        for task, entry in self.round3["by_task"].items():
+            for condition, cell in entry["cells"].items():
+                self.assertEqual(cell["n"], 10, "%s %s" % (task, condition))
+                self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
+        rows = json.loads(ROUND3_RUNS.read_text(encoding="utf-8"))["runs"]
+        ours = [row for row in rows if row["condition"] == "ours"]
+        self.assertEqual(len(ours), 30)
+        self.assertEqual({row["meta"]["condition_sha256"] for row in ours}, {ROUND3_SHA256})
+        self.assertEqual({row["meta"]["cli_version_reported"] for row in ours}, {"2.1.261"})
+        # The reused cells are the main run's rows, as the pre-registration says and as the
+        # Results section records: they were rebuilt from the committed main-run file.
+        reused = [row for row in rows if row["condition"] != "ours"]
+        main_run = [
+            row for row in json.loads(EXPERIMENT_RUNS.read_text(encoding="utf-8"))["runs"]
+            if row["condition"] != "ours"
+        ]
+        self.assertEqual(reused, main_run)
+
+    def test_the_page_reads_the_summary_and_never_the_per_run_file(self):
+        source = COMPARE_JS.read_text(encoding="utf-8")
+        self.assertNotIn("experiment-round3-runs.json", source)
+        self.assertNotIn("experiment-round3-runs.json", INDEX.read_text(encoding="utf-8"))
 
 
 # Every version name the project publishes carries three parts, so that a reader never has to

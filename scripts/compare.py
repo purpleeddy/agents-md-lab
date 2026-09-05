@@ -45,6 +45,7 @@ METHODOLOGY_MD = REPO_ROOT / "docs" / "methodology.md"
 FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
 EXPERIMENT_JSON = REPO_ROOT / "docs" / "data" / "experiment.json"
 ROUND2_JSON = REPO_ROOT / "docs" / "data" / "experiment-round2.json"
+ROUND3_JSON = REPO_ROOT / "docs" / "data" / "experiment-round3.json"
 README_MD = REPO_ROOT / "README.md"
 OURS_FILE = REPO_ROOT / "AGENTS.md"
 STUFFED_FILE = REPO_ROOT / "docs" / "examples" / "stuffed.md"
@@ -69,6 +70,9 @@ OURS_VERSION = "1.3.0"
 # The version round 2 measured. The findings page's round-2 block is a record of that run, so it
 # names this constant and not the shipped version, which has moved on since.
 ROUND2_VERSION = "1.2.0"
+# The version round 3 measured. It is a text the record keeps and the file does not: the round-3
+# block on the findings page names this constant, not the shipped version.
+ROUND3_VERSION = "1.3.0"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 RECORDED_TEXTS = (
     ("Generic file the experiment ran (v1.0.0)", TESTED_GENERIC_SHA256, 9, 0),
@@ -1077,6 +1081,14 @@ ROUND2_DISADVANTAGE = (
 # Clause (c): the median total_cost_usd per task, against the v1.0.0 `ours` median.
 ROUND2_COST_FACTOR = 1.1
 
+# The round-3 acceptance rule, copied from experiments/README.md the same way. It names the same
+# sixteen advantage metrics and the same ten disadvantage booleans as round 2, now measured
+# against the round-2 v1.2.0 cells rather than the main run's; a test reads the round-3 clause
+# text and fails if the names ever differ from these.
+ROUND3_GATED = ROUND2_GATED
+ROUND3_DISADVANTAGE = ROUND2_DISADVANTAGE
+ROUND3_COST_FACTOR = 1.1
+
 
 def load_round2():
     if not ROUND2_JSON.exists():
@@ -1088,28 +1100,54 @@ def load_round2():
     return read_json(ROUND2_JSON)
 
 
+def load_round3():
+    if not ROUND3_JSON.exists():
+        raise RuntimeError(
+            "%s is missing; the round-3 block on the findings page renders from it. Run "
+            "`python3 scripts/experiment.py summarize --ours-from <batch>` or check out the "
+            "committed file." % ROUND3_JSON
+        )
+    return read_json(ROUND3_JSON)
+
+
 def round2_metric(data, task, metric, condition="ours"):
     return data["by_task"][task]["comparison"][metric]["conditions"][condition]
 
 
-def round2_rows(exp, round2):
-    """One row per gated metric: (task, metric, main-run cell, round-2 cell, change)."""
+def round_rows(before_data, after_data, gated):
+    """One row per gated metric: (task, metric, baseline cell, new cell, change)."""
     rows = []
-    for task, metric in ROUND2_GATED:
-        before = round2_metric(exp, task, metric)
-        after = round2_metric(round2, task, metric)
+    for task, metric in gated:
+        before = round2_metric(before_data, task, metric)
+        after = round2_metric(after_data, task, metric)
         rows.append((task, metric, before, after, after["k"] - before["k"]))
     return rows
 
 
-def round2_cost(exp, round2):
-    """One entry per task: (task, main-run median, round-2 median, ratio, limit)."""
+def round_cost(before_data, after_data, factor):
+    """One entry per task: (task, baseline median, new median, ratio, limit)."""
     out = []
-    for task in sorted(round2["by_task"]):
-        before = exp["by_task"][task]["cells"]["ours"]["medians"]["total_cost_usd"]
-        after = round2["by_task"][task]["cells"]["ours"]["medians"]["total_cost_usd"]
-        out.append((task, before, after, after / before, before * ROUND2_COST_FACTOR))
+    for task in sorted(after_data["by_task"]):
+        before = before_data["by_task"][task]["cells"]["ours"]["medians"]["total_cost_usd"]
+        after = after_data["by_task"][task]["cells"]["ours"]["medians"]["total_cost_usd"]
+        out.append((task, before, after, after / before, before * factor))
     return out
+
+
+def round2_rows(exp, round2):
+    return round_rows(exp, round2, ROUND2_GATED)
+
+
+def round2_cost(exp, round2):
+    return round_cost(exp, round2, ROUND2_COST_FACTOR)
+
+
+def round3_rows(round2, round3):
+    return round_rows(round2, round3, ROUND3_GATED)
+
+
+def round3_cost(round2, round3):
+    return round_cost(round2, round3, ROUND3_COST_FACTOR)
 
 
 def round2_gate_text(change):
@@ -1124,14 +1162,15 @@ def round2_gate_text(change):
     return "down %d, over the single-metric gate" % -change
 
 
-def render_round2_md(exp, round2):
-    """The round-2 block on the findings page: the gated-metric table and the verdict the
+def render_round_md(before_data, after_data, gated, disadvantage, factor,
+                    before_version, after_version, cells_phrase, adopted, failed):
+    """One round's block on the findings page: the gated-metric table and the verdict the
     pre-registered rule returns on it. Both are computed from the two summaries, so the sentence
     cannot say a clause held while the table shows it did not."""
-    rows = round2_rows(exp, round2)
+    rows = round_rows(before_data, after_data, gated)
     out = [
-        "| Task | Metric | v1.0.0 `ours` k/n | v%s `ours` k/n | Change | Gate |"
-        % ROUND2_VERSION,
+        "| Task | Metric | v%s `ours` k/n | v%s `ours` k/n | Change | Gate |"
+        % (before_version, after_version),
         "| --- | --- | --- | --- | --- | --- |",
     ]
     for task, metric, before, after, change in rows:
@@ -1146,12 +1185,12 @@ def render_round2_md(exp, round2):
     pair = [row for row in rows if row[4] <= -2]
     risen = [row for row in rows if row[4] > 0]
     harms = [
-        (task, metric, round2_metric(round2, task, metric))
-        for task, metric in ROUND2_DISADVANTAGE
+        (task, metric, round2_metric(after_data, task, metric))
+        for task, metric in disadvantage
     ]
     raised_harms = [entry for entry in harms if entry[2]["k"] >= 2]
     highest = max(cell["k"] for _t, _m, cell in harms)
-    costs = round2_cost(exp, round2)
+    costs = round_cost(before_data, after_data, factor)
     over_cost = [entry for entry in costs if entry[2] > entry[4]]
 
     clause_a = not single and len(pair) < 2
@@ -1184,13 +1223,14 @@ def render_round2_md(exp, round2):
         )
     if clause_b:
         sentences.append(
-            "Clause (b) holds: the %s disadvantage booleans are %s%d/%d in the round-2 cells "
+            "Clause (b) holds: the %s disadvantage booleans are %s%d/%d in the %s cells "
             "that measure them."
             % (
                 NUMBER_WORDS.get(len(harms), str(len(harms))),
                 "" if highest == 0 else "at most ",
                 highest,
                 max(cell["n"] for _t, _m, cell in harms),
+                cells_phrase,
             )
         )
     else:
@@ -1201,26 +1241,44 @@ def render_round2_md(exp, round2):
                 for task, metric, cell in raised_harms
             )
         )
-    ratios = ["%.2f× on %s" % (ratio, task) for task, _b, _a, ratio, _l in costs]
+    ratios = ["%.2f\u00d7 on %s" % (ratio, task) for task, _b, _a, ratio, _l in costs]
     sentences.append(
-        "Clause (c) %s: the median cost is %s of the v1.0.0 `ours` median, %s, against a limit "
-        "of %.1f×."
-        % ("holds" if clause_c else "fails", ratios[0], ", ".join(ratios[1:]), ROUND2_COST_FACTOR)
+        "Clause (c) %s: the median cost is %s of the v%s `ours` median, %s, against a limit "
+        "of %.1f\u00d7."
+        % ("holds" if clause_c else "fails", ratios[0], before_version, ", ".join(ratios[1:]),
+           factor)
     )
-    if clause_a and clause_b and clause_c:
-        sentences.append(
-            "All three clauses hold, so v%s is adopted under the rule as it was written before "
-            "the runs, and the file this project offers is the file round 2 measured."
-            % ROUND2_VERSION
-        )
-    else:
-        sentences.append(
-            "The round fails, so the pre-registered v1.2.1 revert set is the next step and the "
-            "file this project offers is the file that failed."
-        )
+    sentences.append(adopted if clause_a and clause_b and clause_c else failed)
     out.append("")
     out.append(textwrap.fill(" ".join(sentences), width=95))
     return "\n".join(out)
+
+
+def render_round2_md(exp, round2):
+    """The round-2 block: v1.2.0 measured against the main run's v1.0.0 `ours` cells."""
+    return render_round_md(
+        exp, round2, ROUND2_GATED, ROUND2_DISADVANTAGE, ROUND2_COST_FACTOR,
+        "1.0.0", ROUND2_VERSION, "round-2",
+        "All three clauses hold, so v%s is adopted under the rule as it was written before "
+        "the runs, and the file this project offers is the file round 2 measured."
+        % ROUND2_VERSION,
+        "The round fails, so the pre-registered v1.2.1 revert set is the next step and the "
+        "file this project offers is the file that failed.",
+    )
+
+
+def render_round3_md(round2, round3):
+    """The round-3 block: v1.3.0 measured against the round-2 v1.2.0 `ours` cells. The closing
+    sentence says what the rule returns on this data and nothing about which text is shipped,
+    which is prose a later commit owns."""
+    return render_round_md(
+        round2, round3, ROUND3_GATED, ROUND3_DISADVANTAGE, ROUND3_COST_FACTOR,
+        ROUND2_VERSION, ROUND3_VERSION, "round-3",
+        "All three clauses hold, so v%s is adopted under the rule as it was written before "
+        "the runs." % ROUND3_VERSION,
+        "The round fails, so v%s is not adopted under the rule as it was written before the "
+        "runs, and the revert set that rule pre-registered is what applies." % ROUND3_VERSION,
+    )
 
 
 NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 10: "ten", 16: "sixteen"}
@@ -1464,6 +1522,7 @@ def rendered_outputs():
     data = with_ours(data, criteria, content)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     round2 = load_round2() if FINDINGS_MD.exists() else None
+    round3 = load_round3() if FINDINGS_MD.exists() else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
@@ -1505,6 +1564,7 @@ def rendered_outputs():
         page = replace_block(page, "metrics", render_experiment_metrics_md(exp), FINDINGS_MD)
         page = replace_block(page, "cost", render_experiment_cost_md(exp), FINDINGS_MD)
         page = replace_block(page, "round2", render_round2_md(exp, round2), FINDINGS_MD)
+        page = replace_block(page, "round3", render_round3_md(round2, round3), FINDINGS_MD)
         page = replace_block(page, "claims", render_claims_md(data, criteria, exp), FINDINGS_MD)
         outputs[FINDINGS_MD] = page
     if README_MD.exists():

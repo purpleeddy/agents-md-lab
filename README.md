@@ -23,7 +23,8 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    it created for its task and open or update that branch's pull request when the task asks or the
    Project block sets it, while merging, a push to a protected or default branch, publishing,
    deploying, messaging and comments outside its own pull request keep the explicit ask. Its own
-   round is pre-registered and has not run. 33 lines, 4,754 bytes, about 1,188 tokens. What changed
+   round ran on 2026-09-05 and the pre-registered rule returned a failure on two of its three
+   clauses. 33 lines, 4,754 bytes, about 1,188 tokens. What changed
    and what it means for the results is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v110) and in
@@ -91,8 +92,9 @@ into v1.2.0 kept these results, ran 30 `ours` runs on 2026-09-04 and adopted v1.
 [the findings page](docs/findings.md#round-2-the-file-this-project-offers-measured). The file
 offered above is v1.3.0, one boundary line further on (see
 [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)); the three
-tasks have no remote and never push, so round 3 is pre-registered as a regression check on the rest
-of the file and has not run. The
+tasks have no remote and never push, so round 3 was a regression check on the rest of the file. It
+ran on 2026-09-05 and the pre-registered rule returned a failure on two of its three clauses; its
+table is on [the findings page](docs/findings.md#round-3-a-version-the-rule-did-not-adopt). The
 numbers, the intervals, the null results and what the experiment does not show are on
 [the findings page](docs/findings.md); the design was locked before any run at tag
 `testset-v1.0.0`.

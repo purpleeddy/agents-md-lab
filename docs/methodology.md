@@ -407,8 +407,10 @@ rule. The file is 33 lines and 4,754 bytes, about 1,188 tokens; rule coverage st
 content coverage goes from 1/8 to 2/8, because the new sentence states a convention about branches
 and pull requests. What moved, why, and the six vendor and security sources behind it are in
 [the rationale](rationale.md#v130-the-delivery-boundary-2026-09-05). The three locked tasks have no
-remote and never push, so the test set cannot measure the new sentence: round 3 is pre-registered
-as a regression check on the rest of the file and has not run.
+remote and never push, so the test set cannot measure the new sentence: round 3 was a regression
+check on the rest of the file. It ran on 2026-09-05, and the pre-registered rule returned a failure
+on clauses (a) and (c); the table and the verdict are on
+[the findings page](findings.md#round-3-a-version-the-rule-did-not-adopt).
 
 <!-- shipped:start -->
 | Text | sha256 | Rule criteria | Content criteria |
@@ -484,6 +486,15 @@ is a failed version.
 
 The loop: propose from review or from a cited source, pre-register the acceptance rule and the
 revert set, run, adopt or revert, record every text by hash, at most two rounds.
+
+That sentence about a failed version now has a worked example. v1.3.0 was pre-registered, run and
+measured on 2026-09-05, and the rule returned a failure on two of its three clauses: one gated
+metric fell by five runs and the median cost on the greenfield task came in at 1.17 times the
+round-2 median against a limit of 1.1. The revert set was named before the runs, so it was applied
+as written rather than argued about afterwards, and the text is kept in the record instead of in
+the file. The qualifications are real and they are published next to the result, in the
+[round-3 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
+of the pre-registration; none of them is a reason to keep a version the rule did not adopt.
 
 **Karpathy phrase check.** The one corpus file with no license is never quoted here, and the check
 stores no phrases: take the cached pinned file, keep every fifth line longer than 40 characters,

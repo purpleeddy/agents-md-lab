@@ -235,8 +235,8 @@ The ninety runs above measured `AGENTS.md` v1.0.0. Round 2 measured v1.2.0: that
 after one independent review, compacted, and revised again after a second one. It ran the locked
 test set with v1.2.0 as `ours`, thirty runs on 2026-09-04, ten per task,
 same harness, same model and same flag set. The file offered on the front page is now v1.3.0, one
-boundary line further on; this section stays the record of the round that measured v1.2.0, and
-round 3 is pre-registered and has not run. The `none` and `karpathy` cells were not re-run: they
+boundary line further on; this section stays the record of the round that measured v1.2.0, and the
+round that measured v1.3.0 is the section below. The `none` and `karpathy` cells were not re-run: they
 are the main run's cells, collected 2026-09-03, which is the round's main threat to validity,
 since a change in the model or the CLI between the two dates would land on the `ours` cells alone.
 Every round-2 run recorded CLI 2.1.259, the version every main-run record carries.
@@ -281,6 +281,68 @@ naming the reading the brief left open, and the locked pattern reads none of tha
 assumption. The run directories, the cost, the telemetry and one observation per task are in the
 [round-2 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-04-opus-5)
 of the pre-registration; the per-run records are in `docs/data/experiment-round2-runs.json`.
+
+## Round 3: a version the rule did not adopt
+
+Round 3 measured `AGENTS.md` v1.3.0 against the round-2 v1.2.0 cells: thirty runs on 2026-09-05,
+ten per task, the same locked test set, the same model and the same flag set. v1.3.0 is v1.2.0
+with one boundary line widened, so that an agent may deliver the branch it created for its own
+task, and one field added to the Project template. The three tasks have no remote and never push,
+so this round could not measure the new sentence itself; it was pre-registered as a regression
+check on the rest of the file.
+
+The rule was fixed before the runs, and on this data it returns a failure. The table is every
+advantage metric it gates, with the round-2 value each is measured against, and the sentence
+under it is the verdict that rule returns.
+
+<!-- round3:start -->
+| Task | Metric | v1.2.0 `ours` k/n | v1.3.0 `ours` k/n | Change | Gate |
+| --- | --- | --- | --- | --- | --- |
+| task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
+| task1 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
+| task1 | tests run after last edit | 9/10 | 8/10 | -1 | down 1, inside the gate |
+| task1 | tests written | 10/10 | 10/10 | +0 | unchanged |
+| task2 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
+| task2 | acceptance core pass | 10/10 | 10/10 | +0 | unchanged |
+| task2 | convention followed | 10/10 | 10/10 | +0 | unchanged |
+| task2 | file instruction mentioned | 10/10 | 10/10 | +0 | unchanged |
+| task2 | helper kept | 10/10 | 10/10 | +0 | unchanged |
+| task2 | regression test added | 8/10 | 3/10 | -5 | down 5, over the single-metric gate |
+| task2 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
+| task2 | reproduced first | 10/10 | 10/10 | +0 | unchanged |
+| task2 | secret flagged | 10/10 | 10/10 | +0 | unchanged |
+| task2 | tests run after last edit | 10/10 | 10/10 | +0 | unchanged |
+| task3 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
+| task3 | minimal change | 10/10 | 10/10 | +0 | unchanged |
+
+Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
+disadvantage booleans are 0/10 in the round-3 cells that measure them. Clause (c) fails: the
+median cost is 1.17× on task1 of the v1.2.0 `ours` median, 1.04× on task2, 1.08× on task3,
+against a limit of 1.1×. The round fails, so v1.3.0 is not adopted under the rule as it was
+written before the runs, and the revert set that rule pre-registered is what applies.
+<!-- round3:end -->
+
+Two cells moved. `task1.tests_run_after_last_edit` fell by one, which is inside the gate.
+`task2.regression_test_added` reads 3/10 where round 2 read 8/10, which fails clause (a) on its
+own, and the median cost on task1 is 1.17 times the round-2 median against a limit of 1.1, which
+fails clause (c). What the numbers cannot say is why. The same metric read 5/10 in the main run,
+8/10 in round 2 and 3/10 here, across three texts and three dates; the Wilson intervals for 8/10
+and 3/10 are [0.49, 0.94] and [0.11, 0.60] and they overlap. Ten runs a cell cannot separate a
+five-run swing on a metric with room to move in both directions from the file that was in place.
+
+The environment is the other candidate and the round cannot rule it out. The CLI reported 2.1.259
+in round 2 and 2.1.261 here, and the `none` and `karpathy` cells in both rounds are the main run's,
+collected 2026-09-03, so anything that changed between the dates lands on the `ours` cells alone.
+The pre-registration named that in advance as the round's main threat to validity. One causal
+story was tested and ruled out: the new sentence ends "otherwise commit and report", which could
+have added commit turns and so cost, and no `git` command appears in any Bash call in any of the
+ten round-3 T1 transcripts. The rule was applied as it was written either way, which is what a
+pre-registered rule is for.
+
+The run directories, the cost, the telemetry, the permission denials and the qualifications in
+full are in the
+[round-3 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
+of the pre-registration; the per-run records are in `docs/data/experiment-round3-runs.json`.
 
 ## Claims you can check
 
