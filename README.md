@@ -15,17 +15,16 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
 
-   That is `AGENTS.md` v1.3.0. The experiment measured v1.0.0; v1.2.0 is that text amended after an
+   That is `AGENTS.md` v1.2.0. The experiment measured v1.0.0; v1.2.0 is that text amended after an
    independent review, cut to the lines that carry a measured effect or a safety boundary, and
    revised again after an independent design review, and its own pre-registered 30-run check
    adopted it on 2026-09-04: no gated metric dropped, four rose, and it cost less per task than
-   the text the experiment measured. v1.3.0 changes one boundary line: an agent may push the branch
-   it created for its task and open or update that branch's pull request when the task asks or the
-   Project block sets it, while merging, a push to a protected or default branch, publishing,
-   deploying, messaging and comments outside its own pull request keep the explicit ask. Its own
-   round ran on 2026-09-05 and the pre-registered rule returned a failure on two of its three
-   clauses. 33 lines, 4,754 bytes, about 1,188 tokens. What changed
-   and what it means for the results is in
+   the text the experiment measured. 33 lines, 4,514 bytes, about 1,128 tokens. One version came
+   after it and is not shipped: v1.3.0 changed one boundary line, so that an agent may push the
+   branch it created for its task and open or update that branch's pull request when the task asks
+   or the Project block sets it. Its own round ran on 2026-09-05, the pre-registered rule returned
+   a failure on two of its three clauses, and the revert set that rule named beforehand was
+   applied. What changed, and what it means for the results, is in
    [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
    line in [the audit](docs/rationale.md#line-audit-v101-to-v110) and in
    [the v1.3.0 section](docs/rationale.md#v130-the-delivery-boundary-2026-09-05).
@@ -90,11 +89,12 @@ condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the
 The runs measured v1.0.0. The pre-registered round-2 test asked whether the compaction of that text
 into v1.2.0 kept these results, ran 30 `ours` runs on 2026-09-04 and adopted v1.2.0; its table is on
 [the findings page](docs/findings.md#round-2-the-file-this-project-offers-measured). The file
-offered above is v1.3.0, one boundary line further on (see
+offered above is that text (see
 [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)); the three
 tasks have no remote and never push, so round 3 was a regression check on the rest of the file. It
-ran on 2026-09-05 and the pre-registered rule returned a failure on two of its three clauses; its
-table is on [the findings page](docs/findings.md#round-3-a-version-the-rule-did-not-adopt). The
+ran on 2026-09-05, the pre-registered rule returned a failure on two of its three clauses, and
+v1.3.0 was reverted; its table is on
+[the findings page](docs/findings.md#round-3-a-version-the-rule-did-not-adopt). The
 numbers, the intervals, the null results and what the experiment does not show are on
 [the findings page](docs/findings.md); the design was locked before any run at tag
 `testset-v1.0.0`.

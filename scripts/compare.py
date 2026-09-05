@@ -61,14 +61,15 @@ OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/
 
 # The version of the recommended file itself. v1.0.0 is the text the experiment ran; v1.0.1 fixes
 # two defects across four rule lines after the independent review; v1.1.0 is the rewrite from the
-# rest of that review, compacted; v1.2.0 adopts an independent design review of v1.1.0; v1.3.0
-# moves the delivery boundary in Boundaries bullet 2 and adds the template's Delivery slot (see
+# rest of that review, compacted; v1.2.0 adopts an independent design review of v1.1.0 and is the
+# text round 2 adopted and the file shipped now; v1.3.0 moved the delivery boundary in Boundaries
+# bullet 2 and added the template's Delivery slot, and round 3 did not adopt it (see
 # docs/methodology.md, "What the experiment tested and what is shipped"). The texts below are not recoverable from the working tree, because the file they name
 # has since changed or been deleted, so each is recorded with the hash and the two coverage
 # numbers measured on it at the time.
-OURS_VERSION = "1.3.0"
-# The version round 2 measured. The findings page's round-2 block is a record of that run, so it
-# names this constant and not the shipped version, which has moved on since.
+OURS_VERSION = "1.2.0"
+# The version round 2 measured, which is the version shipped now. The findings page's round-2
+# block is a record of that run, so it names this constant rather than reading the shipped file.
 ROUND2_VERSION = "1.2.0"
 # The version round 3 measured. It is a text the record keeps and the file does not: the round-3
 # block on the findings page names this constant, not the shipped version.
@@ -113,10 +114,10 @@ RECORDED_TEXTS = (
         1,
     ),
     (
-        "Root `AGENTS.md` v1.2.0, the text round 2 measured",
-        "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc",
+        "Root `AGENTS.md` v1.3.0, the text round 3 measured and did not adopt",
+        "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd",
         7,
-        1,
+        2,
     ),
 )
 

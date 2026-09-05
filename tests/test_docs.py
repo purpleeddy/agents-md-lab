@@ -642,9 +642,9 @@ class RoundTwoTest(unittest.TestCase):
         rows = json.loads(ROUND2_RUNS.read_text(encoding="utf-8"))["runs"]
         ours = [row for row in rows if row["condition"] == "ours"]
         self.assertEqual(len(ours), 30)
-        # Pinned to the recorded v1.2.0 hash rather than to the root file as it sits now: the
-        # shipped file has moved on, and these thirty rows are a record of the text round 2
-        # measured. The same constant is in compare.RECORDED_TEXTS.
+        # Pinned to the recorded v1.2.0 hash rather than read from the root file: the thirty rows
+        # are a record of the text round 2 measured, and they stay pinned whatever the shipped
+        # file becomes. It happens to be that text again, after round 3 did not adopt v1.3.0.
         self.assertEqual({row["meta"]["condition_sha256"] for row in ours}, {ROUND2_SHA256})
 
     def test_the_page_labels_the_round_two_section_with_the_version_round_two_measured(self):
