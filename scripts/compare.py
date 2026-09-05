@@ -46,6 +46,7 @@ FINDINGS_MD = REPO_ROOT / "docs" / "findings.md"
 EXPERIMENT_JSON = REPO_ROOT / "docs" / "data" / "experiment.json"
 ROUND2_JSON = REPO_ROOT / "docs" / "data" / "experiment-round2.json"
 ROUND3_JSON = REPO_ROOT / "docs" / "data" / "experiment-round3.json"
+ROUND4_JSON = REPO_ROOT / "docs" / "data" / "experiment-round4.json"
 README_MD = REPO_ROOT / "README.md"
 OURS_FILE = REPO_ROOT / "AGENTS.md"
 STUFFED_FILE = REPO_ROOT / "docs" / "examples" / "stuffed.md"
@@ -74,6 +75,10 @@ ROUND2_VERSION = "1.2.0"
 # The version round 3 measured. It is a text the record keeps and the file does not: the round-3
 # block on the findings page names this constant, not the shipped version.
 ROUND3_VERSION = "1.3.0"
+# The version round 4 measured. Round 4 is the control: it re-ran the shipped v1.2.0 text under a
+# later CLI against the round-2 cells, so both columns of its table carry the same version name and
+# the round labels below are what tells them apart.
+ROUND4_VERSION = "1.2.0"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 RECORDED_TEXTS = (
     ("Generic file the experiment ran (v1.0.0)", TESTED_GENERIC_SHA256, 9, 0),
@@ -1090,6 +1095,14 @@ ROUND3_GATED = ROUND2_GATED
 ROUND3_DISADVANTAGE = ROUND2_DISADVANTAGE
 ROUND3_COST_FACTOR = 1.1
 
+# Round 4 is the control. It re-ran the shipped v1.2.0 text against the same round-2 cells, so the
+# same sixteen metrics, the same ten booleans and the same 1.1x cost factor are computed on it. The
+# round-4 section of the pre-registration says the arithmetic is reported for information and not
+# as a gate, because the text it measures is the text already shipped.
+ROUND4_GATED = ROUND2_GATED
+ROUND4_DISADVANTAGE = ROUND2_DISADVANTAGE
+ROUND4_COST_FACTOR = 1.1
+
 
 def load_round2():
     if not ROUND2_JSON.exists():
@@ -1109,6 +1122,16 @@ def load_round3():
             "committed file." % ROUND3_JSON
         )
     return read_json(ROUND3_JSON)
+
+
+def load_round4():
+    if not ROUND4_JSON.exists():
+        raise RuntimeError(
+            "%s is missing; the round-4 block on the findings page renders from it. Run "
+            "`python3 scripts/experiment.py summarize --ours-from <batch>` or check out the "
+            "committed file." % ROUND4_JSON
+        )
+    return read_json(ROUND4_JSON)
 
 
 def round2_metric(data, task, metric, condition="ours"):
@@ -1151,6 +1174,14 @@ def round3_cost(round2, round3):
     return round_cost(round2, round3, ROUND3_COST_FACTOR)
 
 
+def round4_rows(round2, round4):
+    return round_rows(round2, round4, ROUND4_GATED)
+
+
+def round4_cost(round2, round4):
+    return round_cost(round2, round4, ROUND4_COST_FACTOR)
+
+
 def round2_gate_text(change):
     if change > 0:
         return "up %d" % change
@@ -1164,14 +1195,17 @@ def round2_gate_text(change):
 
 
 def render_round_md(before_data, after_data, gated, disadvantage, factor,
-                    before_version, after_version, cells_phrase, adopted, failed):
+                    before_version, after_version, cells_phrase, adopted, failed,
+                    before_label=None, after_label=None):
     """One round's block on the findings page: the gated-metric table and the verdict the
     pre-registered rule returns on it. Both are computed from the two summaries, so the sentence
     cannot say a clause held while the table shows it did not."""
+    before_label = before_label or "v%s" % before_version
+    after_label = after_label or "v%s" % after_version
     rows = round_rows(before_data, after_data, gated)
     out = [
-        "| Task | Metric | v%s `ours` k/n | v%s `ours` k/n | Change | Gate |"
-        % (before_version, after_version),
+        "| Task | Metric | %s `ours` k/n | %s `ours` k/n | Change | Gate |"
+        % (before_label, after_label),
         "| --- | --- | --- | --- | --- | --- |",
     ]
     for task, metric, before, after, change in rows:
@@ -1244,9 +1278,9 @@ def render_round_md(before_data, after_data, gated, disadvantage, factor,
         )
     ratios = ["%.2f\u00d7 on %s" % (ratio, task) for task, _b, _a, ratio, _l in costs]
     sentences.append(
-        "Clause (c) %s: the median cost is %s of the v%s `ours` median, %s, against a limit "
+        "Clause (c) %s: the median cost is %s of the %s `ours` median, %s, against a limit "
         "of %.1f\u00d7."
-        % ("holds" if clause_c else "fails", ratios[0], before_version, ", ".join(ratios[1:]),
+        % ("holds" if clause_c else "fails", ratios[0], before_label, ", ".join(ratios[1:]),
            factor)
     )
     sentences.append(adopted if clause_a and clause_b and clause_c else failed)
@@ -1279,6 +1313,26 @@ def render_round3_md(round2, round3):
         "the runs." % ROUND3_VERSION,
         "The round fails, so v%s is not adopted under the rule as it was written before the "
         "runs, and the revert set that rule pre-registered is what applies." % ROUND3_VERSION,
+    )
+
+
+def render_round4_md(round2, round4):
+    """The round-4 block: the shipped v1.2.0 text re-run on 2026-09-05 against the same round-2
+    v1.2.0 cells round 3 was measured against. Both columns carry one version name, so the labels
+    say which collection each is. The closing sentence states what the arithmetic is for: round 4
+    measured the text this project already ships, so no branch of it adopts or reverts anything."""
+    return render_round_md(
+        round2, round4, ROUND4_GATED, ROUND4_DISADVANTAGE, ROUND4_COST_FACTOR,
+        ROUND2_VERSION, ROUND4_VERSION, "round-4",
+        "Every clause holds, so the same text reproduced the cells it was measured against a day "
+        "earlier. Round 4 is the control and adopts nothing: v%s is the text it ran and the text "
+        "already shipped." % ROUND4_VERSION,
+        "The clauses are reported for information and not as a gate. Round 4 ran the shipped v%s "
+        "text, so a clause that fails here measures the distance between two collections of the "
+        "same file rather than anything about a version, and nothing is adopted or reverted on "
+        "it." % ROUND4_VERSION,
+        before_label="v%s, round 2" % ROUND2_VERSION,
+        after_label="v%s, round 4" % ROUND4_VERSION,
     )
 
 
@@ -1524,6 +1578,7 @@ def rendered_outputs():
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     round2 = load_round2() if FINDINGS_MD.exists() else None
     round3 = load_round3() if FINDINGS_MD.exists() else None
+    round4 = load_round4() if FINDINGS_MD.exists() else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
@@ -1566,6 +1621,7 @@ def rendered_outputs():
         page = replace_block(page, "cost", render_experiment_cost_md(exp), FINDINGS_MD)
         page = replace_block(page, "round2", render_round2_md(exp, round2), FINDINGS_MD)
         page = replace_block(page, "round3", render_round3_md(round2, round3), FINDINGS_MD)
+        page = replace_block(page, "round4", render_round4_md(round2, round4), FINDINGS_MD)
         page = replace_block(page, "claims", render_claims_md(data, criteria, exp), FINDINGS_MD)
         outputs[FINDINGS_MD] = page
     if README_MD.exists():

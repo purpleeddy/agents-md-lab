@@ -496,6 +496,17 @@ the file. The qualifications are real and they are published next to the result,
 [round-3 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
 of the pre-registration; none of them is a reason to keep a version the rule did not adopt.
 
+The control that followed says how much of that failure the text owns. Round 4 re-ran the shipped
+v1.2.0 file on 2026-09-05, an hour after round 3 and against the same round-2 cells, and the gated
+metric that decided round 3 read 3/10 again with the text reverted, so the drop was not the text;
+the greenfield cost gap stayed, and the per-run ranges overlap, so at ten runs a cell it is not
+separable. The pre-registered outcome was the third one, "Anything between the two", and the rule
+about baselines it implies is now part of the loop: a round compares against cells collected on the
+day it runs, and reusing a stale `none` or `karpathy` cell is a deviation to be stated rather than
+a convenience. The full record is in the
+[round-4 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5-the-control)
+of the pre-registration.
+
 **Karpathy phrase check.** The one corpus file with no license is never quoted here, and the check
 stores no phrases: take the cached pinned file, keep every fifth line longer than 40 characters,
 take the first six and grep each against every published file. It is reproducible from the cache
@@ -526,6 +537,9 @@ is part of the text under test and nothing about it is measured.
   The pre-registration records this as a limitation of the main run and traces every rule of the
   file to a source or a corpus observation rather than to a task.
 - Ten runs per cell make wide intervals. A difference of one or two runs is inside them.
+- The published comparison rests on `none` and `karpathy` cells collected on one date,
+  2026-09-03, and reused by rounds 2, 3 and 4. Round 4 re-ran one text on a later date and moved a
+  gated metric by five runs, so a stale baseline cell is a threat to validity and not a constant.
 - One model, one CLI version, one flag set. Nothing here generalises to another agent without
   re-running it.
 - The criteria are regexes over lines. A file can state a rule in wording no pattern anticipated,

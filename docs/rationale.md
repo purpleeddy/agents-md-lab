@@ -429,6 +429,17 @@ rows stay open: A5/A6/A24 in part (what a docs-only run covers, and a failure th
 change) and B21/B24 (a budget and a stated failure state). Each would add a line to a file these
 passes work to keep short, and neither names a behaviour the main run measured.
 
+## Known issues (method, 2026-09-05)
+
+Two issues in how a round is measured, kept separate from the review table above because neither
+comes from a reviewer and neither is a finding about a rule line. Each is demonstrated by the
+committed run data rather than argued.
+
+| Issue | The evidence | Our response |
+|---|---|---|
+| Reusing the `none` and `karpathy` cells across dates is unsafe | `task2.regression_test_added` in the `ours` cell read 5/10 in the main run, 8/10 in round 2, 3/10 in round 3 and 3/10 in round 4, and the last two share a text and a CLI version, 2.1.261. The reused baseline cells were collected 2026-09-03 in all four | any later round collects its own `none` and `karpathy` cells on the day it runs; a round that reuses older cells states it next to the result, as rounds 2, 3 and 4 do |
+| A 3/10 single-metric gate sits inside sampling noise for a metric near the middle of its range | round 4 re-ran the shipped v1.2.0 text and reproduced the five-run drop that decided round 3, so the gate would have failed the shipped file against its own earlier cells. The Wilson interval for 8/10 is [0.49, 0.94] and for 3/10 is [0.11, 0.60], and they overlap | the rule was applied as written and the record keeps that outcome; the gate is recorded here as unable to separate a five-run swing from the file, and a wider test set rather than a looser gate is what would fix it |
+
 ## What this file does not do
 
 The tool-specific paths stay out of `AGENTS.md`: the hook and the deny list live in

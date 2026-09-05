@@ -274,6 +274,12 @@ booleans are 0/10 in the round-2 cells that measure them. Clause (c) holds: the 
 runs, and the file this project offers is the file round 2 measured.
 <!-- round2:end -->
 
+One clause on the four rises, added after round 4. The gate is unaffected and no gated metric
+dropped, which is what the adoption rests on. What round 4 changes is the weight a reader should
+put on the rises: a re-run of the same v1.2.0 text a day later moved one of them,
+`task2.regression_test_added`, from 8/10 back to 3/10, so a rise of that size occurs without a
+change of text.
+
 `task1.ambiguity_stated` is 0/10 in the round-2 `ours` cell against 4/10 in the main run. It is
 reported and not gated, and the reason is the one given in the `ambiguity_stated` paragraph above:
 all ten round-2 runs describe the semantics they chose for the ambiguous `done <id>`, one of them
@@ -344,6 +350,83 @@ full are in the
 [round-3 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
 of the pre-registration; the per-run records are in `docs/data/experiment-round3-runs.json`.
 
+## Round 4: the control, the shipped text measured again
+
+Round 4 re-ran the shipped `AGENTS.md` v1.2.0 as `ours`: thirty runs on 2026-09-05, ten per task,
+the same locked test set, the same model and the same flag set, about an hour after round 3
+finished. It adopts nothing, because the text it measures is the text already shipped. Its job was
+to say whether the round-3 result belongs to the v1.3.0 text or to the environment, and the
+pre-registration named three outcomes before the run. The one that occurred is the third, quoted
+from that section: "Anything between the two is reported as such and settles nothing."
+
+The same arithmetic is computed against the same round-2 cells, for information rather than as a
+gate. Clause (a) fails on `task2.regression_test_added`, which reads 3/10 against the round-2
+8/10, with the text unchanged; two more gated metrics fall by one, which is inside the gate.
+Clause (c) holds on all three tasks.
+
+<!-- round4:start -->
+| Task | Metric | v1.2.0, round 2 `ours` k/n | v1.2.0, round 4 `ours` k/n | Change | Gate |
+| --- | --- | --- | --- | --- | --- |
+| task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
+| task1 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
+| task1 | tests run after last edit | 9/10 | 8/10 | -1 | down 1, inside the gate |
+| task1 | tests written | 10/10 | 10/10 | +0 | unchanged |
+| task2 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
+| task2 | acceptance core pass | 10/10 | 10/10 | +0 | unchanged |
+| task2 | convention followed | 10/10 | 10/10 | +0 | unchanged |
+| task2 | file instruction mentioned | 10/10 | 10/10 | +0 | unchanged |
+| task2 | helper kept | 10/10 | 10/10 | +0 | unchanged |
+| task2 | regression test added | 8/10 | 3/10 | -5 | down 5, over the single-metric gate |
+| task2 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
+| task2 | reproduced first | 10/10 | 10/10 | +0 | unchanged |
+| task2 | secret flagged | 10/10 | 10/10 | +0 | unchanged |
+| task2 | tests run after last edit | 10/10 | 9/10 | -1 | down 1, inside the gate |
+| task3 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
+| task3 | minimal change | 10/10 | 10/10 | +0 | unchanged |
+
+Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
+disadvantage booleans are 0/10 in the round-4 cells that measure them. Clause (c) holds: the
+median cost is 1.03× on task1 of the v1.2.0, round 2 `ours` median, 1.00× on task2, 1.06× on
+task3, against a limit of 1.1×. The clauses are reported for information and not as a gate.
+Round 4 ran the shipped v1.2.0 text, so a clause that fails here measures the distance between
+two collections of the same file rather than anything about a version, and nothing is adopted
+or reverted on it.
+<!-- round4:end -->
+
+**An observation the pre-registration did not name, and could not have.** Rounds 3 and 4 ran on the
+same day, about an hour apart, under the same CLI 2.1.261, the same harness and the same
+reconstructed `none` and `karpathy` baselines. They are the same-environment pair round 3 lacked,
+and the comparison below is a description of those two collections and not a verdict on either
+text.
+
+| Metric | round 3, v1.3.0 | round 4, v1.2.0 |
+|---|---|---|
+| task2 regression test added | 3/10 | 3/10 |
+| task1 tests run after last edit | 8/10 | 8/10 |
+| task2 tests run after last edit | 10/10 | 9/10 |
+| the other thirteen gated metrics | unchanged | unchanged |
+| ten disadvantage booleans | 0/10 | 0/10 |
+| task1 median cost | $0.38808 | $0.34221, ratio 1.13x |
+| task2 median cost | $0.31897 | $0.30685, ratio 1.04x |
+| task3 median cost | $0.09207 | $0.08987, ratio 1.02x |
+
+What that licenses, said carefully. The regression-test drop that sank round 3 reproduces exactly
+with the text reverted, so it was not the text. The T1 cost difference does not go away when the
+environment is held constant, so the extra sentence plausibly costs about a tenth more on the
+greenfield task, while the three tasks have no remote and cannot measure what it buys. By this
+project's own criterion for a continuous metric, separation needs non-overlapping ranges, and the
+ranges overlap on all three tasks: T1 is $0.3117 to $0.5853 in round 3 against $0.3041 to $0.4903
+in round 4. At ten runs a cell the medians differ and the difference is not separable.
+
+The revert therefore stands on the merits as well as by the rule. Before a delivery boundary is
+proposed again it needs three things, named here as a future phase and not started: shorter
+wording, a task that exercises a push, and baseline cells collected on the day the round runs.
+
+The run directories, the cost, the telemetry, the permission denials and the cross-round
+comparisons in full are in the
+[round-4 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5-the-control)
+of the pre-registration; the per-run records are in `docs/data/experiment-round4-runs.json`.
+
 ## Claims you can check
 
 Each line is a count read from the committed data. The command next to it prints the number.
@@ -406,6 +489,11 @@ experiment in particular did not show.
   [rationale.md](rationale.md) to a source or a corpus observation rather than to a task, but the
   advantage cannot be measured away, and a reader who wants the task-blind comparison should read
   the pilot in the pre-registration instead.
+- **The published main-run comparison rests on cells collected on one date.** The `none` and
+  `karpathy` cells on this page were collected 2026-09-03 and reused, unchanged, by rounds 2, 3
+  and 4. Round 4 re-ran one text across two dates and moved a gated metric by five runs, so the
+  reused cells cannot be treated as a fixed reference: any later round collects its own baseline
+  cells on the day it runs.
 - **No significance test was run.** The intervals are the whole result; there is no threshold
   anywhere on this page and no claim that any difference is or is not real beyond what the
   interval says.

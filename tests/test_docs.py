@@ -30,6 +30,7 @@ EXPERIMENT_RUNS = REPO_ROOT / "docs" / "data" / "experiment-runs.json"
 ROUND2 = REPO_ROOT / "docs" / "data" / "experiment-round2.json"
 ROUND2_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round2-runs.json"
 ROUND3_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round3-runs.json"
+ROUND4_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round4-runs.json"
 FINDINGS = DOCS / "findings.md"
 NODE = shutil.which("node")
 
@@ -772,6 +773,120 @@ class RoundThreeTest(unittest.TestCase):
         source = COMPARE_JS.read_text(encoding="utf-8")
         self.assertNotIn("experiment-round3-runs.json", source)
         self.assertNotIn("experiment-round3-runs.json", INDEX.read_text(encoding="utf-8"))
+
+
+# The sha256 of the root `AGENTS.md` as round 4 measured it: v1.2.0, the shipped text. Round 4 is
+# the control, so this is the same hash the shipped file carries, pinned here as a record of what
+# the thirty rows measured rather than read from the working tree.
+ROUND4_SHA256 = "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc"
+
+
+class RoundFourTest(unittest.TestCase):
+    """The round-4 block on the findings page is rendered from docs/data/experiment-round4.json
+    against the same round-2 `ours` cells round 3 was measured against, by the same renderer. Round
+    4 re-ran the shipped text, so the block reports the arithmetic for information: the tests here
+    check that it states what the two summaries hold and that it adopts nothing either way.
+
+    There is no round-4 clause list in the pre-registration to read the metric names from, because
+    the round adopts nothing and no gate was written for it; the constants reuse round 3's, which
+    a round-3 test already pins to the pre-registered text."""
+
+    def setUp(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        self.compare = compare
+        self.round2 = compare.load_round2()
+        self.round4 = compare.load_round4()
+        page = FINDINGS.read_text(encoding="utf-8")
+        self.block = page.split("<!-- round4:start -->", 1)[1].split("<!-- round4:end -->", 1)[0]
+
+    def test_the_gated_metrics_are_the_sixteen_round_three_named(self):
+        self.assertEqual(self.compare.ROUND4_GATED, self.compare.ROUND3_GATED)
+        self.assertEqual(self.compare.ROUND4_DISADVANTAGE, self.compare.ROUND3_DISADVANTAGE)
+        self.assertEqual(len(self.compare.ROUND4_GATED), 16)
+
+    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+        for task, metric in self.compare.ROUND4_GATED:
+            before = self.compare.round2_metric(self.round2, task, metric)
+            after = self.compare.round2_metric(self.round4, task, metric)
+            row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
+                task, metric.replace("_", " "), before["k"], before["n"],
+                after["k"], after["n"], after["k"] - before["k"],
+            )
+            self.assertIn(row, self.block)
+
+    def test_the_two_columns_name_the_round_and_not_only_the_version(self):
+        """Both columns carry v1.2.0, so the round is what tells them apart."""
+        self.assertEqual(self.compare.ROUND4_VERSION, self.compare.ROUND2_VERSION)
+        self.assertIn("v%s, round 2 `ours` k/n" % self.compare.ROUND2_VERSION, self.block)
+        self.assertIn("v%s, round 4 `ours` k/n" % self.compare.ROUND4_VERSION, self.block)
+
+    def test_the_verdict_states_the_outcome_the_data_gives(self):
+        drops = [
+            self.compare.round2_metric(self.round2, task, metric)["k"]
+            - self.compare.round2_metric(self.round4, task, metric)["k"]
+            for task, metric in self.compare.ROUND4_GATED
+        ]
+        harms = [
+            self.compare.round2_metric(self.round4, task, metric)["k"]
+            for task, metric in self.compare.ROUND4_DISADVANTAGE
+        ]
+        over = [
+            entry for entry in self.compare.round4_cost(self.round2, self.round4)
+            if entry[2] > entry[4]
+        ]
+        clause_a = max(drops) < 3 and len([drop for drop in drops if drop >= 2]) < 2
+        for clause, ok in (("(a)", clause_a), ("(b)", max(harms) < 2), ("(c)", not over)):
+            self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
+        # The control re-ran the shipped text, so neither branch of the block adopts a version or
+        # names a revert set, which is what the two earlier rounds' blocks close with.
+        self.assertNotIn("under the rule as it was written", self.block)
+        self.assertNotIn("revert set", self.block)
+        self.assertIn("reported for information and not as a gate", self.block)
+
+    def test_the_renderer_prints_the_other_branch_when_the_data_holds(self):
+        """The information sentence is not fixed either: restoring the one metric that falls by
+        five turns the same renderer to the branch that says the text reproduced its own cells."""
+        doctored = json.loads(json.dumps(self.round4))
+        cell = doctored["by_task"]["task2"]["comparison"]["regression_test_added"]["conditions"]["ours"]
+        cell["k"] = self.compare.round2_metric(self.round2, "task2", "regression_test_added")["k"]
+        text = self.compare.render_round4_md(self.round2, doctored)
+        self.assertIn("Clause (a) holds", text)
+        self.assertIn("Every clause holds", text)
+        self.assertIn("adopts nothing", text)
+
+    def test_the_round_four_summary_is_thirty_ours_runs_and_the_reused_cells(self):
+        for task, entry in self.round4["by_task"].items():
+            for condition, cell in entry["cells"].items():
+                self.assertEqual(cell["n"], 10, "%s %s" % (task, condition))
+                self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
+        rows = json.loads(ROUND4_RUNS.read_text(encoding="utf-8"))["runs"]
+        ours = [row for row in rows if row["condition"] == "ours"]
+        self.assertEqual(len(ours), 30)
+        self.assertEqual({row["meta"]["condition_sha256"] for row in ours}, {ROUND4_SHA256})
+        self.assertEqual({row["meta"]["cli_version_reported"] for row in ours}, {"2.1.261"})
+        # The reused rows are the main run's, rebuilt from the committed main-run file as the
+        # Results section records. They differ from it in one field only: `run_dir` carries a
+        # `reconstructed/` prefix, which says where the row came from, so the comparison here
+        # normalises that field and every other field has to match.
+        def without_run_dir(row):
+            return {key: value for key, value in row.items() if key != "run_dir"}
+
+        reused = [row for row in rows if row["condition"] != "ours"]
+        main_run = [
+            row for row in json.loads(EXPERIMENT_RUNS.read_text(encoding="utf-8"))["runs"]
+            if row["condition"] != "ours"
+        ]
+        self.assertEqual([without_run_dir(row) for row in reused],
+                         [without_run_dir(row) for row in main_run])
+        for row, origin in zip(reused, main_run):
+            self.assertEqual(row["run_dir"], "reconstructed/" + origin["run_dir"])
+
+    def test_the_page_reads_the_summary_and_never_the_per_run_file(self):
+        source = COMPARE_JS.read_text(encoding="utf-8")
+        self.assertNotIn("experiment-round4-runs.json", source)
+        self.assertNotIn("experiment-round4-runs.json", INDEX.read_text(encoding="utf-8"))
 
 
 # Every version name the project publishes carries three parts, so that a reader never has to

@@ -150,12 +150,13 @@ def push_reason(arguments, cwd):
         branch = destination(refspec)
         if branch in PROTECTED_BRANCHES:
             return ("this push targets %s; push the branch this task created and open a pull "
-                    "request instead." % branch)
+                    "request instead, if the task asks for delivery." % branch)
     if not refspecs:
         branch = current_branch(cwd)
         if branch in PROTECTED_BRANCHES:
             return ("this push names no branch and %s is checked out; push the branch this task "
-                    "created and open a pull request instead." % branch)
+                    "created and open a pull request instead, if the task asks for delivery."
+                    % branch)
     return ""
 
 

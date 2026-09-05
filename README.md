@@ -19,8 +19,11 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    independent review, cut to the lines that carry a measured effect or a safety boundary, and
    revised again after an independent design review, and its own pre-registered 30-run check
    adopted it on 2026-09-04: no gated metric dropped, four rose, and it cost less per task than
-   the text the experiment measured. 33 lines, 4,514 bytes, about 1,128 tokens. One version came
-   after it and is not shipped: v1.3.0 changed one boundary line, so that an agent may push the
+   the text the experiment measured. Read the four rises with one clause in mind: a re-run of the
+   same text a day later moved one of them, `task2.regression_test_added`, from 8/10 back to 3/10,
+   so rises of that size occur without a change of text. The claim that nothing dropped is
+   untouched. 33 lines, 4,514 bytes, about 1,128 tokens. One version came after it and is not
+   shipped: v1.3.0 changed one boundary line, so that an agent may push the
    branch it created for its task and open or update that branch's pull request when the task asks
    or the Project block sets it. Its own round ran on 2026-09-05, the pre-registered rule returned
    a failure on two of its three clauses, and the revert set that rule named beforehand was

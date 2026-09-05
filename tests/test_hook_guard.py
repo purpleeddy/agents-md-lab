@@ -102,6 +102,16 @@ class HookGuardTest(unittest.TestCase):
         self.assertBlocked(self.bash("git push origin HEAD", project=repository),
                            "main is checked out")
 
+    def test_both_refusals_qualify_the_delivery_they_point_at(self):
+        """Under the shipped v1.2.0 line a push is not automatically permitted, so the tail the
+        guard prints asks for the task to have called for delivery. Both refusal paths carry it:
+        the refspec that names a protected branch and the push that names none on a protected
+        checkout."""
+        tail = "open a pull request instead, if the task asks for delivery."
+        self.assertBlocked(self.bash("git push origin HEAD:main"), tail)
+        repository = self.repository("main")
+        self.assertBlocked(self.bash("git push", project=repository), tail)
+
     # Allowed.
 
     def test_a_plan_file_outside_the_project_is_allowed(self):
