@@ -231,10 +231,12 @@ with no room to move, which is a different statement.
 
 ## Round 2: the file this project offers, measured
 
-The ninety runs above measured `AGENTS.md` v1.0.0. The file offered on the front page is v1.2.0:
-that text amended after one independent review, compacted, and revised again after a second one.
-Round 2 ran the locked test set with v1.2.0 as `ours`, thirty runs on 2026-09-04, ten per task,
-same harness, same model and same flag set. The `none` and `karpathy` cells were not re-run: they
+The ninety runs above measured `AGENTS.md` v1.0.0. Round 2 measured v1.2.0: that text amended
+after one independent review, compacted, and revised again after a second one. It ran the locked
+test set with v1.2.0 as `ours`, thirty runs on 2026-09-04, ten per task,
+same harness, same model and same flag set. The file offered on the front page is now v1.3.0, one
+boundary line further on; this section stays the record of the round that measured v1.2.0, and
+round 3 is pre-registered and has not run. The `none` and `karpathy` cells were not re-run: they
 are the main run's cells, collected 2026-09-03, which is the round's main threat to validity,
 since a change in the model or the CLI between the two dates would land on the `ours` cells alone.
 Every round-2 run recorded CLI 2.1.259, the version every main-run record carries.
@@ -309,7 +311,7 @@ Each line is a count read from the committed data. The command next to it prints
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['sibling']['points_to_agents_md'] for r in d['files']))"`
 
-- The file this project offers meets 1 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself, and the one that passes does so on a template line that asks for the answer instead of giving it.
+- The file this project offers meets 2 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(d['ours']['met_content'])"`
 

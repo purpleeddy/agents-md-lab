@@ -4,12 +4,12 @@
   "criteria_content_version": "1.0.0",
   "ours": {
     "path": "AGENTS.md",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "license": "MIT",
     "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
     "lines": 33,
-    "bytes": 4514,
-    "sha256": "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc",
+    "bytes": 4754,
+    "sha256": "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd",
     "criteria": {
       "length": {
         "pass": true,
@@ -29,7 +29,7 @@
         "evidence": [
           {
             "line": 7,
-            "text": "- Destructive or irreversible operations need an explicit ask, such as `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema or stored data, and removing public API where Project marks it a contract. So does anything visible outside this checkout (pushing, publishing, deploying, messaging, issues, PRs, comments) and adding, removing or upgrading a dependency."
+            "text": "- Destructive or irreversible operations need an explicit ask, such as `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema or stored data, and removing public API where Project marks it a contract. So do merging, pushing to a protected or default branch, publishing, deploying, messaging, and comments or issues outside your own pull request, and adding, removing or upgrading a dependency. Pushing a branch you created for this task and opening or updating its pull request is delivery: do it when the task asks or Project sets it, otherwise commit and report."
           }
         ]
       },
@@ -60,7 +60,7 @@
         "evidence": [
           {
             "line": 33,
-            "text": "- Generated files never to edit: `…` / Public API is a compatibility contract: `yes|no` / Details: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md"
+            "text": "- Generated files never to edit: `…` / Public API is a compatibility contract: `yes|no` / Delivery: `commit only|branch + PR` / Details: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md"
           }
         ]
       },
@@ -103,15 +103,20 @@
         "evidence": []
       },
       "pr_etiquette": {
-        "pass": false,
-        "evidence": []
+        "pass": true,
+        "evidence": [
+          {
+            "line": 7,
+            "text": "- Destructive or irreversible operations need an explicit ask, such as `rm -rf`, `git clean`, force-push, `reset --hard`, history rewrites, dropping tables, deleting migrations, schema or stored data, and removing public API where Project marks it a contract. So do merging, pushing to a protected or default branch, publishing, deploying, messaging, and comments or issues outside your own pull request, and adding, removing or upgrading a dependency. Pushing a branch you created for this task and opening or updating its pull request is delivery: do it when the task asks or Project sets it, otherwise commit and report."
+          }
+        ]
       },
       "warnings": {
         "pass": true,
         "evidence": [
           {
             "line": 33,
-            "text": "- Generated files never to edit: `…` / Public API is a compatibility contract: `yes|no` / Details: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md"
+            "text": "- Generated files never to edit: `…` / Public API is a compatibility contract: `yes|no` / Delivery: `commit only|branch + PR` / Details: `docs/`, `CONTRIBUTING.md`, nested AGENTS.md"
           }
         ]
       },
@@ -120,7 +125,7 @@
         "evidence": []
       }
     },
-    "met_content": 1,
+    "met_content": 2,
     "of_content": 8
   },
   "stuffed": {

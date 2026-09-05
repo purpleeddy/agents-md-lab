@@ -44,6 +44,38 @@ The pages the vendors publish about their own instruction files.
 
   Cited for: the tool-neutral file name, the sample file's setup-commands and test-commands sections, and nested files for subprojects. Also for the sections the page names: the sample file's "Dev environment tips", "Testing instructions" and "PR instructions", the "Cover what matters" list (project overview, build and test commands, code style guidelines, testing instructions, security considerations) and the extra instructions it names next to it ("Commit messages or pull request guidelines, security gotchas").
 
+## Delivery boundaries in shipped agents
+
+What the agents people run in 2026 are allowed to do with a branch, a pull request and a merge,
+and the control the security guidance asks for. These six are cited by the delivery sentence of
+Boundaries bullet 2 rather than by a criterion; each entry carries the wording it is cited for.
+No archived copy is recorded for any of the six.
+
+- <a id="ref-github-copilot-agent"></a>**github-copilot-agent** — GitHub. "Risks and mitigations." GitHub Copilot cloud agent documentation. https://docs.github.com/en/copilot/concepts/agents/cloud-agent/risks-and-mitigations — accessed 2026-09-05.
+
+  Cited for: the agent "only has the ability to push to a single branch"; the draft pull requests it opens "must be reviewed and merged by a human"; and it cannot mark its own pull request ready for review, approve it or merge it.
+
+- <a id="ref-cursor-cloud-agent"></a>**cursor-cloud-agent** — Cursor. "Cloud agent security." Cursor documentation. https://cursor.com/docs/cloud-agent/security — accessed 2026-09-05.
+
+  Cited for: "The agent pushes its branch and opens a draft pull request for a human to review before anything merges."
+
+- <a id="ref-devin-sdlc"></a>**devin-sdlc** — Cognition. "SDLC integration." Devin documentation. https://docs.devin.ai/essential-guidelines/sdlc-integration — accessed 2026-09-05.
+
+  Cited for: "Devin is subject to the exact same branch protections and SDLC policies as any human engineer."
+
+- <a id="ref-claude-code-action"></a>**claude-code-action** — Anthropic. "FAQ." Documentation of `anthropics/claude-code-action`. https://github.com/anthropics/claude-code-action/blob/main/docs/faq.md — accessed 2026-09-05.
+
+  Cited for: the action pushes its commits to a branch and leaves the pull request to the human, so "your repository's branch protection rules are still adhered to".
+
+- <a id="ref-claude-code-auto-mode"></a>**claude-code-auto-mode** — Anthropic. "Permission modes." Claude Code documentation. https://code.claude.com/docs/en/permission-modes — accessed 2026-09-05.
+
+  Cited for: auto mode permits "Pushing to any branch of the repository you're working in, including the default branch", while a force-push stays blocked. It is the CLI default this project's file is deliberately stricter than.
+
+- <a id="ref-owasp-llm06"></a>**owasp-llm06** — OWASP. "LLM06: Excessive Agency." OWASP Top 10 for Large Language Model Applications. https://owasp.org/www-project-top-10-for-large-language-model-applications/2_0_vulns/LLM06_ExcessiveAgency.html — accessed 2026-09-05.
+
+  Cited for: "Utilise human-in-the-loop control to require a human to approve high-impact actions", and the instruction to authorise in the downstream system rather than in the model.
+
+
 ## Practitioner guidance
 
 Written by people who maintain instruction files rather than the tools that read them.

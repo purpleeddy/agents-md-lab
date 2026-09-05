@@ -17,9 +17,9 @@ produces an ordering of projects.
 
 Ten criteria have to come from somewhere. Each one is traced to at least one of the sources
 below; the full citation, the date it was read and the archived copy are in
-[references.md](references.md). Two further sources, `hernanz-agents-md` and `beams-commit`, are
-cited by rules of the recommended file rather than by a criterion; see
-[rationale.md](rationale.md).
+[references.md](references.md). Other sources are cited by the recommended file's own rules rather
+than by a criterion, among them `hernanz-agents-md`, `beams-commit` and the six the delivery
+boundary rests on; see [rationale.md](rationale.md).
 
 | Source | Kind | What it is used for |
 |---|---|---|
@@ -374,7 +374,7 @@ longer carries the sentence `done_verification` matched, which was cut on the me
 from five lines to two; each edit has a row in
 [the rationale](rationale.md#amendments-after-external-feedback-2026-09-04).
 
-The shipped file is now `AGENTS.md` v1.2.0, and it is the round-2 candidate. A second independent
+`AGENTS.md` v1.2.0 is the text round 2 measured. A second independent
 review, this one of v1.1.0's text against the design goals, returned 21 findings and one addition,
 and all of them were accepted; the revised text was adopted whole rather than clause by clause,
 and each finding has a row in
@@ -395,7 +395,20 @@ pre-registered before it ran, put v1.2.0 through the same locked test set on 202
 gated advantage metrics dropped, four rose, the ten disadvantage booleans stayed at 0/10, and the
 median cost per task was 0.99, 0.92 and 0.94 times the v1.0.0 `ours` medians. All three clauses of
 the acceptance rule hold, so the compaction kept the advantages the ninety runs showed and the
-file shipped is the file round 2 measured.
+file round 2 measured is the file this project offered from that date.
+
+The shipped file is now `AGENTS.md` v1.3.0, and one rule line separates it from v1.2.0. Merging, a
+push to a protected or default branch, publishing, deploying, messaging and comments or issues
+outside the agent's own pull request keep the explicit ask; pushing the branch the agent created
+for the task it was given, and opening or updating that branch's pull request, is delivery, done
+when the task asks for it or the Project block sets it and otherwise replaced by a commit and a
+report. The Project template gains a `Delivery` slot so an adopter can set it without editing a
+rule. The file is 33 lines and 4,754 bytes, about 1,188 tokens; rule coverage stays at 7/10 and
+content coverage goes from 1/8 to 2/8, because the new sentence states a convention about branches
+and pull requests. What moved, why, and the six vendor and security sources behind it are in
+[the rationale](rationale.md#v130-the-delivery-boundary-2026-09-05). The three locked tasks have no
+remote and never push, so the test set cannot measure the new sentence: round 3 is pre-registered
+as a regression check on the rest of the file and has not run.
 
 <!-- shipped:start -->
 | Text | sha256 | Rule criteria | Content criteria |
@@ -407,7 +420,8 @@ file shipped is the file round 2 measured.
 | Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
 | Root `AGENTS.md` v1.1.0 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
 | Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
-| Root `AGENTS.md`, the file shipped now (v1.2.0) | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
+| Root `AGENTS.md` v1.2.0, the text round 2 measured, recorded constant | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
+| Root `AGENTS.md`, the file shipped now (v1.3.0) | `5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd` | 7/10 | 2/8 |
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:

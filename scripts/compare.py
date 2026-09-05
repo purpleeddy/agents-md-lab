@@ -60,11 +60,15 @@ OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/
 
 # The version of the recommended file itself. v1.0.0 is the text the experiment ran; v1.0.1 fixes
 # two defects across four rule lines after the independent review; v1.1.0 is the rewrite from the
-# rest of that review, compacted; v1.2.0 adopts an independent design review of v1.1.0 (see
+# rest of that review, compacted; v1.2.0 adopts an independent design review of v1.1.0; v1.3.0
+# moves the delivery boundary in Boundaries bullet 2 and adds the template's Delivery slot (see
 # docs/methodology.md, "What the experiment tested and what is shipped"). The texts below are not recoverable from the working tree, because the file they name
 # has since changed or been deleted, so each is recorded with the hash and the two coverage
 # numbers measured on it at the time.
-OURS_VERSION = "1.2.0"
+OURS_VERSION = "1.3.0"
+# The version round 2 measured. The findings page's round-2 block is a record of that run, so it
+# names this constant and not the shipped version, which has moved on since.
+ROUND2_VERSION = "1.2.0"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
 RECORDED_TEXTS = (
     ("Generic file the experiment ran (v1.0.0)", TESTED_GENERIC_SHA256, 9, 0),
@@ -102,6 +106,12 @@ RECORDED_TEXTS = (
         "Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces",
         "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
         8,
+        1,
+    ),
+    (
+        "Root `AGENTS.md` v1.2.0, the text round 2 measured",
+        "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc",
+        7,
         1,
     ),
 )
@@ -1121,7 +1131,7 @@ def render_round2_md(exp, round2):
     rows = round2_rows(exp, round2)
     out = [
         "| Task | Metric | v1.0.0 `ours` k/n | v%s `ours` k/n | Change | Gate |"
-        % OURS_VERSION,
+        % ROUND2_VERSION,
         "| --- | --- | --- | --- | --- | --- |",
     ]
     for task, metric, before, after, change in rows:
@@ -1201,7 +1211,7 @@ def render_round2_md(exp, round2):
         sentences.append(
             "All three clauses hold, so v%s is adopted under the rule as it was written before "
             "the runs, and the file this project offers is the file round 2 measured."
-            % OURS_VERSION
+            % ROUND2_VERSION
         )
     else:
         sentences.append(

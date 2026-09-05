@@ -549,6 +549,12 @@ class ExperimentRendererTest(unittest.TestCase):
                 self.assertEqual(cell["delivered_runs"], 10, "%s %s" % (task, condition))
 
 
+# The sha256 of the root `AGENTS.md` as round 2 measured it, v1.2.0. It is a recorded constant
+# here for the same reason it is one in compare.RECORDED_TEXTS: the file under test that round is
+# not the file the working tree holds now.
+ROUND2_SHA256 = "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc"
+
+
 class RoundTwoTest(unittest.TestCase):
     """The round-2 block on the findings page is rendered from docs/data/experiment-round2.json
     against the main run's `ours` cells. The rule it applies was fixed before the runs, so the
@@ -635,15 +641,15 @@ class RoundTwoTest(unittest.TestCase):
         rows = json.loads(ROUND2_RUNS.read_text(encoding="utf-8"))["runs"]
         ours = [row for row in rows if row["condition"] == "ours"]
         self.assertEqual(len(ours), 30)
-        self.assertEqual(
-            {row["meta"]["condition_sha256"] for row in ours},
-            {hashlib.sha256((REPO_ROOT / "AGENTS.md").read_bytes()).hexdigest()},
-        )
+        # Pinned to the recorded v1.2.0 hash rather than to the root file as it sits now: the
+        # shipped file has moved on, and these thirty rows are a record of the text round 2
+        # measured. The same constant is in compare.RECORDED_TEXTS.
+        self.assertEqual({row["meta"]["condition_sha256"] for row in ours}, {ROUND2_SHA256})
 
-    def test_the_page_labels_the_round_two_section_with_the_shipped_version(self):
+    def test_the_page_labels_the_round_two_section_with_the_version_round_two_measured(self):
         source = COMPARE_JS.read_text(encoding="utf-8")
         self.assertIn(
-            "Round 2, <code>ours</code> = v%s" % self.compare.OURS_VERSION, source
+            "Round 2, <code>ours</code> = v%s" % self.compare.ROUND2_VERSION, source
         )
 
     def test_the_page_reads_the_summary_and_never_the_per_run_file(self):
