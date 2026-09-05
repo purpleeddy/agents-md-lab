@@ -679,34 +679,9 @@ class ShippedFileTest(unittest.TestCase):
         for criterion in criteria()["criteria"]:
             self.assertTrue(criterion["notes"], criterion["id"])
 
-    def test_the_settings_deny_the_operations_the_reviewers_named(self):
-        settings = json.loads(
-            (REPO_ROOT / ".claude" / "settings.json").read_text(encoding="utf-8")
-        )
-        deny = settings["permissions"]["deny"]
-        for rule in ("Bash(rm -rf:*)", "Bash(git push:*)", "Bash(git clean:*)",
-                     "Bash(git reset --hard:*)", "Bash(git commit --no-verify:*)"):
-            self.assertIn(rule, deny)
-        hook = settings["hooks"]["PreToolUse"][0]
-        self.assertEqual(hook["matcher"], "Edit|Write")
-        command = hook["hooks"][0]["command"]
-        for path in ("/.claude/", "/.github/workflows/"):
-            self.assertIn(path, command)
-        # This repository edits AGENTS.md deliberately, under the rules in CONTRIBUTING.md, and it
-        # has no migrations, so the hook guards the two paths that are left.
-        for path in ("AGENTS.md", "CLAUDE.md", "/migrations/"):
-            self.assertNotIn(path, command)
-
-    def test_the_settings_are_the_repository_own_and_not_an_example(self):
-        self.assertFalse((REPO_ROOT / ".claude" / "settings.example.json").exists())
-
-    def test_the_example_settings_wire_the_guard(self):
-        """The tiers CONTRIBUTING.md recommends, as a file a maintainer can copy over
-        .claude/settings.json. An agent session may not install its own permissions, so this is
-        the checked-in form of the settings rather than the settings themselves."""
-        settings = json.loads(
-            (REPO_ROOT / "docs" / "examples" / "settings.json").read_text(encoding="utf-8")
-        )
+    def assert_recommended_tiers(self, settings):
+        """The tiers CONTRIBUTING.md sets out: nine deny entries for the operations nothing takes
+        back, both `PreToolUse` matchers pointed at the guard, and delivery left allowed."""
         deny = settings["permissions"]["deny"]
         self.assertEqual(len(deny), 9)
         for rule in ("Bash(rm -rf:*)", "Bash(git clean:*)", "Bash(git reset --hard:*)",
@@ -730,6 +705,35 @@ class ShippedFileTest(unittest.TestCase):
                 self.assertIn("CLAUDE_PROJECT_DIR:-$PWD", hook["command"])
                 self.assertIn('[ -f "$g" ] || exit 0', hook["command"])
         self.assertTrue((REPO_ROOT / "scripts" / "hook_guard.py").exists())
+
+    def test_the_settings_deny_the_operations_the_reviewers_named(self):
+        """The tiers are installed here, so the live file carries them: a maintainer copied the
+        example over `.claude/settings.json`, and these are the permissions a session in this
+        repository actually runs under."""
+        self.assert_recommended_tiers(
+            json.loads((REPO_ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
+        )
+
+    def test_the_live_settings_and_the_example_cannot_drift(self):
+        """One text in two places: the file an adopter copies and the file this repository runs
+        under are byte identical, so a change to either without the other fails here."""
+        self.assertEqual(
+            (REPO_ROOT / ".claude" / "settings.json").read_bytes(),
+            (REPO_ROOT / "docs" / "examples" / "settings.json").read_bytes(),
+        )
+
+    def test_the_settings_are_the_repository_own_and_not_an_example(self):
+        self.assertFalse((REPO_ROOT / ".claude" / "settings.example.json").exists())
+
+    def test_the_example_settings_wire_the_guard(self):
+        """The tiers CONTRIBUTING.md recommends, as a file a maintainer can copy over
+        .claude/settings.json. An agent session may not install its own permissions, so the
+        checked-in copy is what a person installs, here and in an adopting repository alike."""
+        self.assert_recommended_tiers(
+            json.loads(
+                (REPO_ROOT / "docs" / "examples" / "settings.json").read_text(encoding="utf-8")
+            )
+        )
 
 
 # The commit before the two criteria files were merged into one. Both sets were frozen and

@@ -493,20 +493,19 @@ it currently returns nothing; the cache is not committed, so the check skips in 
 until `python3 scripts/compare.py --refresh` fetches the file.
 
 **Permission settings.** The destructive list the file recommends is applied to this
-repository itself, in `.claude/settings.json`: it denies `rm -rf`, `git push`,
-`git reset --hard`, `git clean` and `git commit --no-verify`, and a `PreToolUse` hook blocks
-edits to `.claude/` and `.github/workflows/`. That is stricter than the file it enforces, which
-allows a push of the branch an agent made for its own task, and it is stricter because a deny
-rule matches a command by name and cannot tell one push from another. `scripts/hook_guard.py`
-is the guard that reads the arguments instead: once wired it would block a push that targets
-`main` or `master`, one carrying a force flag or a `+` refspec, and a write to `.claude/`,
-`.github/workflows/` or itself, and let a task branch through. It is written and tested but not
-installed: replacing the permission file is a maintainer's job, so the settings that call it are
-checked in at
+repository itself, in `.claude/settings.json`: it denies `rm -rf`, `git clean`,
+`git reset --hard`, the three force-push forms, `git commit --no-verify` and `-n`, and
+`gh pr merge`, and two `PreToolUse` matchers send every edit and every Bash call to
+`scripts/hook_guard.py`. A deny rule matches a command by name and cannot tell one push from
+another, so the guard reads the arguments instead: it blocks a push that targets `main` or
+`master`, one carrying a force flag or a `+` refspec, and a write to `.claude/`,
+`.github/workflows/` or itself, and lets a task branch through. That is the line the file itself
+draws, so the settings and the text now permit the same push. A maintainer installed them, which
+is whose job it is: the same file is checked in at
 [`docs/examples/settings.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/examples/settings.json)
-for a person to copy. The guarantee behind either is the server: a ruleset on `main` that
-requires a pull request and blocks force-push and deletion. None of this is part of the text
-under test and nothing about it is measured.
+for a person to copy into another repository. The guarantee behind either is the server: a
+ruleset on `main` that requires a pull request and blocks force-push and deletion. None of this
+is part of the text under test and nothing about it is measured.
 
 ## Author bias and limitations
 

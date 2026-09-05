@@ -2,23 +2,33 @@
   "permissions": {
     "deny": [
       "Bash(rm -rf:*)",
-      "Bash(git push:*)",
+      "Bash(git clean:*)",
+      "Bash(git reset --hard:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
-      "Bash(git reset --hard:*)",
-      "Bash(git clean:*)",
+      "Bash(git push --force-with-lease:*)",
       "Bash(git commit --no-verify:*)",
-      "Bash(git commit -n:*)"
+      "Bash(git commit -n:*)",
+      "Bash(gh pr merge:*)"
     ]
   },
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "Edit|Write|NotebookEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"import json,sys; p=json.load(sys.stdin).get('tool_input',{}).get('file_path',''); blocked=[m for m in ('/.claude/', '/.github/workflows/') if m in p]; print('Blocked by settings.json: editing ' + blocked[0] + ' needs an explicit ask.', file=sys.stderr) if blocked else None; sys.exit(2 if blocked else 0)\""
+            "command": "sh -c 'g=\"${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py\"; [ -f \"$g\" ] || exit 0; exec python3 \"$g\"'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'g=\"${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py\"; [ -f \"$g\" ] || exit 0; exec python3 \"$g\"'"
           }
         ]
       }

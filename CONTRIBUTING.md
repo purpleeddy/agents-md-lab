@@ -30,30 +30,29 @@ person merges it. Behind all three, the branch protection below.
 `PreToolUse` payload on stdin and exits 2 with a reason on stderr for exactly those pushes and
 writes. `tests/test_hook_guard.py` proves its behaviour by running it, case by case.
 
-Nothing is wired to it yet. What `.claude/settings.json` holds today is the older and stricter
-list: it denies `rm -rf`, `git push` outright, `git reset --hard`, `git clean` and
-`git commit --no-verify`, and its `PreToolUse` hook is an inline command that blocks edits to
-`.claude/` and `.github/workflows/`. So a session here still commits and reports rather than
-pushing, and the guard script is not consulted at all. The settings that wire it are checked in
-at [`docs/examples/settings.json`](docs/examples/settings.json), and one line installs them:
+The guard is wired here. `.claude/settings.json` is byte for byte the file checked in at
+[`docs/examples/settings.json`](docs/examples/settings.json), so the four tiers above are the
+permissions a session in this repository runs under: the nine deny entries, both `PreToolUse`
+matchers pointed at the guard, and delivery left allowed, so a session can push the branch it
+created for its task and open a pull request. One line installs the same file in an adopting
+repository:
 
 ```
 cp docs/examples/settings.json .claude/settings.json
 ```
 
-A person runs that line. Both the hook in place today and the guard that replaces it reserve
-`.claude/` for a human ask, so an agent session here cannot install the permissions it works
-under, and one that could would be the reason not to trust them. Both hook entries in the example
-file run the same wrapper:
+A person runs that line, here as well as there: the settings reserve `.claude/` for a human ask,
+so an agent session cannot install the permissions it works under, and one that could would be
+the reason not to trust them. Both hook entries run the same wrapper:
 
 ```
 sh -c 'g="${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py"; [ -f "$g" ] || exit 0; exec python3 "$g"'
 ```
 
 which falls back to the working directory when the variable is unset and exits 0 when the script
-is missing, so a checkout without it works rather than refusing every tool call. Wired or not,
-the hook is a convenience: a command written in a form it cannot parse goes through, which is why
-the guarantee is the branch protection below.
+is missing, so a checkout without it works rather than refusing every tool call. The hook is a
+convenience even now that it runs: a command written in a form it cannot parse goes through,
+which is why the guarantee is the branch protection below.
 
 ## Branch protection
 
