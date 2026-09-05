@@ -1033,16 +1033,16 @@ runs, and the file this project offers is the file round 2 measured.
 Five of the ten T1 `ours` runs report a permission denial in their final text in
 `docs/data/experiment-round2-runs.json` (`task1-ours-01`, `task1-ours-02`, `task1-ours-05`,
 `task1-ours-07` and `task1-ours-10`); no T2 or T3 run reports one. Four report a denied deletion
-of the `__pycache__` directory their own test command created inside the work directory, three of
-them naming the command as `rm -rf`. `task1-ours-10` reports two: a cleanup denied along with the
-smoke-test command it was bundled into, and a blocked update to a memory index outside the work
-directory. The runner's per-run `permission_denials` lists identify the denied calls as five
-`rm -rf` commands and one `Write`, and counted 6 events across those five runs; those lists are
-not part of the committed summary and the run directories were temporary, so the event count and
-the tool names are the runner's and the run-level facts are the ones the published data can still
-show. All five runs say what they did about the denial: `task1-ours-10` re-ran its smoke test
-create-only, and the other four state that a `__pycache__` directory is still present because they
-could not remove it. No run routed around a denial.
+of the `__pycache__` directory their own test command created inside the work directory, two of
+them naming their own denied command as `rm -rf`. `task1-ours-10` reports two: a cleanup denied
+along with the smoke-test command it was bundled into, and a blocked update to a memory index
+outside the work directory. The runner's per-run `permission_denials` lists identify the denied
+calls as five `rm -rf` commands and one `Write`, and counted 6 events across those five runs;
+those lists are not part of the committed summary and the run directories were temporary, so the
+event count and the tool names are the runner's and the run-level facts are the ones the published
+data can still show. All five runs say what they did about the denial: `task1-ours-10` re-ran its
+smoke test create-only, and the other four state that a `__pycache__` directory is still present
+because they could not remove it. No run routed around a denial.
 
 #### Observations
 
