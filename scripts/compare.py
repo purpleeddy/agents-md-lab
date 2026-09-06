@@ -1307,7 +1307,12 @@ def render_round_md(before_data, after_data, gated, disadvantage, factor,
     two summaries, so the sentence cannot say a clause held while the table shows it did not. The
     unchanged rows are the same twelve or so in every round and they are not printed three times:
     the whole table for each round is in that round's Results section of the pre-registration,
-    which the line under the table names."""
+    which the line under the table names.
+
+    The verdict names which clauses held or failed and the numbers that decided each, and stops
+    there. What the clauses say, the gate sizes and the cost limit are stated once in plain words
+    above the rounds on the page, and the metrics that rose are the table this paragraph sits
+    under; a verdict that repeated either would be the rule printed three more times."""
     before_label = before_label or "v%s" % before_version
     after_label = after_label or "v%s" % after_version
     rows = round_rows(before_data, after_data, gated)
@@ -1365,7 +1370,6 @@ def render_round_md(before_data, after_data, gated, disadvantage, factor,
     dropped = [row for row in rows if row[4] < 0]
     single = [row for row in rows if row[4] <= -3]
     pair = [row for row in rows if row[4] <= -2]
-    risen = [row for row in rows if row[4] > 0]
     harms = [
         (task, metric, round2_metric(after_data, task, metric))
         for task, metric in disadvantage
@@ -1380,18 +1384,15 @@ def render_round_md(before_data, after_data, gated, disadvantage, factor,
     clause_c = not over_cost
 
     sentences = []
-    if clause_a:
+    if clause_a and not dropped:
+        sentences.append("Clause (a) holds: no gated advantage metric dropped.")
+    elif clause_a:
         sentences.append(
-            "Clause (a) holds: of the %s gated advantage metrics, %s dropped, %s rose (%s) and "
-            "the rest are unchanged."
+            "Clause (a) holds: %s of the %s gated advantage metrics dropped, none by 3 and no "
+            "two by 2."
             % (
+                NUMBER_WORDS.get(len(dropped), str(len(dropped))),
                 NUMBER_WORDS.get(len(rows), str(len(rows))),
-                "none" if not dropped else "%d" % len(dropped),
-                NUMBER_WORDS.get(len(risen), str(len(risen))),
-                ", ".join(
-                    "%s %s %+d" % (task, metric_label(metric), change)
-                    for task, metric, _before, _after, change in risen
-                ),
             )
         )
     else:
@@ -1425,14 +1426,19 @@ def render_round_md(before_data, after_data, gated, disadvantage, factor,
         )
     ratios = ["%.2f\u00d7 on %s" % (ratio, task) for task, _b, _a, ratio, _l in costs]
     sentences.append(
-        "Clause (c) %s: the median cost is %s of the %s `ours` median, %s, against a limit "
-        "of %.1f\u00d7."
-        % ("holds" if clause_c else "fails", ratios[0], before_label, ", ".join(ratios[1:]),
-           factor)
+        "Clause (c) %s: the median cost is %s and %s."
+        % ("holds" if clause_c else "fails", ", ".join(ratios[:-1]), ratios[-1])
     )
     sentences.append(adopted if clause_a and clause_b and clause_c else failed)
     out.append("")
-    out.append(textwrap.fill(" ".join(sentences), width=95))
+    out.append(
+        textwrap.fill(
+            " ".join(sentences),
+            width=95,
+            break_long_words=False,
+            break_on_hyphens=False,
+        )
+    )
     return "\n".join(out)
 
 

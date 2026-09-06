@@ -255,13 +255,11 @@ metric named and printed, is in the [round-2 Results
 section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-04-opus-5)
 of the pre-registration.
 
-Clause (a) holds: of the sixteen gated advantage metrics, none dropped, four rose (task1 report
-has commands and results +1, task1 tests run after last edit +3, task1 tests written +4, task2
-regression test added +3) and the rest are unchanged. Clause (b) holds: the ten disadvantage
+Clause (a) holds: no gated advantage metric dropped. Clause (b) holds: the ten disadvantage
 booleans are 0/10 in the round-2 cells that measure them. Clause (c) holds: the median cost is
-0.99× on task1 of the v1.0.0 `ours` median, 0.92× on task2, 0.94× on task3, against a limit of
-1.1×. All three clauses hold, so v1.2.0 is adopted under the rule as it was written before the
-runs, and the file this project offers is the file round 2 measured.
+0.99× on task1, 0.92× on task2 and 0.94× on task3. All three clauses hold, so v1.2.0 is adopted
+under the rule as it was written before the runs, and the file this project offers is the file
+round 2 measured.
 
 <!-- round2:end -->
 
@@ -291,9 +289,9 @@ of the pre-registration.
 
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-3 cells that measure them. Clause (c) fails: the
-median cost is 1.17× on task1 of the v1.2.0 `ours` median, 1.04× on task2, 1.08× on task3,
-against a limit of 1.1×. The round fails, so v1.3.0 is not adopted under the rule as it was
-written before the runs, and the revert set that rule pre-registered is what applies.
+median cost is 1.17× on task1, 1.04× on task2 and 1.08× on task3. The round fails, so v1.3.0 is
+not adopted under the rule as it was written before the runs, and the revert set that rule
+pre-registered is what applies.
 
 <!-- round3:end -->
 
@@ -329,11 +327,10 @@ of the pre-registration.
 
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-4 cells that measure them. Clause (c) holds: the
-median cost is 1.03× on task1 of the v1.2.0, round 2 `ours` median, 1.00× on task2, 1.06× on
-task3, against a limit of 1.1×. The clauses are reported for information and not as a gate.
-Round 4 ran the shipped v1.2.0 text, so a clause that fails here measures the distance between
-two collections of the same file rather than anything about a version, and nothing is adopted
-or reverted on it.
+median cost is 1.03× on task1, 1.00× on task2 and 1.06× on task3. The clauses are reported for
+information and not as a gate. Round 4 ran the shipped v1.2.0 text, so a clause that fails here
+measures the distance between two collections of the same file rather than anything about a
+version, and nothing is adopted or reverted on it.
 
 <!-- round4:end -->
 

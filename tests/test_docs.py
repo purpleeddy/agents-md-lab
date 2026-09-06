@@ -730,6 +730,32 @@ class RoundTwoTest(unittest.TestCase):
             self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
         self.assertEqual("All three clauses hold" in self.block, held)
 
+
+    def test_the_verdict_names_the_deciding_numbers_and_stops(self):
+        """The page states the three clauses in plain words once, above the rounds, and the
+        metrics that rose are the table the verdict sits under. So the verdict carries the ratio
+        that decided clause (c) for every task and does not reprint the gate sizes, the cost
+        limit or the rows above it."""
+        flat = " ".join(self.block.split())
+        for task, _before, _after, ratio, _limit in self.compare.round2_cost(self.exp, self.round2):
+            self.assertIn("%.2f\u00d7 on %s" % (ratio, task), flat)
+        self.assertNotIn("against a limit of", flat)
+        self.assertNotIn("`ours` median", flat)
+
+    def test_the_verdict_does_not_reprint_the_rows_above_it(self):
+        """Clause (a) held on this round, and the four metrics that rose are the four rows of
+        the table. The verdict says none dropped and leaves the rows to the table."""
+        flat = " ".join(self.block.split())
+        self.assertIn("Clause (a) holds: no gated advantage metric dropped.", flat)
+        for task, metric in self.compare.ROUND2_GATED:
+            before = self.compare.round2_metric(self.exp, task, metric)["k"]
+            after = self.compare.round2_metric(self.round2, task, metric)["k"]
+            if after > before:
+                self.assertNotIn(
+                    "%s %s +%d" % (task, metric.replace("_", " "), after - before),
+                    flat.split("Clause (a)", 1)[1],
+                )
+
     def test_the_renderer_prints_a_failure_when_a_gated_metric_drops(self):
         """The block is not a fixed sentence: doctoring one metric down by 3 flips the verdict."""
         doctored = json.loads(json.dumps(self.round2))
@@ -864,9 +890,22 @@ class RoundThreeTest(unittest.TestCase):
             self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
         held = clause_a and max(harms) < 2 and not over
         self.assertEqual("All three clauses hold" in self.block, held)
-        # This is the round that failed, and the page has to say so from the data.
+        # This is the round that failed, and the page has to say so from the data. textwrap.fill
+        # can break either phrase across lines, so the whitespace is normalised.
         self.assertFalse(held)
-        self.assertIn("v1.3.0 is not adopted", self.block)
+        self.assertIn("v1.3.0 is not adopted", " ".join(self.block.split()))
+
+
+    def test_the_verdict_names_the_deciding_numbers_and_stops(self):
+        """The page states the three clauses in plain words once, above the rounds, and the
+        metrics that rose are the table the verdict sits under. So the verdict carries the ratio
+        that decided clause (c) for every task and does not reprint the gate sizes, the cost
+        limit or the rows above it."""
+        flat = " ".join(self.block.split())
+        for task, _before, _after, ratio, _limit in self.compare.round3_cost(self.round2, self.round3):
+            self.assertIn("%.2f\u00d7 on %s" % (ratio, task), flat)
+        self.assertNotIn("against a limit of", flat)
+        self.assertNotIn("`ours` median", flat)
 
     def test_the_renderer_prints_the_holding_branch_when_the_data_holds(self):
         """The failure is not a fixed sentence either: restoring the one metric and the one
@@ -1008,9 +1047,22 @@ class RoundFourTest(unittest.TestCase):
             self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
         # The control re-ran the shipped text, so neither branch of the block adopts a version or
         # names a revert set, which is what the two earlier rounds' blocks close with.
-        self.assertNotIn("under the rule as it was written", self.block)
-        self.assertNotIn("revert set", self.block)
-        self.assertIn("reported for information and not as a gate", self.block)
+        flat = " ".join(self.block.split())
+        self.assertNotIn("under the rule as it was written", flat)
+        self.assertNotIn("revert set", flat)
+        self.assertIn("reported for information and not as a gate", flat)
+
+
+    def test_the_verdict_names_the_deciding_numbers_and_stops(self):
+        """The page states the three clauses in plain words once, above the rounds, and the
+        metrics that rose are the table the verdict sits under. So the verdict carries the ratio
+        that decided clause (c) for every task and does not reprint the gate sizes, the cost
+        limit or the rows above it."""
+        flat = " ".join(self.block.split())
+        for task, _before, _after, ratio, _limit in self.compare.round4_cost(self.round2, self.round4):
+            self.assertIn("%.2f\u00d7 on %s" % (ratio, task), flat)
+        self.assertNotIn("against a limit of", flat)
+        self.assertNotIn("`ours` median", flat)
 
     def test_the_renderer_prints_the_other_branch_when_the_data_holds(self):
         """The information sentence is not fixed either: restoring the one metric that falls by
@@ -1231,7 +1283,7 @@ class GoverningCaveatTest(unittest.TestCase):
 # is the record's completeness and not prose that has to earn its place.
 PROSE_BUDGET = {
     "README.md": 1175,
-    "docs/findings.md": 3020,
+    "docs/findings.md": 2958,
     "docs/methodology.md": 2195,
     "docs/rationale.md": 1492,
     "docs/references.md": 1724,
