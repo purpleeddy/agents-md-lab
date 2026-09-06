@@ -1231,7 +1231,7 @@ class GoverningCaveatTest(unittest.TestCase):
 # is the record's completeness and not prose that has to earn its place.
 PROSE_BUDGET = {
     "README.md": 1175,
-    "docs/findings.md": 2989,
+    "docs/findings.md": 3020,
     "docs/methodology.md": 2195,
     "docs/rationale.md": 1492,
     "docs/references.md": 1724,

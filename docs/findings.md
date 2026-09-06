@@ -218,17 +218,17 @@ with no room to move, which is a different statement.
 
 The ninety runs above measured `AGENTS.md` v1.0.0. Every round since re-ran the locked test set
 with a new `ours` text, thirty runs and ten per task, same harness, same model and same flag set,
-reusing the main run's `none` and `karpathy` cells. A rule fixed before each round decides
+reusing the main run's `none` and `karpathy` cells. Each pre-registration named those reused
+cells in advance as its round's main threat to validity. A rule fixed before each round decides
 adoption:
 
 - (a) No gated advantage metric may drop by 3 runs in 10, and no two of them by 2.
 - (b) No disadvantage boolean may rise by 2 runs in 10.
 - (c) The median cost per task may be at most 1.1x the median it is measured against.
 
-All three must hold. Under each round, the table is the gated advantage metrics that moved and
-the paragraph after it is the verdict the rule returns. Each round's run directories, cost,
-telemetry and permission denials are in its Results section of the pre-registration, linked under
-its table, and its per-run records are in `docs/data/experiment-round<N>-runs.json`.
+All three must hold. Each round's run directories, cost, telemetry and permission denials are in
+its Results section of the pre-registration, linked under its table, and its per-run records are
+in `docs/data/experiment-round<N>-runs.json`.
 
 | Round | Date | `ours` text | Measured against | CLI | Outcome |
 |---|---|---|---|---|---|
@@ -297,8 +297,9 @@ written before the runs, and the revert set that rule pre-registered is what app
 
 <!-- round3:end -->
 
-What the numbers cannot say is why. `task2.regression_test_added`, the exploratory metric, read
-5/10 in the main run, 8/10 in round 2 and 3/10 here, across three texts and three dates; the
+What the numbers cannot say is why. `task2.regression_test_added` is exploratory, and the
+pre-registration names it among the sixteen it gates all the same, so the round fails on it as the
+rule was written. That metric read 5/10 in the main run, 8/10 in round 2 and 3/10 here, across three texts and three dates; the
 Wilson intervals for 8/10 and 3/10 are [0.49, 0.94] and [0.11, 0.60] and they overlap. Ten runs a
 cell cannot separate a swing of that size from the file that was in place, and the environment is
 the other candidate this round cannot rule out. One causal story was tested and ruled out: the new
@@ -336,9 +337,10 @@ or reverted on it.
 
 <!-- round4:end -->
 
-**The same-environment pair round 3 lacked.** Rounds 3 and 4 ran on the same day, about an hour
-apart, under the same CLI 2.1.261, the same harness and the same reused baseline cells, so the
-table describes two collections rather than judging either text.
+**The same-environment pair round 3 lacked, an observation the pre-registration did not name and
+could not have.** Rounds 3 and 4 ran on the same day, about an hour apart, under the same CLI
+2.1.261, the same harness and the same reused baseline cells, so the table describes two
+collections rather than judging either text.
 
 | Metric | round 3, v1.3.0 | round 4, v1.2.0 |
 |---|---|---|
@@ -351,13 +353,15 @@ table describes two collections rather than judging either text.
 | task2 median cost | $0.31897 | $0.30685, ratio 1.04x |
 | task3 median cost | $0.09207 | $0.08987, ratio 1.02x |
 | task1 per-run cost range | $0.3117 to $0.5853 | $0.3041 to $0.4903 |
+| task2 per-run cost range | $0.2539 to $0.3555 | $0.2704 to $0.3308 |
+| task3 per-run cost range | $0.0900 to $0.1218 | $0.0897 to $0.1098 |
 
 The regression-test drop that sank round 3 reproduces exactly with the text reverted, so it was
 not the text. The T1 cost difference does not go away when the environment is held constant, so
 the extra sentence plausibly costs about a tenth more on the greenfield task, while no task in the
 set has a remote to measure what it buys. This project's own criterion for a continuous metric is
-non-overlapping ranges, and the T1 ranges in the table overlap: at ten runs a cell the medians
-differ and the difference is not separable. Before a delivery boundary is proposed again it needs
+non-overlapping ranges, and the ranges in the table overlap on all three tasks: at ten runs a cell
+the medians differ and the difference is not separable. Before a delivery boundary is proposed again it needs
 shorter wording, a task that exercises a push, and baseline cells collected on the day the round
 runs.
 
