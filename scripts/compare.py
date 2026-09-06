@@ -558,7 +558,11 @@ def replace_block(text, name, body, where):
     end = text.find(marker(name, True))
     if start == -1 or end == -1:
         raise RuntimeError("%s has no %s markers" % (where, name))
-    block = marker(name) + "\n" + body + "\n" + marker(name, True)
+    # In a Markdown page the markers need a blank line between them and the body: kramdown reads
+    # a comment as the opening of an HTML block and swallows every line that follows it without
+    # one, so the table inside would reach the browser as literal pipes. HTML pages take none.
+    gap = "\n\n" if str(where).endswith(".md") else "\n"
+    block = marker(name) + gap + body + gap + marker(name, True)
     return text[:start] + block + text[end + len(marker(name, True)):]
 
 
