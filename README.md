@@ -1,9 +1,10 @@
 # agents-md-lab
 
-What belongs in an instruction file for a coding agent, measured twice: ten published
-`AGENTS.md` and `CLAUDE.md` files pinned by commit and evaluated against ten sourced criteria,
-and a pre-registered experiment on what an instruction file changes, in both directions. You get
-the file this project ships, the numbers behind it, and the data and scripts to reproduce both.
+What belongs in an instruction file for a coding agent, measured two ways: ten published
+`AGENTS.md` and `CLAUDE.md` files, each pinned to one commit and read against ten sourced
+criteria, and an experiment on what an instruction file changes, in both directions, whose rules
+were written down before any run. You get the file this project recommends, the numbers behind
+it, and the data and scripts to reproduce both.
 
 Site: <https://purpleeddy.github.io/agents-md-lab/>
 
@@ -15,29 +16,20 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
 
-   That is `AGENTS.md` v1.2.0. The experiment measured v1.0.0; v1.2.0 is that text amended after an
-   independent review, cut to the lines that carry a measured effect or a safety boundary, and
-   revised again after an independent design review, and its own pre-registered 30-run check
-   adopted it on 2026-09-04: no gated metric dropped, four rose, and it cost less per task than
-   the text the experiment measured. Read the four rises with one clause in mind: a re-run of the
-   same text a day later moved one of them, `task2.regression_test_added`, from 8/10 back to 3/10,
-   so rises of that size occur without a change of text. The claim that nothing dropped is
-   untouched. 33 lines, 4,514 bytes, about 1,128 tokens. One version came after it and is not
-   shipped: v1.3.0 changed one boundary line, so that an agent may push the
-   branch it created for its task and open or update that branch's pull request when the task asks
-   or the Project block sets it. Its own round ran on 2026-09-05, the pre-registered rule returned
-   a failure on two of its three clauses, and the revert set that rule named beforehand was
-   applied. What changed, and what it means for the results, is in
-   [methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), line by
-   line in [the audit](docs/rationale.md#line-audit-v101-to-v110) and in
-   [the v1.3.0 section](docs/rationale.md#v130-the-delivery-boundary-2026-09-05).
+   That is the instruction file this project recommends: short enough to read in full before you
+   adopt it, with its `## Project` section left empty for you to fill in. It has been measured on
+   this project's own test set, revised after independent review and measured again, more than
+   once; one revision failed the rule written for it beforehand and was undone. Which text each
+   round of runs measured is in
+   [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), and the
+   reason for every line, with what changed and why, is in [the rationale](docs/rationale.md).
 
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
    and where the details live. That section is the part no one else can write for you, and it is
-   the reason the file as served does not meet the runnable-command criterion.
-4. Mirror the destructive list in your harness's permission settings: deny what nothing takes
+   the reason the file as offered here does not meet the runnable-command criterion.
+4. Mirror the destructive list in your agent's permission settings: deny what nothing takes
    back, and leave delivery allowed, so the agent can still push its own task branch and open a
    pull request. [`CONTRIBUTING.md`](CONTRIBUTING.md) sets the four tiers out,
    [`docs/examples/settings.json`](docs/examples/settings.json) is a settings file to copy, and
@@ -48,9 +40,10 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 
 ## What the survey found
 
-Coverage of the ten rule criteria, which ask how a file is written; each one is defined in
-[the methodology](docs/methodology.md#the-ten-criteria). Coverage describes what a file contains.
-It is not a quality measure, and no file here is put above another.
+How many of the ten rule criteria each file meets. The criteria ask how a file is written, and
+each one is defined in [the methodology](docs/methodology.md#the-ten-criteria). The count describes what a file
+contains. It is not a measure of quality, and no file here is put
+above another.
 
 <!-- summary:start -->
 
@@ -70,16 +63,24 @@ It is not a quality measure, and no file here is put above another.
 <!-- summary:end -->
 
 The root `AGENTS.md` of this repository is not in the table: it was written to these criteria, so
-meeting them is expected by construction, and it is evaluated on the
+meeting them is expected by construction, and it is checked on the
 [front page](https://purpleeddy.github.io/agents-md-lab/)
 and in [methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria) instead.
 
-Full table with the evidence line behind every ✓: the [comparison](docs/generated/comparison.md)
-or the [front page](https://purpleeddy.github.io/agents-md-lab/#compare). The same ten files
-against the eight content criteria — what a file says about its own project — are in the
+Full table with the evidence line behind every check mark: the
+[comparison](docs/generated/comparison.md) or the
+[front page](https://purpleeddy.github.io/agents-md-lab/#compare). The same ten files against the
+eight content criteria, which ask what a file says about its own project, are in the
 [findings](docs/findings.md#what-the-ten-files-tell-an-agent-about-the-project).
 
 ## What the experiment showed
+
+Each of three tasks was run ten times in each of three ways: with no instruction file, with a
+public instruction file another project ships, and with the file this project recommends. The
+three tasks are building a small command-line app in an empty directory, a change inside an
+existing package that documents a convention, and a one-line typo fix. The summary below is
+written from the run data, and it calls the first task greenfield, the second brownfield, and the
+three ways of running a task conditions.
 
 <!-- summary-experiment:start -->
 
@@ -93,27 +94,28 @@ condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the
 
 <!-- summary-experiment:end -->
 
-The runs measured v1.0.0. The pre-registered round-2 test asked whether the compaction of that text
-into v1.2.0 kept these results, ran 30 `ours` runs on 2026-09-04 and adopted v1.2.0; its table is on
-[the findings page](docs/findings.md#round-2-the-file-this-project-offers-measured). The file
-offered above is that text (see
-[the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped)); the three
-tasks have no remote and never push, so round 3 was a regression check on the rest of the file. It
-ran on 2026-09-05, the pre-registered rule returned a failure on two of its three clauses, and
-v1.3.0 was reverted; its table is on
-[the findings page](docs/findings.md#round-3-a-version-the-rule-did-not-adopt). The
-numbers, the intervals, the null results and what the experiment does not show are on
-[the findings page](docs/findings.md); the design was locked before any run at tag
-`testset-v1.0.0`.
+Those runs measured an earlier text than the file offered above. Every round of runs since then
+was written down before it ran: which measures had to hold, what the file was allowed to cost,
+and, where a change was on trial, which lines to undo if it did not. One round adopted the
+shorter text now offered here. A later one changed one boundary line, failed on two of the three
+parts of its own rule, and the lines it named beforehand were undone as written. The tables for
+every round are on [the findings page](docs/findings.md), together with the uncertainty on each
+number, the measures that did not move, and
+[what the experiment does not show](docs/findings.md#what-was-not-shown). The tasks and the
+measures were fixed under a git tag before any run, and each later round's rule went into the same file before that round ran. Read
+any single rise or fall against this: a re-run of the same text, on the same tasks, has moved one
+measure by five runs in ten, so a change of that size on its own says nothing about the text.
 
 ## Documentation
 
-- [Methodology](docs/methodology.md) — sources, corpus rules, how a verdict is decided, and what
+- [Methodology](docs/methodology.md): sources, corpus rules, how a verdict is decided, and what
   this is not.
-- [Findings](docs/findings.md) — what the comparison and the experiment showed.
-- [Rationale](docs/rationale.md) — one row per rule of `AGENTS.md`: sources, reason, what changed.
-- [References](docs/references.md) — every citation key, with the date read and an archive link.
-- [Pre-registration](experiments/README.md) — the experiment as it was locked at `testset-v1.0.0`.
+- [Findings](docs/findings.md): what the comparison and the experiment showed.
+- [Rationale](docs/rationale.md): one row per rule of `AGENTS.md`, with its sources, its reason
+  and what changed.
+- [References](docs/references.md): every citation key, with the date read and an archive link.
+- [The experiment as written down beforehand](experiments/README.md): the tasks and the measures,
+  fixed under a git tag before the first run, and each round's rule written down before it ran.
 
 ## Reproduce it
 
@@ -132,9 +134,9 @@ Python 3.11 or newer, standard library only. There is nothing to install.
 
 A file joins the survey through one `[[files]]` entry in `corpus.toml`, pinned by commit, with
 one sentence saying what it shows that the others do not. Counter-examples are as welcome as
-additions: a file that meets a criterion the check calls unmet is a bug in the pattern, and the
+additions: a file that meets a criterion the check calls unmet is a defect in the pattern, and the
 criteria carry their known false positives and false negatives in their `notes`. Open either as
-an issue. Discussions open after the first release.
+an issue.
 
 ## License
 
