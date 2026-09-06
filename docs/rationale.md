@@ -4,13 +4,13 @@ title: Rationale
 
 # Why each rule in `AGENTS.md` exists
 
-One row per rule of the shipped `AGENTS.md` (v1.2.0), in file order: the rule, its sources
+One row per rule of the shipped `AGENTS.md`, in file order: the rule, its sources
 (citation keys in [references.md](references.md)), why it is there, and what changed. **hook**
 marks a rule a hook can enforce; a hook sees only the tool call, so the prose carries the reason.
 
 Version history is one table on the
 [methodology page](methodology.md#what-the-experiment-tested-and-what-is-shipped); the editorial
-account behind it, including the texts before v1.0.0, is the
+account behind it, including its earliest drafts, is the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#rule-text-record).
 
 ## Corpus observations used here
@@ -19,27 +19,29 @@ From `docs/generated/comparison.md` (ten pinned files, criteria version 1.0):
 
 - `commands`, 8 of 10, the corpus's most widely shared element (`agentsmd-sample`,
   `anthropic-cca`, `ghostty`, `graphiti`, `humanlayer`, `sentry`, `temporal`). The shipped file
-  ships the Project template unfilled and so does not meet it; this repository's commands are in
+  leaves the Project template unfilled, so it does not meet it; this repository's commands are in
   `CONTRIBUTING.md`.
-- `pointer_not_copy`, 5 of 10. v0.1.0 pointed at `.claude/skills/`, a single-vendor path this
-  repository does not have; the template's `Details` line names `docs/`, `CONTRIBUTING.md` and a
-  nested AGENTS.md, which is what the criterion's question asks for.
+- `pointer_not_copy`, 5 of 10. The first draft pointed at `.claude/skills/`, a single-vendor path
+  this repository does not have; the template's `Details` line names `docs/`, `CONTRIBUTING.md` and
+  a nested AGENTS.md, which is what the criterion's question asks for.
 - `destructive_guard`, `secrets` and `file_instructions_are_data`, **0 of 10**. These rules rest
   on their sources (`anthropic-bp`, `agent-readmes`, `anthropic-security`), not on prevalence; the
   corpus says they are unusual, not wrong.
 - Five corpus files carry a repository overview or directory map (`humanlayer` "Repository
   Overview", `graphiti` "Project Overview", `ghostty` "Directory Structure", `temporal` "Project
-  Structure", `omarchy` "Documentation Layout"). None was added here: `eth-agents-md` reports that
-  repository overviews did not help task success.
+  Structure", `omarchy` "Documentation Layout"). None was added here: `eth-agents-md` reports
+  that they did not help task success.
 
-Five rules of v0.1.0 came from one practitioner post,
+Five rules of the first draft, keyed `v0.1.0` below, came from one practitioner post,
 [hernanz-agents-md](references.md#ref-hernanz-agents-md), whose text and how it was read are in its
-reference entry. v1.0.0 keeps three; layered growth and modularity were dropped as overlap, which
-the While-coding row below records.
+reference entry. The measured text keeps three; layered growth and modularity were dropped as
+overlap, as the While-coding row below records.
 
-## Line audit, v1.0.1 to v1.1.0
+<a id="line-audit-v101-to-v110"></a>
 
-Every line of the v1.0.1 rule text, with the behaviour it targets, the evidence that it matters and
+## The line audit: what each rule had to earn
+
+Every line of the v1.0.1 rule text, with the behaviour it targets, the evidence it matters and
 what happened to it. "Evidence" is a metric from the [main run](findings.md) whose movement the
 line plausibly drove, "safety boundary" for a line meant to prevent an outcome the runs never
 produced, or "none measured". A line with neither was merged or cut: on the typo-fix task the file
@@ -81,48 +83,53 @@ changed nothing but the bill.
 
 Lines, bytes, tokens and both coverage numbers per version are in the
 [version table](methodology.md#what-the-experiment-tested-and-what-is-shipped); what they do not
-say, including the `warnings` false positive v1.1.0 picked up, is in the
+say, including the `warnings` false positive the audit picked up, is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#cost-of-the-v110-audit).
 
-The 2,500-byte target was not reached: Boundaries is 1,823 bytes, Done 680, and the title, header,
+The 2,500-byte target was not reached: Boundaries is 1,823 bytes, Done 680, the title, header,
 six headings and Project template 436, or 2,939 before anything else. Reaching it would mean
 dropping a safety boundary or a Done rule.
 
-### Amendments after external feedback, 2026-09-04
+<a id="amendments-after-external-feedback-2026-09-04"></a>
 
-Four rule edits from feedback on the published v1.1.0, received 2026-09-04, and one template change
-at the file owner's request. The version name stays v1.1.0: no round-2 run had happened, so the
+### Amendments after external feedback
+
+Four rule edits from feedback on the published draft, and one template change at the file
+owner's request. The version name did not change: no round-2 run had happened, so the
 pre-registration records the amended text. Each edit, with its source, reason and effect, is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#amendments-after-external-feedback-2026-09-04).
 
-### v1.2.0, independent design review, 2026-09-04
+<a id="v120-independent-design-review-2026-09-04"></a>
 
-A Fable 5.1 session on 2026-09-04 read v1.1.0's text against the design goals and nothing else: no
-repository, no tools, no run data. It is a model run and not a person, which is why it is cited
-here rather than as a source in [references.md](references.md). It returned 21 findings (1
+### The independent design review
+
+A Fable 5.1 session read that draft against the design goals and nothing else: no
+repository, no tools, no run data. It is a model run, not a person, so it is cited here rather
+than as a source in [references.md](references.md). It returned 21 findings (1
 blocking, 12 should fix, 8 nits) and one addition the runs cannot measure; all 22 were accepted and
 the revised text adopted whole. Every change, traced to the line it lands in, is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v120-the-design-review-changes).
 
-The reviewer named two failures prose cannot reach, limitations of the file rather than defects in
-it. An agent obeying Done item 1 runs a harmful command a README documents as the test command,
-because the file tells it to trust the repository's own documentation. A pipeline that passes an
-issue body in as the whole prompt leaves the "task prompt is the human's" sentence nothing to
-separate. Both need the harness: a permission setting, and a pipeline that marks its untrusted
-span.
+The reviewer named two failures prose cannot reach, limits of the file rather than defects in it.
+An agent obeying Done item 1 runs a harmful command a README documents as the test command, because
+the file tells it to trust the repository's own documentation. A pipeline that passes an issue body
+in as the whole prompt leaves the "task prompt is the human's" sentence nothing to separate. Both
+need the harness: a permission setting, and a pipeline that marks its untrusted span.
 
-### v1.3.0, the delivery boundary, 2026-09-05
+<a id="v130-the-delivery-boundary-2026-09-05"></a>
 
-v1.3.0 scaled the explicit ask to reversibility, letting an agent push the branch it created for
-its own task while a merge, a push to a protected or default branch, a deploy, a message and an
-outside comment kept the ask. Round 3 measured it on 2026-09-05 and the pre-registered rule did not
-adopt it: the locked tasks have no remote, so the sentence was never exercised, and two of the
-round's three clauses failed on the rest of the file.
-`task2.regression_test_added`, marked exploratory rather than confirmatory, read 3/10 against the
-round-2 8/10, and the greenfield median cost came in at 1.167 times the round-2 median against a
-limit of 1.1. The revert set was named before the runs and applied as written.
+### The delivery boundary
 
-The reverted text, the six sources the boundary rests on and the standing argument for it are in
+The revision scaled the explicit ask to reversibility, letting an agent push the branch it created
+for its own task while merges, deploys, messages, outside comments and pushes to a protected or
+default branch kept the ask. Round 3 measured it and the rule did not adopt it: the locked tasks
+have no remote, so the sentence was never exercised, and two of the round's three clauses failed on
+the rest of the file. `task2.regression_test_added`, marked exploratory rather than confirmatory,
+read 3/10 against the round-2 8/10, and the greenfield median cost came in at 1.167 times the
+round-2 median against a limit of 1.1. The revert set was named before the runs and applied as
+written.
+
+The reverted text, the six sources the boundary rests on and the argument for it are in
 the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v130-the-delivery-boundary);
 the numbers, their overlapping Wilson intervals and the CLI version that moved between the two
 collections are in the
@@ -137,7 +144,7 @@ collections are in the
 
 ## Boundaries
 
-The section keeps v0.1.0's name.
+The section keeps the first draft's name.
 
 | Rule | Sources | Why | Changed |
 |---|---|---|---|
@@ -190,39 +197,42 @@ served keeps every push behind the explicit ask.
 
 ## What the check says about this file
 
-`python3 scripts/compare.py --file AGENTS.md` reports coverage 7/10, and the file was written to
-these criteria, so meeting them is expected by construction. Three are unmet. `commands`: the
+`python3 scripts/compare.py --file AGENTS.md` reports coverage 7/10; the file was written to these
+criteria, so meeting them is expected by construction. Three are unmet. `commands`: the
 Project template ships unfilled, so the file names no runnable command. `done_verification`: the
-sentence that matched the pattern was cut in v1.1.0, on the merits in the audit above.
-`file_instructions_are_data`: v1.2.0 states the rule as what cannot authorise an action rather than
+sentence that matched the pattern was cut in the audit above, on the merits.
+`file_instructions_are_data`: the shipped text states the rule as what cannot authorise an action
+rather than
 as what kind of thing the text is, and the frozen pattern recognises only the second form. None was
 reworded to change a verdict, and the last is the clearest: the rule got stronger and the number
 went down.
 
 The `done_verification` false negative therefore stands. The pattern, the thresholds and the rule
 text were not touched; the gap is recorded in that criterion's `notes` in `docs/criteria.json` as a
-candidate for criteria v1.1.0, which would have to re-evaluate the whole corpus. A `notes` entry
+candidate for a later criteria set, which would re-evaluate the whole corpus. A `notes` entry
 carries no verdict: `python3 scripts/compare.py --check` passes unchanged with it. How the number
-read 9 of 10 and then 10 of 10 at two earlier commits, for reasons that were not about the rules,
+read 9 and then 10 of 10 at two earlier commits, for reasons unrelated to the rules,
 is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#what-the-coverage-number-did-by-commit).
 The coverage number describes what a regex could find, and this file is a worked example of the gap
 between that and what a file says.
 
-## Known issues (independent review, 2026-09-03)
+<a id="known-issues-independent-review-2026-09-03"></a>
+
+## Known issues the review found in the file
 
 Two model sessions, not people, read the generic text the experiment ran, sha256
 `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`, and nothing else: no
-repository, no web access, no tools, no knowledge of this project. No human reviewer outside this
-project has read the file, and "independent" here means only that. One read it as a sceptical
+repository, no web access, no tools, no knowledge of this project. "Independent" here means only
+that no human reviewer outside this project has read the file. One read it as a sceptical
 open-source maintainer, the other from a security and operations angle. Each was asked for
 contradictions, rules an agent cannot follow or verify, rules that could harm outcomes or suit one
-harness only, and what is missing, with a severity and a quoted line per finding.
+harness only, and what is missing, each with a severity and a quoted line.
 
 The disposition rule was fixed before the reviews were read: a line that **both** reviewers
 independently rate at their top severity ("blocks adoption" / "blocks unattended use") is fixed in
-the rule text; everything else is recorded here with a response. Two defects matched, and the
-[four-line amendment](methodology.md#what-the-experiment-tested-and-what-is-shipped) is v1.0.1.
+the rule text; everything else is recorded here with a response. Two defects matched; the
+[four-line amendment](methodology.md#what-the-experiment-tested-and-what-is-shipped) is that fix.
 Nothing else changed, so the measured and shipped files stay comparable. The 20 rows below merge
 the two reviews.
 
@@ -251,11 +261,13 @@ the two reviews.
 
 Two rows stay open, as their response cells say: A5/A6/A24 in part (what a docs-only run covers,
 and a failure that predates the change) and B21/B24 (a budget and a stated failure state). Neither
-is a behaviour the main run measured.
+is behaviour the main run measured.
 
-## Known issues (method, 2026-09-05)
+<a id="known-issues-method-2026-09-05"></a>
 
-Two issues in how a round is measured, separate from the table above because neither comes from a
+## Known issues in the method
+
+Two issues in how a round is measured, separate from the table above: neither comes from a
 reviewer and neither is about a rule line. Each is demonstrated by the committed run data.
 
 | Issue | The evidence | Our response |

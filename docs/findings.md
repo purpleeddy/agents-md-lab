@@ -35,8 +35,9 @@ copying, 5 of 10 on `pointer_not_copy`, and the half that inlines everything is 
 grows past the length the same vendors recommend. Tool neutrality splits by file name, 6 of 10:
 all four failures are `CLAUDE.md` files carrying vendor-specific paths and no `AGENTS.md` fails.
 
-The same three criteria are unmet outside the corpus too, in the practitioner file three of this
-project's rules came from, five of the v0.1.0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
+Those three criteria are unmet outside the corpus, in the practitioner file behind five rules of
+this project's first draft and three of the measured text
+([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
 
 <!-- hernanz:start -->
 
@@ -216,9 +217,10 @@ with no room to move, which is a different statement.
 
 ## The rounds after the main run, and the rule that decides them
 
-The ninety runs above measured `AGENTS.md` v1.0.0. Every round since re-ran the locked test set
-with a new `ours` text, thirty runs and ten per task, same harness, same model and same flag set,
-reusing the main run's `none` and `karpathy` cells. Each pre-registration named those reused
+The ninety runs above measured the file's first published version. Every round since re-ran the
+locked test set with a new [`ours` text](methodology.md#what-the-experiment-tested-and-what-is-shipped), thirty
+runs and ten per task, same harness, same model and same flag set, reusing the main run's `none`
+and `karpathy` cells. Each pre-registration named those reused
 cells in advance as its round's main threat to validity. A rule fixed before each round decides
 adoption:
 
@@ -239,7 +241,7 @@ in `docs/data/experiment-round<N>-runs.json`.
 
 ## Round 2: the file this project offers, measured
 
-No reviewer of v1.2.0 was a person, and none had access to this repository.
+No reviewer of that text was a person, and none had access to this repository.
 
 <!-- round2:start -->
 
@@ -257,17 +259,17 @@ of the pre-registration.
 
 Clause (a) holds: no gated advantage metric dropped. Clause (b) holds: the ten disadvantage
 booleans are 0/10 in the round-2 cells that measure them. Clause (c) holds: the median cost is
-0.99× on task1, 0.92× on task2 and 0.94× on task3. All three clauses hold, so v1.2.0 is adopted
-under the rule as it was written before the runs, and the file this project offers is the file
-round 2 measured.
+0.99× on task1, 0.92× on task2 and 0.94× on task3. All three clauses hold, so the round-2 text
+is adopted under the rule as it was written before the runs, and the file this project offers
+is the file round 2 measured.
 
 <!-- round2:end -->
 
 Two caveats on the four rises. `task2.regression_test_added` is marked exploratory rather than
 confirmatory in the pre-registration: it was defined after seeing the behaviour in two main-run
-transcripts, and criterion (e) passes without it. That same metric read 3/10 when the same v1.2.0
-text was re-run a day later, in round 4 below. Separately, `task1.ambiguity_stated` is 0/10 here
-against 4/10 in the main run; it is reported and not gated, for the pattern reason given under T1
+transcripts, and criterion (e) passes without it. That same metric read 3/10 when the same text was
+re-run in round 4 below. Separately, `task1.ambiguity_stated` is 0/10 here against 4/10 in the main
+run; it is reported and not gated, for the pattern reason given under T1
 above.
 
 ## Round 3: a version the rule did not adopt
@@ -289,9 +291,9 @@ of the pre-registration.
 
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-3 cells that measure them. Clause (c) fails: the
-median cost is 1.17× on task1, 1.04× on task2 and 1.08× on task3. The round fails, so v1.3.0 is
-not adopted under the rule as it was written before the runs, and the revert set that rule
-pre-registered is what applies.
+median cost is 1.17× on task1, 1.04× on task2 and 1.08× on task3. The round fails, so the
+delivery revision is not adopted under the rule as it was written before the runs, and the
+revert set that rule pre-registered is what applies.
 
 <!-- round3:end -->
 
@@ -302,12 +304,12 @@ Wilson intervals for 8/10 and 3/10 are [0.49, 0.94] and [0.11, 0.60] and they ov
 cell cannot separate a swing of that size from the file that was in place, and the environment is
 the other candidate this round cannot rule out. One causal story was tested and ruled out: the new
 sentence ends "otherwise commit and report", which could have added commit turns and so cost, and
-no `git` command appears in any Bash call in any of the ten round-3 T1 transcripts.
+no `git` command appears in any Bash call in the ten round-3 T1 transcripts.
 
 ## Round 4: the control, the shipped text measured again
 
-Round 4 asks whether the round-3 result belongs to the v1.3.0 text or to the environment. Of the
-three outcomes the pre-registration named before the run, the one that occurred is the third:
+Round 4 asks whether the round-3 result belongs to that text or to the environment. Of the three
+outcomes the pre-registration named, the one that occurred is the third:
 "Anything between the two is reported as such and settles nothing." The arithmetic below is
 computed against the same round-2 cells for information and not as a gate, and clause (a) fails on
 the exploratory metric with the text unchanged.
@@ -328,16 +330,16 @@ of the pre-registration.
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-4 cells that measure them. Clause (c) holds: the
 median cost is 1.03× on task1, 1.00× on task2 and 1.06× on task3. The clauses are reported for
-information and not as a gate. Round 4 ran the shipped v1.2.0 text, so a clause that fails here
+information and not as a gate. Round 4 ran the shipped text, so a clause that fails here
 measures the distance between two collections of the same file rather than anything about a
 version, and nothing is adopted or reverted on it.
 
 <!-- round4:end -->
 
 **The same-environment pair round 3 lacked, an observation the pre-registration did not name and
-could not have.** Rounds 3 and 4 ran on the same day, about an hour apart, under the same CLI
-2.1.261, the same harness and the same reused baseline cells, so the table describes two
-collections rather than judging either text.
+could not have.** Rounds 3 and 4 ran about an hour apart, under the same CLI 2.1.261, the same
+harness and the same reused baseline cells, so the table describes two collections rather than
+judging either text.
 
 | Metric | round 3, v1.3.0 | round 4, v1.2.0 |
 |---|---|---|
@@ -386,10 +388,10 @@ and the same limits on the survey rather than the experiment are in
   advantage cannot be measured away, and a reader who wants the task-blind comparison should read
   the pilot in the pre-registration instead.
 - **The published main-run comparison rests on cells collected on one date.** The `none` and
-  `karpathy` cells on this page were collected 2026-09-03 and reused, unchanged, by rounds 2, 3
-  and 4. Round 4 re-ran one text across two dates and moved a gated metric by five runs, so the
-  reused cells cannot be treated as a fixed reference: any later round collects its own baseline
-  cells on the day it runs.
+  `karpathy` cells on this page were collected in the main run, under its CLI version, and reused
+  unchanged by rounds 2, 3 and 4. Round 4 re-ran one text on two days and moved a gated metric by
+  five runs, so the reused cells cannot be treated as a fixed reference: any later round collects
+  its own baseline cells on the day it runs.
 - **No significance test was run.** The intervals are the whole result; there is no threshold
   anywhere on this page and no claim that any difference is or is not real beyond what the
   interval says.

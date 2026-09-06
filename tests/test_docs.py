@@ -277,8 +277,8 @@ class KnownIssuesTest(unittest.TestCase):
 
     def section(self):
         text = (DOCS / "rationale.md").read_text(encoding="utf-8")
-        self.assertIn("## Known issues (independent review, 2026-09-03)", text)
-        after = text.split("## Known issues (independent review, 2026-09-03)")[1]
+        self.assertIn("## Known issues the review found in the file", text)
+        after = text.split("## Known issues the review found in the file")[1]
         return after.split("\n## ")[0]
 
     def rows(self):
@@ -930,7 +930,7 @@ class RoundThreeTest(unittest.TestCase):
         # This is the round that failed, and the page has to say so from the data. textwrap.fill
         # can break either phrase across lines, so the whitespace is normalised.
         self.assertFalse(held)
-        self.assertIn("v1.3.0 is not adopted", " ".join(self.block.split()))
+        self.assertIn("the delivery revision is not adopted", " ".join(self.block.split()))
 
 
     def test_the_verdict_names_the_deciding_numbers_and_stops(self):
@@ -1150,9 +1150,11 @@ class RoundFourTest(unittest.TestCase):
 # experiments/README.md, which cannot change after the tag, and the git tag `testset-v1.0` where
 # the sentence below the Lock line says which commit it names.
 VERSION_TOKEN = re.compile(r"\bv\d+(?:\.\d+)*")
-# Anchors carry the version with its dots removed (#line-audit-v101-to-v110), which is a slug and
-# not a version name.
+# A slug carries the version with its dots removed (#line-audit-v101-to-v110), which is a slug and
+# not a version name. Both forms are stripped before the scan: the link fragment, and the explicit
+# `<a id="...">` a renamed heading leaves behind so the old link still lands.
 ANCHOR = re.compile(r"#[a-z0-9-]+")
+ANCHOR_ID = re.compile(r'<a id="[a-z0-9-]+">')
 LOCK_HEADING = "\n## Lock\n"
 TAG_SENTENCE = (
     "the tag `testset-v1.0.0`, added 2026-09-04, names the same commit as\n"
@@ -1176,14 +1178,22 @@ class VersionNotationTest(unittest.TestCase):
 
     def test_every_version_name_has_three_parts(self):
         for name, text in self.scanned().items():
-            for token in VERSION_TOKEN.findall(ANCHOR.sub("", text)):
+            for token in VERSION_TOKEN.findall(ANCHOR.sub("", ANCHOR_ID.sub("", text))):
                 self.assertEqual(token.count("."), 2, "%s names %s" % (name, token))
 
-    def test_the_experiment_lead_names_the_shipped_version(self):
+    def test_the_front_page_names_the_shipped_version(self):
+        """The version name the page states is the badge under the file itself, where someone
+        citing or reproducing the text reads it. The prose above names each text by its role and
+        sends the reader to the version table, so the badge is the one place a version is
+        claimed, and it has to be the version the renderer ships."""
         source = COMPARE_PY.read_text(encoding="utf-8")
         version = re.search(r'^OURS_VERSION = "([^"]+)"', source, re.M).group(1)
-        section = INDEX.read_text(encoding="utf-8").split('<section id="experiment">', 1)[1]
-        self.assertIn("is v%s" % version, section.split("</section>", 1)[0])
+        badge = [
+            line for line in INDEX.read_text(encoding="utf-8").split("\n")
+            if 'class="filemeta"' in line
+        ]
+        self.assertEqual(len(badge), 1)
+        self.assertIn("v%s" % version, badge[0])
 
 
 METHODOLOGY = DOCS / "methodology.md"
