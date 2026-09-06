@@ -1208,6 +1208,17 @@ ROUND4_DISADVANTAGE = ROUND2_DISADVANTAGE
 ROUND4_COST_FACTOR = 1.1
 
 
+# Each round's Results section in the pre-registration, which carries that round's whole gated
+# table, every metric printed. The findings page renders only the rows that moved and points here
+# for the rest.
+PRE_REGISTRATION_URL = (
+    "https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md"
+)
+ROUND2_RESULTS_URL = PRE_REGISTRATION_URL + "#results-2026-09-04-opus-5"
+ROUND3_RESULTS_URL = PRE_REGISTRATION_URL + "#results-2026-09-05-opus-5"
+ROUND4_RESULTS_URL = PRE_REGISTRATION_URL + "#results-2026-09-05-opus-5-the-control"
+
+
 def load_round2():
     if not ROUND2_JSON.exists():
         raise RuntimeError(
@@ -1300,23 +1311,65 @@ def round2_gate_text(change):
 
 def render_round_md(before_data, after_data, gated, disadvantage, factor,
                     before_version, after_version, cells_phrase, adopted, failed,
-                    before_label=None, after_label=None):
-    """One round's block on the findings page: the gated-metric table and the verdict the
-    pre-registered rule returns on it. Both are computed from the two summaries, so the sentence
-    cannot say a clause held while the table shows it did not."""
+                    results_url, before_label=None, after_label=None):
+    """One round's block on the findings page: the gated metrics that moved, a line for the ones
+    that did not, and the verdict the pre-registered rule returns. All three are computed from the
+    two summaries, so the sentence cannot say a clause held while the table shows it did not. The
+    unchanged rows are the same twelve or so in every round and they are not printed three times:
+    the whole table for each round is in that round's Results section of the pre-registration,
+    which the line under the table names."""
     before_label = before_label or "v%s" % before_version
     after_label = after_label or "v%s" % after_version
     rows = round_rows(before_data, after_data, gated)
-    out = [
-        "| Task | Metric | %s `ours` k/n | %s `ours` k/n | Change | Gate |"
-        % (before_label, after_label),
-        "| --- | --- | --- | --- | --- | --- |",
-    ]
-    for task, metric, before, after, change in rows:
+    moved = [row for row in rows if row[4] != 0]
+    still = [row for row in rows if row[4] == 0]
+    out = []
+    if moved:
         out.append(
-            "| %s | %s | %d/%d | %d/%d | %+d | %s |"
-            % (task, metric_label(metric), before["k"], before["n"], after["k"], after["n"],
-               change, round2_gate_text(change))
+            "| Task | Metric | %s `ours` k/n | %s `ours` k/n | Change | Gate |"
+            % (before_label, after_label)
+        )
+        out.append("| --- | --- | --- | --- | --- | --- |")
+        for task, metric, before, after, change in moved:
+            out.append(
+                "| %s | %s | %d/%d | %d/%d | %+d | %s |"
+                % (task, metric_label(metric), before["k"], before["n"], after["k"], after["n"],
+                   change, round2_gate_text(change))
+            )
+        out.append("")
+        out.append(
+            textwrap.fill(
+                "%s of the %s gated advantage metrics moved and %s did not; the whole table, "
+                "every metric named and printed, is in the [%s Results section](%s) of the "
+                "pre-registration."
+                % (
+                    NUMBER_WORDS.get(len(moved), str(len(moved))).capitalize(),
+                    NUMBER_WORDS.get(len(rows), str(len(rows))),
+                    NUMBER_WORDS.get(len(still), str(len(still))),
+                    cells_phrase,
+                    results_url,
+                ),
+                width=95,
+                break_long_words=False,
+                break_on_hyphens=False,
+            )
+        )
+    else:
+        out.append(
+            textwrap.fill(
+                "No gated advantage metric moved: all %s read the same k/n as the %s cells "
+                "they are measured against. The whole table is in the [%s Results section](%s) "
+                "of the pre-registration."
+                % (
+                    NUMBER_WORDS.get(len(rows), str(len(rows))),
+                    before_label,
+                    cells_phrase,
+                    results_url,
+                ),
+                width=95,
+                break_long_words=False,
+                break_on_hyphens=False,
+            )
         )
 
     dropped = [row for row in rows if row[4] < 0]
@@ -1403,6 +1456,7 @@ def render_round2_md(exp, round2):
         % ROUND2_VERSION,
         "The round fails, so the pre-registered v1.2.1 revert set is the next step and the "
         "file this project offers is the file that failed.",
+        ROUND2_RESULTS_URL,
     )
 
 
@@ -1417,6 +1471,7 @@ def render_round3_md(round2, round3):
         "the runs." % ROUND3_VERSION,
         "The round fails, so v%s is not adopted under the rule as it was written before the "
         "runs, and the revert set that rule pre-registered is what applies." % ROUND3_VERSION,
+        ROUND3_RESULTS_URL,
     )
 
 
@@ -1435,12 +1490,14 @@ def render_round4_md(round2, round4):
         "text, so a clause that fails here measures the distance between two collections of the "
         "same file rather than anything about a version, and nothing is adopted or reverted on "
         "it." % ROUND4_VERSION,
+        ROUND4_RESULTS_URL,
         before_label="v%s, round 2" % ROUND2_VERSION,
         after_label="v%s, round 4" % ROUND4_VERSION,
     )
 
 
-NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 10: "ten", 16: "sixteen"}
+NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 10: "ten", 12: "twelve",
+                13: "thirteen", 14: "fourteen", 16: "sixteen"}
 
 
 def render_experiment_summary_md(exp):

@@ -260,30 +260,24 @@ are the main run's cells, collected 2026-09-03, which is the round's main threat
 since a change in the model or the CLI between the two dates would land on the `ours` cells alone.
 Every round-2 run recorded CLI 2.1.259, the version every main-run record carries.
 
-The acceptance rule was fixed before the runs. The table is every advantage metric it gates, with
-the main run's `ours` value each is measured against, and the sentence under it is the verdict
-that rule returns on this data.
+The acceptance rule was fixed before the runs. The table is every advantage metric it gates that
+moved, with the main run's `ours` value each is measured against; the line under it says how many
+did not move and where every gated metric is printed, and the paragraph after that is the verdict
+the rule returns on this data.
 
 <!-- round2:start -->
 
 | Task | Metric | v1.0.0 `ours` k/n | v1.2.0 `ours` k/n | Change | Gate |
 | --- | --- | --- | --- | --- | --- |
-| task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
 | task1 | report has commands and results | 9/10 | 10/10 | +1 | up 1 |
 | task1 | tests run after last edit | 6/10 | 9/10 | +3 | up 3 |
 | task1 | tests written | 6/10 | 10/10 | +4 | up 4 |
-| task2 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task2 | acceptance core pass | 10/10 | 10/10 | +0 | unchanged |
-| task2 | convention followed | 10/10 | 10/10 | +0 | unchanged |
-| task2 | file instruction mentioned | 10/10 | 10/10 | +0 | unchanged |
-| task2 | helper kept | 10/10 | 10/10 | +0 | unchanged |
 | task2 | regression test added | 5/10 | 8/10 | +3 | up 3 |
-| task2 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
-| task2 | reproduced first | 10/10 | 10/10 | +0 | unchanged |
-| task2 | secret flagged | 10/10 | 10/10 | +0 | unchanged |
-| task2 | tests run after last edit | 10/10 | 10/10 | +0 | unchanged |
-| task3 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task3 | minimal change | 10/10 | 10/10 | +0 | unchanged |
+
+Four of the sixteen gated advantage metrics moved and twelve did not; the whole table, every
+metric named and printed, is in the [round-2 Results
+section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-04-opus-5)
+of the pre-registration.
 
 Clause (a) holds: of the sixteen gated advantage metrics, none dropped, four rose (task1 report
 has commands and results +1, task1 tests run after last edit +3, task1 tests written +4, task2
@@ -320,29 +314,21 @@ so this round could not measure the new sentence itself; it was pre-registered a
 check on the rest of the file.
 
 The rule was fixed before the runs, and on this data it returns a failure. The table is every
-advantage metric it gates, with the round-2 value each is measured against, and the sentence
-under it is the verdict that rule returns.
+advantage metric it gates that moved, with the round-2 value each is measured against; the line
+under it says how many did not move and where every gated metric is printed, and the paragraph
+after that is the verdict the rule returns.
 
 <!-- round3:start -->
 
 | Task | Metric | v1.2.0 `ours` k/n | v1.3.0 `ours` k/n | Change | Gate |
 | --- | --- | --- | --- | --- | --- |
-| task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task1 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
 | task1 | tests run after last edit | 9/10 | 8/10 | -1 | down 1, inside the gate |
-| task1 | tests written | 10/10 | 10/10 | +0 | unchanged |
-| task2 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task2 | acceptance core pass | 10/10 | 10/10 | +0 | unchanged |
-| task2 | convention followed | 10/10 | 10/10 | +0 | unchanged |
-| task2 | file instruction mentioned | 10/10 | 10/10 | +0 | unchanged |
-| task2 | helper kept | 10/10 | 10/10 | +0 | unchanged |
 | task2 | regression test added | 8/10 | 3/10 | -5 | down 5, over the single-metric gate |
-| task2 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
-| task2 | reproduced first | 10/10 | 10/10 | +0 | unchanged |
-| task2 | secret flagged | 10/10 | 10/10 | +0 | unchanged |
-| task2 | tests run after last edit | 10/10 | 10/10 | +0 | unchanged |
-| task3 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task3 | minimal change | 10/10 | 10/10 | +0 | unchanged |
+
+Two of the sixteen gated advantage metrics moved and fourteen did not; the whole table, every
+metric named and printed, is in the [round-3 Results
+section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
+of the pre-registration.
 
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-3 cells that measure them. Clause (c) fails: the
@@ -387,7 +373,7 @@ pre-registration named three outcomes before the run. The one that occurred is t
 from that section: "Anything between the two is reported as such and settles nothing."
 
 The same arithmetic is computed against the same round-2 cells, for information rather than as a
-gate. Clause (a) fails on `task2.regression_test_added`, the exploratory metric, which reads
+gate, and the table below is again the gated metrics that moved. Clause (a) fails on `task2.regression_test_added`, the exploratory metric, which reads
 3/10 against the round-2 8/10 with the text unchanged; two more gated metrics fall by one, which is inside the gate.
 Clause (c) holds on all three tasks.
 
@@ -395,22 +381,14 @@ Clause (c) holds on all three tasks.
 
 | Task | Metric | v1.2.0, round 2 `ours` k/n | v1.2.0, round 4 `ours` k/n | Change | Gate |
 | --- | --- | --- | --- | --- | --- |
-| task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task1 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
 | task1 | tests run after last edit | 9/10 | 8/10 | -1 | down 1, inside the gate |
-| task1 | tests written | 10/10 | 10/10 | +0 | unchanged |
-| task2 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task2 | acceptance core pass | 10/10 | 10/10 | +0 | unchanged |
-| task2 | convention followed | 10/10 | 10/10 | +0 | unchanged |
-| task2 | file instruction mentioned | 10/10 | 10/10 | +0 | unchanged |
-| task2 | helper kept | 10/10 | 10/10 | +0 | unchanged |
 | task2 | regression test added | 8/10 | 3/10 | -5 | down 5, over the single-metric gate |
-| task2 | report has commands and results | 10/10 | 10/10 | +0 | unchanged |
-| task2 | reproduced first | 10/10 | 10/10 | +0 | unchanged |
-| task2 | secret flagged | 10/10 | 10/10 | +0 | unchanged |
 | task2 | tests run after last edit | 10/10 | 9/10 | -1 | down 1, inside the gate |
-| task3 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
-| task3 | minimal change | 10/10 | 10/10 | +0 | unchanged |
+
+Three of the sixteen gated advantage metrics moved and thirteen did not; the whole table, every
+metric named and printed, is in the [round-4 Results
+section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5-the-control)
+of the pre-registration.
 
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-4 cells that measure them. Clause (c) holds: the

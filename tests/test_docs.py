@@ -619,15 +619,42 @@ class RoundTwoTest(unittest.TestCase):
         self.assertEqual(sorted(named), sorted(self.compare.ROUND2_GATED))
         self.assertEqual(len(self.compare.ROUND2_GATED), 16)
 
-    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+    def test_only_the_gated_metrics_that_moved_carry_a_row(self):
+        """The unchanged rows are the same twelve or so in every round, so the block prints the
+        ones that moved and a line for the rest. A row that moved may not go missing, and a row
+        that did not move may not come back."""
         for task, metric in self.compare.ROUND2_GATED:
             before = self.compare.round2_metric(self.exp, task, metric)
             after = self.compare.round2_metric(self.round2, task, metric)
+            change = after["k"] - before["k"]
             row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
                 task, metric.replace("_", " "), before["k"], before["n"],
-                after["k"], after["n"], after["k"] - before["k"],
+                after["k"], after["n"], change,
             )
-            self.assertIn(row, self.block)
+            if change:
+                self.assertIn(row, self.block)
+            else:
+                self.assertNotIn(row, self.block)
+
+    def test_the_line_under_the_table_counts_the_metrics_that_did_not_move(self):
+        moved = len(self.compare.ROUND2_GATED) - self.count_unchanged()
+        self.assertIn(
+            "%s of the sixteen gated advantage metrics moved and %s did not"
+            % (self.compare.NUMBER_WORDS[moved].capitalize(),
+                self.compare.NUMBER_WORDS[self.count_unchanged()]),
+            " ".join(self.block.split()),
+        )
+        self.assertIn(
+            "Results section](%s" % self.compare.ROUND2_RESULTS_URL,
+            " ".join(self.block.split()),
+        )
+
+    def count_unchanged(self):
+        return len([
+            1 for task, metric in self.compare.ROUND2_GATED
+            if self.compare.round2_metric(self.round2, task, metric)["k"]
+            == self.compare.round2_metric(self.exp, task, metric)["k"]
+        ])
 
     def test_the_verdict_states_the_outcome_the_data_gives(self):
         drops = [
@@ -732,15 +759,42 @@ class RoundThreeTest(unittest.TestCase):
         self.assertEqual(sorted(named), sorted(self.compare.ROUND3_GATED))
         self.assertEqual(len(self.compare.ROUND3_GATED), 16)
 
-    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+    def test_only_the_gated_metrics_that_moved_carry_a_row(self):
+        """The unchanged rows are the same twelve or so in every round, so the block prints the
+        ones that moved and a line for the rest. A row that moved may not go missing, and a row
+        that did not move may not come back."""
         for task, metric in self.compare.ROUND3_GATED:
             before = self.compare.round2_metric(self.round2, task, metric)
             after = self.compare.round2_metric(self.round3, task, metric)
+            change = after["k"] - before["k"]
             row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
                 task, metric.replace("_", " "), before["k"], before["n"],
-                after["k"], after["n"], after["k"] - before["k"],
+                after["k"], after["n"], change,
             )
-            self.assertIn(row, self.block)
+            if change:
+                self.assertIn(row, self.block)
+            else:
+                self.assertNotIn(row, self.block)
+
+    def test_the_line_under_the_table_counts_the_metrics_that_did_not_move(self):
+        moved = len(self.compare.ROUND3_GATED) - self.count_unchanged()
+        self.assertIn(
+            "%s of the sixteen gated advantage metrics moved and %s did not"
+            % (self.compare.NUMBER_WORDS[moved].capitalize(),
+                self.compare.NUMBER_WORDS[self.count_unchanged()]),
+            " ".join(self.block.split()),
+        )
+        self.assertIn(
+            "Results section](%s" % self.compare.ROUND3_RESULTS_URL,
+            " ".join(self.block.split()),
+        )
+
+    def count_unchanged(self):
+        return len([
+            1 for task, metric in self.compare.ROUND3_GATED
+            if self.compare.round2_metric(self.round3, task, metric)["k"]
+            == self.compare.round2_metric(self.round2, task, metric)["k"]
+        ])
 
     def test_the_verdict_states_the_outcome_the_data_gives(self):
         drops = [
@@ -843,15 +897,42 @@ class RoundFourTest(unittest.TestCase):
         self.assertEqual(self.compare.ROUND4_DISADVANTAGE, self.compare.ROUND3_DISADVANTAGE)
         self.assertEqual(len(self.compare.ROUND4_GATED), 16)
 
-    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+    def test_only_the_gated_metrics_that_moved_carry_a_row(self):
+        """The unchanged rows are the same twelve or so in every round, so the block prints the
+        ones that moved and a line for the rest. A row that moved may not go missing, and a row
+        that did not move may not come back."""
         for task, metric in self.compare.ROUND4_GATED:
             before = self.compare.round2_metric(self.round2, task, metric)
             after = self.compare.round2_metric(self.round4, task, metric)
+            change = after["k"] - before["k"]
             row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
                 task, metric.replace("_", " "), before["k"], before["n"],
-                after["k"], after["n"], after["k"] - before["k"],
+                after["k"], after["n"], change,
             )
-            self.assertIn(row, self.block)
+            if change:
+                self.assertIn(row, self.block)
+            else:
+                self.assertNotIn(row, self.block)
+
+    def test_the_line_under_the_table_counts_the_metrics_that_did_not_move(self):
+        moved = len(self.compare.ROUND4_GATED) - self.count_unchanged()
+        self.assertIn(
+            "%s of the sixteen gated advantage metrics moved and %s did not"
+            % (self.compare.NUMBER_WORDS[moved].capitalize(),
+                self.compare.NUMBER_WORDS[self.count_unchanged()]),
+            " ".join(self.block.split()),
+        )
+        self.assertIn(
+            "Results section](%s" % self.compare.ROUND4_RESULTS_URL,
+            " ".join(self.block.split()),
+        )
+
+    def count_unchanged(self):
+        return len([
+            1 for task, metric in self.compare.ROUND4_GATED
+            if self.compare.round2_metric(self.round4, task, metric)["k"]
+            == self.compare.round2_metric(self.round2, task, metric)["k"]
+        ])
 
     def test_the_two_columns_name_the_round_and_not_only_the_version(self):
         """Both columns carry v1.2.0, so the round is what tells them apart."""
