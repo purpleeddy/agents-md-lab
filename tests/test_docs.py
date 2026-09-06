@@ -1221,5 +1221,141 @@ class GoverningCaveatTest(unittest.TestCase):
         self.assertIn("five runs in ten", README.read_text(encoding="utf-8"))
 
 
+# ------------------------------------------------------------------- the prose budget
+#
+# The site files are held to a byte budget above. The prose was never held to anything, and it
+# grew to half again the size of the tables it exists to explain. These are today's word counts,
+# so nothing changes on the commit that adds them; a later commit edits a number downward, and
+# the budget can only ever come down. experiments/README.md carries no budget: it is the
+# pre-registration record rather than the report, it is written once and locked, and its length
+# is the record's completeness and not prose that has to earn its place.
+PROSE_BUDGET = {
+    "README.md": 1175,
+    "docs/findings.md": 3914,
+    "docs/methodology.md": 5375,
+    "docs/rationale.md": 3430,
+    "docs/references.md": 1724,
+    "CONTRIBUTING.md": 756,
+}
+
+# A sentence of twelve words or more that stands on two of the budgeted pages. Each entry is the
+# normalised sentence, exactly as prose_sentences returns it, with one line saying why it is
+# still there. The list is emptied by the passes that cut the prose, and the test fails on an
+# entry that no longer names a duplicate, so a stale line cannot sit here unnoticed.
+DUPLICATE_ALLOWLIST = {
+    # The license note is a legal statement repeated in the README and in CONTRIBUTING.md.
+    # Which of the two keeps it is a decision for the cutting pass, not for this test.
+    "`agents.md` is stewarded by the agentic ai foundation; this project is not affiliated "
+    "with it or with any vendor whose documentation is cited.",
+}
+
+# Phrases with which prose praises its own care instead of showing it. A reader cannot check
+# "rigorous"; they can check a number.
+SELF_PRAISE_PHRASES = (
+    "said carefully",
+    "worth noting",
+    "it is important to",
+    "as we have seen",
+    "which is what a",
+    "rigorous",
+    "scrupulous",
+    "carefully chosen",
+)
+
+# (file, phrase) pairs that stand today, emptied by the cutting passes. Keyed by phrase and not
+# by sentence, because the sentence text moves whenever a line above it is rewrapped.
+SELF_PRAISE_ALLOWLIST = {
+    ("docs/findings.md", "which is what a"),
+    ("docs/findings.md", "said carefully"),
+}
+
+SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+
+
+def prose_lines(path):
+    """The lines of a Markdown page that are prose: no fenced code block, no table row. The
+    word count below is taken from these, so a page does not pay for its data."""
+    lines = []
+    fenced = False
+    for line in path.read_text(encoding="utf-8").split("\n"):
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            fenced = not fenced
+            continue
+        if fenced or stripped.startswith("|"):
+            continue
+        lines.append(line)
+    return lines
+
+
+def prose_words(path):
+    return sum(len(line.split()) for line in prose_lines(path))
+
+
+def prose_sentences(path, min_words=1):
+    """The prose of a page, split into sentences, normalised to one space and lower case.
+
+    The duplicate check asks for twelve words or more, so that a short shared line such as a
+    heading is not read as a copied paragraph. The self-praise check takes every sentence: the
+    shortest of them, a heading, is where the praise usually is."""
+    text = " ".join(prose_lines(path))
+    out = []
+    for sentence in SENTENCE_SPLIT.split(text):
+        words = sentence.split()
+        if len(words) >= min_words:
+            out.append(" ".join(words).lower())
+    return out
+
+
+class ProseBudgetTest(unittest.TestCase):
+    """The rule the project states for a rule line applies to its own prose: a line that does
+    not earn its place is deleted. These three checks are what makes a cut stick."""
+
+    def test_every_page_stays_inside_its_prose_budget(self):
+        for name, budget in sorted(PROSE_BUDGET.items()):
+            count = prose_words(REPO_ROOT / name)
+            self.assertLessEqual(
+                count,
+                budget,
+                "%s: %d words of prose, budget is %d" % (name, count, budget),
+            )
+
+    def test_no_sentence_lives_on_two_pages(self):
+        where = {}
+        for name in PROSE_BUDGET:
+            for sentence in prose_sentences(REPO_ROOT / name, min_words=12):
+                where.setdefault(sentence, set()).add(name)
+        duplicates = {s: pages for s, pages in where.items() if len(pages) > 1}
+        for sentence, pages in sorted(duplicates.items()):
+            self.assertIn(
+                sentence,
+                DUPLICATE_ALLOWLIST,
+                "the same sentence is on %s: %s" % (", ".join(sorted(pages)), sentence),
+            )
+        stale = DUPLICATE_ALLOWLIST - set(duplicates)
+        self.assertFalse(
+            stale,
+            "no longer duplicated, delete from DUPLICATE_ALLOWLIST: %s" % sorted(stale),
+        )
+
+    def test_no_sentence_praises_the_care_taken_over_it(self):
+        found = set()
+        for name in PROSE_BUDGET:
+            for sentence in prose_sentences(REPO_ROOT / name):
+                for phrase in SELF_PRAISE_PHRASES:
+                    if phrase in sentence:
+                        found.add((name, phrase))
+                        self.assertIn(
+                            (name, phrase),
+                            SELF_PRAISE_ALLOWLIST,
+                            "%s praises its own care with %r: %s" % (name, phrase, sentence),
+                        )
+        stale = SELF_PRAISE_ALLOWLIST - found
+        self.assertFalse(
+            stale,
+            "no longer present, delete from SELF_PRAISE_ALLOWLIST: %s" % sorted(stale),
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
