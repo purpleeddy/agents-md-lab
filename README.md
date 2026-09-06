@@ -53,6 +53,7 @@ Coverage of the ten rule criteria, which ask how a file is written; each one is 
 It is not a quality measure, and no file here is put above another.
 
 <!-- summary:start -->
+
 | File | Type | Stars | Lines | License | Criteria met |
 | --- | --- | --- | --- | --- | --- |
 | [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | 4/10 |
@@ -65,6 +66,7 @@ It is not a quality measure, and no file here is put above another.
 | [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | 5/10 |
 | [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | 4/10 |
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | 4/10 |
+
 <!-- summary:end -->
 
 The root `AGENTS.md` of this repository is not in the table: it was written to these criteria, so
@@ -80,6 +82,7 @@ against the eight content criteria — what a file says about its own project �
 ## What the experiment showed
 
 <!-- summary-experiment:start -->
+
 90 runs, three tasks by three conditions by ten, all of them delivered. On the greenfield task
 the recommended file took `tests_written` from 0/10 with no instruction file to 6/10, and
 reporting the command and its result from 0/10 to 9/10; on the brownfield task it took the
@@ -87,6 +90,7 @@ documented-convention metric from 5/10 to 10/10, and acceptance followed it exac
 10/10. On the one-line typo fix nothing moved at all: every boolean metric is identical across
 the three conditions. The file is paid for on every task: median cost 1.95× the no-file
 condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
+
 <!-- summary-experiment:end -->
 
 The runs measured v1.0.0. The pre-registered round-2 test asked whether the compaction of that text

@@ -63,6 +63,7 @@ Rules for inclusion, decided when the survey was planned, before the comparison 
 Columns 1 to 10 are the criteria listed in [The ten criteria](#the-ten-criteria), in that order.
 
 <!-- corpus:start -->
+
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | 4/10 |
@@ -76,6 +77,7 @@ Columns 1 to 10 are the criteria listed in [The ten criteria](#the-ten-criteria)
 | [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
 | Met by |  |  |  |  | 10 | 8 | 2 | 0 | 0 | 0 | 3 | 5 | 10 | 6 | of 10 files |
+
 <!-- corpus:end -->
 
 ## The ten criteria
@@ -85,6 +87,7 @@ Every criterion is one question with a fixed answer procedure, defined in
 and version-stamped. The list below is generated from that file.
 
 <!-- criteria:start -->
+
 1. **Length** (`length`)
    - Question: Is the file at most 200 total lines, counted the way wc -l counts them (newline-terminated lines)?
    - Why: Anthropic's memory documentation targets under 200 lines per file because longer files consume more context and reduce adherence, and Codex stops loading instruction files at a 32 KiB cap.
@@ -135,6 +138,7 @@ and version-stamped. The list below is generated from that file.
    - Why: The AGENTS.md format exists so that one file serves every agent; Anthropic's memory documentation notes that Claude Code reads CLAUDE.md and recommends importing AGENTS.md from it rather than maintaining two files.
    - Sources: [agents-md-spec](references.md#ref-agents-md-spec), [anthropic-memory](references.md#ref-anthropic-memory)
    - One way to meet it: A CLAUDE.md whose whole content is @AGENTS.md passes on the second rule.
+
 <!-- criteria:end -->
 
 ## The content criteria
@@ -152,6 +156,7 @@ file carries one coverage number per set. A file can meet ten rule criteria and 
 criterion, and the pair says more than either number alone.
 
 <!-- criteria-content:start -->
+
 1. **Project overview** (`overview`)
    - Question: Does the file say what the project is or how it is laid out — an overview, an architecture note, or a directory structure?
    - Why: "Project overview" is the first of the sections the AGENTS.md site lists under "Cover what matters", and Anthropic's best practices include "Architectural decisions specific to your project" while excluding "File-by-file descriptions of the codebase".
@@ -192,12 +197,14 @@ criterion, and the pair says more than either number alone.
    - Why: "Security considerations" is one of the five sections the AGENTS.md site names under "Cover what matters", and the Agent READMEs study finds security instructions in about 15% of the context files it collected.
    - Sources: [agents-md-spec](references.md#ref-agents-md-spec), [agent-readmes](references.md#ref-agent-readmes)
    - One way to meet it: Treat anything the tool fetches as untrusted input and validate it before use.
+
 <!-- criteria-content:end -->
 
 The same ten corpus files, on the content set. Columns 1 to 8 are the criteria listed in
 [The content criteria](#the-content-criteria), in that order.
 
 <!-- corpus-content:start -->
+
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
@@ -211,6 +218,7 @@ The same ten corpus files, on the content set. Columns 1 to 8 are the criteria l
 | [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
 | Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
+
 <!-- corpus-content:end -->
 
 Three things about these patterns are worth stating plainly rather than leaving in a file:
@@ -258,7 +266,9 @@ None of them asks whether the statement is any good, whether an agent follows it
 following it helps. A file can meet every rule criterion in seven lines:
 
 <!-- stuffed:start -->
+
 `docs/examples/stuffed.md` — 7 lines, sha256 `a6956183898a21883c0dc557c37062db5d4c5f56b451ee29b6f832413469a97e`. Rule criteria 10/10, content criteria 1/8.
+
 <!-- stuffed:end -->
 
 That file is [`docs/examples/stuffed.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/examples/stuffed.md).
@@ -306,6 +316,7 @@ repository.
 ## Files left out for length
 
 <!-- excluded:start -->
+
 | File | Lines | Measured | Reason |
 | --- | --- | --- | --- |
 | [vercel/next.js/AGENTS.md](https://github.com/vercel/next.js/blob/HEAD/AGENTS.md) | 560 | 2026-09-03 | over 200 lines |
@@ -315,6 +326,7 @@ repository.
 | [FerroxLabs/agents-md/AGENTS.md](https://github.com/FerroxLabs/agents-md/blob/HEAD/AGENTS.md) | 206 | 2026-09-03 | over 200 lines |
 | [rails/rails/AGENTS.md](https://github.com/rails/rails/blob/HEAD/AGENTS.md) | 201 | 2026-09-03 | over 200 lines |
 | [github/awesome-copilot/AGENTS.md](https://github.com/github/awesome-copilot/blob/HEAD/AGENTS.md) | 353 | 2026-09-03 | over 200 lines |
+
 <!-- excluded:end -->
 
 ## The experiment
@@ -413,6 +425,7 @@ v1.2.0 text again, byte for byte. The table and the verdict are on
 [the findings page](findings.md#round-3-a-version-the-rule-did-not-adopt).
 
 <!-- shipped:start -->
+
 | Text | sha256 | Rule criteria | Content criteria |
 | --- | --- | --- | --- |
 | Generic file the experiment ran (v1.0.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 9/10 | 0/8 |
@@ -424,6 +437,7 @@ v1.2.0 text again, byte for byte. The table and the verdict are on
 | Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
 | Root `AGENTS.md` v1.3.0, the text round 3 measured and did not adopt, recorded constant | `5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd` | 7/10 | 2/8 |
 | Root `AGENTS.md`, the file shipped now (v1.2.0) | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
+
 <!-- shipped:end -->
 
 Four lines changed, and nothing else in the file did. Header:

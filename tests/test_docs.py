@@ -205,6 +205,32 @@ class GeneratedBlockTest(unittest.TestCase):
             ends = re.findall(r"<!-- ([a-z-]+):end -->", text)
             self.assertEqual(starts, ends, path.name)
 
+    def test_every_markdown_block_is_separated_from_its_markers_by_a_blank_line(self):
+        """Kramdown reads a comment as the start of an HTML block and swallows the lines that
+        follow it, so a table written straight under a `:start` marker reaches the browser as
+        literal pipes. Each marker in a Markdown page needs a blank line beside it."""
+        for path in (DOCS / "methodology.md", DOCS / "findings.md", README):
+            if not path.exists():
+                continue
+            lines = path.read_text(encoding="utf-8").split("\n")
+            for number, line in enumerate(lines):
+                start = re.fullmatch(r"<!-- ([a-z0-9-]+):start -->", line)
+                end = re.fullmatch(r"<!-- ([a-z0-9-]+):end -->", line)
+                if start:
+                    self.assertEqual(
+                        lines[number + 1],
+                        "",
+                        "%s: no blank line after %s:start on line %d"
+                        % (path.name, start.group(1), number + 1),
+                    )
+                if end:
+                    self.assertEqual(
+                        lines[number - 1],
+                        "",
+                        "%s: no blank line before %s:end on line %d"
+                        % (path.name, end.group(1), number + 1),
+                    )
+
 
 class KnownIssuesTest(unittest.TestCase):
     """The independent review is recorded as a table with a response per row. Two reviewers gave

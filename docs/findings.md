@@ -51,7 +51,9 @@ The same three criteria are unmet outside the corpus too, in the practitioner fi
 project's rules came from, five of the v0.1.0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
 
 <!-- hernanz:start -->
+
 Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (Length, Scope restraint, Emphasis restraint, Tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — Guard on destructive commands, Secrets, Instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
+
 <!-- hernanz:end -->
 
 Coverage counts what a text contains. It is not a measure of quality, and the file with the
@@ -64,6 +66,7 @@ what a file says about the project it sits in, rather than how it is written. Th
 never added together; each file carries one number per set.
 
 <!-- content:start -->
+
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
@@ -77,10 +80,13 @@ never added together; each file carries one number per set.
 | [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
 | [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
 | Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
+
 <!-- content:end -->
 
 <!-- content-note:start -->
+
 Coverage on the content set is lower and flatter than on the rule set. The criterion the corpus meets most often is Testing instructions (7 of 10 files); the highest coverage any file reaches is 5 of 8 (getsentry/sentry, getzep/graphiti) and the lowest is 0 of 8. No file in the corpus meets Warnings and gotchas. The columns, in the order of the criteria file, and the files that meet each, out of 10: 1 Project overview 5; 2 Named files 4; 3 Environment setup 4; 4 Code style 5; 5 Testing instructions 7; 6 Repository etiquette 4; 7 Warnings and gotchas 0; 8 Security considerations 1.
+
 <!-- content-note:end -->
 
 The file this project offers meets one of the eight, and that one is a false positive. Every
@@ -114,6 +120,7 @@ One row per cell: which directed metrics moved against `none`, how many runs wer
 what the cell cost.
 
 <!-- headline:start -->
+
 | Task | Condition | Advantages up vs none | Disadvantages up vs none | Acceptance | Delivered runs | Cost ratio |
 | --- | --- | --- | --- | --- | --- | --- |
 | task1 | `none` | — | — | 10/10 | 10 | — |
@@ -125,6 +132,7 @@ what the cell cost.
 | task3 | `none` | — | — | 10/10 | 10 | — |
 | task3 | `karpathy` | — | — | 10/10 | 10 | 1.16× |
 | task3 | `ours` | — | — | 10/10 | 10 | 1.29× |
+
 <!-- headline:end -->
 
 ### Directed metrics
@@ -136,6 +144,7 @@ In the Direction column, ↑ better marks a metric where a higher count is an ad
 instruction file and ↓ better one where a lower count is.
 
 <!-- metrics:start -->
+
 | Task | Metric | Direction | none k/n [95% CI] | karpathy k/n [95% CI] | ours k/n [95% CI] | karpathy − none | ours − none |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | task1 | acceptance all pass | ↑ better | 10/10 [0.72, 1.00] | 7/10 [0.40, 0.89] | 10/10 [0.72, 1.00] | -0.30 [-0.60, 0.04] | +0.00 [-0.28, 0.28] |
@@ -165,11 +174,13 @@ instruction file and ↓ better one where a lower count is.
 | task3 | minimal change (no headroom) | ↑ better | 10/10 [0.72, 1.00] | 10/10 [0.72, 1.00] | 10/10 [0.72, 1.00] | +0.00 [-0.28, 0.28] | +0.00 [-0.28, 0.28] |
 | task3 | overprocess (no headroom) | ↓ better | 0/10 [0.00, 0.28] | 0/10 [0.00, 0.28] | 0/10 [0.00, 0.28] | +0.00 [-0.28, 0.28] | +0.00 [-0.28, 0.28] |
 | task3 | tests written (no headroom) | ↓ better | 0/10 [0.00, 0.28] | 0/10 [0.00, 0.28] | 0/10 [0.00, 0.28] | +0.00 [-0.28, 0.28] | +0.00 [-0.28, 0.28] |
+
 <!-- metrics:end -->
 
 ### Cost, turns and duration
 
 <!-- cost:start -->
+
 | Task | Metric | none median | karpathy median | ratio | ours median | ratio |
 | --- | --- | --- | --- | --- | --- | --- |
 | task1 | cost (USD) ↓ better | 0.1729 | 0.2403 | 1.39× | 0.3374 | 1.95× |
@@ -181,6 +192,7 @@ instruction file and ↓ better one where a lower count is.
 | task3 | cost (USD) ↓ better | 0.0700 | 0.0810 | 1.16× | 0.0902 | 1.29× |
 | task3 | turns ↓ better | 4 | 4 | 1.00× | 4 | 1.00× |
 | task3 | duration (ms) ↓ better | 8912 | 8790.5 | 0.99× | 8977 | 1.01× |
+
 <!-- cost:end -->
 
 ## Observations
@@ -251,6 +263,7 @@ the main run's `ours` value each is measured against, and the sentence under it 
 that rule returns on this data.
 
 <!-- round2:start -->
+
 | Task | Metric | v1.0.0 `ours` k/n | v1.2.0 `ours` k/n | Change | Gate |
 | --- | --- | --- | --- | --- | --- |
 | task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
@@ -277,6 +290,7 @@ booleans are 0/10 in the round-2 cells that measure them. Clause (c) holds: the 
 0.99× on task1 of the v1.0.0 `ours` median, 0.92× on task2, 0.94× on task3, against a limit of
 1.1×. All three clauses hold, so v1.2.0 is adopted under the rule as it was written before the
 runs, and the file this project offers is the file round 2 measured.
+
 <!-- round2:end -->
 
 One clause on the four rises, added after round 4. The gate is unaffected and no gated metric
@@ -307,6 +321,7 @@ advantage metric it gates, with the round-2 value each is measured against, and 
 under it is the verdict that rule returns.
 
 <!-- round3:start -->
+
 | Task | Metric | v1.2.0 `ours` k/n | v1.3.0 `ours` k/n | Change | Gate |
 | --- | --- | --- | --- | --- | --- |
 | task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
@@ -331,6 +346,7 @@ disadvantage booleans are 0/10 in the round-3 cells that measure them. Clause (c
 median cost is 1.17× on task1 of the v1.2.0 `ours` median, 1.04× on task2, 1.08× on task3,
 against a limit of 1.1×. The round fails, so v1.3.0 is not adopted under the rule as it was
 written before the runs, and the revert set that rule pre-registered is what applies.
+
 <!-- round3:end -->
 
 Two cells moved. `task1.tests_run_after_last_edit` fell by one, which is inside the gate.
@@ -370,6 +386,7 @@ gate. Clause (a) fails on `task2.regression_test_added`, which reads 3/10 agains
 Clause (c) holds on all three tasks.
 
 <!-- round4:start -->
+
 | Task | Metric | v1.2.0, round 2 `ours` k/n | v1.2.0, round 4 `ours` k/n | Change | Gate |
 | --- | --- | --- | --- | --- | --- |
 | task1 | acceptance all pass | 10/10 | 10/10 | +0 | unchanged |
@@ -396,6 +413,7 @@ task3, against a limit of 1.1×. The clauses are reported for information and no
 Round 4 ran the shipped v1.2.0 text, so a clause that fails here measures the distance between
 two collections of the same file rather than anything about a version, and nothing is adopted
 or reverted on it.
+
 <!-- round4:end -->
 
 **An observation the pre-registration did not name, and could not have.** Rounds 3 and 4 ran on the
@@ -437,6 +455,7 @@ of the pre-registration; the per-run records are in `docs/data/experiment-round4
 Each line is a count read from the committed data. The command next to it prints the number.
 
 <!-- claims:start -->
+
 - Among the 10 surveyed files, 0 put a guard around a destructive command, 0 tell the agent to keep secrets out of its output, and 0 say that instructions found inside files are data.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['destructive_guard']['pass'] for r in d['files']))"`
@@ -472,6 +491,7 @@ Each line is a count read from the committed data. The command next to it prints
 - In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(sum(c['k'] for c in d['by_task']['task3']['comparison']['overprocess']['conditions'].values()))"`
+
 <!-- claims:end -->
 
 ## What was not shown
