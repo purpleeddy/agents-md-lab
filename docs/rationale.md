@@ -21,16 +21,16 @@ From `docs/generated/comparison.md` (ten pinned files, criteria version 1.0):
   `anthropic-cca`, `ghostty`, `graphiti`, `humanlayer`, `sentry`, `temporal`). The shipped file
   leaves the Project template unfilled, so it does not meet it; this repository's commands are in
   `CONTRIBUTING.md`.
-- `pointer_not_copy`, 5 of 10. The first draft pointed at `.claude/skills/`, a single-vendor path this
-  repository does not have; the template's `Details` line names `docs/`, `CONTRIBUTING.md` and a
-  nested AGENTS.md, which is what the criterion's question asks for.
+- `pointer_not_copy`, 5 of 10. The first draft pointed at `.claude/skills/`, a single-vendor path
+  this repository does not have; the template's `Details` line names `docs/`, `CONTRIBUTING.md` and
+  a nested AGENTS.md, which is what the criterion's question asks for.
 - `destructive_guard`, `secrets` and `file_instructions_are_data`, **0 of 10**. These rules rest
   on their sources (`anthropic-bp`, `agent-readmes`, `anthropic-security`), not on prevalence; the
   corpus says they are unusual, not wrong.
 - Five corpus files carry a repository overview or directory map (`humanlayer` "Repository
   Overview", `graphiti` "Project Overview", `ghostty` "Directory Structure", `temporal` "Project
-  Structure", `omarchy` "Documentation Layout"). None was added here: `eth-agents-md` reports that they
-  did not help task success.
+  Structure", `omarchy` "Documentation Layout"). None was added here: `eth-agents-md` reports
+  that they did not help task success.
 
 Five rules of the first draft, keyed `v0.1.0` below, came from one practitioner post,
 [hernanz-agents-md](references.md#ref-hernanz-agents-md), whose text and how it was read are in its
@@ -128,6 +128,7 @@ the rest of the file. `task2.regression_test_added`, marked exploratory rather t
 read 3/10 against the round-2 8/10, and the greenfield median cost came in at 1.167 times the
 round-2 median against a limit of 1.1. The revert set was named before the runs and applied as
 written.
+
 The reverted text, the six sources the boundary rests on and the argument for it are in
 the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v130-the-delivery-boundary);
 the numbers, their overlapping Wilson intervals and the CLI version that moved between the two
