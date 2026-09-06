@@ -35,8 +35,9 @@ copying, 5 of 10 on `pointer_not_copy`, and the half that inlines everything is 
 grows past the length the same vendors recommend. Tool neutrality splits by file name, 6 of 10:
 all four failures are `CLAUDE.md` files carrying vendor-specific paths and no `AGENTS.md` fails.
 
-The same three criteria are unmet outside the corpus too, in the practitioner file three of this
-project's rules came from, five of the first draft's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
+Those three criteria are unmet outside the corpus, in the practitioner file behind five rules of
+this project's first draft and three of the measured text
+([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
 
 <!-- hernanz:start -->
 
