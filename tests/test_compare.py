@@ -635,6 +635,45 @@ class ShippedFileTest(unittest.TestCase):
             block,
         )
 
+    def test_the_version_table_reads_its_coverage_from_the_recorded_hashes(self):
+        """The genealogy states coverage for every version; the hash table states it for every
+        text. Both come from RECORDED_TEXTS, so a row cannot carry a pair the hashes deny."""
+        recorded = {digest: (met, met_content)
+                    for _label, digest, met, met_content in compare.RECORDED_TEXTS}
+        for label, date, lines, size, digest, *_rest in compare.VERSIONS:
+            if digest is None:
+                continue
+            self.assertIn(digest, recorded, label)
+            met, met_content = recorded[digest]
+            self.assertIn(
+                "| %s | %s | %d | %s | %d/10 | %d/8 |"
+                % (label, date, lines, "{:,}".format(size), met, met_content),
+                compare.render_versions_md(criteria(), content_criteria()),
+            )
+
+    def test_the_version_table_measures_the_shipped_row_at_render_time(self):
+        block = compare.render_versions_md(criteria(), content_criteria())
+        root = compare.OURS_FILE.read_text(encoding="utf-8")
+        self.assertIn(
+            "| v%s | 2026-09-04 | %d | %s | %d/10 | %d/8 |"
+            % (
+                compare.OURS_VERSION,
+                compare.count_lines(root),
+                "{:,}".format(len(root.encode("utf-8"))),
+                compare.coverage(compare.evaluate(root, "AGENTS.md", criteria())),
+                compare.coverage(compare.evaluate(root, "AGENTS.md", content_criteria())),
+            ),
+            block,
+        )
+        # Exactly one row is measured live; the rest name a recorded hash.
+        self.assertEqual(sum(1 for row in compare.VERSIONS if row[4] is None), 1)
+
+    def test_every_version_row_says_which_round_measured_it_and_what_followed(self):
+        for label, _date, _lines, _size, _digest, changed, measured, outcome in compare.VERSIONS:
+            self.assertTrue(changed, label)
+            self.assertTrue(measured, label)
+            self.assertTrue(outcome, label)
+
     def test_the_root_file_carries_the_empty_project_template(self):
         # The shipped file is the root file, so its Project section is the template an adopter
         # fills in, not this repository's own commands.

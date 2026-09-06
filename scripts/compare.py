@@ -126,6 +126,85 @@ RECORDED_TEXTS = (
     ),
 )
 
+# One row per version of the recommended file, in the order the versions were written. The
+# genealogy used to be four paragraphs of prose in docs/methodology.md, in which two sentences
+# four paragraphs apart each said "the shipped file is" and named a different version.
+#
+# Lines and bytes are measured on the text itself. A retired version's text is not in the working
+# tree, so its two numbers are recorded here, each measured on the text at the commit its rationale
+# row names; the shipped row carries None and is measured at render time. Rule and content coverage
+# are never written here: a retired row names its sha256 and the pair is read from RECORDED_TEXTS
+# above, so this table and the hash table below cannot disagree. Dates are the day the text was
+# first committed to this repository.
+VERSIONS = (
+    (
+        "v1.0.0",
+        "2026-09-03",
+        50,
+        4420,
+        TESTED_GENERIC_SHA256,
+        "the text the ninety runs wrote as `ours`",
+        "main run",
+        "measured, then revised",
+    ),
+    (
+        "v1.0.1",
+        "2026-09-03",
+        52,
+        5456,
+        "ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012",
+        "four rule lines fixed after [an independent review]"
+        "(rationale.md#known-issues-independent-review-2026-09-03) of v1.0.0's text",
+        "not measured",
+        "shipped, then replaced",
+    ),
+    (
+        "v1.1.0, as first written",
+        "2026-09-03",
+        35,
+        3840,
+        "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
+        "the rest of that review, then [a line audit](rationale.md#line-audit-v101-to-v110) that "
+        "cut or merged every line with neither a measured effect nor a safety role",
+        "not measured",
+        "shipped, then amended",
+    ),
+    (
+        "v1.1.0, amended",
+        "2026-09-04",
+        32,
+        4069,
+        "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
+        "[four rule clauses added from external feedback]"
+        "(rationale.md#amendments-after-external-feedback-2026-09-04) and the Project template "
+        "cut from five lines to two",
+        "not measured",
+        "shipped, then replaced",
+    ),
+    (
+        "v1.2.0",
+        "2026-09-04",
+        None,
+        None,
+        None,
+        "[a second independent review](rationale.md#v120-independent-design-review-2026-09-04), "
+        "of v1.1.0's text against the design goals, adopted whole",
+        "rounds 2 and 4",
+        "adopted, and the file shipped now",
+    ),
+    (
+        "v1.3.0",
+        "2026-09-05",
+        33,
+        4754,
+        "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd",
+        "[one boundary line moved](rationale.md#v130-the-delivery-boundary-2026-09-05) so an agent "
+        "could deliver its own branch, and a Delivery slot added to the template",
+        "round 3",
+        "not adopted; the pre-registered revert set was applied",
+    ),
+)
+
 # The file in the Hernanz post, evaluated with the same engine on 2026-09-03. The post's text is
 # not stored in this repository (see docs/references.md#ref-hernanz-agents-md), so the verdicts are
 # recorded here as constants rather than computed from a copy.
@@ -1416,6 +1495,43 @@ def render_criteria_md(criteria):
     return "\n".join(out)
 
 
+def version_coverage(digest, criteria, content):
+    """The rule and content pair for one recorded text, read from RECORDED_TEXTS by hash so the
+    genealogy cannot state a coverage number the hash table does not."""
+    for _label, recorded, met, met_content in RECORDED_TEXTS:
+        if recorded == digest:
+            return met, len(criteria["criteria"]), met_content, len(content["criteria"])
+    raise RuntimeError("%s is not one of the recorded texts" % digest)
+
+
+def render_versions_md(criteria, content):
+    """The genealogy of the recommended file: one row per version, with what changed, which round
+    measured it and what the pre-registered rule did with it. Retired rows come from the constants
+    above; the shipped row is measured on the root file at render time."""
+    rows = [
+        "| Version | Date | Lines | Bytes | Rule criteria | Content criteria | What changed | "
+        "Measured by | Outcome |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    root = OURS_FILE.read_text(encoding="utf-8")
+    for label, date, lines, size, digest, changed, measured, outcome in VERSIONS:
+        if digest is None:
+            lines = count_lines(root)
+            size = len(root.encode("utf-8"))
+            met = coverage(evaluate(root, OURS_FILE.name, criteria))
+            met_content = coverage(evaluate(root, OURS_FILE.name, content))
+            of_rules = len(criteria["criteria"])
+            of_content = len(content["criteria"])
+        else:
+            met, of_rules, met_content, of_content = version_coverage(digest, criteria, content)
+        rows.append(
+            "| %s | %s | %d | %s | %d/%d | %d/%d | %s | %s | %s |"
+            % (label, date, lines, "{:,}".format(size), met, of_rules, met_content, of_content,
+               changed, measured, outcome)
+        )
+    return "\n".join(rows)
+
+
 def render_shipped_md(criteria, content):
     """Every text this project has offered, by hash and by coverage on both sets. The recorded
     rows name texts that are no longer in the working tree, so their numbers are constants
@@ -1609,6 +1725,9 @@ def rendered_outputs():
             METHODOLOGY_MD,
         )
         page = replace_block(page, "excluded", render_excluded_md(data), METHODOLOGY_MD)
+        page = replace_block(
+            page, "versions", render_versions_md(criteria, content), METHODOLOGY_MD
+        )
         page = replace_block(page, "shipped", render_shipped_md(criteria, content), METHODOLOGY_MD)
         page = replace_block(page, "stuffed", render_stuffed_md(data), METHODOLOGY_MD)
         outputs[METHODOLOGY_MD] = page

@@ -6,24 +6,22 @@ title: Rationale
 
 One row per rule of the root `AGENTS.md` (v1.2.0), in file order, after a line audit of the text it
 replaces. Columns: the rule in one line, the sources it rests on (citation keys defined in
-[references.md](references.md)), why it is there, and what changed. Six texts are named on this
-page: v0.1.0, the pilot file (commit `d957ac2`); v1.0.0, the text the experiment ran; v1.0.1, the text
-shipped after the independent review; v1.1.0, its compaction; v1.2.0, the text round 2 adopted and
-the shipped file now; and v1.3.0, the text round 3 measured and did not adopt. A rule marked **hook** is
+[references.md](references.md)), why it is there, and what changed. A rule marked **hook** is
 enforceable by a hook (this repository's own `.claude/settings.json`); a hook can only see the tool
 call, so the prose is what carries the reason.
 
-The starting text for v1.0.0 is the text at `src/AGENTS.md` in commit `f095752`
-(2026-09-02 18:45 +0900), a path that no longer exists; its own v0.1.0 to v1.0.0 deltas were traced
-line by line in the provenance table of that commit. This page
-restates those traces and adds the ones made in this stage. Four rules carry a v1.0.1 change:
-they were amended after two independent reviewers, reading only the file text, both rated the same
-two defects at their top severity. v1.1.0 then applies the rest of that review and cuts the lines
-the audit could not defend, v1.2.0 adopts a second independent review, of v1.1.0's text against
-the design goals, whole, and v1.3.0 moved one boundary line and was not adopted. The amendment, the diff and what it means for the experiment's
-results are in
-[methodology](methodology.md#what-the-experiment-tested-and-what-is-shipped); every finding of
-that review is in [Known issues](#known-issues-independent-review-2026-09-03) below.
+Rows name the version a change belongs to. What each version was, when it was written, how long it
+was, what changed in it, which round of runs measured it and what the pre-registered rule then did
+with it is one table in
+[methodology](methodology.md#what-the-experiment-tested-and-what-is-shipped). This page is the
+reason for each line, not the history of the file. Two texts that table does not carry are named
+below and belong here: v0.1.0, the pilot file (commit `d957ac2`), and the starting text for v1.0.0,
+`src/AGENTS.md` in commit `f095752` (2026-09-02 18:45 +0900), a path that no longer exists, whose
+own v0.1.0 to v1.0.0 deltas were traced line by line in the provenance table of that commit. This
+page restates those traces and adds the ones made since. Four rules carry a v1.0.1 change: they
+were amended after two model sessions, reading only the file text, both rated the same two defects
+at their top severity, and every finding of that review is in
+[Known issues](#known-issues-independent-review-2026-09-03) below.
 
 ## Corpus observations used here
 
