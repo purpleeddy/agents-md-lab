@@ -32,6 +32,7 @@ ROUND2_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round2-runs.json"
 ROUND3_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round3-runs.json"
 ROUND4_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round4-runs.json"
 FINDINGS = DOCS / "findings.md"
+EXPERIMENTS_README = REPO_ROOT / "experiments" / "README.md"
 NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
@@ -72,7 +73,9 @@ ALLOWED_PHRASES = (
     "Not a ranking",
 )
 
-URL = re.compile(r"https?://\S+")
+# The closing parenthesis of a Markdown link is not part of the URL. Swallowing it left
+# "](" open, and a later link on the page then read as the target of this one.
+URL = re.compile(r"https?://[^\s)]+")
 FENCE = re.compile(r"```.*?```", re.DOTALL)
 CODE_SPAN = re.compile(r"`[^`\n]*`")
 HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
@@ -162,7 +165,11 @@ class AnchorTest(unittest.TestCase):
 
     HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$", re.MULTILINE)
     EXPLICIT = re.compile(r'<a id="([^"]+)">')
-    LINK = re.compile(r'(?:href="|\]\()(?:docs/)?([a-z]+)\.(?:html|md)#([^"\)]+)')
+    LINK = re.compile(
+        r'(?:href="|\]\()(?:\.\./)?(?:docs/)?([a-z]+)\.(?:html|md)#([^"\)]+)'
+    )
+    # A relative link target, fragment stripped: the thing that has to be a file on disk.
+    RELATIVE = re.compile(r'(?:href="|\]\()(?!https?:|mailto:|#)([^"\)#]+)')
 
     def slug(self, title):
         text = re.sub(r"<[^>]+>", "", title).replace("`", "").replace("*", "")
@@ -174,16 +181,48 @@ class AnchorTest(unittest.TestCase):
         found = {self.slug(title) for title in self.HEADING.findall(text)}
         return found | set(self.EXPLICIT.findall(text))
 
+    def sources(self):
+        """Every page that links into this site, including the pre-registration record: a link
+        that rots there is as broken as one on a published page, and until this test read the
+        file, nothing checked it."""
+        return [INDEX, README, EXPERIMENTS_README] + sorted(DOCS.glob("*.md"))
+
+    def name(self, source):
+        return str(source.relative_to(REPO_ROOT))
+
     def test_every_cross_page_fragment_exists(self):
         pages = {path.stem: path for path in DOCS.glob("*.md")}
         anchors = {name: self.anchors(path) for name, path in pages.items()}
-        sources = [INDEX, README] + list(pages.values())
-        for source in sources:
+        for source in self.sources():
             for page, fragment in self.LINK.findall(source.read_text(encoding="utf-8")):
                 if page not in anchors:
                     continue
                 self.assertIn(fragment, anchors[page], "%s links to %s#%s"
-                              % (source.name, page, fragment))
+                              % (self.name(source), page, fragment))
+
+    def test_every_relative_link_lands_on_a_file_that_exists(self):
+        """A relative link is resolved against the directory of the page that carries it.
+        `experiments/README.md` linked `references.md`, which resolves inside `experiments/`
+        where no such file is. Markdown sources only: index.html is checked by the tests on
+        the page itself."""
+        for source in markdown_pages() + [EXPERIMENTS_README]:
+            # Fences and code spans only: strip_markdown_code also blanks URLs, and a blanked
+            # URL leaves an empty target behind that reads as a relative path.
+            text = source.read_text(encoding="utf-8")
+            text = CODE_SPAN.sub(" ", FENCE.sub(" ", text))
+            for target in self.RELATIVE.findall(text):
+                target = target.strip()
+                if not target or target.startswith(("{{", "%", "$")):
+                    continue
+                resolved = (source.parent / target).resolve()
+                # Jekyll publishes each Markdown page as .html, so a .html target counts when
+                # its Markdown source is on disk.
+                if not resolved.exists() and resolved.suffix == ".html":
+                    resolved = resolved.with_suffix(".md")
+                self.assertTrue(
+                    resolved.exists(),
+                    "%s links to %s, which is not a file" % (self.name(source), target),
+                )
 
 
 class GeneratedBlockTest(unittest.TestCase):
@@ -476,8 +515,8 @@ class PageTest(unittest.TestCase):
 
 
 class ClaimTest(unittest.TestCase):
-    """Every claim on the page carries a command, and every command prints the number the claim
-    states. The commands are run here, so a claim cannot drift away from the data."""
+    """Every claim on the front page carries a command, and every command prints the number the
+    claim states. The commands are run here, so a claim cannot drift away from the data."""
 
     def test_each_claim_command_prints_a_number_the_claim_states(self):
         sys.path.insert(0, str(REPO_ROOT / "scripts"))
@@ -507,6 +546,53 @@ class ClaimTest(unittest.TestCase):
             self.assertEqual(result.returncode, 0, command + result.stderr)
             printed = result.stdout.strip()
             self.assertIn(printed, re.findall(r"\d+", text), "%r not stated in %r" % (printed, text))
+
+
+class ClaimsLiveOnOnePageTest(unittest.TestCase):
+    """The list of checkable claims is on the front page and nowhere else. A skeptic arriving at
+    the site meets it before any table; the findings page, which is read after, links to it
+    instead of carrying a second copy that could drift away from the first."""
+
+    def compare(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        return compare
+
+    def test_the_front_page_carries_the_block_and_check_covers_it(self):
+        """--check compares the whole of index.html against what the data renders, so the
+        equality asserted here is the one it enforces. Stated in a test as well, because the
+        renderer is what a later edit would drop."""
+        compare = self.compare()
+        data = compare.with_ours(
+            compare.read_json(compare.COMPARISON_JSON),
+            compare.load_criteria(),
+            compare.load_criteria_content(),
+        )
+        rendered = compare.render_claims_html(
+            data,
+            compare.load_criteria(),
+            compare.load_experiment(),
+            compare.load_round3(),
+            compare.load_round4(),
+        )
+        page = INDEX.read_text(encoding="utf-8")
+        block = page.split("<!-- claims:start -->", 1)[1].split("<!-- claims:end -->", 1)[0]
+        self.assertEqual(block.strip("\n"), rendered)
+        # replace_block raises when a marker is missing, so --check fails rather than passing
+        # quietly on a page the block was cut from.
+        with self.assertRaises(RuntimeError):
+            compare.replace_block("no markers here", "claims", "x", compare.INDEX_HTML)
+
+    def test_the_findings_page_links_to_it_instead_of_repeating_it(self):
+        page = FINDINGS.read_text(encoding="utf-8")
+        self.assertNotIn("claims:start", page)
+        self.assertNotIn("## Claims you can check", page)
+        self.assertIn("[claims on the front page](index.html#how)", page)
+        self.assertIn('<section id="how">', INDEX.read_text(encoding="utf-8"))
+
+    def test_no_markdown_renderer_for_the_block_is_left_behind(self):
+        self.assertFalse(hasattr(self.compare(), "render_claims_md"))
 
 
 @unittest.skipIf(NODE is None, "node is not installed")
@@ -619,15 +705,42 @@ class RoundTwoTest(unittest.TestCase):
         self.assertEqual(sorted(named), sorted(self.compare.ROUND2_GATED))
         self.assertEqual(len(self.compare.ROUND2_GATED), 16)
 
-    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+    def test_only_the_gated_metrics_that_moved_carry_a_row(self):
+        """The unchanged rows are the same twelve or so in every round, so the block prints the
+        ones that moved and a line for the rest. A row that moved may not go missing, and a row
+        that did not move may not come back."""
         for task, metric in self.compare.ROUND2_GATED:
             before = self.compare.round2_metric(self.exp, task, metric)
             after = self.compare.round2_metric(self.round2, task, metric)
+            change = after["k"] - before["k"]
             row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
                 task, metric.replace("_", " "), before["k"], before["n"],
-                after["k"], after["n"], after["k"] - before["k"],
+                after["k"], after["n"], change,
             )
-            self.assertIn(row, self.block)
+            if change:
+                self.assertIn(row, self.block)
+            else:
+                self.assertNotIn(row, self.block)
+
+    def test_the_line_under_the_table_counts_the_metrics_that_did_not_move(self):
+        moved = len(self.compare.ROUND2_GATED) - self.count_unchanged()
+        self.assertIn(
+            "%s of the sixteen gated advantage metrics moved and %s did not"
+            % (self.compare.NUMBER_WORDS[moved].capitalize(),
+                self.compare.NUMBER_WORDS[self.count_unchanged()]),
+            " ".join(self.block.split()),
+        )
+        self.assertIn(
+            "Results section](%s" % self.compare.ROUND2_RESULTS_URL,
+            " ".join(self.block.split()),
+        )
+
+    def count_unchanged(self):
+        return len([
+            1 for task, metric in self.compare.ROUND2_GATED
+            if self.compare.round2_metric(self.round2, task, metric)["k"]
+            == self.compare.round2_metric(self.exp, task, metric)["k"]
+        ])
 
     def test_the_verdict_states_the_outcome_the_data_gives(self):
         drops = [
@@ -653,6 +766,32 @@ class RoundTwoTest(unittest.TestCase):
                            ("(b)", max(harms) < 2), ("(c)", not over)):
             self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
         self.assertEqual("All three clauses hold" in self.block, held)
+
+
+    def test_the_verdict_names_the_deciding_numbers_and_stops(self):
+        """The page states the three clauses in plain words once, above the rounds, and the
+        metrics that rose are the table the verdict sits under. So the verdict carries the ratio
+        that decided clause (c) for every task and does not reprint the gate sizes, the cost
+        limit or the rows above it."""
+        flat = " ".join(self.block.split())
+        for task, _before, _after, ratio, _limit in self.compare.round2_cost(self.exp, self.round2):
+            self.assertIn("%.2f\u00d7 on %s" % (ratio, task), flat)
+        self.assertNotIn("against a limit of", flat)
+        self.assertNotIn("`ours` median", flat)
+
+    def test_the_verdict_does_not_reprint_the_rows_above_it(self):
+        """Clause (a) held on this round, and the four metrics that rose are the four rows of
+        the table. The verdict says none dropped and leaves the rows to the table."""
+        flat = " ".join(self.block.split())
+        self.assertIn("Clause (a) holds: no gated advantage metric dropped.", flat)
+        for task, metric in self.compare.ROUND2_GATED:
+            before = self.compare.round2_metric(self.exp, task, metric)["k"]
+            after = self.compare.round2_metric(self.round2, task, metric)["k"]
+            if after > before:
+                self.assertNotIn(
+                    "%s %s +%d" % (task, metric.replace("_", " "), after - before),
+                    flat.split("Clause (a)", 1)[1],
+                )
 
     def test_the_renderer_prints_a_failure_when_a_gated_metric_drops(self):
         """The block is not a fixed sentence: doctoring one metric down by 3 flips the verdict."""
@@ -732,15 +871,42 @@ class RoundThreeTest(unittest.TestCase):
         self.assertEqual(sorted(named), sorted(self.compare.ROUND3_GATED))
         self.assertEqual(len(self.compare.ROUND3_GATED), 16)
 
-    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+    def test_only_the_gated_metrics_that_moved_carry_a_row(self):
+        """The unchanged rows are the same twelve or so in every round, so the block prints the
+        ones that moved and a line for the rest. A row that moved may not go missing, and a row
+        that did not move may not come back."""
         for task, metric in self.compare.ROUND3_GATED:
             before = self.compare.round2_metric(self.round2, task, metric)
             after = self.compare.round2_metric(self.round3, task, metric)
+            change = after["k"] - before["k"]
             row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
                 task, metric.replace("_", " "), before["k"], before["n"],
-                after["k"], after["n"], after["k"] - before["k"],
+                after["k"], after["n"], change,
             )
-            self.assertIn(row, self.block)
+            if change:
+                self.assertIn(row, self.block)
+            else:
+                self.assertNotIn(row, self.block)
+
+    def test_the_line_under_the_table_counts_the_metrics_that_did_not_move(self):
+        moved = len(self.compare.ROUND3_GATED) - self.count_unchanged()
+        self.assertIn(
+            "%s of the sixteen gated advantage metrics moved and %s did not"
+            % (self.compare.NUMBER_WORDS[moved].capitalize(),
+                self.compare.NUMBER_WORDS[self.count_unchanged()]),
+            " ".join(self.block.split()),
+        )
+        self.assertIn(
+            "Results section](%s" % self.compare.ROUND3_RESULTS_URL,
+            " ".join(self.block.split()),
+        )
+
+    def count_unchanged(self):
+        return len([
+            1 for task, metric in self.compare.ROUND3_GATED
+            if self.compare.round2_metric(self.round3, task, metric)["k"]
+            == self.compare.round2_metric(self.round2, task, metric)["k"]
+        ])
 
     def test_the_verdict_states_the_outcome_the_data_gives(self):
         drops = [
@@ -761,9 +927,22 @@ class RoundThreeTest(unittest.TestCase):
             self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
         held = clause_a and max(harms) < 2 and not over
         self.assertEqual("All three clauses hold" in self.block, held)
-        # This is the round that failed, and the page has to say so from the data.
+        # This is the round that failed, and the page has to say so from the data. textwrap.fill
+        # can break either phrase across lines, so the whitespace is normalised.
         self.assertFalse(held)
-        self.assertIn("v1.3.0 is not adopted", self.block)
+        self.assertIn("v1.3.0 is not adopted", " ".join(self.block.split()))
+
+
+    def test_the_verdict_names_the_deciding_numbers_and_stops(self):
+        """The page states the three clauses in plain words once, above the rounds, and the
+        metrics that rose are the table the verdict sits under. So the verdict carries the ratio
+        that decided clause (c) for every task and does not reprint the gate sizes, the cost
+        limit or the rows above it."""
+        flat = " ".join(self.block.split())
+        for task, _before, _after, ratio, _limit in self.compare.round3_cost(self.round2, self.round3):
+            self.assertIn("%.2f\u00d7 on %s" % (ratio, task), flat)
+        self.assertNotIn("against a limit of", flat)
+        self.assertNotIn("`ours` median", flat)
 
     def test_the_renderer_prints_the_holding_branch_when_the_data_holds(self):
         """The failure is not a fixed sentence either: restoring the one metric and the one
@@ -843,15 +1022,42 @@ class RoundFourTest(unittest.TestCase):
         self.assertEqual(self.compare.ROUND4_DISADVANTAGE, self.compare.ROUND3_DISADVANTAGE)
         self.assertEqual(len(self.compare.ROUND4_GATED), 16)
 
-    def test_every_gated_metric_carries_a_row_with_both_measured_values(self):
+    def test_only_the_gated_metrics_that_moved_carry_a_row(self):
+        """The unchanged rows are the same twelve or so in every round, so the block prints the
+        ones that moved and a line for the rest. A row that moved may not go missing, and a row
+        that did not move may not come back."""
         for task, metric in self.compare.ROUND4_GATED:
             before = self.compare.round2_metric(self.round2, task, metric)
             after = self.compare.round2_metric(self.round4, task, metric)
+            change = after["k"] - before["k"]
             row = "| %s | %s | %d/%d | %d/%d | %+d |" % (
                 task, metric.replace("_", " "), before["k"], before["n"],
-                after["k"], after["n"], after["k"] - before["k"],
+                after["k"], after["n"], change,
             )
-            self.assertIn(row, self.block)
+            if change:
+                self.assertIn(row, self.block)
+            else:
+                self.assertNotIn(row, self.block)
+
+    def test_the_line_under_the_table_counts_the_metrics_that_did_not_move(self):
+        moved = len(self.compare.ROUND4_GATED) - self.count_unchanged()
+        self.assertIn(
+            "%s of the sixteen gated advantage metrics moved and %s did not"
+            % (self.compare.NUMBER_WORDS[moved].capitalize(),
+                self.compare.NUMBER_WORDS[self.count_unchanged()]),
+            " ".join(self.block.split()),
+        )
+        self.assertIn(
+            "Results section](%s" % self.compare.ROUND4_RESULTS_URL,
+            " ".join(self.block.split()),
+        )
+
+    def count_unchanged(self):
+        return len([
+            1 for task, metric in self.compare.ROUND4_GATED
+            if self.compare.round2_metric(self.round4, task, metric)["k"]
+            == self.compare.round2_metric(self.round2, task, metric)["k"]
+        ])
 
     def test_the_two_columns_name_the_round_and_not_only_the_version(self):
         """Both columns carry v1.2.0, so the round is what tells them apart."""
@@ -878,9 +1084,22 @@ class RoundFourTest(unittest.TestCase):
             self.assertIn("Clause %s %s" % (clause, "holds" if ok else "fails"), self.block)
         # The control re-ran the shipped text, so neither branch of the block adopts a version or
         # names a revert set, which is what the two earlier rounds' blocks close with.
-        self.assertNotIn("under the rule as it was written", self.block)
-        self.assertNotIn("revert set", self.block)
-        self.assertIn("reported for information and not as a gate", self.block)
+        flat = " ".join(self.block.split())
+        self.assertNotIn("under the rule as it was written", flat)
+        self.assertNotIn("revert set", flat)
+        self.assertIn("reported for information and not as a gate", flat)
+
+
+    def test_the_verdict_names_the_deciding_numbers_and_stops(self):
+        """The page states the three clauses in plain words once, above the rounds, and the
+        metrics that rose are the table the verdict sits under. So the verdict carries the ratio
+        that decided clause (c) for every task and does not reprint the gate sizes, the cost
+        limit or the rows above it."""
+        flat = " ".join(self.block.split())
+        for task, _before, _after, ratio, _limit in self.compare.round4_cost(self.round2, self.round4):
+            self.assertIn("%.2f\u00d7 on %s" % (ratio, task), flat)
+        self.assertNotIn("against a limit of", flat)
+        self.assertNotIn("`ours` median", flat)
 
     def test_the_renderer_prints_the_other_branch_when_the_data_holds(self):
         """The information sentence is not fixed either: restoring the one metric that falls by
@@ -1054,6 +1273,28 @@ class ExploratoryMetricTest(unittest.TestCase):
         self.assertIn("exploratory", section)
 
 
+class ClosingSectionTest(unittest.TestCase):
+    """The site ends in one place: a closing section on the front page that says what the work
+    licenses and what it does not. Every page reaches it from its footer, so the two endings that
+    used to sit apart now have one destination."""
+
+    def test_the_front_page_carries_the_section(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn('<section id="what-this-shows">', html)
+
+    def test_every_footer_links_to_it(self):
+        self.assertIn('href="#what-this-shows"', INDEX.read_text(encoding="utf-8"))
+        self.assertIn(
+            'href="index.html#what-this-shows"', LAYOUT.read_text(encoding="utf-8")
+        )
+
+    def test_both_endings_point_at_it(self):
+        for path in (FINDINGS, DOCS / "methodology.md"):
+            self.assertIn(
+                "index.html#what-this-shows", path.read_text(encoding="utf-8"), path.name
+            )
+
+
 class GoverningCaveatTest(unittest.TestCase):
     """One sentence governs every number the experiment produced: a re-run of the same text moved
     a measure by five runs in ten. It was only in the README; the front page states it too, above
@@ -1067,6 +1308,135 @@ class GoverningCaveatTest(unittest.TestCase):
 
     def test_the_readme_still_carries_it(self):
         self.assertIn("five runs in ten", README.read_text(encoding="utf-8"))
+
+
+# ------------------------------------------------------------------- the prose budget
+#
+# The site files are held to a byte budget above. The prose was never held to anything, and it
+# grew to half again the size of the tables it exists to explain. These are today's word counts,
+# so nothing changes on the commit that adds them; a later commit edits a number downward, and
+# the budget can only ever come down. experiments/README.md carries no budget: it is the
+# pre-registration record rather than the report, it is written once and locked, and its length
+# is the record's completeness and not prose that has to earn its place.
+PROSE_BUDGET = {
+    "README.md": 550,
+    "docs/findings.md": 2958,
+    "docs/methodology.md": 2195,
+    "docs/rationale.md": 1492,
+    "docs/references.md": 1724,
+    "CONTRIBUTING.md": 599,
+}
+
+# A sentence of twelve words or more that stands on two of the budgeted pages. Each entry is the
+# normalised sentence, exactly as prose_sentences returns it, with one line saying why it is
+# still there. The list is emptied by the passes that cut the prose, and the test fails on an
+# entry that no longer names a duplicate, so a stale line cannot sit here unnoticed.
+DUPLICATE_ALLOWLIST = set()
+
+# Phrases with which prose praises its own care instead of showing it. A reader cannot check
+# "rigorous"; they can check a number.
+SELF_PRAISE_PHRASES = (
+    "said carefully",
+    "worth noting",
+    "it is important to",
+    "as we have seen",
+    "which is what a",
+    "rigorous",
+    "scrupulous",
+    "carefully chosen",
+)
+
+# (file, phrase) pairs that stand today, keyed by phrase and not by sentence, because the sentence
+# text moves whenever a line above it is rewrapped. The cutting passes emptied it, and the test
+# fails on an entry that names no phrase on the page, so it stays empty.
+SELF_PRAISE_ALLOWLIST = set()
+
+SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+
+
+def prose_lines(path):
+    """The lines of a Markdown page that are prose: no fenced code block, no table row. The
+    word count below is taken from these, so a page does not pay for its data."""
+    lines = []
+    fenced = False
+    for line in path.read_text(encoding="utf-8").split("\n"):
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            fenced = not fenced
+            continue
+        if fenced or stripped.startswith("|"):
+            continue
+        lines.append(line)
+    return lines
+
+
+def prose_words(path):
+    return sum(len(line.split()) for line in prose_lines(path))
+
+
+def prose_sentences(path, min_words=1):
+    """The prose of a page, split into sentences, normalised to one space and lower case.
+
+    The duplicate check asks for twelve words or more, so that a short shared line such as a
+    heading is not read as a copied paragraph. The self-praise check takes every sentence: the
+    shortest of them, a heading, is where the praise usually is."""
+    text = " ".join(prose_lines(path))
+    out = []
+    for sentence in SENTENCE_SPLIT.split(text):
+        words = sentence.split()
+        if len(words) >= min_words:
+            out.append(" ".join(words).lower())
+    return out
+
+
+class ProseBudgetTest(unittest.TestCase):
+    """The rule the project states for a rule line applies to its own prose: a line that does
+    not earn its place is deleted. These three checks are what makes a cut stick."""
+
+    def test_every_page_stays_inside_its_prose_budget(self):
+        for name, budget in sorted(PROSE_BUDGET.items()):
+            count = prose_words(REPO_ROOT / name)
+            self.assertLessEqual(
+                count,
+                budget,
+                "%s: %d words of prose, budget is %d" % (name, count, budget),
+            )
+
+    def test_no_sentence_lives_on_two_pages(self):
+        where = {}
+        for name in PROSE_BUDGET:
+            for sentence in prose_sentences(REPO_ROOT / name, min_words=12):
+                where.setdefault(sentence, set()).add(name)
+        duplicates = {s: pages for s, pages in where.items() if len(pages) > 1}
+        for sentence, pages in sorted(duplicates.items()):
+            self.assertIn(
+                sentence,
+                DUPLICATE_ALLOWLIST,
+                "the same sentence is on %s: %s" % (", ".join(sorted(pages)), sentence),
+            )
+        stale = DUPLICATE_ALLOWLIST - set(duplicates)
+        self.assertFalse(
+            stale,
+            "no longer duplicated, delete from DUPLICATE_ALLOWLIST: %s" % sorted(stale),
+        )
+
+    def test_no_sentence_praises_the_care_taken_over_it(self):
+        found = set()
+        for name in PROSE_BUDGET:
+            for sentence in prose_sentences(REPO_ROOT / name):
+                for phrase in SELF_PRAISE_PHRASES:
+                    if phrase in sentence:
+                        found.add((name, phrase))
+                        self.assertIn(
+                            (name, phrase),
+                            SELF_PRAISE_ALLOWLIST,
+                            "%s praises its own care with %r: %s" % (name, phrase, sentence),
+                        )
+        stale = SELF_PRAISE_ALLOWLIST - found
+        self.assertFalse(
+            stale,
+            "no longer present, delete from SELF_PRAISE_ALLOWLIST: %s" % sorted(stale),
+        )
 
 
 if __name__ == "__main__":

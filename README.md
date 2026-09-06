@@ -1,55 +1,36 @@
 # agents-md-lab
 
-What belongs in an instruction file for a coding agent, measured two ways: ten published
-`AGENTS.md` and `CLAUDE.md` files, each pinned to one commit and read against ten sourced
-criteria, and an experiment on what an instruction file changes, in both directions, whose rules
-were written down before any run. You get the file this project recommends, the numbers behind
-it, and the data and scripts to reproduce both.
+An instruction file for coding agents, and the measurements behind it: ten published files read
+against ten sourced criteria, and a pre-registered experiment on what such a file changes, in
+both directions.
 
 Site: <https://purpleeddy.github.io/agents-md-lab/>
 
 ## Adopt the file
 
-1. Put the file in your repository root:
+1. In your repository root:
 
    ```
    curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
    ```
 
-   That is the instruction file this project recommends: short enough to read in full before you
-   adopt it, with its `## Project` section left empty for you to fill in. It has been measured on
-   this project's own test set, revised after review by other model sessions, never a person, and
-   measured again, more than once; one revision failed the rule written for it beforehand and was
-   undone. Which text each round of runs measured is in
-   [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), and the
-   reason for every line, with what changed and why, is in [the rationale](docs/rationale.md).
-
-2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
-   rules the other agents read.
-3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
-   and where the details live. That section is the part no one else can write for you, and while
-   it is empty the file names no runnable command. That is one of three of the ten rule criteria
-   the file as offered does not meet;
-   [the methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria) names
-   all three and why each one is unmet.
-4. Mirror the destructive list in your agent's permission settings: deny what nothing takes
-   back, and decide for yourself whether a push of the branch the agent created, and the pull
-   request that goes with it, is allowed without asking. The file as offered holds every push
-   behind an explicit ask: one revision moved that boundary and was undone, so your settings may
-   be looser than the line, and the line is what the agent reads.
-   [`CONTRIBUTING.md`](CONTRIBUTING.md) sets the four tiers out,
-   [`docs/examples/settings.json`](docs/examples/settings.json) is a settings file to copy, and
-   [`scripts/hook_guard.py`](scripts/hook_guard.py) is the guard it calls, which reads the pushes
-   a deny rule can only match by name. A written rule cannot stop a command: the file states
-   the boundary, the settings refuse the command, and branch protection on the server is what
-   holds when a session gets past both.
+2. Add a `CLAUDE.md` beside it whose only line is `@AGENTS.md`.
+3. Fill the `## Project` section: stack, verifying commands, generated files, where the details
+   live. No one else can write it for you, and while it is empty the file names no
+   runnable command — one of three of the ten rule criteria the file as offered does not meet,
+   all three in
+   [the methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria).
+4. Mirror the destructive list in your agent's permission settings. Yours may be looser than the
+   file, which holds every push behind an explicit ask, and the file is what the agent reads.
+   [`CONTRIBUTING.md`](CONTRIBUTING.md) has the four tiers,
+   [`docs/examples/settings.json`](docs/examples/settings.json) and
+   [`scripts/hook_guard.py`](scripts/hook_guard.py) the files.
 
 ## What the survey found
 
-How many of the ten rule criteria each file meets. The criteria ask how a file is written, and
-each one is defined in [the methodology](docs/methodology.md#the-ten-criteria). The count describes what a file
-contains. It is not a measure of quality, and no file here is put
-above another.
+How many of the ten rule criteria each file meets, each defined in
+[the methodology](docs/methodology.md#the-ten-criteria). A count is what a file contains, not how
+well it is written.
 
 <!-- summary:start -->
 
@@ -68,24 +49,15 @@ above another.
 
 <!-- summary:end -->
 
-The root `AGENTS.md` of this repository is not in the table: it was written to these criteria, so
-meeting them is expected by construction, and it is checked on the
-[front page](https://purpleeddy.github.io/agents-md-lab/)
-and in [methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria) instead.
-
-Full table with the evidence line behind every check mark: the
-[comparison](docs/generated/comparison.md) or the
-[front page](https://purpleeddy.github.io/agents-md-lab/#compare). The same ten files against the
-eight content criteria, which ask what a file says about its own project, are in the
-[findings](docs/findings.md#what-the-ten-files-tell-an-agent-about-the-project).
+Evidence line by line: [the comparison](docs/generated/comparison.md); the eight content
+criteria: [the findings](docs/findings.md#what-the-ten-files-tell-an-agent-about-the-project).
 
 ## What the experiment showed
 
-Each of three tasks was run ten times in each of three ways: with no instruction file, with a
-public instruction file another project ships, and with the file this project recommends. The
-three tasks are building a small command-line app in an empty directory, a change inside an
-existing package that documents a convention, and a one-line typo fix. The summary below is
-written from the run data.
+Three tasks, ten runs each, in three conditions: no instruction file, a public file another
+project ships, and the file above. Every run was one model on one tool, so nothing here carries
+to another agent unless you re-run it, and a re-run of the same text has moved one measure by
+five runs in ten.
 
 <!-- summary-experiment:start -->
 
@@ -101,28 +73,17 @@ fix.
 
 <!-- summary-experiment:end -->
 
-Those runs measured an earlier text than the file offered above. Every round of runs since then
-was written down before it ran: which measures had to hold, what the file was allowed to cost,
-and, where a change was on trial, which lines to undo if it did not. One round adopted the
-shorter text now offered here. A later one changed one boundary line, failed on two of the three
-parts of its own rule, and the lines it named beforehand were undone as written. The tables for
-every round are on [the findings page](docs/findings.md), together with the uncertainty on each
-number, the measures that did not move, and
-[what the experiment does not show](docs/findings.md#what-was-not-shown). The tasks and the
-measures were fixed under a git tag before any run, and each later round's rule went into the same file before that round ran. Read
-any single rise or fall against this: a re-run of the same text, on the same tasks, has moved one
-measure by five runs in ten, so a change of that size on its own says nothing about the text.
+Those runs measured an earlier text than the file above. Later rounds, and
+[what the experiment does not show](docs/findings.md#what-was-not-shown), are on the findings
+page.
 
 ## Documentation
 
-- [Methodology](docs/methodology.md): sources, corpus rules, how a verdict is decided, and what
-  this is not.
-- [Findings](docs/findings.md): what the comparison and the experiment showed.
-- [Rationale](docs/rationale.md): one row per rule of `AGENTS.md`, with its sources, its reason
-  and what changed.
-- [References](docs/references.md): every citation key, with the date read and an archive link.
-- [The experiment as written down beforehand](experiments/README.md): the tasks and the measures,
-  fixed under a git tag before the first run, and each round's rule written down before it ran.
+- [Methodology](docs/methodology.md): sources, corpus rules, how a verdict is decided.
+- [Findings](docs/findings.md): what the survey and the experiment showed.
+- [Rationale](docs/rationale.md): one row per rule.
+- [References](docs/references.md): every citation key and date read.
+- [The pre-registration](experiments/README.md): tagged before run one.
 
 ## Reproduce it
 
@@ -135,21 +96,16 @@ python3 scripts/compare.py --refresh      # re-fetch the corpus (network)
 python3 scripts/experiment.py run --task task1 --conditions none karpathy ours --runs 10
 ```
 
-Python 3.11 or newer, standard library only. There is nothing to install.
-
 ## Contributing
 
-A file joins the survey through one `[[files]]` entry in `corpus.toml`, pinned by commit, with
-one sentence saying what it shows that the others do not. Counter-examples are as welcome as
-additions: a file that meets a criterion the check calls unmet is a defect in the pattern, and the
-criteria carry their known false positives and false negatives in their `notes`. Open either as
-an issue.
+A file joins the survey through one `[[files]]` entry in `corpus.toml`, pinned by commit; a
+counter-example is as welcome. Open either as an issue —
+[`CONTRIBUTING.md`](CONTRIBUTING.md) has the rest.
 
 ## License
 
-MIT, for the code, the data and the pages. The corpus files stay under their own licenses and
-are never redistributed here; the one repository with no license is recorded by line number
-only.
+MIT, for the code, the data and the pages. Corpus files keep their own licenses and are never
+redistributed here.
 
 `agents.md` is stewarded by the Agentic AI Foundation; this project is not affiliated with it or
 with any vendor whose documentation is cited.

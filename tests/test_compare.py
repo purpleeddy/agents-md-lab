@@ -646,8 +646,9 @@ class ShippedFileTest(unittest.TestCase):
             self.assertIn(digest, recorded, label)
             met, met_content = recorded[digest]
             self.assertIn(
-                "| %s | %s | %d | %s | %d/10 | %d/8 |"
-                % (label, date, lines, "{:,}".format(size), met, met_content),
+                "| %s | %s | %d | %s | %s | %d/10 | %d/8 |"
+                % (label, date, lines, "{:,}".format(size), "{:,}".format(size // 4),
+                   met, met_content),
                 compare.render_versions_md(criteria(), content_criteria()),
             )
 
@@ -655,11 +656,12 @@ class ShippedFileTest(unittest.TestCase):
         block = compare.render_versions_md(criteria(), content_criteria())
         root = compare.OURS_FILE.read_text(encoding="utf-8")
         self.assertIn(
-            "| v%s | 2026-09-04 | %d | %s | %d/10 | %d/8 |"
+            "| v%s | 2026-09-04 | %d | %s | %s | %d/10 | %d/8 |"
             % (
                 compare.OURS_VERSION,
                 compare.count_lines(root),
                 "{:,}".format(len(root.encode("utf-8"))),
+                "{:,}".format(len(root.encode("utf-8")) // 4),
                 compare.coverage(compare.evaluate(root, "AGENTS.md", criteria())),
                 compare.coverage(compare.evaluate(root, "AGENTS.md", content_criteria())),
             ),
