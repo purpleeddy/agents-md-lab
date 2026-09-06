@@ -1287,19 +1287,14 @@ PROSE_BUDGET = {
     "docs/methodology.md": 2195,
     "docs/rationale.md": 1492,
     "docs/references.md": 1724,
-    "CONTRIBUTING.md": 756,
+    "CONTRIBUTING.md": 599,
 }
 
 # A sentence of twelve words or more that stands on two of the budgeted pages. Each entry is the
 # normalised sentence, exactly as prose_sentences returns it, with one line saying why it is
 # still there. The list is emptied by the passes that cut the prose, and the test fails on an
 # entry that no longer names a duplicate, so a stale line cannot sit here unnoticed.
-DUPLICATE_ALLOWLIST = {
-    # The license note is a legal statement repeated in the README and in CONTRIBUTING.md.
-    # Which of the two keeps it is a decision for the cutting pass, not for this test.
-    "`agents.md` is stewarded by the agentic ai foundation; this project is not affiliated "
-    "with it or with any vendor whose documentation is cited.",
-}
+DUPLICATE_ALLOWLIST = set()
 
 # Phrases with which prose praises its own care instead of showing it. A reader cannot check
 # "rigorous"; they can check a number.
