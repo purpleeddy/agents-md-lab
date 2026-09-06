@@ -509,7 +509,10 @@ Each line is a count read from the committed data. The command next to it prints
 The limits that apply to every number on this page, n = 10 runs per cell and one model, one CLI
 version and one flag set, are in
 [the methodology](methodology.md#author-bias-and-limitations). What follows is what this
-experiment in particular did not show.
+experiment in particular did not show. The shorter form of it, beside what the work does license
+and what is still open, is the [closing section](index.html#what-this-shows) of the front page,
+and the same limits on the survey rather than the experiment are in
+[what this is not](methodology.md#what-this-is-not).
 
 - **Acceptance was already at the ceiling on two of the three tasks.** It is 10/10 for every
   condition on T3 and for `none` and `ours` on T1, so there was almost no room for an instruction

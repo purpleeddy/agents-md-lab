@@ -1054,6 +1054,28 @@ class ExploratoryMetricTest(unittest.TestCase):
         self.assertIn("exploratory", section)
 
 
+class ClosingSectionTest(unittest.TestCase):
+    """The site ends in one place: a closing section on the front page that says what the work
+    licenses and what it does not. Every page reaches it from its footer, so the two endings that
+    used to sit apart now have one destination."""
+
+    def test_the_front_page_carries_the_section(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn('<section id="what-this-shows">', html)
+
+    def test_every_footer_links_to_it(self):
+        self.assertIn('href="#what-this-shows"', INDEX.read_text(encoding="utf-8"))
+        self.assertIn(
+            'href="index.html#what-this-shows"', LAYOUT.read_text(encoding="utf-8")
+        )
+
+    def test_both_endings_point_at_it(self):
+        for path in (FINDINGS, DOCS / "methodology.md"):
+            self.assertIn(
+                "index.html#what-this-shows", path.read_text(encoding="utf-8"), path.name
+            )
+
+
 class GoverningCaveatTest(unittest.TestCase):
     """One sentence governs every number the experiment produced: a re-run of the same text moved
     a measure by five runs in ten. It was only in the README; the front page states it too, above

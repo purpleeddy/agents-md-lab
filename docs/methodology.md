@@ -559,3 +559,7 @@ is part of the text under test and nothing about it is measured.
   on three tasks — which is a much smaller claim.
 - **Not affiliated** with the AGENTS.md format, the Agentic AI Foundation, or any vendor whose
   documentation is cited.
+
+What the project does license, said in one place beside the limits above and the ones the
+experiment carries, is the [closing section](index.html#what-this-shows) of the front page; the
+experiment's own list is [what was not shown](findings.md#what-was-not-shown).
