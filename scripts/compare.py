@@ -928,8 +928,17 @@ EXPERIMENT_QUERY = (
     "print(%s)\""
 )
 
+# The one claim that reads two files. It prints the round-4 count only when round 3 read the same
+# number, so the command fails loudly rather than printing a number the sentence does not earn.
+ROUNDS_QUERY = (
+    "python3 -c \"import json;k=lambda p:json.load(open(p))['by_task']['task2']"
+    "['comparison']['regression_test_added']['conditions']['ours']['k'];"
+    "a=k('docs/data/experiment-round3.json');b=k('docs/data/experiment-round4.json');"
+    "print(b if a==b else 'they differ')\""
+)
 
-def claims(data, criteria, exp):
+
+def claims(data, criteria, exp, round3=None, round4=None):
     """Every claim the pages make, as (sentence, command that prints its number). The numbers
     are read from the committed data at render time, so a changed corpus or a re-run experiment
     moves the sentence instead of leaving it stale."""
@@ -993,8 +1002,9 @@ def claims(data, criteria, exp):
     baseline = experiment_cell(exp, "task2", "report_has_commands_and_results", "none")
     overprocess = exp["by_task"]["task3"]["comparison"]["overprocess"]["conditions"]
     items.append((
-        "In the 90-run experiment, the brownfield task reported the command and its result in "
-        "%d of %d runs under the recommended file and %d of %d with no file."
+        "In the 90-run experiment, which measured `AGENTS.md` v1.0.0 and not the text offered "
+        "now, the brownfield task reported the command and its result in %d of %d runs under "
+        "that file and %d of %d with no file."
         % (reported["k"], reported["n"], baseline["k"], baseline["n"]),
         EXPERIMENT_QUERY
         % "d['by_task']['task2']['comparison']['report_has_commands_and_results']"
@@ -1011,20 +1021,31 @@ def claims(data, criteria, exp):
         % "sum(c['k'] for c in "
         "d['by_task']['task3']['comparison']['overprocess']['conditions'].values())",
     ))
+    if round3 is not None and round4 is not None:
+        cell3 = experiment_cell(round3, "task2", "regression_test_added", "ours")
+        cell4 = experiment_cell(round4, "task2", "regression_test_added", "ours")
+        items.append((
+            "Round 3 measured v%s and round 4 re-ran the shipped v%s text against the same "
+            "cells: the metric whose fall failed round 3, task2 regression test added, reads "
+            "%d of %d runs in round 3 and %d of %d in round 4, so it fell with the text "
+            "reverted too." % (ROUND3_VERSION, ROUND4_VERSION, cell3["k"], cell3["n"],
+                               cell4["k"], cell4["n"]),
+            ROUNDS_QUERY,
+        ))
     return items
 
 
-def render_claims_html(data, criteria, exp):
+def render_claims_html(data, criteria, exp, round3=None, round4=None):
     out = ['<ul class="claims">']
-    for text, command in claims(data, criteria, exp):
+    for text, command in claims(data, criteria, exp, round3, round4):
         out.append("<li>%s<p class=\"verify\">Verify: <code>%s</code></p></li>" % (esc(text), esc(command)))
     out.append("</ul>")
     return "\n".join(out)
 
 
-def render_claims_md(data, criteria, exp):
+def render_claims_md(data, criteria, exp, round3=None, round4=None):
     out = []
-    for text, command in claims(data, criteria, exp):
+    for text, command in claims(data, criteria, exp, round3, round4):
         out.append("- %s" % text)
         out.append("")
         out.append("  Verify: `%s`" % command)
@@ -1698,8 +1719,9 @@ def rendered_outputs():
     data = with_ours(data, criteria, content)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     round2 = load_round2() if FINDINGS_MD.exists() else None
-    round3 = load_round3() if FINDINGS_MD.exists() else None
-    round4 = load_round4() if FINDINGS_MD.exists() else None
+    rounds = FINDINGS_MD.exists() or INDEX_HTML.exists()
+    round3 = load_round3() if rounds else None
+    round4 = load_round4() if rounds else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
@@ -1710,7 +1732,9 @@ def rendered_outputs():
         page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
         page = replace_block(page, "preview", render_preview_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
-        page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)
+        page = replace_block(
+            page, "claims", render_claims_html(data, criteria, exp, round3, round4), INDEX_HTML
+        )
         page = replace_block(page, "dates", render_dates_html(data), INDEX_HTML)
         outputs[INDEX_HTML] = page
     if METHODOLOGY_MD.exists():
@@ -1746,7 +1770,9 @@ def rendered_outputs():
         page = replace_block(page, "round2", render_round2_md(exp, round2), FINDINGS_MD)
         page = replace_block(page, "round3", render_round3_md(round2, round3), FINDINGS_MD)
         page = replace_block(page, "round4", render_round4_md(round2, round4), FINDINGS_MD)
-        page = replace_block(page, "claims", render_claims_md(data, criteria, exp), FINDINGS_MD)
+        page = replace_block(
+            page, "claims", render_claims_md(data, criteria, exp, round3, round4), FINDINGS_MD
+        )
         outputs[FINDINGS_MD] = page
     if README_MD.exists():
         page = README_MD.read_text(encoding="utf-8")

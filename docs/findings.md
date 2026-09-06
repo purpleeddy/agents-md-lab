@@ -484,13 +484,17 @@ Each line is a count read from the committed data. The command next to it prints
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(d['ours']['met_content'])"`
 
-- In the 90-run experiment, the brownfield task reported the command and its result in 10 of 10 runs under the recommended file and 2 of 10 with no file.
+- In the 90-run experiment, which measured `AGENTS.md` v1.0.0 and not the text offered now, the brownfield task reported the command and its result in 10 of 10 runs under that file and 2 of 10 with no file.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(d['by_task']['task2']['comparison']['report_has_commands_and_results']['conditions']['ours']['k'])"`
 
 - In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.
 
   Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(sum(c['k'] for c in d['by_task']['task3']['comparison']['overprocess']['conditions'].values()))"`
+
+- Round 3 measured v1.3.0 and round 4 re-ran the shipped v1.2.0 text against the same cells: the metric whose fall failed round 3, task2 regression test added, reads 3 of 10 runs in round 3 and 3 of 10 in round 4, so it fell with the text reverted too.
+
+  Verify: `python3 -c "import json;k=lambda p:json.load(open(p))['by_task']['task2']['comparison']['regression_test_added']['conditions']['ours']['k'];a=k('docs/data/experiment-round3.json');b=k('docs/data/experiment-round4.json');print(b if a==b else 'they differ')"`
 
 <!-- claims:end -->
 

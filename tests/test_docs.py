@@ -488,8 +488,19 @@ class ClaimTest(unittest.TestCase):
             compare.load_criteria(),
             compare.load_criteria_content(),
         )
-        items = compare.claims(data, compare.load_criteria(), compare.load_experiment())
+        items = compare.claims(
+            data,
+            compare.load_criteria(),
+            compare.load_experiment(),
+            compare.load_round3(),
+            compare.load_round4(),
+        )
         self.assertGreaterEqual(len(items), 5)
+        # The claim that reads the two round files is the one a skeptic would run first, so the
+        # list must carry it and its command must open both.
+        rounds = [c for _text, c in items if "experiment-round3.json" in c]
+        self.assertEqual(len(rounds), 1)
+        self.assertIn("experiment-round4.json", rounds[0])
         for text, command in items:
             result = subprocess.run(command, shell=True, capture_output=True, text=True,
                                     cwd=str(REPO_ROOT))
