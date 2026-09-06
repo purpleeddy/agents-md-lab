@@ -154,7 +154,7 @@ VERSIONS = (
         5456,
         "ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012",
         "four rule lines fixed after [an independent review]"
-        "(rationale.md#known-issues-independent-review-2026-09-03) of v1.0.0's text",
+        "(rationale.md#known-issues-the-review-found-in-the-file) of v1.0.0's text",
         "not measured",
         "shipped, then replaced",
     ),
@@ -164,7 +164,7 @@ VERSIONS = (
         35,
         3840,
         "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
-        "the rest of that review, then [a line audit](rationale.md#line-audit-v101-to-v110) that "
+        "the rest of that review, then [a line audit](rationale.md#the-line-audit-what-each-rule-had-to-earn) that "
         "cut or merged every line with neither a measured effect nor a safety role",
         "not measured",
         "shipped, then amended",
@@ -176,7 +176,7 @@ VERSIONS = (
         4069,
         "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
         "[four rule clauses added from external feedback]"
-        "(rationale.md#amendments-after-external-feedback-2026-09-04) and the Project template "
+        "(rationale.md#amendments-after-external-feedback) and the Project template "
         "cut from five lines to two",
         "not measured",
         "shipped, then replaced",
@@ -187,7 +187,7 @@ VERSIONS = (
         None,
         None,
         None,
-        "[a second independent review](rationale.md#v120-independent-design-review-2026-09-04), "
+        "[a second independent review](rationale.md#the-independent-design-review), "
         "of v1.1.0's text against the design goals, adopted whole",
         "rounds 2 and 4",
         "adopted, and the file shipped now",
@@ -198,7 +198,7 @@ VERSIONS = (
         33,
         4754,
         "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd",
-        "[one boundary line moved](rationale.md#v130-the-delivery-boundary-2026-09-05) so an agent "
+        "[one boundary line moved](rationale.md#the-delivery-boundary) so an agent "
         "could deliver its own branch, and a Delivery slot added to the template",
         "round 3",
         "not adopted; the pre-registered revert set was applied",
