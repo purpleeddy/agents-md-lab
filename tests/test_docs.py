@@ -1282,7 +1282,7 @@ class GoverningCaveatTest(unittest.TestCase):
 # pre-registration record rather than the report, it is written once and locked, and its length
 # is the record's completeness and not prose that has to earn its place.
 PROSE_BUDGET = {
-    "README.md": 1175,
+    "README.md": 550,
     "docs/findings.md": 2958,
     "docs/methodology.md": 2195,
     "docs/rationale.md": 1492,
