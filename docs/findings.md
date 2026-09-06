@@ -216,8 +216,8 @@ with no room to move, which is a different statement.
 
 ## The rounds after the main run, and the rule that decides them
 
-The ninety runs above measured the file's first published version. Every round since re-ran the locked test
-set with a new [`ours` text](methodology.md#what-the-experiment-tested-and-what-is-shipped), thirty
+The ninety runs above measured the file's first published version. Every round since re-ran the
+locked test set with a new [`ours` text](methodology.md#what-the-experiment-tested-and-what-is-shipped), thirty
 runs and ten per task, same harness, same model and same flag set, reusing the main run's `none`
 and `karpathy` cells. Each pre-registration named those reused
 cells in advance as its round's main threat to validity. A rule fixed before each round decides
