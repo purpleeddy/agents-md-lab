@@ -18,9 +18,9 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 
    That is the instruction file this project recommends: short enough to read in full before you
    adopt it, with its `## Project` section left empty for you to fill in. It has been measured on
-   this project's own test set, revised after independent review and measured again, more than
-   once; one revision failed the rule written for it beforehand and was undone. Which text each
-   round of runs measured is in
+   this project's own test set, revised after review by other model sessions, never a person, and
+   measured again, more than once; one revision failed the rule written for it beforehand and was
+   undone. Which text each round of runs measured is in
    [the methodology](docs/methodology.md#what-the-experiment-tested-and-what-is-shipped), and the
    reason for every line, with what changed and why, is in [the rationale](docs/rationale.md).
 

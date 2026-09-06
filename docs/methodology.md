@@ -459,8 +459,9 @@ findings, and what was done with each, are in
 Four grounds, each with a limit. **Measured effect** on the locked test set is the only ground for
 adopting a rule; its limit is the test set, ten runs a cell, three tasks, one model, so a rule
 aimed at behaviour the tasks never exercise needs a new task and a version bump first.
-**Independent review** is the ground for a safety boundary, because every harm metric sits at the
-floor in all three conditions and the runs cannot separate a boundary that works from one nobody
+**Independent review**, which on this project means a model session given the file text and no
+other context, never a person, is the ground for a safety boundary, because every harm metric sits
+at the floor in all three conditions and the runs cannot separate a boundary that works from one nobody
 tested; reasoning is not measurement, so a boundary still passes through the acceptance rule.
 **Sources and corpus prevalence** give a rule standing, not warrant: they record what other
 projects do. The content criteria are a yardstick for a repository's filled-in file, never a

@@ -268,7 +268,8 @@ which is the row above and the paragraph under the size table.
 **The outcome.** Round 3 measured this text on 2026-09-05 and the pre-registered rule did not adopt
 it. The three locked tasks have no remote and never push, so the test set could not exercise the
 sentence at all; the round was a regression check on the rest of the file, and two of its three
-clauses failed. `task2.regression_test_added` read 3/10 against the round-2 8/10, and the median
+clauses failed. `task2.regression_test_added`, which the pre-registration marks exploratory
+rather than confirmatory, read 3/10 against the round-2 8/10, and the median
 cost on the greenfield task came in at 1.167 times the round-2 median against a limit of 1.1. The
 revert set was named in the pre-registration before the runs, so it was applied as written: line 7
 is the v1.2.0 line again and the template has no `Delivery` slot. The numbers, the Wilson
@@ -379,9 +380,11 @@ worked example of the gap between that and what a file says.
 
 ## Known issues (independent review, 2026-09-03)
 
-Two reviewers read the generic text of this file — sha256
+Two model sessions, not people, read the generic text of this file — sha256
 `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`, the text the experiment ran —
-and nothing else: no repository, no web access, no tools, no knowledge of this project. One read it
+and nothing else: no repository, no web access, no tools, no knowledge of this project. No human
+reviewer outside this project has read the file, and "independent" here means only that the
+session was given the text and no other context. One read it
 as a sceptical open-source maintainer, the other from a security and operations angle. Each was
 asked for contradictions, rules an agent cannot follow or verify, rules that could harm outcomes,
 rules that only make sense in one harness, and what is missing, with a severity and a quoted line

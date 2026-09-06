@@ -249,7 +249,9 @@ with no room to move, which is a different statement.
 ## Round 2: the file this project offers, measured
 
 The ninety runs above measured `AGENTS.md` v1.0.0. Round 2 measured v1.2.0: that text amended
-after one independent review, compacted, and revised again after a second one. It ran the locked
+after a review by two model sessions reading only the file text, compacted, and revised again
+after a second review, of the compacted text against the design goals, by a Fable 5.1 session. No
+reviewer was a person, and none had access to this repository. It ran the locked
 test set with v1.2.0 as `ours`, thirty runs on 2026-09-04, ten per task,
 same harness, same model and same flag set. The file offered on the front page is that text: the
 version that came after it, v1.3.0, was measured in round 3 and not adopted, and that round is the
@@ -293,11 +295,12 @@ runs, and the file this project offers is the file round 2 measured.
 
 <!-- round2:end -->
 
-One clause on the four rises, added after round 4. The gate is unaffected and no gated metric
-dropped, which is what the adoption rests on. What round 4 changes is the weight a reader should
-put on the rises: a re-run of the same v1.2.0 text a day later moved one of them,
-`task2.regression_test_added`, from 8/10 back to 3/10, so a rise of that size occurs without a
-change of text.
+Two clauses on the four rises. The gate is unaffected and no gated metric dropped, which is what
+the adoption rests on. First, one of the four is `task2.regression_test_added`, which the
+pre-registration marks exploratory rather than confirmatory: it was defined after seeing the
+behaviour in two main-run transcripts, and criterion (e) passes without it. Second, and added
+after round 4: a re-run of the same v1.2.0 text a day later moved that same metric from 8/10 back
+to 3/10, so a change of five runs in ten on its own says nothing about the text.
 
 `task1.ambiguity_stated` is 0/10 in the round-2 `ours` cell against 4/10 in the main run. It is
 reported and not gated, and the reason is the one given in the `ambiguity_stated` paragraph above:
@@ -351,8 +354,11 @@ written before the runs, and the revert set that rule pre-registered is what app
 
 Two cells moved. `task1.tests_run_after_last_edit` fell by one, which is inside the gate.
 `task2.regression_test_added` reads 3/10 where round 2 read 8/10, which fails clause (a) on its
-own, and the median cost on task1 is 1.17 times the round-2 median against a limit of 1.1, which
-fails clause (c). What the numbers cannot say is why. The same metric read 5/10 in the main run,
+own. That metric is pre-registered as exploratory and not confirmatory, and the main run's
+criterion (e) passes without it; the gate counts it all the same, because the gate was written to
+count every advantage metric and the rule is applied as written. The median cost on task1 is 1.17
+times the round-2 median against a limit of 1.1, which fails clause (c). What the numbers cannot
+say is why. The same metric read 5/10 in the main run,
 8/10 in round 2 and 3/10 here, across three texts and three dates; the Wilson intervals for 8/10
 and 3/10 are [0.49, 0.94] and [0.11, 0.60] and they overlap. Ten runs a cell cannot separate a
 five-run swing on a metric with room to move in both directions from the file that was in place.
@@ -381,8 +387,8 @@ pre-registration named three outcomes before the run. The one that occurred is t
 from that section: "Anything between the two is reported as such and settles nothing."
 
 The same arithmetic is computed against the same round-2 cells, for information rather than as a
-gate. Clause (a) fails on `task2.regression_test_added`, which reads 3/10 against the round-2
-8/10, with the text unchanged; two more gated metrics fall by one, which is inside the gate.
+gate. Clause (a) fails on `task2.regression_test_added`, the exploratory metric, which reads
+3/10 against the round-2 8/10 with the text unchanged; two more gated metrics fall by one, which is inside the gate.
 Clause (c) holds on all three tasks.
 
 <!-- round4:start -->

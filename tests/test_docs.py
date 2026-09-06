@@ -1014,5 +1014,60 @@ class CoverageSentenceTest(unittest.TestCase):
         self.assertEqual(ours["of"] - ours["met"], 3)
 
 
+REVIEW_PHRASE = re.compile(r"independent review|independent reviewer", re.IGNORECASE)
+
+
+class ReviewReferentTest(unittest.TestCase):
+    """"Independent review" carries weight, and on this project it means a model session given
+    the file text and no other context. A page that uses the phrase has to say so, so that no
+    reader takes it for a human audit."""
+
+    def pages(self):
+        paths = sorted(DOCS.glob("*.md")) + [INDEX, README]
+        return {str(p.relative_to(REPO_ROOT)): p.read_text(encoding="utf-8") for p in paths}
+
+    def test_every_page_that_claims_a_review_says_what_the_reviewer_was(self):
+        for name, text in self.pages().items():
+            if REVIEW_PHRASE.search(text):
+                self.assertIn("model session", text, name)
+
+
+class ExploratoryMetricTest(unittest.TestCase):
+    """The metric whose fall failed round 3 was pre-registered as exploratory, not confirmatory,
+    and it also supplied one of round 2's four rises. A reader who never opens the
+    pre-registration has to be able to learn that from the pages that state those results."""
+
+    def test_the_pre_registration_still_calls_the_metric_exploratory(self):
+        text = PRE_REGISTRATION.read_text(encoding="utf-8")
+        self.assertIn("it is exploratory in the main run, not confirmatory", text)
+        self.assertIn("criterion (e) passes without it", text)
+
+    def test_the_findings_page_says_so_where_it_states_the_result(self):
+        text = FINDINGS.read_text(encoding="utf-8")
+        self.assertIn("exploratory", text)
+        # Round 2's rises and rounds 3 and 4's failure each carry it.
+        self.assertGreaterEqual(text.count("exploratory"), 3)
+
+    def test_the_front_page_says_so_where_it_states_the_result(self):
+        section = INDEX.read_text(encoding="utf-8").split('<section id="experiment">', 1)[1]
+        section = section.split("</section>", 1)[0]
+        self.assertIn("exploratory", section)
+
+
+class GoverningCaveatTest(unittest.TestCase):
+    """One sentence governs every number the experiment produced: a re-run of the same text moved
+    a measure by five runs in ten. It was only in the README; the front page states it too, above
+    the numbers rather than under them."""
+
+    def test_the_front_page_experiment_section_opens_with_the_caveat(self):
+        section = INDEX.read_text(encoding="utf-8").split('<section id="experiment">', 1)[1]
+        section = section.split("</section>", 1)[0]
+        self.assertIn("five runs in ten", section)
+        self.assertLess(section.index("five runs in ten"), section.index("Three tasks"))
+
+    def test_the_readme_still_carries_it(self):
+        self.assertIn("five runs in ten", README.read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main()
