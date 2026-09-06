@@ -1447,9 +1447,8 @@ def render_round2_md(exp, round2):
     return render_round_md(
         exp, round2, ROUND2_GATED, ROUND2_DISADVANTAGE, ROUND2_COST_FACTOR,
         "1.0.0", ROUND2_VERSION, "round-2",
-        "All three clauses hold, so v%s is adopted under the rule as it was written before "
-        "the runs, and the file this project offers is the file round 2 measured."
-        % ROUND2_VERSION,
+        "All three clauses hold, so the round-2 text is adopted under the rule as it was "
+        "written before the runs, and the file this project offers is the file round 2 measured.",
         "The round fails, so the pre-registered v1.2.1 revert set is the next step and the "
         "file this project offers is the file that failed.",
         ROUND2_RESULTS_URL,
@@ -1463,10 +1462,10 @@ def render_round3_md(round2, round3):
     return render_round_md(
         round2, round3, ROUND3_GATED, ROUND3_DISADVANTAGE, ROUND3_COST_FACTOR,
         ROUND2_VERSION, ROUND3_VERSION, "round-3",
-        "All three clauses hold, so v%s is adopted under the rule as it was written before "
-        "the runs." % ROUND3_VERSION,
-        "The round fails, so v%s is not adopted under the rule as it was written before the "
-        "runs, and the revert set that rule pre-registered is what applies." % ROUND3_VERSION,
+        "All three clauses hold, so the delivery revision is adopted under the rule as it was "
+        "written before the runs.",
+        "The round fails, so the delivery revision is not adopted under the rule as it was "
+        "written before the runs, and the revert set that rule pre-registered is what applies.",
         ROUND3_RESULTS_URL,
     )
 
@@ -1479,13 +1478,13 @@ def render_round4_md(round2, round4):
     return render_round_md(
         round2, round4, ROUND4_GATED, ROUND4_DISADVANTAGE, ROUND4_COST_FACTOR,
         ROUND2_VERSION, ROUND4_VERSION, "round-4",
-        "Every clause holds, so the same text reproduced the cells it was measured against a day "
-        "earlier. Round 4 is the control and adopts nothing: v%s is the text it ran and the text "
-        "already shipped." % ROUND4_VERSION,
-        "The clauses are reported for information and not as a gate. Round 4 ran the shipped v%s "
+        "Every clause holds, so the same text reproduced the cells it was measured against in "
+        "the round before. Round 4 is the control and adopts nothing: it ran the text already "
+        "shipped.",
+        "The clauses are reported for information and not as a gate. Round 4 ran the shipped "
         "text, so a clause that fails here measures the distance between two collections of the "
         "same file rather than anything about a version, and nothing is adopted or reverted on "
-        "it." % ROUND4_VERSION,
+        "it.",
         ROUND4_RESULTS_URL,
         before_label="v%s, round 2" % ROUND2_VERSION,
         after_label="v%s, round 4" % ROUND4_VERSION,

@@ -930,7 +930,7 @@ class RoundThreeTest(unittest.TestCase):
         # This is the round that failed, and the page has to say so from the data. textwrap.fill
         # can break either phrase across lines, so the whitespace is normalised.
         self.assertFalse(held)
-        self.assertIn("v1.3.0 is not adopted", " ".join(self.block.split()))
+        self.assertIn("the delivery revision is not adopted", " ".join(self.block.split()))
 
 
     def test_the_verdict_names_the_deciding_numbers_and_stops(self):
