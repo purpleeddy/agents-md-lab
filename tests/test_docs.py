@@ -1181,11 +1181,19 @@ class VersionNotationTest(unittest.TestCase):
             for token in VERSION_TOKEN.findall(ANCHOR.sub("", ANCHOR_ID.sub("", text))):
                 self.assertEqual(token.count("."), 2, "%s names %s" % (name, token))
 
-    def test_the_experiment_lead_names_the_shipped_version(self):
+    def test_the_front_page_names_the_shipped_version(self):
+        """The version name the page states is the badge under the file itself, where someone
+        citing or reproducing the text reads it. The prose above names each text by its role and
+        sends the reader to the version table, so the badge is the one place a version is
+        claimed, and it has to be the version the renderer ships."""
         source = COMPARE_PY.read_text(encoding="utf-8")
         version = re.search(r'^OURS_VERSION = "([^"]+)"', source, re.M).group(1)
-        section = INDEX.read_text(encoding="utf-8").split('<section id="experiment">', 1)[1]
-        self.assertIn("is v%s" % version, section.split("</section>", 1)[0])
+        badge = [
+            line for line in INDEX.read_text(encoding="utf-8").split("\n")
+            if 'class="filemeta"' in line
+        ]
+        self.assertEqual(len(badge), 1)
+        self.assertIn("v%s" % version, badge[0])
 
 
 METHODOLOGY = DOCS / "methodology.md"

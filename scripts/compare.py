@@ -1002,9 +1002,9 @@ def claims(data, criteria, exp, round3=None, round4=None):
     baseline = experiment_cell(exp, "task2", "report_has_commands_and_results", "none")
     overprocess = exp["by_task"]["task3"]["comparison"]["overprocess"]["conditions"]
     items.append((
-        "In the 90-run experiment, which measured `AGENTS.md` v1.0.0 and not the text offered "
-        "now, the brownfield task reported the command and its result in %d of %d runs under "
-        "that file and %d of %d with no file."
+        "In the 90-run experiment, which measured the first version of `AGENTS.md` and not the "
+        "text offered now, the brownfield task reported the command and its result in %d of %d "
+        "runs under that file and %d of %d with no file."
         % (reported["k"], reported["n"], baseline["k"], baseline["n"]),
         EXPERIMENT_QUERY
         % "d['by_task']['task2']['comparison']['report_has_commands_and_results']"
@@ -1025,11 +1025,10 @@ def claims(data, criteria, exp, round3=None, round4=None):
         cell3 = experiment_cell(round3, "task2", "regression_test_added", "ours")
         cell4 = experiment_cell(round4, "task2", "regression_test_added", "ours")
         items.append((
-            "Round 3 measured v%s and round 4 re-ran the shipped v%s text against the same "
-            "cells: the metric whose fall failed round 3, task2 regression test added, reads "
-            "%d of %d runs in round 3 and %d of %d in round 4, so it fell with the text "
-            "reverted too." % (ROUND3_VERSION, ROUND4_VERSION, cell3["k"], cell3["n"],
-                               cell4["k"], cell4["n"]),
+            "Round 3 measured the delivery revision and round 4 re-ran the shipped text "
+            "against the same cells: the metric whose fall failed round 3, task2 regression "
+            "test added, reads %d of %d runs in round 3 and %d of %d in round 4, so it fell "
+            "with the text reverted too." % (cell3["k"], cell3["n"], cell4["k"], cell4["n"]),
             ROUNDS_QUERY,
         ))
     return items
