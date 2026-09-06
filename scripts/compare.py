@@ -1043,16 +1043,6 @@ def render_claims_html(data, criteria, exp, round3=None, round4=None):
     return "\n".join(out)
 
 
-def render_claims_md(data, criteria, exp, round3=None, round4=None):
-    out = []
-    for text, command in claims(data, criteria, exp, round3, round4):
-        out.append("- %s" % text)
-        out.append("")
-        out.append("  Verify: `%s`" % command)
-        out.append("")
-    return "\n".join(out).rstrip()
-
-
 # ------------------------------------------------------------------- experiment blocks
 
 CONDITIONS = ("none", "karpathy", "ours")
@@ -1827,9 +1817,6 @@ def rendered_outputs():
         page = replace_block(page, "round2", render_round2_md(exp, round2), FINDINGS_MD)
         page = replace_block(page, "round3", render_round3_md(round2, round3), FINDINGS_MD)
         page = replace_block(page, "round4", render_round4_md(round2, round4), FINDINGS_MD)
-        page = replace_block(
-            page, "claims", render_claims_md(data, criteria, exp, round3, round4), FINDINGS_MD
-        )
         outputs[FINDINGS_MD] = page
     if README_MD.exists():
         page = README_MD.read_text(encoding="utf-8")

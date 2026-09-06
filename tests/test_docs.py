@@ -72,7 +72,9 @@ ALLOWED_PHRASES = (
     "Not a ranking",
 )
 
-URL = re.compile(r"https?://\S+")
+# The closing parenthesis of a Markdown link is not part of the URL. Swallowing it left
+# "](" open, and a later link on the page then read as the target of this one.
+URL = re.compile(r"https?://[^\s)]+")
 FENCE = re.compile(r"```.*?```", re.DOTALL)
 CODE_SPAN = re.compile(r"`[^`\n]*`")
 HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
@@ -476,8 +478,8 @@ class PageTest(unittest.TestCase):
 
 
 class ClaimTest(unittest.TestCase):
-    """Every claim on the page carries a command, and every command prints the number the claim
-    states. The commands are run here, so a claim cannot drift away from the data."""
+    """Every claim on the front page carries a command, and every command prints the number the
+    claim states. The commands are run here, so a claim cannot drift away from the data."""
 
     def test_each_claim_command_prints_a_number_the_claim_states(self):
         sys.path.insert(0, str(REPO_ROOT / "scripts"))
@@ -507,6 +509,53 @@ class ClaimTest(unittest.TestCase):
             self.assertEqual(result.returncode, 0, command + result.stderr)
             printed = result.stdout.strip()
             self.assertIn(printed, re.findall(r"\d+", text), "%r not stated in %r" % (printed, text))
+
+
+class ClaimsLiveOnOnePageTest(unittest.TestCase):
+    """The list of checkable claims is on the front page and nowhere else. A skeptic arriving at
+    the site meets it before any table; the findings page, which is read after, links to it
+    instead of carrying a second copy that could drift away from the first."""
+
+    def compare(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        return compare
+
+    def test_the_front_page_carries_the_block_and_check_covers_it(self):
+        """--check compares the whole of index.html against what the data renders, so the
+        equality asserted here is the one it enforces. Stated in a test as well, because the
+        renderer is what a later edit would drop."""
+        compare = self.compare()
+        data = compare.with_ours(
+            compare.read_json(compare.COMPARISON_JSON),
+            compare.load_criteria(),
+            compare.load_criteria_content(),
+        )
+        rendered = compare.render_claims_html(
+            data,
+            compare.load_criteria(),
+            compare.load_experiment(),
+            compare.load_round3(),
+            compare.load_round4(),
+        )
+        page = INDEX.read_text(encoding="utf-8")
+        block = page.split("<!-- claims:start -->", 1)[1].split("<!-- claims:end -->", 1)[0]
+        self.assertEqual(block.strip("\n"), rendered)
+        # replace_block raises when a marker is missing, so --check fails rather than passing
+        # quietly on a page the block was cut from.
+        with self.assertRaises(RuntimeError):
+            compare.replace_block("no markers here", "claims", "x", compare.INDEX_HTML)
+
+    def test_the_findings_page_links_to_it_instead_of_repeating_it(self):
+        page = FINDINGS.read_text(encoding="utf-8")
+        self.assertNotIn("claims:start", page)
+        self.assertNotIn("## Claims you can check", page)
+        self.assertIn("[claims on the front page](index.html#how)", page)
+        self.assertIn('<section id="how">', INDEX.read_text(encoding="utf-8"))
+
+    def test_no_markdown_renderer_for_the_block_is_left_behind(self):
+        self.assertFalse(hasattr(self.compare(), "render_claims_md"))
 
 
 @unittest.skipIf(NODE is None, "node is not installed")

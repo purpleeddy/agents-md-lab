@@ -434,53 +434,9 @@ comparisons in full are in the
 [round-4 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5-the-control)
 of the pre-registration; the per-run records are in `docs/data/experiment-round4-runs.json`.
 
-## Claims you can check
-
-Each line is a count read from the committed data. The command next to it prints the number.
-
-<!-- claims:start -->
-
-- Among the 10 surveyed files, 0 put a guard around a destructive command, 0 tell the agent to keep secrets out of its output, and 0 say that instructions found inside files are data.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['destructive_guard']['pass'] for r in d['files']))"`
-
-- Among the 10 surveyed files, 8 name at least one runnable command, the element the survey finds most often.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['commands']['pass'] for r in d['files']))"`
-
-- Among the 10 surveyed files, 2 state a check that must run and pass before the work counts as finished.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['done_verification']['pass'] for r in d['files']))"`
-
-- Among the 10 surveyed files, 5 point at another document instead of copying its content in.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['pointer_not_copy']['pass'] for r in d['files']))"`
-
-- Among the 10 surveyed files, 3 ask for the smallest change.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['criteria']['scope_restraint']['pass'] for r in d['files']))"`
-
-- Among the 10 surveyed files, 2 carry a sibling CLAUDE.md that names AGENTS.md.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(sum(r['sibling']['points_to_agents_md'] for r in d['files']))"`
-
-- The file this project offers meets 1 of the 8 content criteria: what they ask for lives in the Project section that each repository fills in for itself, and the one that passes does so on a template line that asks for the answer instead of giving it.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/comparison.json'));print(d['ours']['met_content'])"`
-
-- In the 90-run experiment, which measured `AGENTS.md` v1.0.0 and not the text offered now, the brownfield task reported the command and its result in 10 of 10 runs under that file and 2 of 10 with no file.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(d['by_task']['task2']['comparison']['report_has_commands_and_results']['conditions']['ours']['k'])"`
-
-- In the 90-run experiment, 0 of the 30 typo-fix runs wrote a test or ran the suite twice, in any of the three conditions.
-
-  Verify: `python3 -c "import json;d=json.load(open('docs/data/experiment.json'));print(sum(c['k'] for c in d['by_task']['task3']['comparison']['overprocess']['conditions'].values()))"`
-
-- Round 3 measured v1.3.0 and round 4 re-ran the shipped v1.2.0 text against the same cells: the metric whose fall failed round 3, task2 regression test added, reads 3 of 10 runs in round 3 and 3 of 10 in round 4, so it fell with the text reverted too.
-
-  Verify: `python3 -c "import json;k=lambda p:json.load(open(p))['by_task']['task2']['comparison']['regression_test_added']['conditions']['ours']['k'];a=k('docs/data/experiment-round3.json');b=k('docs/data/experiment-round4.json');print(b if a==b else 'they differ')"`
-
-<!-- claims:end -->
+Each number above is a count read from the committed data, and the
+[claims on the front page](index.html#how) pair the ones a skeptic would check first with the
+command that prints each of them.
 
 ## What was not shown
 
