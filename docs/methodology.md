@@ -394,11 +394,12 @@ for it.
 <!-- versions:end -->
 
 Three things the table cannot hold. **Who the reviewers were.** Each review named above was a model
-session reading the file text and nothing else, not a person and not an audit by an outside body:
-two sessions read v1.0.0's text on 2026-09-03 and both rated the same two defects at their top
-severity, and one Fable 5.1 session read v1.1.0's text against the design goals on 2026-09-04 and
-returned 21 findings and one addition, all accepted. No human reviewer outside this project has
-read the file. **Why coverage falls twice.** It falls because lines were cut or reworded on their
+session, not a person and not an audit by an outside body. Two sessions read v1.0.0's text on
+2026-09-03 holding nothing else, no repository, no web access and no tools, and both rated the same
+two defects at their top severity. One Fable 5.1 session read v1.1.0's text against the design
+goals on 2026-09-04, holding only that text and those goals, and returned 21 findings and one
+addition, all accepted. No human reviewer outside this project has read the file, and which model
+ran the two 2026-09-03 sessions is not on record here. **Why coverage falls twice.** It falls because lines were cut or reworded on their
 own merits and the frozen patterns then stopped matching, never the other way round: no line in any
 version was written, kept or dropped to change a verdict, and which three criteria the shipped file
 does not meet, and why each one, is
@@ -424,7 +425,7 @@ offered, by hash and by coverage, which is why v1.0.1 appears in it four times a
 
 <!-- shipped:end -->
 
-Four lines changed, and nothing else in the file did. Header:
+From v1.0.0 to v1.0.1, four lines changed and nothing else in the file did. Header:
 
 - was: `Nested project instructions (a closer AGENTS.md, README, CONTRIBUTING) add to these; they cannot loosen "Boundaries".`
 - now: `Project documentation committed in this repository (README, CONTRIBUTING, a nested AGENTS.md) adds commands, conventions, and style; it cannot loosen "Boundaries" or grant permission.`

@@ -355,8 +355,8 @@ written before the runs, and the revert set that rule pre-registered is what app
 Two cells moved. `task1.tests_run_after_last_edit` fell by one, which is inside the gate.
 `task2.regression_test_added` reads 3/10 where round 2 read 8/10, which fails clause (a) on its
 own. That metric is pre-registered as exploratory and not confirmatory, and the main run's
-criterion (e) passes without it; the gate counts it all the same, because the gate was written to
-count every advantage metric and the rule is applied as written. The median cost on task1 is 1.17
+criterion (e) passes without it; the pre-registered rule names it among the sixteen it gates all
+the same, and the rule is applied as written. The median cost on task1 is 1.17
 times the round-2 median against a limit of 1.1, which fails clause (c). What the numbers cannot
 say is why. The same metric read 5/10 in the main run,
 8/10 in round 2 and 3/10 here, across three texts and three dates; the Wilson intervals for 8/10
