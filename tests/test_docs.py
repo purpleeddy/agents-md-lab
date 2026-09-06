@@ -983,6 +983,25 @@ class CoverageSentenceTest(unittest.TestCase):
             METHODOLOGY.read_text(encoding="utf-8"),
         )
 
+    def test_the_methodology_names_every_unmet_rule_criterion(self):
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import compare  # noqa: E402
+
+        section = METHODOLOGY.read_text(encoding="utf-8").split(
+            "## Why the recommended file meets the rule criteria", 1
+        )[1].split("\n## ", 1)[0]
+        names = compare.unmet_names(self.ours(), compare.load_criteria()).split(", ")
+        self.assertEqual(len(names), self.ours()["of"] - self.ours()["met"])
+        for name in names:
+            self.assertIn("**%s**" % name, section)
+
+    def test_the_readme_counts_the_unmet_rule_criteria(self):
+        ours = self.ours()
+        self.assertIn(
+            "one of three of the ten rule criteria", README.read_text(encoding="utf-8")
+        )
+        self.assertEqual(ours["of"] - ours["met"], 3)
+
 
 if __name__ == "__main__":
     unittest.main()

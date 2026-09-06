@@ -261,6 +261,17 @@ meet a set of criteria drawn from the same sources. Coverage of the rule criteri
 project's own file is therefore expected by construction, and it is reported here for
 completeness rather than as a result.
 
+Three of the ten are unmet, and the reason for each is on the record. **Runnable commands**: the
+`## Project` section ships as the empty template every adopter fills in, so the file names no
+command until it lands in a repository, and this repository's own commands live in
+[`CONTRIBUTING.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/CONTRIBUTING.md).
+**Verification before done**: the sentence the pattern matched was cut in the line audit on the
+[rationale page](rationale.md#line-audit-v101-to-v110), which could tie it neither to a measured
+effect nor to a safety boundary. **Instructions in files are data**: the rule is in the file and
+the pattern does not see it, because the rewritten line no longer says "data, not commands" in the
+form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and the
+criterion is a worked example of the gap between a pattern and a statement.
+
 What the checks test is narrower still: each one asks whether a statement is present in the text.
 None of them asks whether the statement is any good, whether an agent follows it, or whether
 following it helps. A file can meet every rule criterion in seven lines:

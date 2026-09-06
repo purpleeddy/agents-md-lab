@@ -27,11 +27,17 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
 2. Add a `CLAUDE.md` next to it whose only line is `@AGENTS.md`, so Claude Code loads the same
    rules the other agents read.
 3. Fill the `## Project` section: stack, the commands that verify a change, what is generated,
-   and where the details live. That section is the part no one else can write for you, and it is
-   the reason the file as offered here does not meet the runnable-command criterion.
+   and where the details live. That section is the part no one else can write for you, and while
+   it is empty the file names no runnable command. That is one of three of the ten rule criteria
+   the file as offered does not meet;
+   [the methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria) names
+   all three and why each one is unmet.
 4. Mirror the destructive list in your agent's permission settings: deny what nothing takes
-   back, and leave delivery allowed, so the agent can still push its own task branch and open a
-   pull request. [`CONTRIBUTING.md`](CONTRIBUTING.md) sets the four tiers out,
+   back, and decide for yourself whether a push of the branch the agent created, and the pull
+   request that goes with it, is allowed without asking. The file as offered holds every push
+   behind an explicit ask: one revision moved that boundary and was undone, so your settings may
+   be looser than the line, and the line is what the agent reads.
+   [`CONTRIBUTING.md`](CONTRIBUTING.md) sets the four tiers out,
    [`docs/examples/settings.json`](docs/examples/settings.json) is a settings file to copy, and
    [`scripts/hook_guard.py`](scripts/hook_guard.py) is the guard it calls, which reads the pushes
    a deny rule can only match by name. A written rule cannot stop a command: the file states
