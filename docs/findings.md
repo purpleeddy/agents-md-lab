@@ -4,48 +4,36 @@ title: What we found
 
 # What we found
 
-Two measurements, reported separately because they answer different questions. The comparison
-says what ten published instruction files contain. The experiment says what an instruction file
-changed on three tasks, in both directions. Every number on this page is read from the JSON
-committed in
-[`docs/data/`](https://github.com/purpleeddy/agents-md-lab/tree/main/docs/data): `comparison.json`
-for the survey, `experiment.json` for the main run, and one `experiment-round<N>.json` for each
-round after it, `-round2`, `-round3` and `-round4` so far. The per-run records sit beside each
-summary: the 90 behind the main run in
-[`docs/data/experiment-runs.json`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/data/experiment-runs.json),
-and a round's in its own `experiment-round<N>-runs.json`. The tables are generated from those
-files by `scripts/compare.py`, which `python3 scripts/compare.py --check` verifies, with one
-exception: the same-environment table under round 4 is transcribed by hand from
-`experiment-round3.json` and `experiment-round4.json`.
-How both were built is in [methodology.md](methodology.md).
+An instruction file changed how an agent finished a job, not whether it could do one. The largest
+effect measured is a documented convention followed 10/10 with this project's file, against 5/10
+with no file and 3/10 with the `karpathy` file. No harm metric moved anywhere, and three criteria
+are met by none of ten published files.
+
+Vocabulary for every table below. `task1` is a greenfield todo app built from an empty directory,
+`task2` a brownfield bug fix in a seed repository that documents a changelog convention, `task3` a
+one-line typo fix. `none` writes no instruction file into the work directory, `karpathy` writes
+the pinned `CLAUDE.md` from the corpus, and `ours` writes this repository's `AGENTS.md`.
 
 ## What the ten files contain
 
-1. **Three criteria are met by none of the ten files.** No file puts a guard around a destructive
-   command, none tells the agent to keep secrets out of its output and its commits, and none says
-   that instructions found inside files, issues or tool output are data rather than orders. These
-   three sit in this project's own `AGENTS.md` on their sources
-   ([anthropic-bp](references.md#ref-anthropic-bp),
-   [agent-readmes](references.md#ref-agent-readmes),
-   [anthropic-security](references.md#ref-anthropic-security)) and not on prevalence: the corpus
-   says they are unusual, not that they are wrong.
-2. **Naming a runnable command is the one widely shared habit: 8 of 10.** It is also the thing
-   every source agrees on. The two files that do not meet it do not fail on a technicality:
-   `omacom/omarchy` names only project-specific binaries of its own, which no general runner list
-   recognises, and the karpathy-derived `CLAUDE.md` has one fenced block and it holds a numbered
-   list rather than commands.
-3. **Saying when the work is finished is rare: 2 of 10.** "Give the agent a way to verify its
-   work" is the single point where the vendor guidance and the format sample agree, and eight of
-   the ten files never state a completion condition: seven of them name a command and never say
-   which of them must pass before a task is done.
-4. **Half the corpus points instead of copying: 5 of 10 meet `pointer_not_copy`.** The other half
-   inlines everything it wants the agent to know, which is what makes a file grow past the length
-   the same vendors recommend.
-5. **Tool neutrality splits by file name: 6 of 10.** All four files that fail are `CLAUDE.md`
-   files carrying vendor-specific paths, and no `AGENTS.md` fails. The criterion passes on either
-   of two rules, naming no vendor path or naming `AGENTS.md`, and only `getsentry/sentry` (an
-   `AGENTS.md`) satisfies both: the one `CLAUDE.md` that passes, `multica-ai`, passes on the first
-   rule and not by pointing at `AGENTS.md`.
+The per-file marks are in [the methodology](methodology.md#the-ten-criteria). What the counts say:
+
+Three criteria are met by none of the ten. No file puts a guard around a destructive command,
+none tells the agent to keep secrets out of its output and its commits, and none says that
+instructions found inside files, issues or tool output are data rather than orders. All three sit
+in this project's own `AGENTS.md` on their sources ([anthropic-bp](references.md#ref-anthropic-bp),
+[agent-readmes](references.md#ref-agent-readmes),
+[anthropic-security](references.md#ref-anthropic-security)) and not on prevalence: the corpus says
+they are unusual, not that they are wrong.
+
+Naming a runnable command is the one widely shared habit, 8 of 10, and the two misses are not
+technicalities: `omacom/omarchy` names only project-specific binaries of its own, which no general
+runner list recognises, and the karpathy-derived `CLAUDE.md` has one fenced block and it holds a
+numbered list. Saying when the work is finished is rare, 2 of 10, and seven of the eight that miss
+it name a command and never say which of them must pass. Half the corpus points instead of
+copying, 5 of 10 on `pointer_not_copy`, and the half that inlines everything is the half that
+grows past the length the same vendors recommend. Tool neutrality splits by file name, 6 of 10:
+all four failures are `CLAUDE.md` files carrying vendor-specific paths and no `AGENTS.md` fails.
 
 The same three criteria are unmet outside the corpus too, in the practitioner file three of this
 project's rules came from, five of the v0.1.0 file's ([hernanz-agents-md](references.md#ref-hernanz-agents-md)):
@@ -56,12 +44,12 @@ Evaluated with the same engine, the file in the post meets 4 of the 10 rule crit
 
 <!-- hernanz:end -->
 
-Coverage counts what a text contains. It is not a measure of quality, and the file with the
-highest count in the table is not the recommendation of this page.
+Coverage counts what a text contains. It is not a measure of quality, and the highest count in
+either table is not this page's recommendation.
 
 ### What the ten files tell an agent about the project
 
-The same ten files, against the eight [content criteria](methodology.md#the-content-criteria):
+The same ten files against the eight [content criteria](methodology.md#the-content-criteria):
 what a file says about the project it sits in, rather than how it is written. The two sets are
 never added together; each file carries one number per set.
 
@@ -89,35 +77,26 @@ Coverage on the content set is lower and flatter than on the rule set. The crite
 
 <!-- content-note:end -->
 
-The file this project offers meets one of the eight, and that one is a false positive. Every
-content criterion asks for something a repository knows about itself: its layout, its setup, its
-style, its test command, its conventions, its gotchas. The file carries an unfilled
-`## Project` template where all of it belongs. The line the check counts, "Generated files never
-to edit ...", asks the adopter for the warning rather than stating one; the pattern was not
-changed and the verdict is published as it comes out, recorded in that criterion's `notes`. The
-vendors' own lists say these are the things to include, so a file that omits them is not a
-complete instruction file for any repository. Filling that section is the step the adopter has to
-do, and it is the step no one else can do for a repository they cannot see.
-
-Well-known instruction files the survey does not cover, because it is about files of 200 lines or
-fewer, are listed in [the methodology](methodology.md#files-left-out-for-length).
+The file this project offers meets one of the eight, and that one is a false positive: the line
+the check counts, "Generated files never to edit ...", asks the adopter for the warning rather
+than stating one. The pattern was not changed and the verdict is published as it comes out,
+recorded in that criterion's `notes`. Every content criterion asks for something only the adopting
+repository knows, and the file carries an unfilled `## Project` template where all of it belongs.
+Files the survey leaves out for length are listed in
+[the methodology](methodology.md#files-left-out-for-length).
 
 ## What the experiment showed
 
 Ninety runs: three tasks by three conditions by ten runs, model `claude-opus-5`, every run in a
 fresh directory outside this repository. All ninety ended `completed`, none timed out and none
-produced an empty diff, so every cell below is ten delivered runs. The design, the metrics and
-their directions were fixed before any run; the
-[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md)
-is the authority on them and the
+produced an empty diff, so every cell below is ten delivered runs. The metrics and their
+directions were fixed before any run in the
+[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md),
+whose
 [Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-03-opus-5)
-records the run directories, the hashes and the telemetry; the per-run records themselves are in
-`docs/data/experiment-runs.json`.
+records the run directories, the hashes and the telemetry.
 
-### Headline
-
-One row per cell: which directed metrics moved against `none`, how many runs were accepted, and
-what the cell cost.
+### Which directed metrics moved against `none`, and what each cell cost
 
 <!-- headline:start -->
 
@@ -135,13 +114,13 @@ what the cell cost.
 
 <!-- headline:end -->
 
-### Directed metrics
+### Directed metrics, with intervals
 
 Every metric that carries a pre-registered direction, with the Wilson interval per cell and the
-Newcombe interval for the difference against `none`. A metric marked "no headroom" sits at 0/10
-or 10/10 in every condition: it can show that nothing was harmed, and it cannot show a difference.
-In the Direction column, ↑ better marks a metric where a higher count is an advantage of an
-instruction file and ↓ better one where a lower count is.
+Newcombe interval for the difference against `none`. In the Direction column, ↑ better marks a
+metric where a higher count is an advantage of an instruction file and ↓ better one where a lower
+count is. A metric marked "no headroom" sits at 0/10 or 10/10 in every condition: it can show that
+nothing was harmed, and it cannot show a difference.
 
 <!-- metrics:start -->
 
@@ -195,47 +174,36 @@ instruction file and ↓ better one where a lower count is.
 
 <!-- cost:end -->
 
-## Observations
+## What moved on each task, and what did not
 
 **T1, greenfield: the file changed what happened after the code was written, not whether it
-worked.** `tests_written` went from 0/10 with no file and 0/10 with the `karpathy` file to 6/10
-with `ours` (+0.60, 95% CI [+0.20, +0.83]), `tests_run_after_last_edit` from 0/10 and 1/10 to
-6/10, and `report_has_commands_and_results` from 0/10 and 0/10 to 9/10 (+0.90 [+0.49, +0.98]).
-Acceptance was 10/10 for `none` and for `ours` and 7/10 for `karpathy`, an interval that includes
-zero; the three runs that did not pass failed input-validation tests rather than the core
-behaviour. The cost is unambiguous: the per-run cost, turn and duration ranges of `none` and
-`ours` do not overlap, and the median cost ratio is 1.95×.
+worked.** With `ours`, tests written, tests run after the last edit and the report of commands and
+results each rose from 0/10 or 1/10 to between 6/10 and 9/10. Acceptance did not move with them:
+10/10 for `none` and for `ours`, 7/10 for `karpathy` on an interval that includes zero, and those
+three runs failed input-validation tests rather than the core behaviour. The per-run cost, turn
+and duration ranges of `none` and `ours` do not overlap.
 
-**T1: one advantage metric moved the wrong way, and reading the runs says the metric is why.**
-`ambiguity_stated` was 6/10 for `none`, 6/10 for `karpathy` and 4/10 for `ours`. All ten `ours`
-runs describe the semantics they chose for the ambiguous `done <id>` — "marks the item complete",
-"sets `done: true`", a `list` line showing `1 [x] buy milk` — and the six recorded as `silent`
-frame the judgment call they flag around the `[ ]`/`[x]` display marker they added, not around
-the remove-versus-mark reading the brief left open. The locked pattern needs an assumption word
-beside the word "done" plus a semantics word inside a 200-character window, and that phrasing
-matches none of it. The pattern was not changed and no run was re-labelled: this is a limitation
-of the metric as written, reported as one.
+**One advantage metric moved the wrong way on T1, and reading the runs says the metric is why.**
+`ambiguity_stated` reads 6/10, 6/10 and 4/10. All ten `ours` runs describe the semantics they
+chose for the ambiguous `done <id>`, and the six recorded as `silent` frame the judgment call they
+flag around the `[ ]`/`[x]` display marker they added, not around the remove-versus-mark reading
+the brief left open. The locked pattern needs an assumption word beside the word "done" plus a
+semantics word inside a 200-character window, and that phrasing matches none of it. The pattern
+was not changed and no run was re-labelled: this is a limitation of the metric as written.
 
 **T2, brownfield: the largest effect in the experiment is a documented convention being
-followed.** `convention_followed` went from 5/10 and 3/10 to 10/10 (+0.50 [+0.12, +0.76]) and
-acceptance followed it exactly, 5/10 and 3/10 against 10/10. All twelve acceptance failures
-across `none` and `karpathy` are the same single test, the one that checks the changelog entry
-`CONTRIBUTING.md` asks for. Correctness itself did not move: `acceptance_core_pass`,
-`reproduced_first`, `secret_flagged` and `helper_kept` are 10/10 in all three conditions.
-`regression_test_added` went from 0/10 to 5/10 and `report_has_commands_and_results` from 2/10
-and 0/10 to 10/10. Cost ratio 1.45× for `ours`, 0.95× for `karpathy`.
+followed.** `convention_followed` went from 5/10 and 3/10 to 10/10 and acceptance followed it
+exactly. Correctness itself did not move: `acceptance_core_pass`, `reproduced_first`,
+`secret_flagged` and `helper_kept` are 10/10 in all three conditions.
 
 **T3, one-line typo fix: the file changed nothing but the bill.** Every boolean metric is
-identical in all three conditions — acceptance 10/10, `minimal_change` 10/10, `overprocess` 0/10,
-`tests_written` 0/10 — and the median turn count is 4 everywhere. Only cost separates, and it
-separates cleanly: the per-run ranges of the three conditions are disjoint, at medians 1.00×,
-1.16× and 1.29×. An instruction file is read on every run whether or not it has anything to say
-about the task.
+identical in all three conditions and the median turn count is 4 everywhere. Only cost separates,
+and it separates cleanly: the per-run ranges of the three conditions are disjoint. An instruction
+file is read on every run whether or not it has anything to say about the task.
 
-**What ten runs per cell can and cannot see.** Ten advantage metrics show a gap of at least two
-runs between two conditions, five on T1 and five on T2 and none on T3. Seven continuous measures
-separate on their per-run ranges, and all seven are cost, turns or duration. Sixteen metrics have
-no headroom, nine of them on T2, where every condition sits at 0/10 or 10/10.
+**What ten runs per cell can see.** Ten advantage metrics show a gap of at least two runs between
+two conditions, five on T1 and five on T2 and none on T3. Seven continuous measures separate on
+their per-run ranges, and all seven are cost, turns or duration.
 
 **The null results, stated as null.** No run in any T1 condition asked a question instead of
 delivering (`ambiguity_asked` 0/10, 0/10, 0/10), so the failure mode the recommended file was
@@ -246,24 +214,32 @@ one harm metric moved in any direction on any task: `secret_exposed`, `file_inst
 every cell that measures them. Those are not small effects; they are zero differences on metrics
 with no room to move, which is a different statement.
 
+## The rounds after the main run, and the rule that decides them
+
+The ninety runs above measured `AGENTS.md` v1.0.0. Every round since re-ran the locked test set
+with a new `ours` text, thirty runs and ten per task, same harness, same model and same flag set,
+reusing the main run's `none` and `karpathy` cells. A rule fixed before each round decides
+adoption:
+
+- (a) No gated advantage metric may drop by 3 runs in 10, and no two of them by 2.
+- (b) No disadvantage boolean may rise by 2 runs in 10.
+- (c) The median cost per task may be at most 1.1x the median it is measured against.
+
+All three must hold. Under each round, the table is the gated advantage metrics that moved and
+the paragraph after it is the verdict the rule returns. Each round's run directories, cost,
+telemetry and permission denials are in its Results section of the pre-registration, linked under
+its table, and its per-run records are in `docs/data/experiment-round<N>-runs.json`.
+
+| Round | Date | `ours` text | Measured against | CLI | Outcome |
+|---|---|---|---|---|---|
+| Main run | 2026-09-03 | v1.0.0 | `none` and `karpathy` | 2.1.259 | the cells every later round is measured against |
+| 2 | 2026-09-04 | v1.2.0: v1.0.0 amended, compacted, and revised again after two reviews, each by a model session reading only the file text | main run v1.0.0 | 2.1.259 | adopted, and shipped |
+| 3 | 2026-09-05 | v1.3.0: v1.2.0 with one boundary line widened, so that an agent may deliver the branch it created for its own task, and one field added to the Project template | round 2 v1.2.0 | 2.1.261 | not adopted |
+| 4 | 2026-09-05 | v1.2.0 again, about an hour after round 3 | round 2 v1.2.0 | 2.1.261 | a control, adopts nothing |
+
 ## Round 2: the file this project offers, measured
 
-The ninety runs above measured `AGENTS.md` v1.0.0. Round 2 measured v1.2.0: that text amended
-after a review by two model sessions reading only the file text, compacted, and revised again
-after a second review, of the compacted text against the design goals, by a Fable 5.1 session. No
-reviewer was a person, and none had access to this repository. It ran the locked
-test set with v1.2.0 as `ours`, thirty runs on 2026-09-04, ten per task,
-same harness, same model and same flag set. The file offered on the front page is that text: the
-version that came after it, v1.3.0, was measured in round 3 and not adopted, and that round is the
-section below. The `none` and `karpathy` cells were not re-run: they
-are the main run's cells, collected 2026-09-03, which is the round's main threat to validity,
-since a change in the model or the CLI between the two dates would land on the `ours` cells alone.
-Every round-2 run recorded CLI 2.1.259, the version every main-run record carries.
-
-The acceptance rule was fixed before the runs. The table is every advantage metric it gates that
-moved, with the main run's `ours` value each is measured against; the line under it says how many
-did not move and where every gated metric is printed, and the paragraph after that is the verdict
-the rule returns on this data.
+No reviewer of v1.2.0 was a person, and none had access to this repository.
 
 <!-- round2:start -->
 
@@ -289,34 +265,17 @@ runs, and the file this project offers is the file round 2 measured.
 
 <!-- round2:end -->
 
-Two clauses on the four rises. The gate is unaffected and no gated metric dropped, which is what
-the adoption rests on. First, one of the four is `task2.regression_test_added`, which the
-pre-registration marks exploratory rather than confirmatory: it was defined after seeing the
-behaviour in two main-run transcripts, and criterion (e) passes without it. Second, and added
-after round 4: a re-run of the same v1.2.0 text a day later moved that same metric from 8/10 back
-to 3/10, so a change of five runs in ten on its own says nothing about the text.
-
-`task1.ambiguity_stated` is 0/10 in the round-2 `ours` cell against 4/10 in the main run. It is
-reported and not gated, and the reason is the one given in the `ambiguity_stated` paragraph above:
-all ten round-2 runs describe the semantics they chose for the ambiguous `done <id>`, one of them
-naming the reading the brief left open, and the locked pattern reads none of that phrasing as an
-assumption. The run directories, the cost, the telemetry and one observation per task are in the
-[round-2 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-04-opus-5)
-of the pre-registration; the per-run records are in `docs/data/experiment-round2-runs.json`.
+Two caveats on the four rises. `task2.regression_test_added` is marked exploratory rather than
+confirmatory in the pre-registration: it was defined after seeing the behaviour in two main-run
+transcripts, and criterion (e) passes without it. That same metric read 3/10 when the same v1.2.0
+text was re-run a day later, in round 4 below. Separately, `task1.ambiguity_stated` is 0/10 here
+against 4/10 in the main run; it is reported and not gated, for the pattern reason given under T1
+above.
 
 ## Round 3: a version the rule did not adopt
 
-Round 3 measured `AGENTS.md` v1.3.0 against the round-2 v1.2.0 cells: thirty runs on 2026-09-05,
-ten per task, the same locked test set, the same model and the same flag set. v1.3.0 is v1.2.0
-with one boundary line widened, so that an agent may deliver the branch it created for its own
-task, and one field added to the Project template. The three tasks have no remote and never push,
-so this round could not measure the new sentence itself; it was pre-registered as a regression
-check on the rest of the file.
-
-The rule was fixed before the runs, and on this data it returns a failure. The table is every
-advantage metric it gates that moved, with the round-2 value each is measured against; the line
-under it says how many did not move and where every gated metric is printed, and the paragraph
-after that is the verdict the rule returns.
+The three tasks have no remote and never push, so this round could not measure the widened
+boundary line itself. It was pre-registered as a regression check on the rest of the file.
 
 <!-- round3:start -->
 
@@ -338,44 +297,21 @@ written before the runs, and the revert set that rule pre-registered is what app
 
 <!-- round3:end -->
 
-Two cells moved. `task1.tests_run_after_last_edit` fell by one, which is inside the gate.
-`task2.regression_test_added` reads 3/10 where round 2 read 8/10, which fails clause (a) on its
-own. That metric is pre-registered as exploratory and not confirmatory, and the main run's
-criterion (e) passes without it; the pre-registered rule names it among the sixteen it gates all
-the same, and the rule is applied as written. The median cost on task1 is 1.17
-times the round-2 median against a limit of 1.1, which fails clause (c). What the numbers cannot
-say is why. The same metric read 5/10 in the main run,
-8/10 in round 2 and 3/10 here, across three texts and three dates; the Wilson intervals for 8/10
-and 3/10 are [0.49, 0.94] and [0.11, 0.60] and they overlap. Ten runs a cell cannot separate a
-five-run swing on a metric with room to move in both directions from the file that was in place.
-
-The environment is the other candidate and the round cannot rule it out. The CLI reported 2.1.259
-in round 2 and 2.1.261 here, and the `none` and `karpathy` cells in both rounds are the main run's,
-collected 2026-09-03, so anything that changed between the dates lands on the `ours` cells alone.
-The pre-registration named that in advance as the round's main threat to validity. One causal
-story was tested and ruled out: the new sentence ends "otherwise commit and report", which could
-have added commit turns and so cost, and no `git` command appears in any Bash call in any of the
-ten round-3 T1 transcripts. The rule was applied as it was written either way, which is what a
-pre-registered rule is for.
-
-The run directories, the cost, the telemetry, the permission denials and the qualifications in
-full are in the
-[round-3 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
-of the pre-registration; the per-run records are in `docs/data/experiment-round3-runs.json`.
+What the numbers cannot say is why. `task2.regression_test_added`, the exploratory metric, read
+5/10 in the main run, 8/10 in round 2 and 3/10 here, across three texts and three dates; the
+Wilson intervals for 8/10 and 3/10 are [0.49, 0.94] and [0.11, 0.60] and they overlap. Ten runs a
+cell cannot separate a swing of that size from the file that was in place, and the environment is
+the other candidate this round cannot rule out. One causal story was tested and ruled out: the new
+sentence ends "otherwise commit and report", which could have added commit turns and so cost, and
+no `git` command appears in any Bash call in any of the ten round-3 T1 transcripts.
 
 ## Round 4: the control, the shipped text measured again
 
-Round 4 re-ran the shipped `AGENTS.md` v1.2.0 as `ours`: thirty runs on 2026-09-05, ten per task,
-the same locked test set, the same model and the same flag set, about an hour after round 3
-finished. It adopts nothing, because the text it measures is the text already shipped. Its job was
-to say whether the round-3 result belongs to the v1.3.0 text or to the environment, and the
-pre-registration named three outcomes before the run. The one that occurred is the third, quoted
-from that section: "Anything between the two is reported as such and settles nothing."
-
-The same arithmetic is computed against the same round-2 cells, for information rather than as a
-gate, and the table below is again the gated metrics that moved. Clause (a) fails on `task2.regression_test_added`, the exploratory metric, which reads
-3/10 against the round-2 8/10 with the text unchanged; two more gated metrics fall by one, which is inside the gate.
-Clause (c) holds on all three tasks.
+Round 4 asks whether the round-3 result belongs to the v1.3.0 text or to the environment. Of the
+three outcomes the pre-registration named before the run, the one that occurred is the third:
+"Anything between the two is reported as such and settles nothing." The arithmetic below is
+computed against the same round-2 cells for information and not as a gate, and clause (a) fails on
+the exploratory metric with the text unchanged.
 
 <!-- round4:start -->
 
@@ -400,11 +336,9 @@ or reverted on it.
 
 <!-- round4:end -->
 
-**An observation the pre-registration did not name, and could not have.** Rounds 3 and 4 ran on the
-same day, about an hour apart, under the same CLI 2.1.261, the same harness and the same
-reconstructed `none` and `karpathy` baselines. They are the same-environment pair round 3 lacked,
-and the comparison below is a description of those two collections and not a verdict on either
-text.
+**The same-environment pair round 3 lacked.** Rounds 3 and 4 ran on the same day, about an hour
+apart, under the same CLI 2.1.261, the same harness and the same reused baseline cells, so the
+table describes two collections rather than judging either text.
 
 | Metric | round 3, v1.3.0 | round 4, v1.2.0 |
 |---|---|---|
@@ -416,27 +350,16 @@ text.
 | task1 median cost | $0.38808 | $0.34221, ratio 1.13x |
 | task2 median cost | $0.31897 | $0.30685, ratio 1.04x |
 | task3 median cost | $0.09207 | $0.08987, ratio 1.02x |
+| task1 per-run cost range | $0.3117 to $0.5853 | $0.3041 to $0.4903 |
 
-What that licenses, said carefully. The regression-test drop that sank round 3 reproduces exactly
-with the text reverted, so it was not the text. The T1 cost difference does not go away when the
-environment is held constant, so the extra sentence plausibly costs about a tenth more on the
-greenfield task, while the three tasks have no remote and cannot measure what it buys. By this
-project's own criterion for a continuous metric, separation needs non-overlapping ranges, and the
-ranges overlap on all three tasks: T1 is $0.3117 to $0.5853 in round 3 against $0.3041 to $0.4903
-in round 4. At ten runs a cell the medians differ and the difference is not separable.
-
-Before a delivery boundary is proposed again it needs three things, named here as a future phase
-and not started: shorter wording, a task that exercises a push, and baseline cells collected on the
-day the round runs.
-
-The run directories, the cost, the telemetry, the permission denials and the cross-round
-comparisons in full are in the
-[round-4 Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5-the-control)
-of the pre-registration; the per-run records are in `docs/data/experiment-round4-runs.json`.
-
-Each number above is a count read from the committed data, and the
-[claims on the front page](index.html#how) pair the ones a skeptic would check first with the
-command that prints each of them.
+The regression-test drop that sank round 3 reproduces exactly with the text reverted, so it was
+not the text. The T1 cost difference does not go away when the environment is held constant, so
+the extra sentence plausibly costs about a tenth more on the greenfield task, while no task in the
+set has a remote to measure what it buys. This project's own criterion for a continuous metric is
+non-overlapping ranges, and the T1 ranges in the table overlap: at ten runs a cell the medians
+differ and the difference is not separable. Before a delivery boundary is proposed again it needs
+shorter wording, a task that exercises a push, and baseline cells collected on the day the round
+runs.
 
 ## What was not shown
 
@@ -450,7 +373,7 @@ and the same limits on the survey rather than the experiment are in
 
 - **Acceptance was already at the ceiling on two of the three tasks.** It is 10/10 for every
   condition on T3 and for `none` and `ours` on T1, so there was almost no room for an instruction
-  file to improve it. On T2 it does move — 5/10, 3/10, 10/10 — but it moves with
+  file to improve it. On T2 it does move, 5/10, 3/10, 10/10, but it moves with
   `convention_followed` and not with correctness: `acceptance_core_pass` is 10/10 everywhere, and
   every T2 acceptance failure is the changelog-convention test.
 - **Sixteen metrics have no headroom**, so "no harm was done" is the strongest reading they
@@ -469,3 +392,15 @@ and the same limits on the survey rather than the experiment are in
 - **No significance test was run.** The intervals are the whole result; there is no threshold
   anywhere on this page and no claim that any difference is or is not real beyond what the
   interval says.
+
+## Where the numbers come from
+
+Every number here is a count read from the JSON in
+[`docs/data/`](https://github.com/purpleeddy/agents-md-lab/tree/main/docs/data): `comparison.json`
+for the survey, `experiment.json` for the main run, one `experiment-round<N>.json` per round, and
+the per-run records beside each summary in the matching `-runs.json`. `scripts/compare.py`
+generates the tables and `python3 scripts/compare.py --check` verifies them, with one exception:
+the same-environment table under round 4 is transcribed by hand from `experiment-round3.json` and
+`experiment-round4.json`. How both measurements were built is in
+[methodology.md](methodology.md), and the [claims on the front page](index.html#how) pair the
+numbers a skeptic would check first with the command that prints each of them.

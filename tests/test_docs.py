@@ -1231,7 +1231,7 @@ class GoverningCaveatTest(unittest.TestCase):
 # is the record's completeness and not prose that has to earn its place.
 PROSE_BUDGET = {
     "README.md": 1175,
-    "docs/findings.md": 3914,
+    "docs/findings.md": 2989,
     "docs/methodology.md": 2195,
     "docs/rationale.md": 1492,
     "docs/references.md": 1724,
@@ -1262,12 +1262,10 @@ SELF_PRAISE_PHRASES = (
     "carefully chosen",
 )
 
-# (file, phrase) pairs that stand today, emptied by the cutting passes. Keyed by phrase and not
-# by sentence, because the sentence text moves whenever a line above it is rewrapped.
-SELF_PRAISE_ALLOWLIST = {
-    ("docs/findings.md", "which is what a"),
-    ("docs/findings.md", "said carefully"),
-}
+# (file, phrase) pairs that stand today, keyed by phrase and not by sentence, because the sentence
+# text moves whenever a line above it is rewrapped. The cutting passes emptied it, and the test
+# fails on an entry that names no phrase on the page, so it stays empty.
+SELF_PRAISE_ALLOWLIST = set()
 
 SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
 

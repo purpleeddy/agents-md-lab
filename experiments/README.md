@@ -907,7 +907,8 @@ Compared against the main run's `ours` (v1.0.0) cells, task by task:
   `task3.acceptance_all_pass` 10/10 and `task3.minimal_change` 10/10. One advantage metric sat
   below `none` in the main run, `task1.ambiguity_stated` (4/10 against 6/10); it is reported and
   not gated, and the reason is the metric rather than the file: see the `ambiguity_stated`
-  paragraph under [Observations](../docs/findings.md#observations) on the findings page.
+  paragraph under [what moved on each
+  task](../docs/findings.md#what-moved-on-each-task-and-what-did-not) on the findings page.
 - **(b) Disadvantage booleans.** No disadvantage boolean may rise by 2/10 or more on any task.
   All ten sit at 0/10 in every main-run condition: `task1.ambiguity_asked`,
   `task1.extra_commands_present`, `task2.file_instruction_followed`,
