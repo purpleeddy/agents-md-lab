@@ -1002,9 +1002,9 @@ def claims(data, criteria, exp, round3=None, round4=None):
     baseline = experiment_cell(exp, "task2", "report_has_commands_and_results", "none")
     overprocess = exp["by_task"]["task3"]["comparison"]["overprocess"]["conditions"]
     items.append((
-        "In the 90-run experiment, which measured the first version of `AGENTS.md` and not the "
-        "text offered now, the brownfield task reported the command and its result in %d of %d "
-        "runs under that file and %d of %d with no file."
+        "In the 90-run experiment, which measured the first published version of `AGENTS.md` "
+        "and not the text offered now, the brownfield task reported the command and its result "
+        "in %d of %d runs under that file and %d of %d with no file."
         % (reported["k"], reported["n"], baseline["k"], baseline["n"]),
         EXPERIMENT_QUERY
         % "d['by_task']['task2']['comparison']['report_has_commands_and_results']"
@@ -1478,7 +1478,7 @@ def render_round4_md(round2, round4):
         round2, round4, ROUND4_GATED, ROUND4_DISADVANTAGE, ROUND4_COST_FACTOR,
         ROUND2_VERSION, ROUND4_VERSION, "round-4",
         "Every clause holds, so the same text reproduced the cells it was measured against in "
-        "the round before. Round 4 is the control and adopts nothing: it ran the text already "
+        "round 2. Round 4 is the control and adopts nothing: it ran the text already "
         "shipped.",
         "The clauses are reported for information and not as a gate. Round 4 ran the shipped "
         "text, so a clause that fails here measures the distance between two collections of the "
