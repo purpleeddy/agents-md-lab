@@ -182,7 +182,7 @@ or followed. A file can meet every rule criterion in seven lines:
 
 That file is [`docs/examples/stuffed.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/docs/examples/stuffed.md),
 an example of what presence-checking cannot see, not a file to adopt: it names a test
-command no repository it lands in necessarily has, and says nothing about the project it sits in.
+command no adopting repository necessarily has, and says nothing about the project it sits in.
 The honest way to state a check's limit is a file that passes it and is useless. What the criteria
 cannot answer, whether a file changes what an agent does, is what the experiment is for.
 
@@ -260,9 +260,9 @@ file, and who read which text is on the
 [rationale page](rationale.md#known-issues-the-review-found-in-the-file). **Why coverage falls
 twice.** Lines were cut or reworded on their own merits and the frozen patterns then stopped
 matching, never the other way round: no line was written, kept or dropped to change a verdict.
-**Why one version has four hashes.** Until v1.2.0 the root file carried this repository's own
-`## Project` section and the page offered a copy with it emptied, so the table below, of every text
-this project has offered, lists v1.0.1 four times.
+**Why one version has four hashes.** Before the shipped text, the root file carried this
+repository's own `## Project` section and the page offered a copy with it emptied, so the table
+below, of every text this project has offered, lists one early draft four times.
 
 <!-- shipped:start -->
 
@@ -280,11 +280,11 @@ this project has offered, lists v1.0.1 four times.
 
 <!-- shipped:end -->
 
-From v1.0.0 to v1.0.1 four lines changed and nothing else did; all four are quoted, was and now, in
+Four lines changed after the runs and nothing else did; all four are quoted, was and now, in
 the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#the-four-v101-lines).
-The findings describe v1.0.0 and are unaffected by them: the rules behind every metric that moved
-are the Done test requirements, the Reporting section and "Read the files you will change and their
-callers", identical in both texts. The four lines are themselves untested, written after the runs
+The findings describe the measured text and are unaffected by them: the rules behind every metric
+that moved are the Done test requirements, the Reporting section and "Read the files you will
+change and their callers", identical in both texts. The four lines are themselves untested, written
 in response to a review whose other findings are on the
 [rationale page](rationale.md#known-issues-the-review-found-in-the-file).
 
@@ -316,10 +316,9 @@ failed.
 The loop: propose from review or a cited source, pre-register the acceptance rule and the revert
 set, run, adopt or revert, record every text by hash, at most two rounds.
 
-v1.3.0 is the worked example and round 4 the control: with the text reverted, the metric that
-decided round 3 read the round-3 value again, so the drop was not the text. One rule follows: a
-round compares against cells collected the day it runs. Both rounds are on
-the
+The delivery revision is the worked example and round 4 the control: with the text reverted, the
+metric that decided round 3 read the round-3 value again, so the drop was not the text. One rule
+follows: a round compares against cells collected the day it runs. Both are on the
 [findings page](findings.md#round-3-a-version-the-rule-did-not-adopt) and in the pre-registration's
 [round-3](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-05-opus-5)
 and
@@ -344,9 +343,9 @@ text under test and is not measured.
   The pre-registration records this as a limitation of the main run and traces every rule of the
   file to a source or a corpus observation rather than to a task.
 - Ten runs per cell make wide intervals. A difference of one or two runs is inside them.
-- The published comparison rests on `none` and `karpathy` cells collected on one date,
-  2026-09-03, and reused by rounds 2, 3 and 4. Round 4 re-ran one text on a later date and moved a
-  gated metric by five runs, so a stale baseline cell is a threat to validity and not a constant.
+- The published comparison rests on `none` and `karpathy` cells collected on one date and reused
+  by rounds 2, 3 and 4. Round 4 re-ran one text on a later date and moved a gated metric by five
+  runs, so a stale baseline cell is a threat to validity and not a constant.
 - One model, one CLI version, one flag set. Nothing here generalises to another agent without
   re-running it.
 - The criteria are regexes over lines. A file can state a rule in wording no pattern anticipated,

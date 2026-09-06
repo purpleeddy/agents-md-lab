@@ -110,24 +110,24 @@ blocking, 12 should fix, 8 nits) and one addition the runs cannot measure; all 2
 the revised text adopted whole. Every change, traced to the line it lands in, is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v120-the-design-review-changes).
 
-The reviewer named two failures prose cannot reach, limits of the file rather than defects in it. An agent obeying Done item 1 runs a harmful command a README documents as the test command,
-because the file tells it to trust the repository's own documentation. A pipeline that passes an
-issue body in as the whole prompt leaves the "task prompt is the human's" sentence nothing to
-separate. Both need the harness: a permission setting, and a pipeline that marks its untrusted
-span.
+The reviewer named two failures prose cannot reach, limits of the file rather than defects in it.
+An agent obeying Done item 1 runs a harmful command a README documents as the test command, because
+the file tells it to trust the repository's own documentation. A pipeline that passes an issue body
+in as the whole prompt leaves the "task prompt is the human's" sentence nothing to separate. Both
+need the harness: a permission setting, and a pipeline that marks its untrusted span.
 
 <a id="v130-the-delivery-boundary-2026-09-05"></a>
 
 ### The delivery boundary
 
-The revision scaled the explicit ask to reversibility, letting an agent push the branch it created for
-its own task while merges, deploys, messages, outside comments and pushes to a protected or
-default branch kept the ask. Round 3 measured it and the rule did not adopt it: the locked tasks have no remote, so the sentence was never exercised, and two of the
-round's three clauses failed on the rest of the file.
-`task2.regression_test_added`, marked exploratory rather than confirmatory, read 3/10 against the
-round-2 8/10, and the greenfield median cost came in at 1.167 times the round-2 median against a
-limit of 1.1. The revert set was named before the runs and applied as written.
-
+The revision scaled the explicit ask to reversibility, letting an agent push the branch it created
+for its own task while merges, deploys, messages, outside comments and pushes to a protected or
+default branch kept the ask. Round 3 measured it and the rule did not adopt it: the locked tasks
+have no remote, so the sentence was never exercised, and two of the round's three clauses failed on
+the rest of the file. `task2.regression_test_added`, marked exploratory rather than confirmatory,
+read 3/10 against the round-2 8/10, and the greenfield median cost came in at 1.167 times the
+round-2 median against a limit of 1.1. The revert set was named before the runs and applied as
+written.
 The reverted text, the six sources the boundary rests on and the argument for it are in
 the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v130-the-delivery-boundary);
 the numbers, their overlapping Wilson intervals and the CLI version that moved between the two
