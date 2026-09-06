@@ -441,9 +441,9 @@ project's own criterion for a continuous metric, separation needs non-overlappin
 ranges overlap on all three tasks: T1 is $0.3117 to $0.5853 in round 3 against $0.3041 to $0.4903
 in round 4. At ten runs a cell the medians differ and the difference is not separable.
 
-The revert therefore stands on the merits as well as by the rule. Before a delivery boundary is
-proposed again it needs three things, named here as a future phase and not started: shorter
-wording, a task that exercises a push, and baseline cells collected on the day the round runs.
+Before a delivery boundary is proposed again it needs three things, named here as a future phase
+and not started: shorter wording, a task that exercises a push, and baseline cells collected on the
+day the round runs.
 
 The run directories, the cost, the telemetry, the permission denials and the cross-round
 comparisons in full are in the

@@ -967,6 +967,14 @@ class CoverageSentenceTest(unittest.TestCase):
     def ours(self):
         return json.loads(COMPARISON.read_text(encoding="utf-8"))["ours"]
 
+    def test_the_round_four_prose_claims_no_separation_it_cannot_show(self):
+        """The paragraph that reads the round-4 cost ranges says the difference is not separable
+        at ten runs a cell. A sentence that then calls the revert right on the merits contradicts
+        the sentence above it, so the page must not carry one."""
+        self.assertNotIn(
+            "on the merits as well as by the rule", FINDINGS.read_text(encoding="utf-8")
+        )
+
     def test_the_methodology_states_the_measured_rule_coverage(self):
         ours = self.ours()
         self.assertIn(
