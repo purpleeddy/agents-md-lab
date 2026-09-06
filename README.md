@@ -79,18 +79,19 @@ Each of three tasks was run ten times in each of three ways: with no instruction
 public instruction file another project ships, and with the file this project recommends. The
 three tasks are building a small command-line app in an empty directory, a change inside an
 existing package that documents a convention, and a one-line typo fix. The summary below is
-written from the run data, and it calls the first task greenfield, the second brownfield, and the
-three ways of running a task conditions.
+written from the run data.
 
 <!-- summary-experiment:start -->
 
-90 runs, three tasks by three conditions by ten, all of them delivered. On the greenfield task
-the recommended file took `tests_written` from 0/10 with no instruction file to 6/10, and
-reporting the command and its result from 0/10 to 9/10; on the brownfield task it took the
-documented-convention metric from 5/10 to 10/10, and acceptance followed it exactly, 5/10 to
-10/10. On the one-line typo fix nothing moved at all: every boolean metric is identical across
-the three conditions. The file is paid for on every task: median cost 1.95× the no-file
-condition on the greenfield task, 1.45× on the brownfield one and 1.29× on the typo fix.
+90 runs: three tasks, each run three ways, ten runs each way, all of them delivered. On the
+task that builds a small app in an empty directory, the recommended file took `tests_written`
+from 0/10 with no instruction file to 6/10, and reporting the command and its result from 0/10
+to 9/10; on the task that changes an existing package it took the documented-convention measure
+from 5/10 to 10/10, and acceptance followed it exactly, 5/10 to 10/10. On the one-line typo fix
+nothing moved at all: every yes-or-no measure is identical across the three ways of running it.
+The file is paid for on every task: median cost 1.95× the runs with no instruction file when
+building in an empty directory, 1.45× when changing an existing package and 1.29× on the typo
+fix.
 
 <!-- summary-experiment:end -->
 

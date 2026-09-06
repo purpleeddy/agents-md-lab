@@ -1374,14 +1374,15 @@ def render_experiment_summary_md(exp):
     acceptance = cell("task2", "acceptance_all_pass", "ours")
     ratios = [by_task[task]["headline"]["ours"]["cost_ratio"] for task in ("task1", "task2", "task3")]
     text = (
-        "%d runs, %s tasks by %s conditions by %s, all of them delivered. On the greenfield task "
-        "the recommended file took `tests_written` from %d/%d with no instruction file to %d/%d, "
-        "and reporting the command and its result from %d/%d to %d/%d; on the brownfield task it "
-        "took the documented-convention metric from %d/%d to %d/%d, and acceptance followed it "
-        "exactly, %d/%d to %d/%d. On the one-line typo fix nothing moved at all: every boolean "
-        "metric is identical across the three conditions. The file is paid for on every task: "
-        "median cost %.2f\u00d7 the no-file condition on the greenfield task, %.2f\u00d7 on the "
-        "brownfield one and %.2f\u00d7 on the typo fix."
+        "%d runs: %s tasks, each run %s ways, %s runs each way, all of them delivered. On the "
+        "task that builds a small app in an empty directory, the recommended file took "
+        "`tests_written` from %d/%d with no instruction file to %d/%d, and reporting the command "
+        "and its result from %d/%d to %d/%d; on the task that changes an existing package it "
+        "took the documented-convention measure from %d/%d to %d/%d, and acceptance followed it "
+        "exactly, %d/%d to %d/%d. On the one-line typo fix nothing moved at all: every yes-or-no "
+        "measure is identical across the three ways of running it. The file is paid for on every "
+        "task: median cost %.2f\u00d7 the runs with no instruction file when building in an empty "
+        "directory, %.2f\u00d7 when changing an existing package and %.2f\u00d7 on the typo fix."
         % (
             total,
             NUMBER_WORDS[len(by_task)],
