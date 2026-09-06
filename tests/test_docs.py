@@ -1233,7 +1233,7 @@ PROSE_BUDGET = {
     "README.md": 1175,
     "docs/findings.md": 3914,
     "docs/methodology.md": 5375,
-    "docs/rationale.md": 3430,
+    "docs/rationale.md": 1492,
     "docs/references.md": 1724,
     "CONTRIBUTING.md": 756,
 }
