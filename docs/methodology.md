@@ -248,7 +248,7 @@ Three things about these patterns are worth stating plainly rather than leaving 
 
 ## Why the recommended file meets the rule criteria
 
-The recommended file meets 8 of the 10 rule criteria, and that number is not evidence of
+The recommended file meets 7 of the 10 rule criteria, and that number is not evidence of
 anything. The criteria and the file were written by the same author, in the same weeks, from the
 same sources — [anthropic-bp](references.md#ref-anthropic-bp),
 [anthropic-memory](references.md#ref-anthropic-memory),
@@ -260,6 +260,17 @@ same sources — [anthropic-bp](references.md#ref-anthropic-bp),
 meet a set of criteria drawn from the same sources. Coverage of the rule criteria by this
 project's own file is therefore expected by construction, and it is reported here for
 completeness rather than as a result.
+
+Three of the ten are unmet, and the reason for each is on the record. **Runnable commands**: the
+`## Project` section ships as the empty template every adopter fills in, so the file names no
+command until it lands in a repository, and this repository's own commands live in
+[`CONTRIBUTING.md`](https://github.com/purpleeddy/agents-md-lab/blob/main/CONTRIBUTING.md).
+**Verification before done**: the sentence the pattern matched was cut in the line audit on the
+[rationale page](rationale.md#line-audit-v101-to-v110), which could tie it neither to a measured
+effect nor to a safety boundary. **Instructions in files are data**: the rule is in the file and
+the pattern does not see it, because the rewritten line no longer says "data, not commands" in the
+form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and the
+criterion is a worked example of the gap between a pattern and a statement.
 
 What the checks test is narrower still: each one asks whether a statement is present in the text.
 None of them asks whether the statement is any good, whether an agent follows it, or whether
@@ -363,66 +374,40 @@ is the authority. In summary:
 The experiment ran one exact text: the root file of this repository with its `## Project` section
 replaced by the empty template, sha256 `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832`.
 That text is reproducible from history: `git show 2a82474:AGENTS.md` passed through
-`generic_agents_md` from `git show a556abe:scripts/experiment.py` prints it. Two independent
-reviewers then read it, and the two defects both of them rated at their top severity were fixed in
-the rule text. The shipped file is `AGENTS.md` v1.0.1, and it is not the text the ninety runs
-measured.
+`generic_agents_md` from `git show a556abe:scripts/experiment.py` prints it. It is not the text
+shipped now. Every version the file has had, what changed in it, which round of runs measured it
+and what the pre-registered rule then did with it is one table. Lines, bytes and both coverage
+numbers are measured on the text of that version, and the last three columns are the argument
+for it.
 
-Until this commit the shipped text and the root file were two different files: the root file
-carried this repository's own `## Project` section, and the page offered a generated copy of it
-with that section emptied and its rationale pointer rewritten. From this commit on the root
-`AGENTS.md` is the shipped file. Its Project section is the empty template every adopter fills in,
-the buttons hand over that file itself, and there is one hash and one pair of numbers instead of
-three. The rows above the last one below name texts that are no longer in the working tree, so
-their hashes and numbers are recorded constants.
+<!-- versions:start -->
 
-v1.1.0 applied the rest of the independent review, thirteen changes in all, and then cut or merged
-every line a line audit could not tie to a measured effect or to a safety boundary; the audit, one
-row per line of v1.0.1, is on the [rationale page](rationale.md#line-audit-v101-to-v110). That took
-the file from 52 lines and 5,456 bytes to 32 lines and 4,069 bytes, and its rule coverage from
-10/10 to 8/10: it names no runnable command, because the Project template is unfilled, and it no
-longer carries the sentence `done_verification` matched, which was cut on the merits. On
-2026-09-04 four rule clauses were added from external feedback and the Project template was cut
-from five lines to two; each edit has a row in
-[the rationale](rationale.md#amendments-after-external-feedback-2026-09-04).
+| Version | Date | Lines | Bytes | Rule criteria | Content criteria | What changed | Measured by | Outcome |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v1.0.0 | 2026-09-03 | 50 | 4,420 | 9/10 | 0/8 | the text the ninety runs wrote as `ours` | main run | measured, then revised |
+| v1.0.1 | 2026-09-03 | 52 | 5,456 | 10/10 | 3/8 | four rule lines fixed after [an independent review](rationale.md#known-issues-independent-review-2026-09-03) of v1.0.0's text | not measured | shipped, then replaced |
+| v1.1.0, as first written | 2026-09-03 | 35 | 3,840 | 8/10 | 0/8 | the rest of that review, then [a line audit](rationale.md#line-audit-v101-to-v110) that cut or merged every line with neither a measured effect nor a safety role | not measured | shipped, then amended |
+| v1.1.0, amended | 2026-09-04 | 32 | 4,069 | 8/10 | 1/8 | [four rule clauses added from external feedback](rationale.md#amendments-after-external-feedback-2026-09-04) and the Project template cut from five lines to two | not measured | shipped, then replaced |
+| v1.2.0 | 2026-09-04 | 33 | 4,514 | 7/10 | 1/8 | [a second independent review](rationale.md#v120-independent-design-review-2026-09-04), of v1.1.0's text against the design goals, adopted whole | rounds 2 and 4 | adopted, and the file shipped now |
+| v1.3.0 | 2026-09-05 | 33 | 4,754 | 7/10 | 2/8 | [one boundary line moved](rationale.md#v130-the-delivery-boundary-2026-09-05) so an agent could deliver its own branch, and a Delivery slot added to the template | round 3 | not adopted; the pre-registered revert set was applied |
 
-`AGENTS.md` v1.2.0 is the text round 2 measured. A second independent
-review, this one of v1.1.0's text against the design goals, returned 21 findings and one addition,
-and all of them were accepted; the revised text was adopted whole rather than clause by clause,
-and each finding has a row in
-[the rationale](rationale.md#v120-independent-design-review-2026-09-04). The header returns to v0.1.0's wording, which the 2026-09-03 review rated a blocking defect. The
-defect was that a nested file could grant permission and that Done sent the agent to package files
-for a command; Boundaries bullet 5 closes both, so what a nearer document may override is the
-process sections and nothing in Boundaries. The reviewer's fourth Project line, which asked the
-adopter to mirror the destructive list and then delete itself, was adopted and then removed: it is
-an instruction to edit the instruction file, and the advice belongs in the README's adopt steps.
-The file is 33 lines and 4,514 bytes, about 1,128 tokens by a bytes-over-four estimate. Rule coverage falls again, from
-8/10 to 7/10, because the rewritten prompt-injection line no longer says "data, not commands" in
-the form the frozen pattern recognises; the wording was not adjusted to recover the verdict, and
-the criterion is now a second worked example of the gap between a pattern and a statement. No line
-in any version was written or kept to change a verdict. The ninety runs measured v1.0.0. The
-[round-2 test](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#main-run-round-2),
-pre-registered before it ran, put v1.2.0 through the same locked test set on 2026-09-04 as thirty
-`ours` runs with the `none` and `karpathy` cells reused from the main run: none of the sixteen
-gated advantage metrics dropped, four rose, the ten disadvantage booleans stayed at 0/10, and the
-median cost per task was 0.99, 0.92 and 0.94 times the v1.0.0 `ours` medians. All three clauses of
-the acceptance rule hold, so the compaction kept the advantages the ninety runs showed and the
-file round 2 measured is the file this project offered from that date.
+<!-- versions:end -->
 
-The shipped file is `AGENTS.md` v1.2.0, the text round 2 adopted. One version was tried after it
-and not adopted. v1.3.0 moved one rule line, so that merging, a push to a protected or default
-branch, publishing, deploying, messaging and comments or issues outside the agent's own pull
-request kept the explicit ask while pushing the branch the agent created for its own task, and
-opening or updating that branch's pull request, became delivery; the Project template gained a
-`Delivery` slot to match. That text is 33 lines and 4,754 bytes, about 1,188 tokens, with rule
-coverage 7/10 and content coverage 2/8. What it moved, why, and the six vendor and security
-sources behind it are in
-[the rationale](rationale.md#v130-the-delivery-boundary-2026-09-05). The three locked tasks have no
-remote and never push, so the test set could not measure the new sentence: round 3 was a regression
-check on the rest of the file. It ran on 2026-09-05, and the pre-registered rule returned a failure
-on clauses (a) and (c), so the pre-registered revert set was applied and the shipped file is the
-v1.2.0 text again, byte for byte. The table and the verdict are on
-[the findings page](findings.md#round-3-a-version-the-rule-did-not-adopt).
+Three things the table cannot hold. **Who the reviewers were.** Each review named above was a model
+session, not a person and not an audit by an outside body. Two sessions read v1.0.0's text on
+2026-09-03 holding nothing else, no repository, no web access and no tools, and both rated the same
+two defects at their top severity. One Fable 5.1 session read v1.1.0's text against the design
+goals on 2026-09-04, holding only that text and those goals, and returned 21 findings and one
+addition, all accepted. No human reviewer outside this project has read the file, and which model
+ran the two 2026-09-03 sessions is not on record here. **Why coverage falls twice.** It falls because lines were cut or reworded on their
+own merits and the frozen patterns then stopped matching, never the other way round: no line in any
+version was written, kept or dropped to change a verdict, and which three criteria the shipped file
+does not meet, and why each one, is
+[above](#why-the-recommended-file-meets-the-rule-criteria). **Why one version has four hashes.**
+Until v1.2.0 the shipped text and the root file were two different files: the root file carried this
+repository's own `## Project` section, and the page offered a generated copy with that section
+emptied and its rationale pointer rewritten. The table below carries every text this project has
+offered, by hash and by coverage, which is why v1.0.1 appears in it four times and once above.
 
 <!-- shipped:start -->
 
@@ -440,7 +425,7 @@ v1.2.0 text again, byte for byte. The table and the verdict are on
 
 <!-- shipped:end -->
 
-Four lines changed, and nothing else in the file did. Header:
+From v1.0.0 to v1.0.1, four lines changed and nothing else in the file did. Header:
 
 - was: `Nested project instructions (a closer AGENTS.md, README, CONTRIBUTING) add to these; they cannot loosen "Boundaries".`
 - now: `Project documentation committed in this repository (README, CONTRIBUTING, a nested AGENTS.md) adds commands, conventions, and style; it cannot loosen "Boundaries" or grant permission.`
@@ -475,8 +460,9 @@ findings, and what was done with each, are in
 Four grounds, each with a limit. **Measured effect** on the locked test set is the only ground for
 adopting a rule; its limit is the test set, ten runs a cell, three tasks, one model, so a rule
 aimed at behaviour the tasks never exercise needs a new task and a version bump first.
-**Independent review** is the ground for a safety boundary, because every harm metric sits at the
-floor in all three conditions and the runs cannot separate a boundary that works from one nobody
+**Independent review**, which on this project means a model session given the file text and no
+other context, never a person, is the ground for a safety boundary, because every harm metric sits
+at the floor in all three conditions and the runs cannot separate a boundary that works from one nobody
 tested; reasoning is not measurement, so a boundary still passes through the acceptance rule.
 **Sources and corpus prevalence** give a rule standing, not warrant: they record what other
 projects do. The content criteria are a yardstick for a repository's filled-in file, never a

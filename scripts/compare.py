@@ -126,6 +126,85 @@ RECORDED_TEXTS = (
     ),
 )
 
+# One row per version of the recommended file, in the order the versions were written. The
+# genealogy used to be four paragraphs of prose in docs/methodology.md, in which two sentences
+# four paragraphs apart each said "the shipped file is" and named a different version.
+#
+# Lines and bytes are measured on the text itself. A retired version's text is not in the working
+# tree, so its two numbers are recorded here, each measured on the text at the commit its rationale
+# row names; the shipped row carries None and is measured at render time. Rule and content coverage
+# are never written here: a retired row names its sha256 and the pair is read from RECORDED_TEXTS
+# above, so this table and the hash table below cannot disagree. Dates are the day the text was
+# first committed to this repository.
+VERSIONS = (
+    (
+        "v1.0.0",
+        "2026-09-03",
+        50,
+        4420,
+        TESTED_GENERIC_SHA256,
+        "the text the ninety runs wrote as `ours`",
+        "main run",
+        "measured, then revised",
+    ),
+    (
+        "v1.0.1",
+        "2026-09-03",
+        52,
+        5456,
+        "ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012",
+        "four rule lines fixed after [an independent review]"
+        "(rationale.md#known-issues-independent-review-2026-09-03) of v1.0.0's text",
+        "not measured",
+        "shipped, then replaced",
+    ),
+    (
+        "v1.1.0, as first written",
+        "2026-09-03",
+        35,
+        3840,
+        "e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334",
+        "the rest of that review, then [a line audit](rationale.md#line-audit-v101-to-v110) that "
+        "cut or merged every line with neither a measured effect nor a safety role",
+        "not measured",
+        "shipped, then amended",
+    ),
+    (
+        "v1.1.0, amended",
+        "2026-09-04",
+        32,
+        4069,
+        "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
+        "[four rule clauses added from external feedback]"
+        "(rationale.md#amendments-after-external-feedback-2026-09-04) and the Project template "
+        "cut from five lines to two",
+        "not measured",
+        "shipped, then replaced",
+    ),
+    (
+        "v1.2.0",
+        "2026-09-04",
+        None,
+        None,
+        None,
+        "[a second independent review](rationale.md#v120-independent-design-review-2026-09-04), "
+        "of v1.1.0's text against the design goals, adopted whole",
+        "rounds 2 and 4",
+        "adopted, and the file shipped now",
+    ),
+    (
+        "v1.3.0",
+        "2026-09-05",
+        33,
+        4754,
+        "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd",
+        "[one boundary line moved](rationale.md#v130-the-delivery-boundary-2026-09-05) so an agent "
+        "could deliver its own branch, and a Delivery slot added to the template",
+        "round 3",
+        "not adopted; the pre-registered revert set was applied",
+    ),
+)
+
 # The file in the Hernanz post, evaluated with the same engine on 2026-09-03. The post's text is
 # not stored in this repository (see docs/references.md#ref-hernanz-agents-md), so the verdicts are
 # recorded here as constants rather than computed from a copy.
@@ -849,8 +928,17 @@ EXPERIMENT_QUERY = (
     "print(%s)\""
 )
 
+# The one claim that reads two files. It prints the round-4 count only when round 3 read the same
+# number, so the command fails loudly rather than printing a number the sentence does not earn.
+ROUNDS_QUERY = (
+    "python3 -c \"import json;k=lambda p:json.load(open(p))['by_task']['task2']"
+    "['comparison']['regression_test_added']['conditions']['ours']['k'];"
+    "a=k('docs/data/experiment-round3.json');b=k('docs/data/experiment-round4.json');"
+    "print(b if a==b else 'they differ')\""
+)
 
-def claims(data, criteria, exp):
+
+def claims(data, criteria, exp, round3=None, round4=None):
     """Every claim the pages make, as (sentence, command that prints its number). The numbers
     are read from the committed data at render time, so a changed corpus or a re-run experiment
     moves the sentence instead of leaving it stale."""
@@ -914,8 +1002,9 @@ def claims(data, criteria, exp):
     baseline = experiment_cell(exp, "task2", "report_has_commands_and_results", "none")
     overprocess = exp["by_task"]["task3"]["comparison"]["overprocess"]["conditions"]
     items.append((
-        "In the 90-run experiment, the brownfield task reported the command and its result in "
-        "%d of %d runs under the recommended file and %d of %d with no file."
+        "In the 90-run experiment, which measured `AGENTS.md` v1.0.0 and not the text offered "
+        "now, the brownfield task reported the command and its result in %d of %d runs under "
+        "that file and %d of %d with no file."
         % (reported["k"], reported["n"], baseline["k"], baseline["n"]),
         EXPERIMENT_QUERY
         % "d['by_task']['task2']['comparison']['report_has_commands_and_results']"
@@ -932,20 +1021,31 @@ def claims(data, criteria, exp):
         % "sum(c['k'] for c in "
         "d['by_task']['task3']['comparison']['overprocess']['conditions'].values())",
     ))
+    if round3 is not None and round4 is not None:
+        cell3 = experiment_cell(round3, "task2", "regression_test_added", "ours")
+        cell4 = experiment_cell(round4, "task2", "regression_test_added", "ours")
+        items.append((
+            "Round 3 measured v%s and round 4 re-ran the shipped v%s text against the same "
+            "cells: the metric whose fall failed round 3, task2 regression test added, reads "
+            "%d of %d runs in round 3 and %d of %d in round 4, so it fell with the text "
+            "reverted too." % (ROUND3_VERSION, ROUND4_VERSION, cell3["k"], cell3["n"],
+                               cell4["k"], cell4["n"]),
+            ROUNDS_QUERY,
+        ))
     return items
 
 
-def render_claims_html(data, criteria, exp):
+def render_claims_html(data, criteria, exp, round3=None, round4=None):
     out = ['<ul class="claims">']
-    for text, command in claims(data, criteria, exp):
+    for text, command in claims(data, criteria, exp, round3, round4):
         out.append("<li>%s<p class=\"verify\">Verify: <code>%s</code></p></li>" % (esc(text), esc(command)))
     out.append("</ul>")
     return "\n".join(out)
 
 
-def render_claims_md(data, criteria, exp):
+def render_claims_md(data, criteria, exp, round3=None, round4=None):
     out = []
-    for text, command in claims(data, criteria, exp):
+    for text, command in claims(data, criteria, exp, round3, round4):
         out.append("- %s" % text)
         out.append("")
         out.append("  Verify: `%s`" % command)
@@ -1374,14 +1474,15 @@ def render_experiment_summary_md(exp):
     acceptance = cell("task2", "acceptance_all_pass", "ours")
     ratios = [by_task[task]["headline"]["ours"]["cost_ratio"] for task in ("task1", "task2", "task3")]
     text = (
-        "%d runs, %s tasks by %s conditions by %s, all of them delivered. On the greenfield task "
-        "the recommended file took `tests_written` from %d/%d with no instruction file to %d/%d, "
-        "and reporting the command and its result from %d/%d to %d/%d; on the brownfield task it "
-        "took the documented-convention metric from %d/%d to %d/%d, and acceptance followed it "
-        "exactly, %d/%d to %d/%d. On the one-line typo fix nothing moved at all: every boolean "
-        "metric is identical across the three conditions. The file is paid for on every task: "
-        "median cost %.2f\u00d7 the no-file condition on the greenfield task, %.2f\u00d7 on the "
-        "brownfield one and %.2f\u00d7 on the typo fix."
+        "%d runs: %s tasks, each run %s ways, %s runs each way, all of them delivered. On the "
+        "task that builds a small app in an empty directory, the recommended file took "
+        "`tests_written` from %d/%d with no instruction file to %d/%d, and reporting the command "
+        "and its result from %d/%d to %d/%d; on the task that changes an existing package it "
+        "took the documented-convention measure from %d/%d to %d/%d, and acceptance followed it "
+        "exactly, %d/%d to %d/%d. On the one-line typo fix nothing moved at all: every yes-or-no "
+        "measure is identical across the three ways of running it. The file is paid for on every "
+        "task: median cost %.2f\u00d7 the runs with no instruction file when building in an empty "
+        "directory, %.2f\u00d7 when changing an existing package and %.2f\u00d7 on the typo fix."
         % (
             total,
             NUMBER_WORDS[len(by_task)],
@@ -1413,6 +1514,43 @@ def render_criteria_md(criteria):
         out.append("   - Sources: %s" % sources)
         out.append("   - One way to meet it: %s" % criterion["example"])
     return "\n".join(out)
+
+
+def version_coverage(digest, criteria, content):
+    """The rule and content pair for one recorded text, read from RECORDED_TEXTS by hash so the
+    genealogy cannot state a coverage number the hash table does not."""
+    for _label, recorded, met, met_content in RECORDED_TEXTS:
+        if recorded == digest:
+            return met, len(criteria["criteria"]), met_content, len(content["criteria"])
+    raise RuntimeError("%s is not one of the recorded texts" % digest)
+
+
+def render_versions_md(criteria, content):
+    """The genealogy of the recommended file: one row per version, with what changed, which round
+    measured it and what the pre-registered rule did with it. Retired rows come from the constants
+    above; the shipped row is measured on the root file at render time."""
+    rows = [
+        "| Version | Date | Lines | Bytes | Rule criteria | Content criteria | What changed | "
+        "Measured by | Outcome |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    root = OURS_FILE.read_text(encoding="utf-8")
+    for label, date, lines, size, digest, changed, measured, outcome in VERSIONS:
+        if digest is None:
+            lines = count_lines(root)
+            size = len(root.encode("utf-8"))
+            met = coverage(evaluate(root, OURS_FILE.name, criteria))
+            met_content = coverage(evaluate(root, OURS_FILE.name, content))
+            of_rules = len(criteria["criteria"])
+            of_content = len(content["criteria"])
+        else:
+            met, of_rules, met_content, of_content = version_coverage(digest, criteria, content)
+        rows.append(
+            "| %s | %s | %d | %s | %d/%d | %d/%d | %s | %s | %s |"
+            % (label, date, lines, "{:,}".format(size), met, of_rules, met_content, of_content,
+               changed, measured, outcome)
+        )
+    return "\n".join(rows)
 
 
 def render_shipped_md(criteria, content):
@@ -1581,8 +1719,9 @@ def rendered_outputs():
     data = with_ours(data, criteria, content)
     exp = load_experiment() if FINDINGS_MD.exists() or INDEX_HTML.exists() else None
     round2 = load_round2() if FINDINGS_MD.exists() else None
-    round3 = load_round3() if FINDINGS_MD.exists() else None
-    round4 = load_round4() if FINDINGS_MD.exists() else None
+    rounds = FINDINGS_MD.exists() or INDEX_HTML.exists()
+    round3 = load_round3() if rounds else None
+    round4 = load_round4() if rounds else None
     outputs = {
         COMPARISON_JSON: comparison_json_text(data, criteria, content),
         COMPARISON_MD: render_markdown(data, criteria, content),
@@ -1593,7 +1732,9 @@ def rendered_outputs():
         page = replace_block(page, "labels", render_labels_css(criteria), INDEX_HTML)
         page = replace_block(page, "preview", render_preview_html(data, criteria), INDEX_HTML)
         page = replace_block(page, "file", render_file_html(), INDEX_HTML)
-        page = replace_block(page, "claims", render_claims_html(data, criteria, exp), INDEX_HTML)
+        page = replace_block(
+            page, "claims", render_claims_html(data, criteria, exp, round3, round4), INDEX_HTML
+        )
         page = replace_block(page, "dates", render_dates_html(data), INDEX_HTML)
         outputs[INDEX_HTML] = page
     if METHODOLOGY_MD.exists():
@@ -1608,6 +1749,9 @@ def rendered_outputs():
             METHODOLOGY_MD,
         )
         page = replace_block(page, "excluded", render_excluded_md(data), METHODOLOGY_MD)
+        page = replace_block(
+            page, "versions", render_versions_md(criteria, content), METHODOLOGY_MD
+        )
         page = replace_block(page, "shipped", render_shipped_md(criteria, content), METHODOLOGY_MD)
         page = replace_block(page, "stuffed", render_stuffed_md(data), METHODOLOGY_MD)
         outputs[METHODOLOGY_MD] = page
@@ -1626,7 +1770,9 @@ def rendered_outputs():
         page = replace_block(page, "round2", render_round2_md(exp, round2), FINDINGS_MD)
         page = replace_block(page, "round3", render_round3_md(round2, round3), FINDINGS_MD)
         page = replace_block(page, "round4", render_round4_md(round2, round4), FINDINGS_MD)
-        page = replace_block(page, "claims", render_claims_md(data, criteria, exp), FINDINGS_MD)
+        page = replace_block(
+            page, "claims", render_claims_md(data, criteria, exp, round3, round4), FINDINGS_MD
+        )
         outputs[FINDINGS_MD] = page
     if README_MD.exists():
         page = README_MD.read_text(encoding="utf-8")
