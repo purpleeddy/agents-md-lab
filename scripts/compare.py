@@ -1705,8 +1705,8 @@ def render_stuffed_md(data):
 
 
 def render_hernanz_md(criteria, content):
-    """One sentence about the file five of this project's rules came from, with the criteria it
-    meets and the ones it does not named from the criteria file."""
+    """One sentence about the file five rules of this project's first draft came from, with the
+    criteria it meets and the ones it does not named from the criteria file."""
     names = {c["id"]: c["name"] for c in criteria["criteria"]}
     order = [c["id"] for c in criteria["criteria"]]
     met = [names[i] for i in HERNANZ_MET_IDS]
