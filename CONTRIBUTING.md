@@ -17,9 +17,9 @@ command; do not invent one.
 
 ## Permission settings
 
-The tiers this project recommends, in four levels. Deny what nothing takes back:
+The tiers this project recommends, in four levels. Deny the nine things nothing takes back:
 `rm -rf`, `git clean`, `git reset --hard`, the three force-push forms, `git commit --no-verify`
-and `-n`, and `gh pr merge`. Guard what has to be read rather than matched by name: a push that
+and `-n`, and `gh pr merge`. Guard what must be read, not matched by name: a push that
 targets `main` or `master`, one carrying a force flag or a `+` refspec, and a write to
 `.claude/`, `.github/workflows/` or the guard itself. Allow everything else, including a push of
 the branch a task created and `gh pr create`, so a session delivers its own work and a person

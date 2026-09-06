@@ -32,6 +32,7 @@ ROUND2_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round2-runs.json"
 ROUND3_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round3-runs.json"
 ROUND4_RUNS = REPO_ROOT / "docs" / "data" / "experiment-round4-runs.json"
 FINDINGS = DOCS / "findings.md"
+EXPERIMENTS_README = REPO_ROOT / "experiments" / "README.md"
 NODE = shutil.which("node")
 
 INDEX_MAX_BYTES = 60 * 1024
@@ -164,7 +165,11 @@ class AnchorTest(unittest.TestCase):
 
     HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$", re.MULTILINE)
     EXPLICIT = re.compile(r'<a id="([^"]+)">')
-    LINK = re.compile(r'(?:href="|\]\()(?:docs/)?([a-z]+)\.(?:html|md)#([^"\)]+)')
+    LINK = re.compile(
+        r'(?:href="|\]\()(?:\.\./)?(?:docs/)?([a-z]+)\.(?:html|md)#([^"\)]+)'
+    )
+    # A relative link target, fragment stripped: the thing that has to be a file on disk.
+    RELATIVE = re.compile(r'(?:href="|\]\()(?!https?:|mailto:|#)([^"\)#]+)')
 
     def slug(self, title):
         text = re.sub(r"<[^>]+>", "", title).replace("`", "").replace("*", "")
@@ -176,16 +181,48 @@ class AnchorTest(unittest.TestCase):
         found = {self.slug(title) for title in self.HEADING.findall(text)}
         return found | set(self.EXPLICIT.findall(text))
 
+    def sources(self):
+        """Every page that links into this site, including the pre-registration record: a link
+        that rots there is as broken as one on a published page, and until this test read the
+        file, nothing checked it."""
+        return [INDEX, README, EXPERIMENTS_README] + sorted(DOCS.glob("*.md"))
+
+    def name(self, source):
+        return str(source.relative_to(REPO_ROOT))
+
     def test_every_cross_page_fragment_exists(self):
         pages = {path.stem: path for path in DOCS.glob("*.md")}
         anchors = {name: self.anchors(path) for name, path in pages.items()}
-        sources = [INDEX, README] + list(pages.values())
-        for source in sources:
+        for source in self.sources():
             for page, fragment in self.LINK.findall(source.read_text(encoding="utf-8")):
                 if page not in anchors:
                     continue
                 self.assertIn(fragment, anchors[page], "%s links to %s#%s"
-                              % (source.name, page, fragment))
+                              % (self.name(source), page, fragment))
+
+    def test_every_relative_link_lands_on_a_file_that_exists(self):
+        """A relative link is resolved against the directory of the page that carries it.
+        `experiments/README.md` linked `references.md`, which resolves inside `experiments/`
+        where no such file is. Markdown sources only: index.html is checked by the tests on
+        the page itself."""
+        for source in markdown_pages() + [EXPERIMENTS_README]:
+            # Fences and code spans only: strip_markdown_code also blanks URLs, and a blanked
+            # URL leaves an empty target behind that reads as a relative path.
+            text = source.read_text(encoding="utf-8")
+            text = CODE_SPAN.sub(" ", FENCE.sub(" ", text))
+            for target in self.RELATIVE.findall(text):
+                target = target.strip()
+                if not target or target.startswith(("{{", "%", "$")):
+                    continue
+                resolved = (source.parent / target).resolve()
+                # Jekyll publishes each Markdown page as .html, so a .html target counts when
+                # its Markdown source is on disk.
+                if not resolved.exists() and resolved.suffix == ".html":
+                    resolved = resolved.with_suffix(".md")
+                self.assertTrue(
+                    resolved.exists(),
+                    "%s links to %s, which is not a file" % (self.name(source), target),
+                )
 
 
 class GeneratedBlockTest(unittest.TestCase):

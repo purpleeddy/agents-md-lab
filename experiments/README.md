@@ -1624,7 +1624,7 @@ pre-registration records the amended text rather than the text that preceded it.
 
 A second review read v1.1.0's text against the design goals and nothing else: no repository, no
 tools, no run data. It is a model run, not a person, and it is cited that way rather than as a
-source in [references.md](references.md): an independent design review by a Fable 5.1 session on
+source in [references.md](../docs/references.md): an independent design review by a Fable 5.1 session on
 2026-09-04, the reviewer holding only the file text and the design goals. It returned 21 findings
 (1 blocking, 12 should fix, 8 nits) and one addition the runs cannot measure. The main session
 accepted all 22 and adopted the revised text whole rather than clause by clause, so the rows below

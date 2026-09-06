@@ -1593,11 +1593,13 @@ def version_coverage(digest, criteria, content):
 def render_versions_md(criteria, content):
     """The genealogy of the recommended file: one row per version, with what changed, which round
     measured it and what the pre-registered rule did with it. Retired rows come from the constants
-    above; the shipped row is measured on the root file at render time."""
+    above; the shipped row is measured on the root file at render time. The token estimate is
+    bytes over four, floored, so it is derived from the row's own byte count and never recorded
+    separately."""
     rows = [
-        "| Version | Date | Lines | Bytes | Rule criteria | Content criteria | What changed | "
-        "Measured by | Outcome |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| Version | Date | Lines | Bytes | Token estimate (bytes/4) | Rule criteria | "
+        "Content criteria | What changed | Measured by | Outcome |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     root = OURS_FILE.read_text(encoding="utf-8")
     for label, date, lines, size, digest, changed, measured, outcome in VERSIONS:
@@ -1611,9 +1613,9 @@ def render_versions_md(criteria, content):
         else:
             met, of_rules, met_content, of_content = version_coverage(digest, criteria, content)
         rows.append(
-            "| %s | %s | %d | %s | %d/%d | %d/%d | %s | %s | %s |"
-            % (label, date, lines, "{:,}".format(size), met, of_rules, met_content, of_content,
-               changed, measured, outcome)
+            "| %s | %s | %d | %s | %s | %d/%d | %d/%d | %s | %s | %s |"
+            % (label, date, lines, "{:,}".format(size), "{:,}".format(size // 4), met, of_rules,
+               met_content, of_content, changed, measured, outcome)
         )
     return "\n".join(rows)
 

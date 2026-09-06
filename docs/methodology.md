@@ -243,14 +243,14 @@ its own text.
 
 <!-- versions:start -->
 
-| Version | Date | Lines | Bytes | Rule criteria | Content criteria | What changed | Measured by | Outcome |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| v1.0.0 | 2026-09-03 | 50 | 4,420 | 9/10 | 0/8 | the text the ninety runs wrote as `ours` | main run | measured, then revised |
-| v1.0.1 | 2026-09-03 | 52 | 5,456 | 10/10 | 3/8 | four rule lines fixed after [an independent review](rationale.md#known-issues-independent-review-2026-09-03) of v1.0.0's text | not measured | shipped, then replaced |
-| v1.1.0, as first written | 2026-09-03 | 35 | 3,840 | 8/10 | 0/8 | the rest of that review, then [a line audit](rationale.md#line-audit-v101-to-v110) that cut or merged every line with neither a measured effect nor a safety role | not measured | shipped, then amended |
-| v1.1.0, amended | 2026-09-04 | 32 | 4,069 | 8/10 | 1/8 | [four rule clauses added from external feedback](rationale.md#amendments-after-external-feedback-2026-09-04) and the Project template cut from five lines to two | not measured | shipped, then replaced |
-| v1.2.0 | 2026-09-04 | 33 | 4,514 | 7/10 | 1/8 | [a second independent review](rationale.md#v120-independent-design-review-2026-09-04), of v1.1.0's text against the design goals, adopted whole | rounds 2 and 4 | adopted, and the file shipped now |
-| v1.3.0 | 2026-09-05 | 33 | 4,754 | 7/10 | 2/8 | [one boundary line moved](rationale.md#v130-the-delivery-boundary-2026-09-05) so an agent could deliver its own branch, and a Delivery slot added to the template | round 3 | not adopted; the pre-registered revert set was applied |
+| Version | Date | Lines | Bytes | Token estimate (bytes/4) | Rule criteria | Content criteria | What changed | Measured by | Outcome |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v1.0.0 | 2026-09-03 | 50 | 4,420 | 1,105 | 9/10 | 0/8 | the text the ninety runs wrote as `ours` | main run | measured, then revised |
+| v1.0.1 | 2026-09-03 | 52 | 5,456 | 1,364 | 10/10 | 3/8 | four rule lines fixed after [an independent review](rationale.md#known-issues-independent-review-2026-09-03) of v1.0.0's text | not measured | shipped, then replaced |
+| v1.1.0, as first written | 2026-09-03 | 35 | 3,840 | 960 | 8/10 | 0/8 | the rest of that review, then [a line audit](rationale.md#line-audit-v101-to-v110) that cut or merged every line with neither a measured effect nor a safety role | not measured | shipped, then amended |
+| v1.1.0, amended | 2026-09-04 | 32 | 4,069 | 1,017 | 8/10 | 1/8 | [four rule clauses added from external feedback](rationale.md#amendments-after-external-feedback-2026-09-04) and the Project template cut from five lines to two | not measured | shipped, then replaced |
+| v1.2.0 | 2026-09-04 | 33 | 4,514 | 1,128 | 7/10 | 1/8 | [a second independent review](rationale.md#v120-independent-design-review-2026-09-04), of v1.1.0's text against the design goals, adopted whole | rounds 2 and 4 | adopted, and the file shipped now |
+| v1.3.0 | 2026-09-05 | 33 | 4,754 | 1,188 | 7/10 | 2/8 | [one boundary line moved](rationale.md#v130-the-delivery-boundary-2026-09-05) so an agent could deliver its own branch, and a Delivery slot added to the template | round 3 | not adopted; the pre-registered revert set was applied |
 
 <!-- versions:end -->
 
