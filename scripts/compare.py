@@ -1549,17 +1549,29 @@ def render_experiment_summary_md(exp):
 
 
 def render_criteria_md(criteria):
-    """The ten criteria as a definition list for the methodology page."""
-    out = []
+    """One criterion per row for the methodology page: the question the engine asks, the reason
+    it asks it and the sources the reason rests on. The worked example of each criterion is in
+    `docs/criteria.json` and in the front page's tooltip at the point of use, so the table does
+    not carry a fifth column of it."""
+    out = [
+        "| # | Criterion | Question | Why | Sources |",
+        "|---|---|---|---|---|",
+    ]
     for index, criterion in enumerate(criteria["criteria"], start=1):
         sources = ", ".join(
             "[%s](references.md#ref-%s)" % (key, key) for key in criterion["sources"]
         )
-        out.append("%d. **%s** (`%s`)" % (index, criterion["name"], criterion["id"]))
-        out.append("   - Question: %s" % criterion["question"])
-        out.append("   - Why: %s" % criterion["why"])
-        out.append("   - Sources: %s" % sources)
-        out.append("   - One way to meet it: %s" % criterion["example"])
+        out.append(
+            "| %d | **%s** (`%s`) | %s | %s | %s |"
+            % (
+                index,
+                criterion["name"],
+                criterion["id"],
+                criterion["question"].replace("|", "\\|"),
+                criterion["why"].replace("|", "\\|"),
+                sources,
+            )
+        )
     return "\n".join(out)
 
 

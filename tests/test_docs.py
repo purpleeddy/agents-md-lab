@@ -1232,7 +1232,7 @@ class GoverningCaveatTest(unittest.TestCase):
 PROSE_BUDGET = {
     "README.md": 1175,
     "docs/findings.md": 3914,
-    "docs/methodology.md": 5375,
+    "docs/methodology.md": 2195,
     "docs/rationale.md": 1492,
     "docs/references.md": 1724,
     "CONTRIBUTING.md": 756,
