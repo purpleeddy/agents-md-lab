@@ -956,5 +956,25 @@ class VersionNotationTest(unittest.TestCase):
         self.assertIn("is v%s" % version, section.split("</section>", 1)[0])
 
 
+METHODOLOGY = DOCS / "methodology.md"
+COMPARISON = DOCS / "data" / "comparison.json"
+
+
+class CoverageSentenceTest(unittest.TestCase):
+    """The pages state the shipped file's rule coverage in prose, outside any generated block.
+    A prose number that drifts from the data is the defect these tests exist to catch."""
+
+    def ours(self):
+        return json.loads(COMPARISON.read_text(encoding="utf-8"))["ours"]
+
+    def test_the_methodology_states_the_measured_rule_coverage(self):
+        ours = self.ours()
+        self.assertIn(
+            "The recommended file meets %d of the %d rule criteria"
+            % (ours["met"], ours["of"]),
+            METHODOLOGY.read_text(encoding="utf-8"),
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

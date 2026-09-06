@@ -248,7 +248,7 @@ Three things about these patterns are worth stating plainly rather than leaving 
 
 ## Why the recommended file meets the rule criteria
 
-The recommended file meets 8 of the 10 rule criteria, and that number is not evidence of
+The recommended file meets 7 of the 10 rule criteria, and that number is not evidence of
 anything. The criteria and the file were written by the same author, in the same weeks, from the
 same sources — [anthropic-bp](references.md#ref-anthropic-bp),
 [anthropic-memory](references.md#ref-anthropic-memory),
