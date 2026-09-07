@@ -225,7 +225,7 @@ what a file is worth.
 ## The experiment
 
 The design was locked before any run and is not restated here. The
-[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md)
+[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/45b765a5a7424e855ee8fc0e28333e0d90d0f923/experiments/README.md)
 is the authority on the three tasks, the three conditions, the ten runs a cell, the direction fixed
 for every metric before the runs, and the Wilson and Newcombe intervals used instead of a
 significance test. What the runs showed is on the [findings page](findings.md), from

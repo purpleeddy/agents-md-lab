@@ -68,7 +68,7 @@ row it edits and what it does to that sha.
 ## Generated files, never edited by hand
 
 `docs/data/` and `docs/generated/`, written by `scripts/compare.py`, and anything above the
-"Lock" heading in `experiments/README.md`, where an edit after the tag invalidates the
+"Lock" heading in `experiments/README.md`, where an edit after locking invalidates the
 experiment.
 
 ## Where the details live
