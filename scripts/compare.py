@@ -63,19 +63,21 @@ OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/
 # The version of the recommended file itself. v1.0.0 is the text the experiment ran; v1.0.1 fixes
 # two defects across four rule lines after the independent review; v1.1.0 is the rewrite from the
 # rest of that review, compacted; v1.2.0 adopts an independent design review of v1.1.0 and is the
-# text round 2 adopted and the file shipped now; v1.3.0 moved the delivery boundary in Boundaries
-# bullet 2 and added the template's Delivery slot, and round 3 did not adopt it (see
+# text rounds 2 and 4 measured; v1.3.0 moved the delivery boundary in Boundaries
+# bullet 2 and added the template's Delivery slot, and round 3 did not adopt it; v1.4.0 compacts
+# v1.2.0 and adds one Boundaries sentence, adopted on review and measured by no round, with the
+# five lines that carry a measured effect byte-identical to v1.2.0's (see
 # docs/methodology.md, "What the experiment tested and what is shipped"). The texts below are not recoverable from the working tree, because the file they name
 # has since changed or been deleted, so each is recorded with the hash and the two coverage
 # numbers measured on it at the time.
-OURS_VERSION = "1.2.0"
+OURS_VERSION = "1.4.0"
 # The version round 2 measured, which is the version shipped now. The findings page's round-2
 # block is a record of that run, so it names this constant rather than reading the shipped file.
 ROUND2_VERSION = "1.2.0"
 # The version round 3 measured. It is a text the record keeps and the file does not: the round-3
 # block on the findings page names this constant, not the shipped version.
 ROUND3_VERSION = "1.3.0"
-# The version round 4 measured. Round 4 is the control: it re-ran the shipped v1.2.0 text under a
+# The version round 4 measured. Round 4 is the control: it re-ran the v1.2.0 text under a
 # later CLI against the round-2 cells, so both columns of its table carry the same version name and
 # the round labels below are what tells them apart.
 ROUND4_VERSION = "1.2.0"
@@ -116,6 +118,12 @@ RECORDED_TEXTS = (
         "Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces",
         "f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d",
         8,
+        1,
+    ),
+    (
+        "Root `AGENTS.md` v1.2.0, the text rounds 2 and 4 measured",
+        "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc",
+        7,
         1,
     ),
     (
@@ -184,13 +192,13 @@ VERSIONS = (
     (
         "v1.2.0",
         "2026-09-04",
-        None,
-        None,
-        None,
+        33,
+        4514,
+        "e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc",
         "[a second independent review](rationale.md#the-independent-design-review), "
         "of v1.1.0's text against the design goals, adopted whole",
         "rounds 2 and 4",
-        "adopted, and the file shipped now",
+        "adopted, then replaced",
     ),
     (
         "v1.3.0",
@@ -202,6 +210,18 @@ VERSIONS = (
         "could deliver its own branch, and a Delivery slot added to the template",
         "round 3",
         "not adopted; the pre-registered revert set was applied",
+    ),
+    (
+        "v1.4.0",
+        "2026-09-07",
+        None,
+        None,
+        None,
+        "[six edits to v1.2.0](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review): "
+        "five wordings compacted and one Boundaries sentence added, with the five lines "
+        "that carry a measured effect byte-identical to v1.2.0's",
+        "not measured",
+        "adopted on review, and the file shipped now",
     ),
 )
 
@@ -1470,17 +1490,16 @@ def render_round3_md(round2, round3):
 
 
 def render_round4_md(round2, round4):
-    """The round-4 block: the shipped v1.2.0 text re-run on 2026-09-05 against the same round-2
+    """The round-4 block: the v1.2.0 text re-run on 2026-09-05 against the same round-2
     v1.2.0 cells round 3 was measured against. Both columns carry one version name, so the labels
     say which collection each is. The closing sentence states what the arithmetic is for: round 4
-    measured the text this project already ships, so no branch of it adopts or reverts anything."""
+    re-ran the text round 2 had measured, so no branch of it adopts or reverts anything."""
     return render_round_md(
         round2, round4, ROUND4_GATED, ROUND4_DISADVANTAGE, ROUND4_COST_FACTOR,
         ROUND2_VERSION, ROUND4_VERSION, "round-4",
         "Every clause holds, so the same text reproduced the cells it was measured against in "
-        "round 2. Round 4 is the control and adopts nothing: it ran the text already "
-        "shipped.",
-        "The clauses are reported for information and not as a gate. Round 4 ran the shipped "
+        "round 2. Round 4 is the control and adopts nothing: it re-ran the round-2 text.",
+        "The clauses are reported for information and not as a gate. Round 4 re-ran the round-2 "
         "text, so a clause that fails here measures the distance between two collections of the "
         "same file rather than anything about a version, and nothing is adopted or reverted on "
         "it.",

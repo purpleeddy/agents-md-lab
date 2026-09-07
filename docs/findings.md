@@ -306,7 +306,7 @@ the other candidate this round cannot rule out. One causal story was tested and 
 sentence ends "otherwise commit and report", which could have added commit turns and so cost, and
 no `git` command appears in any Bash call in the ten round-3 T1 transcripts.
 
-## Round 4: the control, the shipped text measured again
+## Round 4: the control, the round-2 text measured again
 
 Round 4 asks whether the round-3 result belongs to that text or to the environment. Of the three
 outcomes the pre-registration named, the one that occurred is the third:
@@ -330,7 +330,7 @@ of the pre-registration.
 Clause (a) fails: task2 regression test added is 3/10 against 8/10. Clause (b) holds: the ten
 disadvantage booleans are 0/10 in the round-4 cells that measure them. Clause (c) holds: the
 median cost is 1.03× on task1, 1.00× on task2 and 1.06× on task3. The clauses are reported for
-information and not as a gate. Round 4 ran the shipped text, so a clause that fails here
+information and not as a gate. Round 4 re-ran the round-2 text, so a clause that fails here
 measures the distance between two collections of the same file rather than anything about a
 version, and nothing is adopted or reverted on it.
 

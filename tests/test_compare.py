@@ -655,10 +655,15 @@ class ShippedFileTest(unittest.TestCase):
     def test_the_version_table_measures_the_shipped_row_at_render_time(self):
         block = compare.render_versions_md(criteria(), content_criteria())
         root = compare.OURS_FILE.read_text(encoding="utf-8")
+        # The shipped row is the one with no recorded hash; its date is the row's own, so a new
+        # version lands without editing a literal here.
+        shipped = [row for row in compare.VERSIONS if row[4] is None][0]
+        self.assertEqual(shipped[0], "v%s" % compare.OURS_VERSION)
         self.assertIn(
-            "| v%s | 2026-09-04 | %d | %s | %s | %d/10 | %d/8 |"
+            "| v%s | %s | %d | %s | %s | %d/10 | %d/8 |"
             % (
                 compare.OURS_VERSION,
+                shipped[1],
                 compare.count_lines(root),
                 "{:,}".format(len(root.encode("utf-8"))),
                 "{:,}".format(len(root.encode("utf-8")) // 4),

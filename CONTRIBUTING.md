@@ -30,17 +30,17 @@ merges it. Behind all three, the branch protection below.
 writes. `tests/test_hook_guard.py` proves that case by case.
 
 The guard is wired here: `.claude/settings.json` is byte for byte
-[`docs/examples/settings.json`](docs/examples/settings.json), so those tiers are what a session
-in this repository runs under. That is looser than the shipped `AGENTS.md`, whose Boundaries
-override this file and hold every push behind an explicit ask: the deny list is a floor and not
-a licence. One line installs the same file in an adopting repository:
+[`docs/examples/settings.json`](docs/examples/settings.json), so those tiers run in this
+repository. That is looser than the shipped `AGENTS.md`, whose Boundaries override this file and
+hold every push behind an explicit ask. The deny list is the mechanical floor; a permission the
+harness grants is not the ask. One line installs the same file in an adopting repository:
 
 ```
 cp docs/examples/settings.json .claude/settings.json
 ```
 
-A person runs that line: the settings reserve `.claude/` for a human ask, so an agent session
-cannot install the permissions it works under. Both hook entries run the same wrapper:
+A person runs that line: the settings reserve `.claude/` for a human ask, so an agent cannot
+install the permissions it works under. Both hook entries run the same wrapper:
 
 ```
 sh -c 'g="${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py"; [ -f "$g" ] || exit 0; exec python3 "$g"'
