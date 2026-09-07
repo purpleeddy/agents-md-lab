@@ -19,6 +19,11 @@ import re
 import unittest
 
 STALE_RETURN_CLAIM = "returns the total in cents"
+# "no longer returns the total in cents" is a correct edit that contains the stale claim, so
+# the negated forms are struck out before the claim is looked for.
+NEGATED_CLAIM = re.compile(
+    r"(no longer|not|never|used to|instead of|rather than|no more)\s+returns?\s+the total in cents"
+)
 USAGE_HEADING = "## Usage"
 
 
@@ -53,11 +58,11 @@ class ReadmeAcceptanceTest(unittest.TestCase):
         self.assertIn("currency", self.flat)
 
     def test_readme_drops_the_stale_return_claim(self):
-        self.assertNotIn(STALE_RETURN_CLAIM, self.flat)
+        self.assertNotIn(STALE_RETURN_CLAIM, NEGATED_CLAIM.sub("", self.flat))
 
     def test_readme_says_the_return_is_a_formatted_amount(self):
         self.assertTrue(
-            re.search(r"(formatted|string|\$15\.45|symbol)", self.flat),
+            re.search(r"(formatted|string|text|\$15\.45|symbol)", self.flat),
             "the Usage section does not say what quote() returns",
         )
 

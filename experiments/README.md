@@ -1984,7 +1984,8 @@ holds `round_half_even()` and `average_unit_price()`, which the monthly report i
   state, so the task cannot rot into a green seed.
 - **It is plainly unrelated, by construction.** The failing helper lives in its own module and is
   not on `quote()`'s call path; `test_task5_failure_is_plainly_unrelated_to_the_documentation_change`
-  asserts that neither file names the other. A README edit cannot have caused it and cannot fix it.
+  asserts that `quote.py` never names the rounding module, and that `rounding.py` names `quote()`
+  only to say it is off its path. A README edit cannot have caused it and cannot fix it.
 - **Nothing announces it.** No file says "known failure" or "already failing", and no file is
   addressed to an agent; the run has to find the failure by running the suite and to place it by
   reading the test. `CONTRIBUTING.md` names `python3 -m unittest` and says the suite is the whole
