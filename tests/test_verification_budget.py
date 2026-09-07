@@ -405,7 +405,8 @@ class FreeModesTest(unittest.TestCase):
         self.assertEqual(result, 0)
 
     def test_dry_run_starts_no_agent(self):
-        with unittest.mock.patch.object(budget, "launch_agent") as launch:
+        with unittest.mock.patch.object(budget, "launch_agent") as launch, \
+             unittest.mock.patch.object(budget, "capture_cli_version") as version:
             stream = io.StringIO()
             with contextlib.redirect_stdout(stream):
                 result = budget.main([
@@ -421,6 +422,13 @@ class FreeModesTest(unittest.TestCase):
         self.assertEqual(preview["execution_configuration"]["agent_timeout_seconds"], 900)
         self.assertEqual(preview["execution_configuration"]["verification_timeout_seconds"], 120)
         launch.assert_not_called()
+        version.assert_not_called()
+
+    def test_endpoint_brief_explains_quoted_internal_chains(self):
+        manifest = budget.load_manifest("b-two")
+        brief = budget.endpoint_brief(manifest, "/tmp/client.py", "/tmp/verify.sock")
+        self.assertIn("own client invocation", brief)
+        self.assertIn("quote the separator as `'&&'` or `';'`", brief)
 
     def test_mocked_live_launcher_excludes_intact_harness_files_but_flags_modified_ones(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -428,6 +436,7 @@ class FreeModesTest(unittest.TestCase):
             run_dir.mkdir()
             args = argparse.Namespace(
                 model=budget.DEFAULT_MODEL, max_turns=1, timeout=1, verification_timeout=1,
+                precollection_cli_version={"status": "recorded", "normalized": "2.1.263"},
             )
 
             def fake_launcher(argv, cwd, timeout, env):
@@ -453,6 +462,14 @@ class FreeModesTest(unittest.TestCase):
     def test_timeout_stream_bytes_use_the_existing_decoder(self):
         self.assertEqual(budget.output_text(b"\xff"), "\ufffd")
 
+    def test_launch_agent_can_send_a_review_packet_over_stdin(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            stdout, stderr, returncode, timed_out, _pid, status = budget.launch_agent(
+                [sys.executable, "-c", "import sys; print(sys.stdin.read())"],
+                temporary, 1, {}, input_text="packet-json",
+            )
+        self.assertEqual((stdout, stderr, returncode, timed_out, status), ("packet-json\n", "", 0, False, "exited"))
+
     def test_invalid_costs_do_not_become_zero(self):
         for value in (None, True, -1, float("nan"), float("inf"), "3"):
             with self.subTest(value=repr(value)):
@@ -460,6 +477,11 @@ class FreeModesTest(unittest.TestCase):
                 cost, status = budget.result_cost(transcript)
                 self.assertIsNone(cost)
                 self.assertNotEqual(status, "recorded")
+
+    def test_known_resource_limit_is_retained_without_becoming_a_cli_error(self):
+        result = {"subtype": "error_max_turns", "is_error": True, "terminal_reason": "max_turns"}
+        self.assertEqual(budget.resource_limit_status(result), "max_turns")
+        self.assertFalse(budget.result_cli_error(result))
 
     def test_sequential_reservation_stops_before_a_ninth_three_dollar_run(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -471,20 +493,186 @@ class FreeModesTest(unittest.TestCase):
             def fake_baselines(name, manifest, timeout):
                 return []
 
-            def fake_execute(row, run_dir, candidate_path, current_path, args, baselines):
+            def fake_execute(row, run_dir, candidate_path, current_path, args, baselines, pre_call_pins=None):
                 calls.append(row)
-                budget.write_json(run_dir / "meta.json", {"reported_cost_usd": 3.0, "reported_cost_status": "recorded"})
+                budget.write_json(run_dir / "meta.json", {
+                    "reported_cost_usd": 3.0,
+                    "reported_cost_status": "recorded",
+                    "returncode": 0,
+                    "timed_out": False,
+                    "runner_error": None,
+                    "cli_result_error": False,
+                    "model_reported_status": "matched",
+                    "cli_version_reported_status": "matched",
+                })
                 return {"acceptance": {"status": "passed"}, "required_verification_coverage": {"status": "passed"}}
 
             args = argparse.Namespace(
                 candidate=str(candidate), current=str(current), out=str(base / "runs"), model=budget.DEFAULT_MODEL,
                 max_turns=80, timeout=1, verification_timeout=1, dry_run=False,
             )
-            with unittest.mock.patch.object(budget, "generate_baselines", side_effect=fake_baselines), \
+            captured = {"status": "recorded", "raw": "2.1.263 (Claude Code)", "normalized": "2.1.263"}
+            pin_check = {"status": "matched", "source_pins_status": "matched", "cli_version_status": "matched"}
+            with unittest.mock.patch.object(budget, "capture_cli_version", return_value=captured), \
+                 unittest.mock.patch.object(budget, "collection_pin_check", return_value=pin_check), \
+                 unittest.mock.patch.object(budget, "generate_baselines", side_effect=fake_baselines), \
                  unittest.mock.patch.object(budget, "execute_live_row", side_effect=fake_execute), \
                  unittest.mock.patch.object(budget.experiment, "assert_isolated"):
                 self.assertEqual(budget.run(args), 0)
             self.assertEqual(len(calls), 8)
+
+    def test_source_pin_drift_stops_before_the_next_row(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            candidate = REPO_ROOT / "experiments" / "verification-budget" / "candidate" / "AGENTS.md"
+            current = REPO_ROOT / "AGENTS.md"
+            calls = []
+
+            def fake_execute(row, run_dir, candidate_path, current_path, args, baselines, pre_call_pins=None):
+                calls.append(row)
+                budget.write_json(run_dir / "meta.json", {
+                    "reported_cost_usd": 0.1, "reported_cost_status": "recorded", "returncode": 0,
+                    "timed_out": False, "runner_error": None, "cli_result_error": False,
+                    "model_reported_status": "matched", "cli_version_reported_status": "matched",
+                })
+                return {"acceptance": {"status": "passed"}, "required_verification_coverage": {"status": "passed"}}
+
+            args = argparse.Namespace(
+                candidate=str(candidate), current=str(current), out=str(base / "runs"), model=budget.DEFAULT_MODEL,
+                max_turns=80, timeout=1, verification_timeout=1, dry_run=False,
+            )
+            captured = {"status": "recorded", "raw": "2.1.263 (Claude Code)", "normalized": "2.1.263"}
+            matched = {"status": "matched", "source_pins_status": "matched", "cli_version_status": "matched"}
+            drift = {"status": "unverified", "source_pins_status": "drift", "cli_version_status": "matched"}
+            with unittest.mock.patch.object(budget, "capture_cli_version", return_value=captured), \
+                 unittest.mock.patch.object(budget, "collection_pin_check", side_effect=[matched, drift]), \
+                 unittest.mock.patch.object(budget, "generate_baselines", return_value=[]), \
+                 unittest.mock.patch.object(budget, "execute_live_row", side_effect=fake_execute), \
+                 unittest.mock.patch.object(budget.experiment, "assert_isolated"):
+                self.assertEqual(budget.run(args), 1)
+            batch = next((base / "runs").iterdir())
+            state = budget.read_json(batch / "batch.json")
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(state["stopped"], "source_pin_drift")
+        self.assertEqual(state["rows"][1]["state"], "not_started")
+
+    def test_missing_reported_model_stops_after_retaining_known_cost(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            candidate = REPO_ROOT / "experiments" / "verification-budget" / "candidate" / "AGENTS.md"
+            current = REPO_ROOT / "AGENTS.md"
+
+            def fake_execute(row, run_dir, candidate_path, current_path, args, baselines, pre_call_pins=None):
+                budget.write_json(run_dir / "meta.json", {
+                    "reported_cost_usd": 0.1, "reported_cost_status": "recorded", "returncode": 0,
+                    "timed_out": False, "runner_error": None, "cli_result_error": False,
+                    "model_reported_status": "missing_or_mismatched", "cli_version_reported_status": "matched",
+                })
+                return {"acceptance": {"status": "failed"}, "required_verification_coverage": {"status": "failed"}}
+
+            args = argparse.Namespace(
+                candidate=str(candidate), current=str(current), out=str(base / "runs"), model=budget.DEFAULT_MODEL,
+                max_turns=80, timeout=1, verification_timeout=1, dry_run=False,
+            )
+            captured = {"status": "recorded", "raw": "2.1.263 (Claude Code)", "normalized": "2.1.263"}
+            pin_check = {"status": "matched", "source_pins_status": "matched", "cli_version_status": "matched"}
+            with unittest.mock.patch.object(budget, "capture_cli_version", return_value=captured), \
+                 unittest.mock.patch.object(budget, "collection_pin_check", return_value=pin_check), \
+                 unittest.mock.patch.object(budget, "generate_baselines", return_value=[]), \
+                 unittest.mock.patch.object(budget, "execute_live_row", side_effect=fake_execute), \
+                 unittest.mock.patch.object(budget.experiment, "assert_isolated"):
+                self.assertEqual(budget.run(args), 1)
+            state = budget.read_json(next((base / "runs").iterdir()) / "batch.json")
+        self.assertEqual(state["stopped"], "missing_or_mismatched_reported_model")
+        self.assertEqual(state["known_spent_usd"], 0.1)
+
+    def test_resource_limited_known_cost_row_does_not_stop_the_next_row(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            candidate = REPO_ROOT / "experiments" / "verification-budget" / "candidate" / "AGENTS.md"
+            current = REPO_ROOT / "AGENTS.md"
+            calls = []
+
+            def fake_execute(row, run_dir, candidate_path, current_path, args, baselines, pre_call_pins=None):
+                calls.append(row)
+                budget.write_json(run_dir / "meta.json", {
+                    "reported_cost_usd": 3.0, "reported_cost_status": "recorded", "returncode": 0,
+                    "timed_out": False, "runner_error": None, "cli_result_error": False,
+                    "resource_limit_status": "max_turns", "model_reported_status": "matched",
+                    "cli_version_reported_status": "matched",
+                })
+                return {"acceptance": {"status": "failed"}, "required_verification_coverage": {"status": "failed"}}
+
+            args = argparse.Namespace(
+                candidate=str(candidate), current=str(current), out=str(base / "runs"), model=budget.DEFAULT_MODEL,
+                max_turns=80, timeout=1, verification_timeout=1, dry_run=False,
+            )
+            captured = {"status": "recorded", "raw": "2.1.263 (Claude Code)", "normalized": "2.1.263"}
+            pin_check = {"status": "matched", "source_pins_status": "matched", "cli_version_status": "matched"}
+            with unittest.mock.patch.object(budget, "capture_cli_version", return_value=captured), \
+                 unittest.mock.patch.object(budget, "collection_pin_check", return_value=pin_check), \
+                 unittest.mock.patch.object(budget, "generate_baselines", return_value=[]), \
+                 unittest.mock.patch.object(budget, "execute_live_row", side_effect=fake_execute), \
+                 unittest.mock.patch.object(budget.experiment, "assert_isolated"):
+                self.assertEqual(budget.run(args), 0)
+            state = budget.read_json(next((base / "runs").iterdir()) / "batch.json")
+        self.assertEqual(len(calls), 8)
+        self.assertEqual(state["stopped"], "batch_budget_reservation")
+        self.assertEqual(state["rows"][0]["resource_limit_status"], "max_turns")
+
+    def test_cli_error_with_known_cost_stops_after_the_row(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            candidate = REPO_ROOT / "experiments" / "verification-budget" / "candidate" / "AGENTS.md"
+            current = REPO_ROOT / "AGENTS.md"
+            calls = []
+
+            def fake_execute(row, run_dir, candidate_path, current_path, args, baselines, pre_call_pins=None):
+                calls.append(row)
+                budget.write_json(run_dir / "meta.json", {
+                    "reported_cost_usd": 0.1, "reported_cost_status": "recorded", "returncode": 0,
+                    "timed_out": False, "runner_error": None, "cli_result_error": True,
+                    "resource_limit_status": "not_limited", "model_reported_status": "matched",
+                    "cli_version_reported_status": "matched",
+                })
+                return {"acceptance": {"status": "unverified"}, "required_verification_coverage": {"status": "unverified"}}
+
+            args = argparse.Namespace(
+                candidate=str(candidate), current=str(current), out=str(base / "runs"), model=budget.DEFAULT_MODEL,
+                max_turns=80, timeout=1, verification_timeout=1, dry_run=False,
+            )
+            captured = {"status": "recorded", "raw": "2.1.263 (Claude Code)", "normalized": "2.1.263"}
+            pin_check = {"status": "matched", "source_pins_status": "matched", "cli_version_status": "matched"}
+            with unittest.mock.patch.object(budget, "capture_cli_version", return_value=captured), \
+                 unittest.mock.patch.object(budget, "collection_pin_check", return_value=pin_check), \
+                 unittest.mock.patch.object(budget, "generate_baselines", return_value=[]), \
+                 unittest.mock.patch.object(budget, "execute_live_row", side_effect=fake_execute), \
+                 unittest.mock.patch.object(budget.experiment, "assert_isolated"):
+                self.assertEqual(budget.run(args), 1)
+            state = budget.read_json(next((base / "runs").iterdir()) / "batch.json")
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(state["stopped"], "cli_error")
+
+    def test_runner_exception_marks_collection_cost_unknown(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            candidate = REPO_ROOT / "experiments" / "verification-budget" / "candidate" / "AGENTS.md"
+            current = REPO_ROOT / "AGENTS.md"
+            args = argparse.Namespace(
+                candidate=str(candidate), current=str(current), out=str(base / "runs"), model=budget.DEFAULT_MODEL,
+                max_turns=80, timeout=1, verification_timeout=1, dry_run=False,
+            )
+            captured = {"status": "recorded", "raw": "2.1.263 (Claude Code)", "normalized": "2.1.263"}
+            pin_check = {"status": "matched", "source_pins_status": "matched", "cli_version_status": "matched"}
+            with unittest.mock.patch.object(budget, "capture_cli_version", return_value=captured), \
+                 unittest.mock.patch.object(budget, "collection_pin_check", return_value=pin_check), \
+                 unittest.mock.patch.object(budget, "generate_baselines", return_value=[]), \
+                 unittest.mock.patch.object(budget, "execute_live_row", side_effect=RuntimeError("collector failed")), \
+                 unittest.mock.patch.object(budget.experiment, "assert_isolated"):
+                self.assertEqual(budget.run(args), 1)
+            state = budget.read_json(next((base / "runs").iterdir()) / "batch.json")
+        self.assertEqual(state["stopped"], "run_error")
+        self.assertEqual(state["collection_cost_status"], "unknown")
 
     def test_old_t5_replay_is_read_only_unscorable(self):
         result = budget.score_old_t5(REPO_ROOT / "experiments" / "task5")

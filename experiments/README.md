@@ -2727,3 +2727,16 @@ scenario-matrix and shared-baseline invariant passed. The root `AGENTS.md` staye
 53 protected tracked files and the frozen pre-registration prefix stayed unchanged. Independent altered and missing acceptance
 artifact probes now make both acceptance and artifact integrity unverified. None of these local
 instrument outcomes is a failed model prediction or evidence of candidate effectiveness.
+
+## Verification-budget paid collection authorization (2026-09-07)
+
+After the free readiness review, a human gave explicit approval in the active conversation on
+2026-09-07 to collect this paid current-versus-candidate pilot, make one condition-label-blinded
+no-tools review call when the shared budget rule permits it, and publish the resulting record and
+pull request. The protocol's statement that no paid-run approval existed is retained as a true
+preparation-time statement; this dated append is the later authorization.
+
+No paid collection or reviewer call has started, and this records no model result. The locked
+predictions and review rubric in [`verification-budget/protocol.md`](verification-budget/protocol.md)
+remain unchanged. The fixed operational settings, later provenance, results, cost, and limitations
+belong in [`verification-budget/collection-2026-09-07.md`](verification-budget/collection-2026-09-07.md).

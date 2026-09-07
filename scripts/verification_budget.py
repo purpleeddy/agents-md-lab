@@ -15,6 +15,7 @@ import json
 import math
 import os
 import random
+import re
 import shlex
 import shutil
 import signal
@@ -37,6 +38,7 @@ DEFAULT_MODEL = experiment.DEFAULT_MODEL
 DEFAULT_MAX_TURNS = 80
 PER_RUN_COST_USD = 3.0
 BATCH_COST_USD = 25.0
+REVIEW_MAX_COST_USD = 3.0
 REPLICATES = 3
 SCHEDULE_SEED = "verification-budget-pilot-v1"
 ORIGIN_LIVE = "real_model_run"
@@ -428,8 +430,10 @@ def endpoint_brief(manifest, client_path, socket_path):
         f"Client: python3 {client_path} --socket {socket_path} -- <command>\n"
         "Only these verification argv values are documented:\n"
         f"{rendered}\n"
-        "A top-level `&&` or `;` may join documented commands. Other shell structure is rejected "
-        "for audit. A direct command remains visible in the transcript but is unverified evidence.\n"
+        "Run each documented check in its own client invocation. If an endpoint-internal chain is "
+        "needed, quote the separator as `'&&'` or `';'` so it reaches the client as argv rather "
+        "than becoming an outer-shell operator. Other shell structure is rejected for audit. A "
+        "direct command remains visible in the transcript but is unverified evidence.\n"
     )
 
 
@@ -1230,6 +1234,9 @@ def pilot_pins(candidate, current):
     return {
         "candidate": {"path": str(candidate), "sha256": sha256_file(candidate)},
         "current": {"path": str(current), "sha256": sha256_file(current)},
+        # The collector and scorer deliberately share this source file, but
+        # both roles are retained in the pre-collection pin record.
+        "runner_sha256": sha256_file(__file__),
         "scorer_sha256": sha256_file(__file__),
         "scenarios": {
             name: {
@@ -1247,6 +1254,96 @@ def pilot_pins(candidate, current):
             for name in scenario_names()
         },
     }
+
+
+def normalize_cli_version(value):
+    """Return the one semantic version reported by the CLI, or ``None``.
+
+    ``claude --version`` currently prints ``2.1.263 (Claude Code)`` while the
+    stream init event records ``2.1.263``.  Keep both raw values in artifacts
+    and compare this intentionally narrow normalized form.  Multiple version
+    strings are ambiguous rather than evidence of a match.
+    """
+    if not isinstance(value, str) or not value.strip():
+        return None
+    versions = re.findall(r"(?<![0-9])([0-9]+(?:\.[0-9]+)+)(?![0-9])", value)
+    return versions[0] if len(versions) == 1 else None
+
+
+def capture_cli_version():
+    """Capture a local CLI identity without making a provider request."""
+    record = {
+        "argv": ["claude", "--version"],
+        "timeout_seconds": 60,
+        "returncode": None,
+        "raw": None,
+        "normalized": None,
+        "stderr": "",
+        "status": "unverified",
+    }
+    try:
+        process = subprocess.run(
+            record["argv"],
+            capture_output=True,
+            text=True,
+            timeout=record["timeout_seconds"],
+            env=experiment.build_child_env(),
+        )
+    except subprocess.TimeoutExpired as error:
+        record.update({"status": "timeout", "stderr": output_text(error.stderr)})
+        return record
+    except OSError as error:
+        record.update({"status": "cli_error", "stderr": "%s: %s" % (type(error).__name__, error)})
+        return record
+    record.update({
+        "returncode": process.returncode,
+        "raw": process.stdout.strip(),
+        "stderr": process.stderr,
+    })
+    if process.returncode != 0:
+        record["status"] = "cli_error"
+        return record
+    normalized = normalize_cli_version(record["raw"])
+    if normalized is None:
+        record["status"] = "missing_or_ambiguous_version"
+        return record
+    record.update({"normalized": normalized, "status": "recorded"})
+    return record
+
+
+def collection_pin_check(expected_pins, expected_cli_version, candidate, current):
+    """Re-pin sources and CLI before a row; never treat drift as harmless."""
+    result = {
+        "expected_source_pins_sha256": json_hash(expected_pins),
+        "actual_source_pins_sha256": None,
+        "source_pins_status": "unverified",
+        "expected_cli_version": expected_cli_version,
+        "cli_version": None,
+        "cli_version_status": "unverified",
+        "status": "unverified",
+    }
+    try:
+        actual_pins = pilot_pins(candidate, current)
+    except (OSError, ValueError) as error:
+        result["source_pins_error"] = "%s: %s" % (type(error).__name__, error)
+    else:
+        result["actual_source_pins_sha256"] = json_hash(actual_pins)
+        result["source_pins_status"] = "matched" if actual_pins == expected_pins else "drift"
+    current_cli = capture_cli_version()
+    result["cli_version"] = current_cli
+    if (
+        expected_cli_version.get("status") == "recorded"
+        and current_cli.get("status") == "recorded"
+        and current_cli.get("normalized") == expected_cli_version.get("normalized")
+    ):
+        result["cli_version_status"] = "matched"
+    elif current_cli.get("status") in ("cli_error", "timeout"):
+        result["cli_version_status"] = current_cli["status"]
+    else:
+        result["cli_version_status"] = "drift_or_missing"
+    if result["source_pins_status"] == "matched" and result["cli_version_status"] == "matched":
+        result["status"] = "matched"
+    return result
 
 
 def render_dry_run(candidate, current, model, max_turns=DEFAULT_MAX_TURNS, agent_timeout=900,
@@ -1272,16 +1369,21 @@ def render_dry_run(candidate, current, model, max_turns=DEFAULT_MAX_TURNS, agent
             "batch_usd": BATCH_COST_USD,
             "start_rule": "before a run, stop if known_spent_usd + per_run_usd exceeds batch_usd; missing reported cost stops later scheduling",
         },
+        "review_control": {
+            "max_cost_usd": REVIEW_MAX_COST_USD,
+            "start_rule": "after collection, one review call may start only when known_collection_spent_usd plus max_cost_usd does not exceed batch_usd; otherwise review remains unverified",
+            "collection_reservation_changed": False,
+        },
     }
 
 
-def launch_agent(argv, cwd, timeout, env):
+def launch_agent(argv, cwd, timeout, env, input_text=None):
     """Localized launcher because historical run_claude does not return owned PGID evidence."""
     process = subprocess.Popen(
         argv,
         cwd=str(cwd),
         env=env,
-        stdin=subprocess.DEVNULL,
+        stdin=subprocess.PIPE if input_text is not None else subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
@@ -1289,7 +1391,7 @@ def launch_agent(argv, cwd, timeout, env):
     )
     timed_out = False
     try:
-        stdout, stderr = process.communicate(timeout=timeout)
+        stdout, stderr = process.communicate(input=input_text, timeout=timeout)
     except subprocess.TimeoutExpired:
         timed_out = True
         os.killpg(process.pid, signal.SIGKILL)
@@ -1320,7 +1422,40 @@ def permission_telemetry(transcript):
     return {"status": "recorded", "count": len(denials)}
 
 
-def execute_live_row(row, run_dir, candidate, current, args, baselines):
+def resource_limit_status(result_event):
+    """Recognize only documented terminal resource limits, never a generic error."""
+    if not isinstance(result_event, dict):
+        return "not_limited"
+    resource_codes = {
+        "max_turns", "max_turns_reached", "max_budget", "max_budget_usd", "budget_exceeded",
+    }
+    subtype = result_event.get("subtype")
+    if isinstance(subtype, str):
+        normalized = subtype.lower()
+        if normalized in resource_codes:
+            return normalized
+        if normalized.startswith("error_") and normalized[len("error_"):] in resource_codes:
+            return normalized[len("error_"):]
+    terminal = result_event.get("terminal_reason")
+    if isinstance(terminal, str) and terminal.lower() in resource_codes:
+        return terminal.lower()
+    return "not_limited"
+
+
+def result_cli_error(result_event):
+    """Identify terminal CLI failures while retaining known resource-limited rows."""
+    if not isinstance(result_event, dict) or resource_limit_status(result_event) != "not_limited":
+        return False
+    if result_event.get("is_error") is True:
+        return True
+    subtype = result_event.get("subtype")
+    if isinstance(subtype, str) and "error" in subtype.lower():
+        return True
+    terminal = result_event.get("terminal_reason")
+    return isinstance(terminal, str) and terminal.lower() in {"error", "timeout"}
+
+
+def execute_live_row(row, run_dir, candidate, current, args, baselines, pre_call_pins=None):
     manifest = load_manifest(row["scenario"])
     work = run_dir / "work"
     copy_tree(scenario_path(row["scenario"], "seed"), work)
@@ -1375,6 +1510,18 @@ def execute_live_row(row, run_dir, candidate, current, args, baselines):
         write_json(run_dir / "result.json", result_event)
     cost, cost_status = result_cost(stdout)
     init = next((event for event in events if event.get("subtype") == "init"), {})
+    reported_model = init.get("model")
+    reported_cli_raw = init.get("claude_code_version")
+    reported_cli_normalized = normalize_cli_version(reported_cli_raw)
+    expected_cli = getattr(args, "precollection_cli_version", {})
+    model_status = "matched" if reported_model == args.model else "missing_or_mismatched"
+    cli_status = (
+        "matched" if (
+            expected_cli.get("status") == "recorded"
+            and reported_cli_normalized is not None
+            and reported_cli_normalized == expected_cli.get("normalized")
+        ) else "missing_or_mismatched"
+    )
     write_json(run_dir / "observations.json", {
         "provenance": "runner_parent_after_agent_exit",
         "supervisor_sha256": sha256_file(__file__),
@@ -1391,8 +1538,14 @@ def execute_live_row(row, run_dir, candidate, current, args, baselines):
         "ended_utc": ended,
         "argv": argv,
         "model_requested": args.model,
-        "model_reported": init.get("model"),
-        "cli_version_reported": init.get("claude_code_version"),
+        "model_reported": reported_model,
+        "model_reported_status": model_status,
+        "cli_version_precollection": expected_cli,
+        "cli_version_reported": reported_cli_raw,
+        "cli_version_reported_normalized": reported_cli_normalized,
+        "cli_version_reported_status": cli_status,
+        "cli_result_error": result_cli_error(result_event),
+        "resource_limit_status": resource_limit_status(result_event),
         "flag_set": flag_set,
         "instruction_sha256": sha256_file(instruction_source),
         "instruction_source": str(instruction_source),
@@ -1401,7 +1554,9 @@ def execute_live_row(row, run_dir, candidate, current, args, baselines):
         "reference_sha256": tree_hash(scenario_path(row["scenario"], "reference")) if scenario_path(row["scenario"], "reference").exists() else None,
         "manifest_sha256": sha256_file(scenario_path(row["scenario"], "scenario.json")),
         "evaluator_source_sha256": sha256_file(scenario_path(row["scenario"], manifest["acceptance"]["evaluator"])),
+        "runner_sha256": sha256_file(__file__),
         "scorer_sha256": sha256_file(__file__),
+        "pre_call_pin_check": pre_call_pins,
         "returncode": returncode,
         "timed_out": timed_out,
         "reported_cost_usd": cost,
@@ -1443,12 +1598,52 @@ def run(args):
     if args.dry_run:
         print(json.dumps(preview, indent=2, sort_keys=True))
         return 0
+    if args.model != DEFAULT_MODEL:
+        raise ValueError("the verification-budget pilot fixes --model to %s" % DEFAULT_MODEL)
     out = Path(args.out).resolve()
     out.mkdir(parents=True, exist_ok=True)
     experiment.assert_isolated(out)
     batch = out / datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d-%H%M%S")
     batch.mkdir()
     write_json(batch / "plan.json", preview)
+    row_states = [{**row, "state": "not_started"} for row in preview["schedule"]]
+    precollection_cli = capture_cli_version()
+    precollection = {
+        "expected_source_pins_sha256": json_hash(preview["pins"]),
+        "actual_source_pins_sha256": None,
+        "source_pins_status": "unverified",
+        "cli_version": precollection_cli,
+    }
+    try:
+        precollection_pins = pilot_pins(args.candidate, args.current)
+    except (OSError, ValueError) as error:
+        precollection["source_pins_error"] = "%s: %s" % (type(error).__name__, error)
+    else:
+        precollection["actual_source_pins_sha256"] = json_hash(precollection_pins)
+        precollection["source_pins_status"] = (
+            "matched" if precollection_pins == preview["pins"] else "drift"
+        )
+    write_json(batch / "collection-pins.json", {
+        "expected_source_pins": preview["pins"],
+        "expected_source_pins_sha256": json_hash(preview["pins"]),
+        "precollection": precollection,
+    })
+    if precollection["source_pins_status"] != "matched" or precollection_cli.get("status") != "recorded":
+        stopped = (
+            "precollection_source_pin_drift"
+            if precollection["source_pins_status"] != "matched"
+            else "precollection_cli_version_error"
+        )
+        write_json(batch / "batch.json", {
+            "origin": ORIGIN_LIVE,
+            "known_spent_usd": 0.0,
+            "collection_cost_status": "recorded",
+            "stopped": stopped,
+            "precollection": precollection,
+            "rows": row_states,
+        })
+        return 1
+    args.precollection_cli_version = precollection_cli
     baseline_sets = {}
     try:
         for name in scenario_names():
@@ -1457,49 +1652,92 @@ def run(args):
         write_json(batch / "batch.json", {
             "origin": ORIGIN_LIVE,
             "known_spent_usd": 0.0,
+            "collection_cost_status": "recorded",
             "stopped": "baseline_generation_error",
             "error": "%s: %s" % (type(error).__name__, error),
-            "rows": [{**row, "state": "not_started"} for row in preview["schedule"]],
+            "precollection": precollection,
+            "rows": row_states,
         })
         return 1
     write_json(batch / "baselines.json", baseline_sets)
-    row_states = [{**row, "state": "not_started"} for row in preview["schedule"]]
     known_spent = 0.0
+    collection_cost_status = "recorded"
     stopped = None
     for index, row in enumerate(preview["schedule"], 1):
         if known_spent + PER_RUN_COST_USD > BATCH_COST_USD:
             stopped = "batch_budget_reservation"
             break
+        pin_check = collection_pin_check(
+            preview["pins"], precollection_cli, args.candidate, args.current
+        )
+        if pin_check["status"] != "matched":
+            row_states[index - 1]["pin_check"] = pin_check
+            stopped = (
+                "source_pin_drift"
+                if pin_check["source_pins_status"] != "matched"
+                else "cli_version_drift_or_error"
+            )
+            break
         run_dir = batch / ("run-%02d" % index)
         run_dir.mkdir()
         row_states[index - 1]["state"] = "running"
-        write_json(batch / "batch.json", {"origin": ORIGIN_LIVE, "known_spent_usd": known_spent, "stopped": None, "rows": row_states})
+        write_json(batch / "batch.json", {
+            "origin": ORIGIN_LIVE,
+            "known_spent_usd": known_spent,
+            "collection_cost_status": collection_cost_status,
+            "stopped": None,
+            "precollection": precollection,
+            "rows": row_states,
+        })
         try:
-            metrics = execute_live_row(row, run_dir, args.candidate, args.current, args, baseline_sets[row["scenario"]])
+            metrics = execute_live_row(
+                row, run_dir, args.candidate, args.current, args,
+                baseline_sets[row["scenario"]], pin_check,
+            )
         except Exception as error:
             write_json(run_dir / "runner-error.json", {"error": "%s: %s" % (type(error).__name__, error)})
             row_states[index - 1]["state"] = "error"
+            collection_cost_status = "unknown"
             stopped = "run_error"
             break
         row_states[index - 1]["state"] = "finished"
-        cost = read_json(run_dir / "meta.json").get("reported_cost_usd")
-        if read_json(run_dir / "meta.json").get("reported_cost_status") != "recorded":
+        meta = read_json(run_dir / "meta.json")
+        row_states[index - 1]["resource_limit_status"] = meta.get("resource_limit_status", "not_limited")
+        cost = meta.get("reported_cost_usd")
+        if meta.get("reported_cost_status") != "recorded":
+            collection_cost_status = "unknown"
             stopped = "missing_or_invalid_reported_cost"
             break
         known_spent += cost
+        if (
+            (meta.get("returncode") != 0 and meta.get("resource_limit_status", "not_limited") == "not_limited")
+            or meta.get("timed_out") is True
+            or meta.get("runner_error") is not None
+            or meta.get("cli_result_error") is True
+        ):
+            stopped = "cli_error"
+            break
+        if meta.get("model_reported_status") != "matched":
+            stopped = "missing_or_mismatched_reported_model"
+            break
+        if meta.get("cli_version_reported_status") != "matched":
+            stopped = "missing_or_mismatched_reported_cli_version"
+            break
         print("%s: acceptance=%s coverage=%s" % (
             run_dir.name, metrics["acceptance"]["status"], metrics["required_verification_coverage"]["status"]
         ))
     write_json(batch / "batch.json", {
         "origin": ORIGIN_LIVE,
         "known_spent_usd": known_spent,
+        "collection_cost_status": collection_cost_status,
         "stopped": stopped,
         "completed_runs": len(list(batch.glob("run-*"))),
+        "precollection": precollection,
         "rows": row_states,
         "approval_note": "No CLI flag represents human approval; this command must be invoked only after explicit human approval in the active conversation.",
     })
     print("batch: %s" % batch)
-    return 0
+    return 0 if stopped in (None, "batch_budget_reservation") else 1
 
 
 def summarize(args):
