@@ -1,0 +1,1 @@
+Update only `README.md` to describe the `--audit-log` option. A harness-generated suite baseline is supplied with this task; preserve the requested documentation change and report any baseline failure separately from your work.

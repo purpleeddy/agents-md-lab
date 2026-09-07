@@ -2682,3 +2682,48 @@ have signalled a denial, and this clarification neither discovers nor claims his
 unrecorded denials. The historical statements and data above remain as recorded. Earlier summary
 rows lack these fields; this change does not backfill them or recover evidence from the committed
 summaries. It preserves the existing metrics, aggregates, and verdicts.
+
+## Verification-budget pilot preparation (2026-09-07)
+
+The verification-budget candidate is [unmeasured](verification-budget/provenance.json) and is not
+adopted. Its six synthetic scenarios and free runner protocol are documented in
+[`verification-budget/protocol.md`](verification-budget/protocol.md). Simulation tests local
+instrumentation and fixture wiring only; it does not measure model behavior. No paid collection has
+run or been approved, and this preparation records no effectiveness result. A later paid batch
+requires separate approval after free readiness review; any adoption would require a new test set,
+new lock, full round, acceptance rule, and revert path.
+
+
+## Verification-budget pilot free validation (2026-09-07)
+
+This is validation of local fixtures and instrumentation, not a model-behavior result. The candidate
+remains unmeasured; the fixed no-difference predictions in
+[`verification-budget/protocol.md`](verification-budget/protocol.md) have not been tested.
+
+The first focused run was blocked by an unclosed parenthesis in
+`scripts/verification_budget.py:1147`. After that syntax repair, the focused suite ran 23 tests and
+found two defects: compound endpoint events failed to bind to their distinct transcript segments, and
+a mocked-live test incorrectly treated requested `counter.py` as an unrelated edit. The matcher was
+repaired and the test was changed to use a genuinely unrelated path. Review of that same area found
+that the historical diff helper ignores harness-injected `AGENTS.md` and `CLAUDE.md`; the runner now
+compares their trusted initial hashes and records modification or deletion without changing the old
+helper.
+
+A following 24-test run found one fixture-construction defect: the second compound event used segment
+index 0 instead of 1 and its argv was not shell-safely quoted. The fixture was corrected while keeping
+its duplicate-ID rejection assertion. The focused suite then passed 24 tests; the full
+`python3 -m unittest` suite passed 324 tests in 40.231 seconds, and
+`python3 scripts/compare.py --check` passed with 10 files, 10 rule, and 8 content matches.
+
+An independent corruption probe then found that changing
+`acceptance.final_relevant_sha256` to zeros still left acceptance and artifact integrity as passed.
+The runner now binds the final relevant hash into acceptance and overall integrity, with a regression
+test. Final free revalidation passed: the focused suite passed 25 tests; the full
+`python3 -m unittest` suite passed 325 tests in 15.711 seconds (15.83 seconds wall time); and
+`python3 scripts/compare.py --check` passed. The old fixture dry-run passed 12 fixtures. The new
+simulation passed 13 states in 2.09 seconds; score and summarize each covered 13 noncomparative
+synthetic artifacts; and `run --dry-run` previewed 36 rows with zero paid or model calls. The
+scenario-matrix and shared-baseline invariant passed. The root `AGENTS.md` stayed unchanged, and all
+53 protected tracked files and the frozen pre-registration prefix stayed unchanged. Independent altered and missing acceptance
+artifact probes now make both acceptance and artifact integrity unverified. None of these local
+instrument outcomes is a failed model prediction or evidence of candidate effectiveness.

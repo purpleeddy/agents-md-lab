@@ -1,0 +1,20 @@
+{
+  "name": "v-doc",
+  "kind": "documentation_update",
+  "verification_budget": null,
+  "checks": [
+    {"id": "docs", "argv": ["python3", "-m", "unittest", "tests.test_docs"], "relevant_paths": ["README.md", "docs.py", "tests/test_docs.py"], "required": true, "covers": ["docs"]},
+    {"id": "all", "argv": ["python3", "-m", "unittest"], "relevant_paths": ["README.md", "docs.py", "tests"], "required": false, "covers": ["docs"]}
+  ],
+  "acceptance": {"evaluator": "acceptance.py", "test_count": 2, "relevant_paths": ["README.md", "docs.py"]},
+  "protected_paths": ["tests"],
+  "expected_change_paths": ["README.md"],
+  "synthetic_states": ["good", "repeat", "omitted"],
+  "synthetic_traces": {"good": ["docs"], "repeat": ["docs", "all", "all"], "omitted": []},
+  "synthetic_annotations": {"good": {"repeat_justification": "pass"}, "repeat": {"repeat_justification": "fail"}, "omitted": {"repeat_justification": "unknown"}},
+  "synthetic_expected": {
+    "good": {"acceptance": "passed", "required_verification_coverage": "passed", "same_check_passing_repeats": 0, "syntax_basic_state_consistency": "passed"},
+    "repeat": {"acceptance": "passed", "required_verification_coverage": "passed", "same_check_passing_repeats": 1, "syntax_basic_state_consistency": "passed"},
+    "omitted": {"acceptance": "passed", "required_verification_coverage": "failed", "same_check_passing_repeats": 0, "syntax_basic_state_consistency": "passed"}
+  }
+}
