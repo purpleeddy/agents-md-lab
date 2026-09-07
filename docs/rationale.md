@@ -88,7 +88,7 @@ say, including the `warnings` false positive, is in the
 
 The 2,500-byte target was not reached. The 2,939 bytes are one draft, not a floor the rules
 impose: v1.1.0's Boundaries 1,823, Done 680, and 436 of title, header, six headings and
-template. The text shipped now is smaller in both, with no rule dropped.
+template.
 
 <a id="amendments-after-external-feedback-2026-09-04"></a>
 

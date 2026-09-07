@@ -1764,8 +1764,8 @@ synthesis of the two, not either candidate whole.
 | Done, the preamble folded into the heading | `## Done: complete only when all of these hold` replaces the heading plus `A task is complete only when all of the following hold:` | The preamble was a line whose only content was the form of the list under it. The heading carries that form now, and the three numbered items are still conditions rather than instructions. |
 
 **The five lines with a measured effect are byte-identical to v1.2.0's.** Every metric that moved
-in rounds 2, 3 and 4 was attributed to one of five lines: the two Boundaries honesty and reporting
-lines, the read-the-callers line, and Done items 1 and 2. In v1.2.0 they are lines 6, 13, 22, 23
+keeps the line it was attributed to: the Boundaries honesty line, the Reporting lead line, the
+read-the-callers line, and Done items 1 and 2. In v1.2.0 they are lines 6, 13, 22, 23
 and 27; in v1.4.0 they are lines 6, 13, 21, 22 and 26, the Done heading merge having taken one line
 out above them. The check, run on the adoption commit:
 
@@ -1784,17 +1784,19 @@ without the attribution moving: the lines those numbers were read off are the sa
 new is the file as a whole, and nothing in the four rounds measured it.
 
 **Compaction.** The lossless part is 123 bytes, 2.7 percent of v1.2.0; the added rule spends 47 of
-it, so the file is 76 bytes smaller. Anything past that buys bytes from a named rule, and the
-prices were listed rather than paid: 24 bytes and no rule for merging the Before coding and While
-coding headings, then 104 for the calibration rule, 106 for nested-document precedence, 112 for
-the only check that sees an untracked leftover, 142 for the only termination rule, and 318 for the
-Project block. A variant that reaches 4,033 bytes by selling three of those was not proposed.
+it, so the file is 76 bytes smaller, which is 4,514 minus 4,438. Anything past that buys bytes
+from a named rule, and the issue lists the prices rather than paying them: 24 bytes and no rule
+for merging the Before coding and While coding headings, then 104 for the calibration rule, 106
+for nested-document precedence, 112 for the only check that sees an untracked leftover, 142 for
+the only termination rule, and 318 for the Project block. Those six figures and the 4,033-byte
+variant that sells three of them come from the issue and are not measured here.
 
 **Also in this change, outside the file.** `scripts/hook_guard.py` refused a protected-branch push
 with the delivery wording of v1.3.0, a text the pre-registered revert removed, so the refusal now
 quotes the shipped rule instead: anything visible outside this checkout needs an explicit ask.
-`CONTRIBUTING.md`, where an adopter copies the example settings, says that the deny list is the
-mechanical floor and that a permission the harness grants is not the ask. The rationale page's
+`CONTRIBUTING.md`, where an adopter copies the example settings, and the README's adopt step,
+which links it, both say that the deny list is the mechanical floor and that a permission the
+harness grants is not the ask. The rationale page's
 2,500-byte passage read as though 2,939 bytes were a floor the rules impose; it is one draft
 measured, v1.1.0's, and it counts 436 bytes of title, header, headings and template.
 
