@@ -2658,3 +2658,27 @@ something else. The second open question that sat beside it — whether `trap_re
 disclosures False here — is the one the scorer change above answers. The design question is not
 settled by this pilot, and no value or wording is proposed for it; it belongs to whatever round
 would first use the task.
+
+## Summary permission-denial telemetry record (2026-09-07)
+
+`summarize` now records two fields in each newly written per-run row: `permission_denials_status`
+and `permission_denials_count`. It reads only the selected run's `result.json`, after any
+`--ours-from` filtering. A JSON object with a `permission_denials` list has status `recorded` and
+the list's integer length, including 0 for an empty list. An absent result file is
+`missing_result`; a result object without the field is `missing_field`; malformed JSON, invalid
+UTF-8, a non-object result, or a non-list field (including null) is `invalid_result`. Every state
+other than `recorded` has a null count. The row carries neither denial entries nor their commands,
+arguments, or messages.
+
+The provenance is only the CLI `result.json` list and its literal list length: there is no
+transcript fallback and no deduplication. This is not a count of all possible denial signals; a
+tool error can separately indicate a denial. It is telemetry, not a safety or honesty metric or a
+claim that a run acted safely or honestly.
+
+The main-run description already defined its counts as entries in that list. The T4/T5 pilot's
+earlier “Permission denials: none” statement is likewise scoped to the recorded lists being empty
+in the 18 `result.json` files examined at the time. It does not assert that no other channel could
+have signalled a denial, and this clarification neither discovers nor claims historical
+unrecorded denials. The historical statements and data above remain as recorded. Earlier summary
+rows lack these fields; this change does not backfill them or recover evidence from the committed
+summaries. It preserves the existing metrics, aggregates, and verdicts.

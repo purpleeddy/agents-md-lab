@@ -736,6 +736,216 @@ class SummarizeTest(unittest.TestCase):
         self.assertIn("advantages up vs none", headline)
 
 
+class SummarizePermissionDenialsTest(unittest.TestCase):
+    PRIVATE_DENIAL_MARKER = "PRIVATE-DENIAL-MARKER-9ae3"
+    MISSING = object()
+
+    def write_run(self, root, name, index, result=MISSING, condition="none"):
+        run_dir = root / name
+        run_dir.mkdir(parents=True)
+        metrics = synthetic_metrics("task2", condition, index, False, True, 1.0)
+        (run_dir / "metrics.json").write_text(json.dumps(metrics), encoding="utf-8")
+        (run_dir / "meta.json").write_text(
+            json.dumps({"task": "task2", "condition": condition}), encoding="utf-8"
+        )
+        if result is not self.MISSING:
+            result_path = run_dir / "result.json"
+            if isinstance(result, bytes):
+                result_path.write_bytes(result)
+            elif isinstance(result, str):
+                result_path.write_text(result, encoding="utf-8")
+            else:
+                result_path.write_text(json.dumps(result), encoding="utf-8")
+        return run_dir
+
+    def summarize(self, tmp, roots, ours_from=None):
+        out = Path(tmp) / "summary.json"
+        args = argparse.Namespace(
+            runs=[str(root) for root in roots],
+            out=str(out),
+            markdown=False,
+            ours_from=str(ours_from) if ours_from else None,
+        )
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            self.assertEqual(experiment.cmd_summarize(args), 0)
+        return (
+            json.loads(out.read_text(encoding="utf-8")),
+            json.loads(experiment.runs_path_for(out).read_text(encoding="utf-8"))["runs"],
+            stdout.getvalue(),
+            stderr.getvalue(),
+        )
+
+    def test_records_empty_and_multiple_denial_list_counts_without_raw_denials(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "runs"
+            self.write_run(root, "task2-none-01", 1, {"permission_denials": []})
+            self.write_run(
+                root,
+                "task2-none-02",
+                2,
+                {
+                    "permission_denials": [
+                        {
+                            "command": self.PRIVATE_DENIAL_MARKER,
+                            "arguments": {"path": self.PRIVATE_DENIAL_MARKER},
+                            "message": self.PRIVATE_DENIAL_MARKER,
+                        },
+                        {"message": self.PRIVATE_DENIAL_MARKER},
+                    ]
+                },
+            )
+            summary, rows, stdout, stderr = self.summarize(tmp, [root])
+
+            telemetry = {
+                row["run_id"]: (row["permission_denials_status"], row["permission_denials_count"])
+                for row in rows
+            }
+            self.assertEqual(
+                telemetry,
+                {
+                    "task2-none-01": ("recorded", 0),
+                    "task2-none-02": ("recorded", 2),
+                },
+            )
+            for row in rows:
+                self.assertNotIn("permission_denials", row)
+
+            generated = "\n".join(
+                [
+                    json.dumps(summary),
+                    json.dumps(rows),
+                    stdout,
+                    stderr,
+                ]
+            )
+            self.assertNotIn(self.PRIVATE_DENIAL_MARKER, generated)
+
+    def test_marks_missing_and_invalid_result_telemetry_without_treating_them_as_zero(self):
+        cases = {
+            "task2-none-01": (self.MISSING, "missing_result"),
+            "task2-none-02": ({}, "missing_field"),
+            "task2-none-03": ("{not json", "invalid_result"),
+            "task2-none-04": ([], "invalid_result"),
+            "task2-none-05": ({"permission_denials": None}, "invalid_result"),
+            "task2-none-06": ({"permission_denials": {}}, "invalid_result"),
+            "task2-none-07": (b"\xff", "invalid_result"),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "runs"
+            for index, (name, (result, _)) in enumerate(cases.items(), start=1):
+                self.write_run(root, name, index, result)
+            _, rows, _, _ = self.summarize(tmp, [root])
+
+        telemetry = {
+            row["run_id"]: (row["permission_denials_status"], row["permission_denials_count"])
+            for row in rows
+        }
+        self.assertEqual(
+            telemetry,
+            {name: (status, None) for name, (_, status) in cases.items()},
+        )
+
+    def test_missing_result_does_not_fall_back_to_a_transcript(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "runs"
+            run_dir = self.write_run(root, "task2-none-01", 1)
+            (run_dir / "transcript.jsonl").write_text(
+                json.dumps(
+                    {
+                        "type": "result",
+                        "permission_denials": [{"message": self.PRIVATE_DENIAL_MARKER}],
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            _, rows, stdout, stderr = self.summarize(tmp, [root])
+
+        self.assertEqual(rows[0]["permission_denials_status"], "missing_result")
+        self.assertIsNone(rows[0]["permission_denials_count"])
+        self.assertNotIn(self.PRIVATE_DENIAL_MARKER, stdout + stderr + json.dumps(rows))
+
+    def test_result_read_errors_propagate_without_printing_raw_contents(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "runs"
+            run_dir = self.write_run(root, "task2-none-01", 1, self.PRIVATE_DENIAL_MARKER)
+            result_path = run_dir / "result.json"
+            out = Path(tmp) / "summary.json"
+            args = argparse.Namespace(
+                runs=[str(root)], out=str(out), markdown=False, ours_from=None
+            )
+            original_read_text = Path.read_text
+
+            def fail_result_read(path, *args, **kwargs):
+                if path == result_path:
+                    raise OSError("result file cannot be read")
+                return original_read_text(path, *args, **kwargs)
+
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with (
+                contextlib.redirect_stdout(stdout),
+                contextlib.redirect_stderr(stderr),
+                unittest.mock.patch.object(
+                    Path, "read_text", autospec=True, side_effect=fail_result_read
+                ),
+            ):
+                with self.assertRaises(OSError):
+                    experiment.cmd_summarize(args)
+
+        self.assertNotIn(self.PRIVATE_DENIAL_MARKER, stdout.getvalue() + stderr.getvalue())
+
+    def test_telemetry_does_not_change_summary_aggregates(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            without_telemetry = Path(tmp) / "without"
+            with_telemetry = Path(tmp) / "with"
+            self.write_run(without_telemetry, "task2-none-01", 1)
+            self.write_run(
+                with_telemetry,
+                "task2-none-01",
+                1,
+                {"permission_denials": [{"message": self.PRIVATE_DENIAL_MARKER}]},
+            )
+            baseline, _, _, _ = self.summarize(tmp, [without_telemetry])
+            observed, _, _, _ = self.summarize(tmp, [with_telemetry])
+
+        self.assertEqual(
+            {key: value for key, value in baseline.items() if key != "generated_utc"},
+            {key: value for key, value in observed.items() if key != "generated_utc"},
+        )
+
+    def test_ours_from_does_not_read_an_excluded_malformed_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = Path(tmp) / "old"
+            new = Path(tmp) / "new"
+            old_run = self.write_run(
+                old, "task2-ours-01", 1, b"\xff", condition="ours"
+            )
+            self.write_run(
+                new,
+                "task2-ours-02",
+                2,
+                {"permission_denials": []},
+                condition="ours",
+            )
+            excluded_result = old_run / "result.json"
+            original_read_text = Path.read_text
+
+            def fail_excluded_read(path, *args, **kwargs):
+                if path == excluded_result:
+                    raise AssertionError("excluded result.json must not be read")
+                return original_read_text(path, *args, **kwargs)
+
+            with unittest.mock.patch.object(
+                Path, "read_text", autospec=True, side_effect=fail_excluded_read
+            ):
+                _, rows, _, _ = self.summarize(tmp, [old, new], ours_from=new)
+
+        self.assertEqual([row["run_id"] for row in rows], ["task2-ours-02"])
+        self.assertEqual(rows[0]["permission_denials_status"], "recorded")
+        self.assertEqual(rows[0]["permission_denials_count"], 0)
+
+
 class SeedTestTamperingTest(unittest.TestCase):
     def work_copy(self, tmp):
         return seed_copy(tmp, "work")

@@ -1713,6 +1713,29 @@ def runs_path_for(out_path):
     return out_path.with_name(out_path.stem + "-runs" + out_path.suffix)
 
 
+def permission_denials_telemetry(run_dir):
+    """Return only the recorded result.json denial-list state and length for one selected run."""
+    result_path = Path(run_dir) / "result.json"
+    try:
+        text = result_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return "missing_result", None
+    except UnicodeDecodeError:
+        return "invalid_result", None
+    try:
+        result = json.loads(text)
+    except json.JSONDecodeError:
+        return "invalid_result", None
+    if not isinstance(result, dict):
+        return "invalid_result", None
+    if "permission_denials" not in result:
+        return "missing_field", None
+    denials = result["permission_denials"]
+    if not isinstance(denials, list):
+        return "invalid_result", None
+    return "recorded", len(denials)
+
+
 def cmd_summarize(args):
     rows = []
     roots = [Path(directory).resolve() for directory in args.runs]
@@ -1741,6 +1764,7 @@ def cmd_summarize(args):
         condition = metrics.get("condition", meta.get("condition"))
         if ours_from is not None and condition == "ours" and not resolved.is_relative_to(ours_from):
             continue
+        permission_denials_status, permission_denials_count = permission_denials_telemetry(run_dir)
         rows.append(
             {
                 "run_id": metrics.get("run_id", run_dir.name),
@@ -1750,6 +1774,8 @@ def cmd_summarize(args):
                 "metrics": metrics,
                 "final_text": metrics.get("final_text", ""),
                 "meta": meta,
+                "permission_denials_status": permission_denials_status,
+                "permission_denials_count": permission_denials_count,
             }
         )
 
