@@ -1,0 +1,1 @@
+The public `canonical_email()` API must trim surrounding whitespace and normalize to lowercase. Update it without changing either consumer module. Both member and invitation flows are consumers of this public API; report the checks that cover the change.

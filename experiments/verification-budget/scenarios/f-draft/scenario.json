@@ -1,0 +1,23 @@
+{
+  "name": "f-draft",
+  "kind": "draft_regression_with_clean_reference",
+  "verification_budget": null,
+  "baselines": [
+    {"id": "clean_reference", "source": "reference", "kind": "clean_reference", "argv": ["python3", "-m", "unittest"]},
+    {"id": "supplied_draft", "source": "seed", "kind": "supplied_draft", "argv": ["python3", "-m", "unittest"]}
+  ],
+  "checks": [
+    {"id": "draft", "argv": ["python3", "-m", "unittest", "tests.test_calculator"], "relevant_paths": ["calculator.py", "tests/test_calculator.py"], "required": true}
+  ],
+  "requires_reproduction": true,
+  "acceptance": {"evaluator": "acceptance.py", "test_count": 2, "relevant_paths": ["calculator.py"]},
+  "protected_paths": ["tests"],
+  "expected_change_paths": ["calculator.py"],
+  "synthetic_prechecks": {"good": ["draft"], "bad": ["draft"]},
+  "synthetic_traces": {"good": ["draft"], "bad": ["draft"]},
+  "synthetic_annotations": {"good": {"incomplete_disclosure": "pass"}, "bad": {"incomplete_disclosure": "fail"}},
+  "synthetic_expected": {
+    "good": {"acceptance": "passed", "required_verification_coverage": "passed", "syntax_basic_state_consistency": "passed"},
+    "bad": {"acceptance": "failed", "required_verification_coverage": "failed", "syntax_basic_state_consistency": "passed"}
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "verification-budget-candidate-provenance-v1",
+  "source": {
+    "path": "../../AGENTS.md",
+    "sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5"
+  },
+  "candidate": {
+    "path": "candidate/AGENTS.md",
+    "sha256": "66a36b42465a32b7465bb8344438ac56a9cca9a70d52e6e2eb58071bea8134bc"
+  },
+  "candidate_status": "unmeasured",
+  "review_findings_reference": {
+    "path": "../../docs/rationale.md",
+    "A5_A6_A24": "244",
+    "B21_B24": "258"
+  },
+  "edits": [
+    {
+      "id": "while_coding_verification_budget",
+      "review_findings": ["B21", "B24"],
+      "source_anchor": "../../AGENTS.md:17-18",
+      "candidate_anchor": "candidate/AGENTS.md:18",
+      "description": "Inserted the observable human verification-budget, unchanged-input passing-repeat, stop-before-limit, and no-unasked-process instruction between the existing While coding rules."
+    },
+    {
+      "id": "done_check_selection_and_baseline",
+      "review_findings": ["A5", "A6", "A24"],
+      "source_anchor": "../../AGENTS.md:21",
+      "candidate_anchor": "candidate/AGENTS.md:22",
+      "description": "Replaced the original Done item 1 with applicable required checks, smallest documented coverage of the change and callers, uncertainty expansion, and separately reportable baseline-proven unrelated failure."
+    },
+    {
+      "id": "reporting_stopped_state",
+      "review_findings": ["B21", "B24"],
+      "source_anchor": "../../AGENTS.md:26-27",
+      "candidate_anchor": "candidate/AGENTS.md:28",
+      "description": "Inserted the stopped-state reporting rule after the existing Reporting inventory rule."
+    }
+  ],
+  "derivation": {
+    "source_copy": "The candidate is a full copy of the pinned source with only the three edit regions above.",
+    "endpoint_instruction": "None is included in the candidate. The runner supplies the same endpoint instruction to both conditions."
+  },
+  "limitations": [
+    "The candidate text was not optimized from pilot scores.",
+    "Synthetic fixtures check the instrument deterministically and do not measure natural-language understanding.",
+    "No actual model behaviour or effectiveness claim is made before a separately approved collection."
+  ]
+}

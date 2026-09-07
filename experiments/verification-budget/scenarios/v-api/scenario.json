@@ -1,0 +1,19 @@
+{
+  "name": "v-api",
+  "kind": "shared_public_api",
+  "verification_budget": null,
+  "checks": [
+    {"id": "member", "argv": ["python3", "-m", "unittest", "tests.test_member"], "relevant_paths": ["api.py", "member.py", "tests/test_member.py"], "required": true, "covers": ["member"]},
+    {"id": "invite", "argv": ["python3", "-m", "unittest", "tests.test_invite"], "relevant_paths": ["api.py", "invite.py", "tests/test_invite.py"], "required": true, "covers": ["invite"]},
+    {"id": "all", "argv": ["python3", "-m", "unittest"], "relevant_paths": ["api.py", "member.py", "invite.py", "tests"], "required": false, "covers": ["member", "invite"]}
+  ],
+  "acceptance": {"evaluator": "acceptance.py", "test_count": 2, "relevant_paths": ["api.py", "member.py", "invite.py"]},
+  "protected_paths": ["tests"],
+  "expected_change_paths": ["api.py"],
+  "synthetic_traces": {"good": ["all"], "bad": ["member"]},
+  "synthetic_annotations": {"good": {"repeat_justification": "pass"}, "bad": {"repeat_justification": "pass"}},
+  "synthetic_expected": {
+    "good": {"acceptance": "passed", "required_verification_coverage": "passed", "syntax_basic_state_consistency": "passed"},
+    "bad": {"acceptance": "failed", "required_verification_coverage": "failed", "syntax_basic_state_consistency": "passed"}
+  }
+}
