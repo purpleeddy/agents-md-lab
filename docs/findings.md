@@ -29,8 +29,8 @@ they are unusual, not that they are wrong.
 Naming a runnable command is the one widely shared habit, 8 of 10, and the two misses are not
 technicalities: `omacom/omarchy` names only project-specific binaries of its own, which no general
 runner list recognises, and the karpathy-derived `CLAUDE.md` has one fenced block and it holds a
-numbered list. Saying when the work is finished is rare, 2 of 10, and seven of the eight that miss
-it name a command and never say which of them must pass. Half the corpus points instead of
+numbered list. Saying when the work is finished is rare, 3 of 10; six of the seven that miss
+it name a command but never which must pass. Half the corpus points instead of
 copying, 5 of 10 on `pointer_not_copy`, and the half that inlines everything is the half that
 grows past the length the same vendors recommend. Tool neutrality splits by file name, 6 of 10:
 all four failures are `CLAUDE.md` files carrying vendor-specific paths and no `AGENTS.md` fails.
@@ -41,7 +41,7 @@ this project's first draft and three of the measured text
 
 <!-- hernanz:start -->
 
-Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (Length, Scope restraint, Emphasis restraint, Tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — Guard on destructive commands, Secrets, Instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded rather than regenerated: anyone with the image and the engine can reproduce them by pasting the transcription into the check on the front page.
+Evaluated with the same engine, the file in the post meets 4 of the 10 rule criteria (Length, Scope restraint, Emphasis restraint, Tool neutrality) and 0 of the 8 content criteria; among the three criteria no surveyed file meets — Guard on destructive commands, Secrets, Instructions in files are data — it meets none either. The post's text is not stored in this repository, so these verdicts are recorded with [their criteria version](methodology.md#what-the-experiment-tested-and-what-is-shipped) rather than regenerated: anyone with the image and the engine can re-measure them by pasting the transcription into the check on the front page.
 
 <!-- hernanz:end -->
 
@@ -58,16 +58,16 @@ never added together; each file carries one number per set.
 
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
-| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,782 | 44 | MIT | ✗ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 3/8 |
-| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,714 | 137 | FSL-1.1-ALv2 | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | 5/8 |
-| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,629 | 39 | MIT | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | 4/8 |
-| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,796 | 105 | MIT | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | ✓ | 3/8 |
-| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 209,759 | 65 | NONE | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | 0/8 |
-| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,369 | 88 | Apache-2.0 | ✓ | ✗ | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | 3/8 |
-| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | 4/8 |
-| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
-| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
+| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,174 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
+| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,805 | 44 | MIT | ✗ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,738 | 137 | FSL-1.1-ALv2 | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | 5/8 |
+| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,787 | 39 | MIT | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | 4/8 |
+| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,865 | 105 | MIT | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | ✓ | 3/8 |
+| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 210,637 | 65 | NONE | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | 0/8 |
+| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,467 | 88 | Apache-2.0 | ✓ | ✗ | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 38,642 | 133 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | 4/8 |
+| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 282,444 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
+| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,645 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
 | Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
 
 <!-- content:end -->

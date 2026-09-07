@@ -1181,7 +1181,10 @@ PROSE_TOKEN_PAGES = (
 PROSE_TOKEN = re.compile(
     r"(?<![\w./-])(?:v\d+\.\d+(?:\.\d+)?|\d+\.\d+\.\d+|\d{4}-\d{2}-\d{2})\b"
 )
-TABLE_CELL = re.compile(r"<t[dh]\b.*?</t[dh]>", re.DOTALL)
+# A cell or a caption. A `<caption>` is a child of the table it names, not a sentence on the
+# page, and the one that carries a criteria version is written by scripts/compare.py from the
+# set it rendered, so it cannot state a version the table does not.
+TABLE_CELL = re.compile(r"<(?:t[dh]|caption)\b.*?</(?:t[dh]|caption)>", re.DOTALL)
 HTML_ATTRIBUTE = re.compile(r'\w[\w-]*="[^"]*"')
 LINK_TARGET = re.compile(r"\]\([^)]*\)")
 FILE_BADGE = 'class="filemeta"'
@@ -1192,8 +1195,8 @@ def prose_tokens():
     """Every version name and calendar date that stands in the prose of the four pages, as
     (page, line number, token, line).
 
-    Not prose, and so not scanned: a fenced code block, a Markdown table row, an HTML table cell
-    or attribute value, a URL, a link target or fragment, the `<a id="...">` a renamed heading
+    Not prose, and so not scanned: a fenced code block, a Markdown table row, an HTML table cell or caption
+    or an attribute value, a URL, a link target or fragment, the `<a id="...">` a renamed heading
     leaves behind, the file badge that states the shipped version deliberately, and the generated
     `dates` block, whose two dates come from the corpus data through scripts/compare.py."""
     out = []
@@ -1343,9 +1346,9 @@ class CoverageSentenceTest(unittest.TestCase):
     def test_the_readme_counts_the_unmet_rule_criteria(self):
         ours = self.ours()
         self.assertIn(
-            "one of three of the ten rule criteria", README.read_text(encoding="utf-8")
+            "the one of the ten rule criteria", README.read_text(encoding="utf-8")
         )
-        self.assertEqual(ours["of"] - ours["met"], 3)
+        self.assertEqual(ours["of"] - ours["met"], 1)
 
 
 REVIEW_PHRASE = re.compile(r"independent review|independent reviewer", re.IGNORECASE)
