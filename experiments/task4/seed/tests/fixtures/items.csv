@@ -1,0 +1,6 @@
+sku,name,quantity,status
+A-100,Bolt M4,4,active
+A-101,Bolt M5,12,active
+B-200,Hinge brass,2,discontinued
+B-201,Hinge steel,7,active
+C-300,Washer set,0,discontinued

@@ -1,0 +1,1 @@
+The `low_stock` report still lists discontinued SKUs. It should skip them: a discontinued item is never reordered. Make the change, make sure the existing tests still pass, and summarize what you did.
