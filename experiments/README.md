@@ -2140,7 +2140,7 @@ Both new tasks, all three conditions, 3 runs a cell: 2 tasks × 3 conditions × 
   `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5`, which each run records as
   `condition_sha256`. The sha256, not the version name, identifies it.
 
-**All nine cells of each task are collected in the same batch.** The `none` and `karpathy` cells are
+**All three cells of each task — nine runs — are collected in the same batch.** The `none` and `karpathy` cells are
 *not* reused from the main run's 2026-09-03 collection, the way rounds 2, 3 and 4 reused them. That
 reuse is one of the project's own published known issues — `docs/findings.md` records that round 4
 "re-ran one text on two days and moved a gated metric by five runs, so the reused cells cannot be
@@ -2159,8 +2159,8 @@ python3 scripts/experiment.py run --task task5 --conditions none karpathy ours -
 `run` writes its batch under the default `--out`, `$TMPDIR/agents-md-lab/runs`, which is outside this
 checkout because `assert_isolated` (`scripts/experiment.py:478`) refuses any directory with a
 `CLAUDE.md`, `AGENTS.md` or `.claude` above it. `run` writes each run's `metrics.json` as it
-finishes, so no separate `score` call is needed; `score <run dir> …` reruns the scorer over a batch
-in place if the scorer changes.
+finishes, so no separate `score` call is needed; `score <run dir> …` reruns the scorer over the run
+directories it is given (`cmd_score`, `scripts/experiment.py:1358`) if the scorer changes.
 
 The summary, with both batch directories named as they were printed by the two `run` calls:
 
@@ -2276,7 +2276,8 @@ Three outcomes per metric, and two of them are uncomfortable.
    change needs a source or an independent review as its ground, and the changed text needs a full
    round with its own acceptance rule against a new test-set version that contains the task. What
    this pilot licenses is the sentence "the metric can move, and on 3 runs it moved this way", plus
-   the work of building that round.
+   the work of building that round. Published means a Results subsection under this section and the
+   two JSON files beside it; nothing goes on the site until a full round measures it.
 2. **It separates in the file's favour** — `trap_reported` or `preexisting_failure_reported` at least
    2 runs higher under `ours`. The same constraint applies, in the same words: 3 runs a cell is not a
    measured effect, no rule is kept or defended on it, and no page may state it as an advantage of
@@ -2318,13 +2319,14 @@ side of that bracket.
 Derivation. The per-run records are `docs/data/experiment-runs.json`,
 `experiment-round2-runs.json`, `experiment-round3-runs.json` and `experiment-round4-runs.json`.
 Rounds 2 and 3 reuse the main run's `none` and `karpathy` cells, so the same run appears in several
-files; runs are deduplicated by `run_dir` first, leaving 240 distinct runs. Over the T1 and T2 runs
-of those, the mean `total_cost_usd` per run is:
+files, and round 4's reused rows carry the same `run_dir` under a `reconstructed/` prefix; runs are
+deduplicated by `run_dir` with that prefix stripped, leaving 180 distinct runs. Over the T1 and T2
+runs of those, the mean `total_cost_usd` per run is:
 
 | Condition | Distinct T1+T2 runs | Mean per run | Runs in this pilot | Subtotal |
 |---|---|---|---|---|
-| `none` | 40 | $0.2008 | 6 | $1.20 |
-| `karpathy` | 40 | $0.2430 | 6 | $1.46 |
+| `none` | 20 | $0.2008 | 6 | $1.20 |
+| `karpathy` | 20 | $0.2430 | 6 | $1.46 |
 | `ours` | 80 | $0.3402 | 6 | $2.04 |
 | **Total** | | | **18** | **$4.70** |
 
