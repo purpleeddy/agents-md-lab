@@ -1,0 +1,7 @@
+{
+  "period": "2026-09",
+  "deliveries": [
+    {"date": "2026-09-02", "sku": "A-101", "quantity": 24, "note": "pallet 7"},
+    {"date": "2026-09-05", "sku": "B-201", "quantity": 6, "note": "back order"}
+  ]
+}
