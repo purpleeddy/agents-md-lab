@@ -1163,6 +1163,83 @@ TAG_SENTENCE = (
 COMPARE_PY = REPO_ROOT / "scripts" / "compare.py"
 PRE_REGISTRATION = REPO_ROOT / "experiments" / "README.md"
 
+# Versions and dates live in the tables and in the record; the prose names each text by its role
+# and says how long ago, so that a page does not have to be re-edited every time a version ships.
+# These are the four pages that convention covers.
+PROSE_TOKEN_PAGES = (
+    "docs/index.html",
+    "docs/findings.md",
+    "docs/methodology.md",
+    "docs/rationale.md",
+)
+
+# A version name written in a sentence: `v1.2.0`, or the bare three-part name a tool reports of
+# itself, `2.1.261`. A bare two-part number is not read as one, because the pages are full of cost
+# ratios (1.17x) and Wilson bounds (0.49) that share its shape. The lookbehind drops a token glued
+# to a longer identifier, which is that identifier and not a version the sentence states: the tag
+# `testset-v1.0.0` in a link, the date inside `#results-2026-09-05-opus-5`, a `blob/v1.2.0/` path.
+PROSE_TOKEN = re.compile(
+    r"(?<![\w./-])(?:v\d+\.\d+(?:\.\d+)?|\d+\.\d+\.\d+|\d{4}-\d{2}-\d{2})\b"
+)
+TABLE_CELL = re.compile(r"<t[dh]\b.*?</t[dh]>", re.DOTALL)
+HTML_ATTRIBUTE = re.compile(r'\w[\w-]*="[^"]*"')
+LINK_TARGET = re.compile(r"\]\([^)]*\)")
+FILE_BADGE = 'class="filemeta"'
+GENERATED_DATES = ("<!-- dates:start -->", "<!-- dates:end -->")
+
+
+def prose_tokens():
+    """Every version name and calendar date that stands in the prose of the four pages, as
+    (page, line number, token, line).
+
+    Not prose, and so not scanned: a fenced code block, a Markdown table row, an HTML table cell
+    or attribute value, a URL, a link target or fragment, the `<a id="...">` a renamed heading
+    leaves behind, the file badge that states the shipped version deliberately, and the generated
+    `dates` block, whose two dates come from the corpus data through scripts/compare.py."""
+    out = []
+    for page in PROSE_TOKEN_PAGES:
+        fenced = False
+        generated = False
+        for number, line in enumerate((REPO_ROOT / page).read_text(encoding="utf-8").split("\n"), 1):
+            stripped = line.strip()
+            if stripped.startswith("```"):
+                fenced = not fenced
+                continue
+            if stripped == GENERATED_DATES[0]:
+                generated = True
+            elif stripped == GENERATED_DATES[1]:
+                generated = False
+            if fenced or generated or stripped.startswith("|") or FILE_BADGE in line:
+                continue
+            scanned = TABLE_CELL.sub(" ", line)
+            scanned = ANCHOR_ID.sub(" ", scanned)
+            scanned = HTML_ATTRIBUTE.sub(" ", scanned)
+            scanned = URL.sub(" ", scanned)
+            scanned = LINK_TARGET.sub(" ", scanned)
+            scanned = ANCHOR.sub(" ", scanned)
+            for match in PROSE_TOKEN.finditer(scanned):
+                out.append((page, number, match.group(), line))
+    return out
+
+
+# The tokens that stand in prose today, each as (page, token, enough of its line to find it). A
+# short snippet, because rewrapping a paragraph moves the rest of the sentence. Six remain:
+#   v0.1.0    the sentence defines it as the key of the Sources column of the rule tables below
+#   v1.0.1    the sentence names which text the audit table's first column holds
+#   v1.1.0    the Project-block paragraph contrasts three drafts, so each has to be named
+#   v1.2.0    the same paragraph
+#   v1.3.0    the same paragraph, the draft that added the slot round 3 did not adopt
+#   2.1.261   the CLI's own version, whose sameness across rounds 3 and 4 is what the sentence says
+# The test below fails on an entry whose page no longer carries it, so the list cannot rot.
+PROSE_TOKEN_ALLOWLIST = {
+    ("docs/rationale.md", "v0.1.0", "keyed `v0.1.0` below"),
+    ("docs/rationale.md", "v1.0.1", "Every line of the v1.0.1 rule text"),
+    ("docs/rationale.md", "v1.1.0", "v1.1.0 wrote the block as two prose lines"),
+    ("docs/rationale.md", "v1.2.0", "and v1.2.0 restored"),
+    ("docs/rationale.md", "v1.3.0", "v1.3.0 added a `Delivery` slot"),
+    ("docs/findings.md", "2.1.261", "under the same CLI 2.1.261"),
+}
+
 
 class VersionNotationTest(unittest.TestCase):
     def scanned(self):
@@ -1194,6 +1271,34 @@ class VersionNotationTest(unittest.TestCase):
         ]
         self.assertEqual(len(badge), 1)
         self.assertIn("v%s" % version, badge[0])
+
+    def test_no_version_or_date_stands_in_prose(self):
+        """A version name or a date written into a sentence goes stale where no table or record
+        shows it, and nothing but a reader caught the last one: a pass over the Project-block
+        paragraph put `v1.1.0's` back into the byte-target passage of docs/rationale.md, and the
+        suite stayed green. The pages state a version in their tables, in the record and in the
+        file badge; the prose names each text by its role."""
+        used = set()
+        for page, number, token, line in prose_tokens():
+            entry = next(
+                (
+                    allowed
+                    for allowed in PROSE_TOKEN_ALLOWLIST
+                    if allowed[0] == page and allowed[1] == token and allowed[2] in line
+                ),
+                None,
+            )
+            self.assertIsNotNone(
+                entry,
+                "%s:%d states %s in prose, where the convention names the text by its role: %s"
+                % (page, number, token, line.strip()),
+            )
+            used.add(entry)
+        stale = PROSE_TOKEN_ALLOWLIST - used
+        self.assertFalse(
+            stale,
+            "no longer in prose, delete from PROSE_TOKEN_ALLOWLIST: %s" % sorted(stale),
+        )
 
 
 METHODOLOGY = DOCS / "methodology.md"
