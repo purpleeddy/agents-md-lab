@@ -92,7 +92,7 @@ Ninety runs: three tasks by three conditions by ten runs, model `claude-opus-5`,
 fresh directory outside this repository. All ninety ended `completed`, none timed out and none
 produced an empty diff, so every cell below is ten delivered runs. The metrics and their
 directions were fixed before any run in the
-[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/testset-v1.0.0/experiments/README.md),
+[pre-registration](https://github.com/purpleeddy/agents-md-lab/blob/45b765a5a7424e855ee8fc0e28333e0d90d0f923/experiments/README.md),
 whose
 [Results section](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#results-2026-09-03-opus-5)
 records the run directories, the hashes and the telemetry.

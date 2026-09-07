@@ -1146,9 +1146,8 @@ class RoundFourTest(unittest.TestCase):
 
 
 # Every version name the project publishes carries three parts, so that a reader never has to
-# guess whether "v1.1" and "v1.1.0" are the same text. Two names are exempt: the locked region of
-# experiments/README.md, which cannot change after the tag, and the git tag `testset-v1.0` where
-# the sentence below the Lock line says which commit it names.
+# guess whether "v1.1" and "v1.1.0" are the same text. The frozen prefix of
+# experiments/README.md remains outside this audit because it is an archival record.
 VERSION_TOKEN = re.compile(r"\bv\d+(?:\.\d+)*")
 # A slug carries the version with its dots removed (#line-audit-v101-to-v110), which is a slug and
 # not a version name. Both forms are stripped before the scan: the link fragment, and the explicit
@@ -1156,10 +1155,13 @@ VERSION_TOKEN = re.compile(r"\bv\d+(?:\.\d+)*")
 ANCHOR = re.compile(r"#[a-z0-9-]+")
 ANCHOR_ID = re.compile(r'<a id="[a-z0-9-]+">')
 LOCK_HEADING = "\n## Lock\n"
-TAG_SENTENCE = (
-    "the tag `testset-v1.0.0`, added 2026-09-04, names the same commit as\n"
-    "`testset-v1.0`, and the three-part name is the one used on the site. "
+LOCKED_TEST_SET_COMMIT = "45b765a5a7424e855ee8fc0e28333e0d90d0f923"
+PRE_REGISTRATION_URL = (
+    "https://github.com/purpleeddy/agents-md-lab/blob/"
+    + LOCKED_TEST_SET_COMMIT
+    + "/experiments/README.md"
 )
+RETIRED_TEST_SET_TAG = re.compile(r"(?<![\w.-])testset-v1\.0(?:\.0)?(?![\w.-])")
 COMPARE_PY = REPO_ROOT / "scripts" / "compare.py"
 PRE_REGISTRATION = REPO_ROOT / "experiments" / "README.md"
 
@@ -1252,8 +1254,7 @@ class VersionNotationTest(unittest.TestCase):
             str(path.relative_to(REPO_ROOT)): path.read_text(encoding="utf-8") for path in pages
         }
         tail = PRE_REGISTRATION.read_text(encoding="utf-8").split(LOCK_HEADING, 1)[1]
-        self.assertIn(TAG_SENTENCE, tail)
-        texts["experiments/README.md below the Lock line"] = tail.replace(TAG_SENTENCE, "")
+        texts["experiments/README.md below the Lock line"] = tail
         return texts
 
     def test_every_version_name_has_three_parts(self):
@@ -1302,6 +1303,31 @@ class VersionNotationTest(unittest.TestCase):
             stale,
             "no longer in prose, delete from PROSE_TOKEN_ALLOWLIST: %s" % sorted(stale),
         )
+
+
+class PreRegistrationReferenceTest(unittest.TestCase):
+    """Published pre-registration links have one immutable target after tag retirement."""
+
+    def published_pages(self):
+        return (LAYOUT, *sorted(DOCS.glob("*.html")), *sorted(DOCS.glob("*.md")))
+
+    def test_published_pre_registration_links_pin_the_locked_commit(self):
+        pages = (INDEX, LAYOUT, DOCS / "methodology.md", FINDINGS)
+        for path in pages:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(PRE_REGISTRATION_URL, text, str(path.relative_to(REPO_ROOT)))
+            self.assertNotRegex(text, RETIRED_TEST_SET_TAG, str(path.relative_to(REPO_ROOT)))
+
+    def test_retired_test_set_aliases_are_confined_to_the_frozen_prefix(self):
+        frozen, tail = PRE_REGISTRATION.read_text(encoding="utf-8").split(LOCK_HEADING, 1)
+        self.assertRegex(frozen, RETIRED_TEST_SET_TAG)
+        self.assertNotRegex(tail, RETIRED_TEST_SET_TAG)
+        for path in (REPO_ROOT / "CONTRIBUTING.md", *self.published_pages()):
+            self.assertNotRegex(
+                path.read_text(encoding="utf-8"),
+                RETIRED_TEST_SET_TAG,
+                str(path.relative_to(REPO_ROOT)),
+            )
 
 
 METHODOLOGY = DOCS / "methodology.md"

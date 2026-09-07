@@ -740,11 +740,10 @@ Criteria (a) and (b) failed as written; (c), (d) and (e) passed.
 
 ## Lock
 
-Locked on 2026-09-03; the tag `testset-v1.0.0`, added 2026-09-04, names the same commit as
-`testset-v1.0`, and the three-part name is the one used on the site. Test set: T1 with 12 hidden
-acceptance tests, T2 with 13, T3 with 3; metrics and their directions exactly as above; model
-`claude-opus-5`; CLI `claude` 2.1.258; flag set `project-settings`. Nothing above this line
-changes after the tag; a change bumps the version and is recorded here.
+Locked on 2026-09-03 at commit `45b765a5a7424e855ee8fc0e28333e0d90d0f923`. Test set: T1 with
+12 hidden acceptance tests, T2 with 13, T3 with 3; metrics and their directions exactly as above;
+model `claude-opus-5`; CLI `claude` 2.1.258; flag set `project-settings`. Nothing above this line
+changes after the lock; a change bumps the version and is recorded here.
 
 ## Main run
 
@@ -754,8 +753,8 @@ Planned after the lock, and executed as planned at 10 per cell: 9 cells (3 tasks
 file, and both hashes are reported. Results are appended below this line.
 
 Limitation of the `ours` condition in the main run: the author of the v1.0.0 `AGENTS.md` knew all
-three tasks when writing it, because the test set was locked (2026-09-03, tag `testset-v1.0.0`)
-before the file was rewritten. The `karpathy` file had no such advantage: it is a public file
+three tasks when writing it, because the test set was locked on 2026-09-03 at commit
+`45b765a5a7424e855ee8fc0e28333e0d90d0f923` before the file was rewritten. The `karpathy` file had no such advantage: it is a public file
 pinned by commit and written for no task in this repository. The pilot's `ours` (v0.1.0, the root
 `AGENTS.md` at commit `d957ac2`, committed 2026-09-03 00:08 +0900) was written before any task
 existed in the repository — `experiments/task1` first appears at 01:15 and `experiments/task3` at
@@ -782,10 +781,10 @@ longer carries a repository-specific Project section, so `condition_sha256` is t
 hash. Nothing above is restated: the main run reported here ran before that commit and its numbers
 are unchanged.
 
-Deviation from the Conditions section above: that section (above the Lock line, and therefore
-unchanged) says the main run uses the root `AGENTS.md` at the `testset-v1.0.0` tag. It does not.
-The approved plan and this section define the main run's `ours` as the v1.0.0 file, written after
-the lock: commits `66adec0` and `2a82474`, sha256
+Deviation from the Conditions section above: that frozen section says the main run uses the root
+`AGENTS.md` at the pre-registration reference it recorded. It does not. The approved plan and this
+section define the main run's `ours` as the v1.0.0 file, written after the lock: commits `66adec0`
+and `2a82474`, sha256
 `381073f5b86617debac61b0c99ca3829a926ad1649b3f3aec3079a8ee6c2bb4e` (50 lines). A later follow-up
 commit records how the file meets the done-verification check and changes no rule text; the
 sha256 above stays the main-run file. It was written from the draft at commit `f095752` and from the
@@ -1854,10 +1853,10 @@ corpus was measured again in the same pass, and one corpus file, `getsentry/sent
 `done_verification` verdict too.
 
 
-## T4 — the documented command that destroys data (not part of `testset-v1.0.0`)
+## T4 — the documented command that destroys data (not part of the locked test set)
 
-Built 2026-09-07, recorded here and **not run**. It is not part of `testset-v1.0.0`: the locked
-test set is T1, T2 and T3, and nothing above the Lock line changes. Using T4 in a round requires a
+Built 2026-09-07, recorded here and **not run**. It is not part of the locked test set: T1, T2 and
+T3 are the locked tasks, and nothing above the Lock line changes. Using T4 in a round requires a
 new test set version, a new lock and its own acceptance rule, none of which is written here.
 
 ### Why this task exists
@@ -1954,11 +1953,11 @@ Two, so both outcomes of the scorer are exercised: `tests/fixtures/experiment/t4
 `python3 -m unittest`, store intact, reported the trap). Both are covered by
 `python3 scripts/experiment.py --dry-run`.
 
-## T5 — a documentation change over a failure that predates it (not part of `testset-v1.0.0`)
+## T5 — a documentation change over a failure that predates it (not part of the locked test set)
 
-Built 2026-09-07, recorded here and **not run**. It is not part of `testset-v1.0.0`: the locked
-test set is T1, T2 and T3, and nothing above the Lock line changes. Using T5 in a round requires
-a new test set version, a new lock and its own acceptance rule, none of which is written here.
+Built 2026-09-07, recorded here and **not run**. It is not part of the locked test set: T1, T2 and
+T3 are the locked tasks, and nothing above the Lock line changes. Using T5 in a round requires a
+new test set version, a new lock and its own acceptance rule, none of which is written here.
 
 ### Why this task exists
 
@@ -2109,8 +2108,8 @@ reporting jaw clean, so the two are visibly independent). All three are covered 
 ## Headroom pilot for T4 and T5 (not an adoption test)
 
 Written 2026-09-07, before any T4 or T5 run. It sits below the Lock line and changes nothing above
-it: `testset-v1.0.0` is still T1, T2 and T3, and this pilot neither adds T4 and T5 to it nor bumps
-its version.
+it: the locked test set is still T1, T2 and T3, and this pilot neither adds T4 and T5 to it nor
+bumps its version.
 
 ### The question
 
@@ -2299,8 +2298,8 @@ Recorded either way: the per-cell numbers, the `no_headroom` list, `max_gap_per_
 - No adoption of any rule, clause or wording of the shipped `AGENTS.md`.
 - No revert of any rule, clause or wording of it.
 - No new rule written from these numbers, and no existing rule kept or dropped on them.
-- No bump of the test-set version, and no addition of T4 or T5 to `testset-v1.0.0`. Using either task
-  in a round still requires a new test-set version, a new lock and its own acceptance rule, exactly
+- No bump of the test-set version, and no addition of T4 or T5 to the locked test set. Using either
+  task in a round still requires a new test-set version, a new lock and its own acceptance rule, exactly
   as the T4 and T5 sections say.
 - No sentence, table, chart or data file on the site claiming that T4 or T5 has measured anything
   about the shipped file. The site gains nothing from this pilot; the record of it is this section
@@ -2598,7 +2597,7 @@ this change does not touch.
 #### What this licenses, and what it does not
 
 Nothing about the shipped file is adopted, reverted, kept or dropped on these numbers, and no rule
-is written from them. No test-set version is bumped and neither task joins `testset-v1.0.0`. No
+is written from them. No test-set version is bumped and neither task joins the locked test set. No
 page on the site gains a section, a number or a claim from this pilot; its record is this
 subsection and the two JSON files beside it. These 18 runs are not compared against the main run's
 or any round's cells.
@@ -2752,3 +2751,11 @@ dated [collection record](verification-budget/collection-2026-09-07.md) and its 
 per-row metrics, and limits. The one condition-label-blinded review ran once for $1.892734 but
 produced no valid response artifact, so no annotations were imported or fabricated and no retry was
 run.
+
+## Pre-registration reference retirement (2026-09-07)
+
+Published pre-registration navigation now uses the locked commit
+`45b765a5a7424e855ee8fc0e28333e0d90d0f923`. The local tag references that had named this commit
+were retired on 2026-09-07; remote deletion is scheduled after the commit-pinned documentation is
+published. The frozen prefix above the Lock heading remains unchanged as the archival exception
+that preserves its historical pre-registration statements; post-Lock text uses the locked commit.
