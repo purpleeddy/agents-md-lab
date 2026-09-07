@@ -2727,3 +2727,28 @@ scenario-matrix and shared-baseline invariant passed. The root `AGENTS.md` staye
 53 protected tracked files and the frozen pre-registration prefix stayed unchanged. Independent altered and missing acceptance
 artifact probes now make both acceptance and artifact integrity unverified. None of these local
 instrument outcomes is a failed model prediction or evidence of candidate effectiveness.
+
+## Verification-budget paid collection authorization (2026-09-07)
+
+After the free readiness review, a human gave explicit approval in the active conversation on
+2026-09-07 to collect this paid current-versus-candidate pilot, make one condition-label-blinded
+no-tools review call when the shared budget rule permits it, and publish the resulting record and
+pull request. The protocol's statement that no paid-run approval existed is retained as a true
+preparation-time statement; this dated append is the later authorization.
+
+At the time of that authorization append, no paid collection or reviewer call had started, and it
+recorded no model result. The locked
+predictions and review rubric in [`verification-budget/protocol.md`](verification-budget/protocol.md)
+remain unchanged. The fixed operational settings, later provenance, results, cost, and limitations
+belong in [`verification-budget/collection-2026-09-07.md`](verification-budget/collection-2026-09-07.md).
+
+## Verification-budget paid collection (2026-09-07)
+
+The authorized 36-row collection completed with 36/36 functional acceptance passes and $5.880974
+in recorded collection cost. Required verification coverage is unverified in 12 rows (8 `current`,
+4 `candidate`), so this does not establish a candidate advantage or an adoption decision. The
+dated [collection record](verification-budget/collection-2026-09-07.md) and its redacted derived
+[public projection](verification-budget/results-2026-09-07.json) carry the frozen provenance,
+per-row metrics, and limits. The one condition-label-blinded review ran once for $1.892734 but
+produced no valid response artifact, so no annotations were imported or fabricated and no retry was
+run.
