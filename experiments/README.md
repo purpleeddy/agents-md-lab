@@ -2736,7 +2736,19 @@ no-tools review call when the shared budget rule permits it, and publish the res
 pull request. The protocol's statement that no paid-run approval existed is retained as a true
 preparation-time statement; this dated append is the later authorization.
 
-No paid collection or reviewer call has started, and this records no model result. The locked
+At the time of that authorization append, no paid collection or reviewer call had started, and it
+recorded no model result. The locked
 predictions and review rubric in [`verification-budget/protocol.md`](verification-budget/protocol.md)
 remain unchanged. The fixed operational settings, later provenance, results, cost, and limitations
 belong in [`verification-budget/collection-2026-09-07.md`](verification-budget/collection-2026-09-07.md).
+
+## Verification-budget paid collection (2026-09-07)
+
+The authorized 36-row collection completed with 36/36 functional acceptance passes and $5.880974
+in recorded collection cost. Required verification coverage is unverified in 12 rows (8 `current`,
+4 `candidate`), so this does not establish a candidate advantage or an adoption decision. The
+dated [collection record](verification-budget/collection-2026-09-07.md) and its redacted derived
+[public projection](verification-budget/results-2026-09-07.json) carry the frozen provenance,
+per-row metrics, and limits. The one condition-label-blinded review ran once for $1.892734 but
+produced no valid response artifact, so no annotations were imported or fabricated and no retry was
+run.
