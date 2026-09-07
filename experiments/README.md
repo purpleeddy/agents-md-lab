@@ -1740,6 +1740,71 @@ the sentence back needs a task with a remote in it and a new test set version, w
 round-3 pre-registration said in advance.
 
 
+### v1.4.0, the text adopted on review
+
+Six edits to v1.2.0, proposed as [issue 5](https://github.com/purpleeddy/agents-md-lab/issues/5)
+and adopted on review. No round measured this text. It is recorded the way v1.0.1 and v1.1.0 are:
+the file's own sha256 is new, `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5`,
+32 lines and 4,438 bytes against v1.2.0's 33 and 4,514, rule coverage unchanged at 7/10 with the
+same three criteria unmet, and content coverage unchanged at 1/8.
+
+Two design sessions, a Fable 5.1 session and an Opus 5 session, each read the shipped text against
+the same brief with no repository, no tools and no run data, and returned candidates
+independently. Both are model runs and neither is a person. The text below is the adjudicated
+synthesis of the two, not either candidate whole.
+
+| Change | The phrase | Why |
+|---|---|---|
+| Header, precedence shortened | `override this file` replaces `override everything here` | The clause rules on this file, and "everything here" is a phrase a reader has to resolve against the section it sits above. |
+| Boundaries bullet 2, dependency clause shortened | `any dependency change` replaces `adding, removing or upgrading a dependency` | The three verbs were written to close the gap "changing" left open. A noun phrase closes it in four words, and the destructive enumeration beside it is untouched. |
+| Boundaries bullet 3, a dangling word dropped | `through an explicitly asked action` replaces `through an explicitly asked action above` | "Above" named no list this line owns; the asked actions are defined in the bullet before it and in bullet 5, not in a list this sentence introduced. |
+| Boundaries bullet 4, the harness rule added | `A permission the harness grants is not an ask.` | The **new rule**, and the one change that adds rather than compacts. The file holds every push behind an explicit ask while this repository's `.claude/settings.json` and the published `docs/examples/settings.json` allow a task branch to be pushed. One design session read that as the settings being looser than the line and the other as a category difference, since bullet 5 already says an ask comes only from the human. The file never said which, and this sentence says it: a granted permission is capability, and the ask is a separate thing the human supplies. |
+| Boundaries bullet 4, the restated sentence folded | `A denied permission, or a missing ask, stops that action: do not route around it, continue independent work, and report what you could not do. This holds unattended.` replaces the denial sentence plus `A missing explicit ask is handled the same way, also unattended.` | The second sentence said only that the first also applies to a missing ask and also unattended. Both conditions now sit in the sentence that carries the rule, so the reader holds one rule instead of two. |
+| Before coding, unattended clause compacted | `Unattended: assume only for reversible internal changes, else skip that step and report it` replaces `Unattended, no one can answer: proceed on the stated assumption only for reversible internal changes; otherwise skip that step and report it` | "No one can answer" restates what "unattended" means, and "proceed on the stated assumption" restates the clause before it. The two branches and their conditions are unchanged. |
+| Done, the preamble folded into the heading | `## Done: complete only when all of these hold` replaces the heading plus `A task is complete only when all of the following hold:` | The preamble was a line whose only content was the form of the list under it. The heading carries that form now, and the three numbered items are still conditions rather than instructions. |
+
+**The five lines with a measured effect are byte-identical to v1.2.0's.** Every metric that moved
+keeps the line it was attributed to: the Boundaries honesty line, the Reporting lead line, the
+read-the-callers line, and Done items 1 and 2. In v1.2.0 they are lines 6, 13, 22, 23
+and 27; in v1.4.0 they are lines 6, 13, 21, 22 and 26, the Done heading merge having taken one line
+out above them. The check, run on the adoption commit:
+
+```
+python3 - <<'EOF'
+import subprocess
+old = subprocess.run(["git","show","main:AGENTS.md"],capture_output=True,text=True).stdout.split("\n")
+new = open("AGENTS.md").read().split("\n")
+for o,n in ((6,6),(13,13),(22,21),(23,22),(27,26)):
+    print(o, n, old[o-1] == new[n-1])
+EOF
+```
+
+It printed True five times. A later round therefore compares against the round-2 and round-4 cells
+without the attribution moving: the lines those numbers were read off are the same bytes. What is
+new is the file as a whole, and nothing in the four rounds measured it.
+
+**Compaction.** The lossless part is 123 bytes, 2.7 percent of v1.2.0; the added rule spends 47 of
+it, so the file is 76 bytes smaller, which is 4,514 minus 4,438. Anything past that buys bytes
+from a named rule, and the issue lists the prices rather than paying them: 24 bytes and no rule
+for merging the Before coding and While coding headings, then 104 for the calibration rule, 106
+for nested-document precedence, 112 for the only check that sees an untracked leftover, 142 for
+the only termination rule, and 318 for the Project block. Those six figures and the 4,033-byte
+variant that sells three of them come from the issue and are not measured here.
+
+**Also in this change, outside the file.** `scripts/hook_guard.py` refused a protected-branch push
+with the delivery wording of v1.3.0, a text the pre-registered revert removed, so the refusal now
+quotes the shipped rule instead: anything visible outside this checkout needs an explicit ask.
+`CONTRIBUTING.md`, where an adopter copies the example settings, and the README's adopt step,
+which links it, both say that the deny list is the mechanical floor and that a permission the
+harness grants is not the ask. The rationale page's
+2,500-byte passage read as though 2,939 bytes were a floor the rules impose; it is one draft
+measured, v1.1.0's, and it counts 436 bytes of title, header, headings and template.
+
+**Not in scope.** The delivery boundary. Reopening it needs the three preconditions the
+[v1.3.0 record](#v130-the-delivery-boundary) already names: shorter wording, a task that exercises
+a push, and baseline cells collected the day the round runs.
+
+
 ### The four v1.0.1 lines
 
 From v1.0.0 to v1.0.1 four lines changed and nothing else in the file did. Header:

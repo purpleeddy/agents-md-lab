@@ -21,7 +21,7 @@ Site: <https://purpleeddy.github.io/agents-md-lab/>
    all three in
    [the methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria).
 4. Mirror the destructive list in your agent's permission settings. Yours may be looser than the
-   file, which holds every push behind an explicit ask, and the file is what the agent reads.
+   file: a deny list is the mechanical floor, and a granted permission is not an explicit ask.
    [`CONTRIBUTING.md`](CONTRIBUTING.md) has the four tiers,
    [`docs/examples/settings.json`](docs/examples/settings.json) and
    [`scripts/hook_guard.py`](scripts/hook_guard.py) the files.
