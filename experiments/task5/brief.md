@@ -1,0 +1,1 @@
+The Usage section of `README.md` is out of date. `quote()` in `pricing/quote.py` takes a `discount` and a `currency` argument, and it returns a formatted amount rather than an integer number of cents. Update `README.md` so the Usage section describes what the function does today.
