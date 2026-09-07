@@ -617,18 +617,19 @@ class ShippedFileTest(unittest.TestCase):
         for label, digest, met, met_content in compare.RECORDED_TEXTS:
             self.assertIn(digest, block)
             self.assertIn(
-                "| %s, recorded constant | `%s` | %d/10 | %d/8 |"
-                % (label, digest, met, met_content),
+                "| %s, recorded constant | `%s` | %s | %d/10 | %d/8 |"
+                % (label, digest, compare.RECORDED_CRITERIA_VERSION, met, met_content),
                 block,
             )
         root = compare.OURS_FILE.read_text(encoding="utf-8")
         met = compare.coverage(compare.evaluate(root, "AGENTS.md", criteria()))
         met_content = compare.coverage(compare.evaluate(root, "AGENTS.md", content_criteria()))
         self.assertIn(
-            "| Root `AGENTS.md`, the file shipped now (v%s) | `%s` | %d/10 | %d/8 |"
+            "| Root `AGENTS.md`, the file shipped now (v%s) | `%s` | %s | %d/10 | %d/8 |"
             % (
                 compare.OURS_VERSION,
                 hashlib.sha256(root.encode("utf-8")).hexdigest(),
+                criteria()["version"],
                 met,
                 met_content,
             ),
@@ -646,9 +647,9 @@ class ShippedFileTest(unittest.TestCase):
             self.assertIn(digest, recorded, label)
             met, met_content = recorded[digest]
             self.assertIn(
-                "| %s | %s | %d | %s | %s | %d/10 | %d/8 |"
+                "| %s | %s | %d | %s | %s | %s | %d/10 | %d/8 |"
                 % (label, date, lines, "{:,}".format(size), "{:,}".format(size // 4),
-                   met, met_content),
+                   compare.RECORDED_CRITERIA_VERSION, met, met_content),
                 compare.render_versions_md(criteria(), content_criteria()),
             )
 
@@ -660,13 +661,14 @@ class ShippedFileTest(unittest.TestCase):
         shipped = [row for row in compare.VERSIONS if row[4] is None][0]
         self.assertEqual(shipped[0], "v%s" % compare.OURS_VERSION)
         self.assertIn(
-            "| v%s | %s | %d | %s | %s | %d/10 | %d/8 |"
+            "| v%s | %s | %d | %s | %s | %s | %d/10 | %d/8 |"
             % (
                 compare.OURS_VERSION,
                 shipped[1],
                 compare.count_lines(root),
                 "{:,}".format(len(root.encode("utf-8"))),
                 "{:,}".format(len(root.encode("utf-8")) // 4),
+                criteria()["version"],
                 compare.coverage(compare.evaluate(root, "AGENTS.md", criteria())),
                 compare.coverage(compare.evaluate(root, "AGENTS.md", content_criteria())),
             ),
@@ -674,6 +676,13 @@ class ShippedFileTest(unittest.TestCase):
         )
         # Exactly one row is measured live; the rest name a recorded hash.
         self.assertEqual(sum(1 for row in compare.VERSIONS if row[4] is None), 1)
+
+    def test_the_recorded_pairs_all_name_the_same_criteria_version(self):
+        """The Hernanz sentence names its criteria version by role and the recorded-texts table
+        prints the number. That only points at the right number while the two constants agree, so
+        a change to one without the other fails here rather than on the page."""
+        self.assertEqual(compare.HERNANZ_CRITERIA_VERSION, compare.RECORDED_CRITERIA_VERSION)
+        self.assertNotEqual(compare.RECORDED_CRITERIA_VERSION, criteria()["version"])
 
     def test_every_version_row_says_which_round_measured_it_and_what_followed(self):
         for label, _date, _lines, _size, _digest, changed, measured, outcome in compare.VERSIONS:
@@ -783,23 +792,36 @@ class ShippedFileTest(unittest.TestCase):
 
 
 # The commit before the two criteria files were merged into one. Both sets were frozen and
-# calibrated on the corpus before the merge, so the merge must not have touched a pattern.
+# calibrated on the corpus before the merge, so the merge must not have touched a pattern. Three
+# patterns changed afterwards, on purpose, in criteria version 1.1.0; they are named below and
+# every other criterion is still held against the pre-merge text byte for byte.
 PRE_MERGE_COMMIT = "870a8cf"
 ENGINE_FIELDS = ("id", "kind", "pattern", "flags", "pass_if", "rules")
 
+# The criteria 1.1.0 changes, one entry per set. Each was a verdict the 1.0.0 pattern got wrong
+# and each is recorded in that criterion's `notes`. Nothing else may differ from the pre-merge
+# text, and this list is what makes an accidental fourth change a failure rather than a silent
+# recalibration.
+CHANGED_IN_1_1_0 = {"rules": {"done_verification", "file_instructions_are_data"},
+                    "content": {"warnings"}}
+VERSION_BEFORE = "1.0.0"
+VERSION_NOW = "1.1.0"
 
-def engine_fields(criteria):
+
+def engine_fields(criteria, skip=frozenset()):
     """Only what the engine reads, in the order of the criteria list: the names, questions and
-    notes around them can be edited, a pattern cannot."""
+    notes around them can be edited, a pattern cannot. `skip` drops the criteria a criteria
+    version deliberately changed, so the rest are still compared."""
     return [
         [(key, criterion[key]) for key in ENGINE_FIELDS if key in criterion]
         for criterion in criteria["criteria"]
+        if criterion["id"] not in skip
     ]
 
 
 def three_part(version):
     """The version each set carried before the merge, in the three-part notation the project uses
-    now. The sets themselves are unchanged, so the only difference is the trailing part."""
+    now. The merge itself changed nothing but the notation, so the trailing part is all it adds."""
     return version + ".0"
 
 
@@ -817,13 +839,40 @@ class FrozenPatternTest(unittest.TestCase):
 
     def test_the_rule_patterns_survived_the_merge(self):
         before = self.committed("docs/criteria.json")
-        self.assertEqual(engine_fields(criteria()), engine_fields(before))
-        self.assertEqual(criteria()["version"], three_part(before["version"]))
+        skip = CHANGED_IN_1_1_0["rules"]
+        self.assertEqual(engine_fields(criteria(), skip), engine_fields(before, skip))
+        self.assertEqual(three_part(before["version"]), VERSION_BEFORE)
+        self.assertEqual(criteria()["version"], VERSION_NOW)
 
     def test_the_content_patterns_survived_the_merge(self):
         before = self.committed("docs/criteria-content.json")
-        self.assertEqual(engine_fields(content_criteria()), engine_fields(before))
-        self.assertEqual(content_criteria()["version"], three_part(before["version"]))
+        skip = CHANGED_IN_1_1_0["content"]
+        self.assertEqual(engine_fields(content_criteria(), skip), engine_fields(before, skip))
+        self.assertEqual(three_part(before["version"]), VERSION_BEFORE)
+        self.assertEqual(content_criteria()["version"], VERSION_NOW)
+
+    def test_only_the_named_criteria_changed_in_1_1_0(self):
+        """A pattern edited without being named here fails, and a criterion named here that no
+        longer differs from the frozen text fails too, so the list cannot go stale."""
+        for name, path, current in (
+            ("rules", "docs/criteria.json", criteria()),
+            ("content", "docs/criteria-content.json", content_criteria()),
+        ):
+            before = {c["id"]: c.get("pattern") for c in self.committed(path)["criteria"]}
+            now = {c["id"]: c.get("pattern") for c in current["criteria"]}
+            self.assertEqual(set(now), set(before), name)
+            changed = {i for i in before if before[i] != now[i]}
+            self.assertEqual(changed, CHANGED_IN_1_1_0[name], name)
+
+    def test_every_criterion_changed_in_1_1_0_records_why(self):
+        for name, current in (("rules", criteria()), ("content", content_criteria())):
+            for criterion in current["criteria"]:
+                if criterion["id"] not in CHANGED_IN_1_1_0[name]:
+                    continue
+                self.assertTrue(
+                    any(note.startswith("v" + VERSION_NOW + " on ") for note in criterion["notes"]),
+                    criterion["id"],
+                )
 
     def test_the_two_sets_share_one_engine_description(self):
         merged = json.loads((REPO_ROOT / "docs" / "criteria.json").read_text(encoding="utf-8"))

@@ -82,6 +82,12 @@ ROUND3_VERSION = "1.3.0"
 # the round labels below are what tells them apart.
 ROUND4_VERSION = "1.2.0"
 TESTED_GENERIC_SHA256 = "b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832"
+# The criteria version every recorded pair below was measured under. A recorded text is not in the
+# working tree, so its numbers cannot be re-scored when the criteria change; the version travels
+# with the pair instead, and the tables that render these rows carry it as a column, so a score
+# measured under one criteria version is never printed beside a score measured under another
+# without saying so.
+RECORDED_CRITERIA_VERSION = "1.0.0"
 RECORDED_TEXTS = (
     ("Generic file the experiment ran (v1.0.0)", TESTED_GENERIC_SHA256, 9, 0),
     (
@@ -230,6 +236,12 @@ VERSIONS = (
 # recorded here as constants rather than computed from a copy.
 HERNANZ_MET_IDS = ("length", "scope_restraint", "emphasis_restraint", "tool_neutral")
 HERNANZ_MET_CONTENT = 0
+# The criteria version those two constants were measured under, for the same reason as
+# RECORDED_CRITERIA_VERSION above: the post's text is not stored here, so the pair cannot be
+# measured again. The sentence that prints them names the version by role rather than by number,
+# and the recorded-texts table prints the number; that is only honest while the two constants are
+# equal, which tests/test_compare.py holds them to.
+HERNANZ_CRITERIA_VERSION = "1.0.0"
 
 MAX_EVIDENCE = 3
 SIBLING_OF = {"AGENTS.md": "CLAUDE.md", "CLAUDE.md": "AGENTS.md"}
@@ -322,7 +334,7 @@ def evaluate_criterion(criterion, text, lines):
 
 def evaluate(text, filename, criteria):
     """{criterion id: verdict} for one file. `filename` is accepted for parity with the
-    JavaScript engine and is not read by any criterion in version 1.0.0."""
+    JavaScript engine and is not read by any criterion in either set."""
     lines = split_lines(text)
     return {c["id"]: evaluate_criterion(c, text, lines) for c in criteria["criteria"]}
 
@@ -771,7 +783,8 @@ def render_comparison_html(data, criteria):
     out.append('<table id="compare-table">')
     out.append(
         "<caption>Coverage of ten sourced rule criteria by ten published instruction files, "
-        "each pinned by commit. \u2713 met, \u2717 not met.</caption>"
+        "each pinned by commit, at criteria version %s. \u2713 met, \u2717 not met.</caption>"
+        % esc(criteria["version"])
     )
     out.append("<thead><tr>")
     out.append('<th scope="col" class="c-file">File</th>')
@@ -1614,9 +1627,9 @@ def render_versions_md(criteria, content):
     bytes over four, floored, so it is derived from the row's own byte count and never recorded
     separately."""
     rows = [
-        "| Version | Date | Lines | Bytes | Token estimate (bytes/4) | Rule criteria | "
-        "Content criteria | What changed | Measured by | Outcome |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| Version | Date | Lines | Bytes | Token estimate (bytes/4) | Criteria version | "
+        "Rule criteria | Content criteria | What changed | Measured by | Outcome |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     root = OURS_FILE.read_text(encoding="utf-8")
     for label, date, lines, size, digest, changed, measured, outcome in VERSIONS:
@@ -1627,12 +1640,14 @@ def render_versions_md(criteria, content):
             met_content = coverage(evaluate(root, OURS_FILE.name, content))
             of_rules = len(criteria["criteria"])
             of_content = len(content["criteria"])
+            scored_under = criteria["version"]
         else:
             met, of_rules, met_content, of_content = version_coverage(digest, criteria, content)
+            scored_under = RECORDED_CRITERIA_VERSION
         rows.append(
-            "| %s | %s | %d | %s | %s | %d/%d | %d/%d | %s | %s | %s |"
-            % (label, date, lines, "{:,}".format(size), "{:,}".format(size // 4), met, of_rules,
-               met_content, of_content, changed, measured, outcome)
+            "| %s | %s | %d | %s | %s | %s | %d/%d | %d/%d | %s | %s | %s |"
+            % (label, date, lines, "{:,}".format(size), "{:,}".format(size // 4), scored_under,
+               met, of_rules, met_content, of_content, changed, measured, outcome)
         )
     return "\n".join(rows)
 
@@ -1643,20 +1658,21 @@ def render_shipped_md(criteria, content):
     measured at the time; the last row is the file shipped now, evaluated at render time."""
     root = OURS_FILE.read_text(encoding="utf-8")
     rows = [
-        "| Text | sha256 | Rule criteria | Content criteria |",
-        "| --- | --- | --- | --- |",
+        "| Text | sha256 | Criteria version | Rule criteria | Content criteria |",
+        "| --- | --- | --- | --- | --- |",
     ]
     for label, digest, met, met_content in RECORDED_TEXTS:
         rows.append(
-            "| %s, recorded constant | `%s` | %d/%d | %d/%d |"
-            % (label, digest, met, len(criteria["criteria"]), met_content,
-               len(content["criteria"]))
+            "| %s, recorded constant | `%s` | %s | %d/%d | %d/%d |"
+            % (label, digest, RECORDED_CRITERIA_VERSION, met, len(criteria["criteria"]),
+               met_content, len(content["criteria"]))
         )
     rows.append(
-        "| Root `AGENTS.md`, the file shipped now (v%s) | `%s` | %d/%d | %d/%d |"
+        "| Root `AGENTS.md`, the file shipped now (v%s) | `%s` | %s | %d/%d | %d/%d |"
         % (
             OURS_VERSION,
             hashlib.sha256(root.encode("utf-8")).hexdigest(),
+            criteria["version"],
             coverage(evaluate(root, OURS_FILE.name, criteria)),
             len(criteria["criteria"]),
             coverage(evaluate(root, OURS_FILE.name, content)),
@@ -1734,8 +1750,11 @@ def render_hernanz_md(criteria, content):
         "Evaluated with the same engine, the file in the post meets %d of the %d rule criteria "
         "(%s) and %d of the %d content criteria; among the three criteria no surveyed file meets "
         "— %s — it meets none either. The post's text is not stored in this repository, so these "
-        "verdicts are recorded rather than regenerated: anyone with the image and the engine can "
-        "reproduce them by pasting the transcription into the check on the front page."
+        "verdicts are recorded with [their criteria version]"
+        "(methodology.md#what-the-experiment-tested-and-what-is-shipped) rather than "
+        "regenerated: anyone with "
+        "the image and the engine can re-measure them by pasting the transcription into the "
+        "check on the front page."
         % (
             len(HERNANZ_MET_IDS),
             len(criteria["criteria"]),

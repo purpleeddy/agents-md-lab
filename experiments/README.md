@@ -1592,7 +1592,9 @@ line, "Generated files never to edit ...", which asks the adopter for the warnin
 one. The pattern was not changed, the verdict is published as it comes out, and the case is recorded
 in that criterion's `notes`. v1.3.0 added a second content pass, `pr_etiquette`, and that one was not
 a false positive: the delivery sentence states a convention about branches and pull requests, which
-is what the criterion asks for. Round 3 did not adopt that text, so the shipped file is back at 1/8.
+is what the criterion asks for. Round 3 did not adopt that text, so the shipped file went back to 1/8. Criteria set v1.1.0, on
+2026-09-07, made the `warnings` pattern reject a line carrying an unfilled template slot, which is
+what that prompt line is, and the shipped file now reads 0/8.
 
 Four of the merges in the line audit put rules that do not repeat each other on one line: the three
 claim-and-check boundaries, the checkout and permission boundaries with the denied-permission rule,
@@ -1717,7 +1719,8 @@ there.
 
 The cost is 240 bytes and no new line: 33 lines and 4,754 bytes against v1.2.0's 33 and 4,514,
 about 1,188 tokens by the same bytes-over-four estimate. Rule coverage is unchanged at 7/10, and
-the three unmet criteria are the three v1.2.0 left unmet. Content coverage goes from 1/8 to 2/8,
+the three unmet criteria are the three v1.2.0 left unmet; both were measured under criteria set
+v1.0.0. Content coverage goes from 1/8 to 2/8,
 which is the `pr_etiquette` row above and the note under [Cost of the v1.1.0 audit](#cost-of-the-v110-audit).
 
 **The outcome.** Round 3 measured this text on 2026-09-05 and the pre-registered rule did not adopt
@@ -1745,8 +1748,9 @@ round-3 pre-registration said in advance.
 Six edits to v1.2.0, proposed as [issue 5](https://github.com/purpleeddy/agents-md-lab/issues/5)
 and adopted on review. No round measured this text. It is recorded the way v1.0.1 and v1.1.0 are:
 the file's own sha256 is new, `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5`,
-32 lines and 4,438 bytes against v1.2.0's 33 and 4,514, rule coverage unchanged at 7/10 with the
-same three criteria unmet, and content coverage unchanged at 1/8.
+32 lines and 4,438 bytes against v1.2.0's 33 and 4,514, and both coverage numbers unchanged from
+v1.2.0's under either criteria set: 7/10 and 1/8 under v1.0.0, with the same three criteria unmet,
+and 9/10 and 0/8 under v1.1.0, which is what the site publishes now.
 
 Two design sessions, a Fable 5.1 session and an Opus 5 session, each read the shipped text against
 the same brief with no repository, no tools and no run data, and returned candidates
@@ -1831,8 +1835,8 @@ What the experiment measured is unaffected by all four, and why is on the
 
 ### What the coverage number did, by commit
 
-The shipped file meets 7 of the 10 rule criteria today, and the number has been 9 and 10 for
-reasons that were not about the rules. At commit `66adec0` the file met 9 of 10: `done_verification` matched
+Under criteria set v1.0.0 the shipped file met 7 of the 10 rule criteria, and the number had been
+9 and 10 for reasons that were not about the rules. At commit `66adec0` the file met 9 of 10: `done_verification` matched
 neither of the two sentences that state the completion condition — "Never claim a task is done
 unless every check in 'Done' ran and passed" (Boundaries) and "A task is complete only when the
 checks below ran and passed" (Done) — because the frozen pattern recognises a completion condition
@@ -1840,6 +1844,12 @@ only as *before/after* + a check, or a check + *must/should* + *pass*. At commit
 verdict became 10/10 as a side effect of moving "Run the targeted test before the suite" out of the
 numbered Done list into "While coding", a change made because that line read as a completion
 requirement and pulled against the proportionality of Done item 1. That sentence is a *run … before*
-form the pattern does match, so the criterion now passes on an ordering hint while the two sentences
-that carry the rule are still invisible to it.
+form the pattern does match, so the criterion passed on an ordering hint while the two sentences
+that carry the rule stayed invisible to it.
+
+Criteria set v1.1.0, on 2026-09-07, closed that gap: `done_verification` gained a
+completion-condition form and `file_instructions_are_data` a negative-authority form, and both the
+v1.2.0 text and the v1.4.0 text shipped now read 9 of 10, neither of them reworded for it. The
+corpus was measured again in the same pass, and one corpus file, `getsentry/sentry`, gained the
+`done_verification` verdict too.
 

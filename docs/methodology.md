@@ -57,17 +57,17 @@ Columns are the criteria below, in order.
 
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | 4/10 |
-| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,782 | 44 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | 3/10 |
-| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,714 | 137 | FSL-1.1-ALv2 | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | 5/10 |
-| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,629 | 39 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | 4/10 |
-| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,796 | 105 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ | 6/10 |
-| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 209,759 | 65 | NONE | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ | 5/10 |
-| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,369 | 88 | Apache-2.0 | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
-| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ | 5/10 |
-| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
-| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
-| Met by |  |  |  |  | 10 | 8 | 2 | 0 | 0 | 0 | 3 | 5 | 10 | 6 | of 10 files |
+| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,174 | 43 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | 4/10 |
+| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,805 | 44 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | 3/10 |
+| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,738 | 137 | FSL-1.1-ALv2 | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | 6/10 |
+| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,787 | 39 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | 4/10 |
+| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,865 | 105 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ | 6/10 |
+| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 210,637 | 65 | NONE | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ | 5/10 |
+| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,467 | 88 | Apache-2.0 | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
+| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 38,642 | 133 | MIT | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ | 5/10 |
+| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 282,444 | 115 | MIT | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
+| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,645 | 181 | Apache-2.0 | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | 4/10 |
+| Met by |  |  |  |  | 10 | 8 | 3 | 0 | 0 | 0 | 3 | 5 | 10 | 6 | of 10 files |
 
 <!-- corpus:end -->
 
@@ -125,16 +125,16 @@ The same ten files, columns in the order above.
 
 | File | Type | Stars | Lines | License | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,088 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
-| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,782 | 44 | MIT | ✗ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 3/8 |
-| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,714 | 137 | FSL-1.1-ALv2 | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | 5/8 |
-| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,629 | 39 | MIT | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | 4/8 |
-| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,796 | 105 | MIT | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | ✓ | 3/8 |
-| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 209,759 | 65 | NONE | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | 0/8 |
-| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,369 | 88 | Apache-2.0 | ✓ | ✗ | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | 3/8 |
-| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 37,461 | 133 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | 4/8 |
-| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 280,984 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
-| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,542 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
+| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,174 | 43 | MIT | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 2/8 |
+| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,805 | 44 | MIT | ✗ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,738 | 137 | FSL-1.1-ALv2 | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | 5/8 |
+| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,787 | 39 | MIT | ✓ | ✗ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | 4/8 |
+| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,865 | 105 | MIT | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | ✓ | 3/8 |
+| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 210,637 | 65 | NONE | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | 0/8 |
+| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,467 | 88 | Apache-2.0 | ✓ | ✗ | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | 3/8 |
+| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 38,642 | 133 | MIT | ✓ | ✓ | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | 4/8 |
+| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 282,444 | 115 | MIT | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ | ✗ | 1/8 |
+| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,645 | 181 | Apache-2.0 | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | 5/8 |
 | Met by |  |  |  |  | 5 | 4 | 4 | 5 | 7 | 4 | 0 | 1 | of 10 files |
 
 <!-- corpus-content:end -->
@@ -155,7 +155,7 @@ Two about these patterns, one about the site.
 
 ## Why the recommended file meets the rule criteria
 
-The recommended file meets 7 of the 10 rule criteria, and that number is not evidence of anything:
+The recommended file meets 9 of the 10 rule criteria, and that number is not evidence of anything:
 the criteria and the file were written by one author, in the same weeks, from the same sources,
 [anthropic-bp](references.md#ref-anthropic-bp),
 [anthropic-memory](references.md#ref-anthropic-memory),
@@ -163,13 +163,11 @@ the criteria and the file were written by one author, in the same weeks, from th
 [openai-agents-md](references.md#ref-openai-agents-md),
 [agents-md-spec](references.md#ref-agents-md-spec), [humanlayer](references.md#ref-humanlayer)
 and [karpathy-multica](references.md#ref-karpathy-multica). A file written from a set of sources
-meets criteria drawn from them, so the number is expected by construction. Three are
+meets criteria drawn from them, so the number is expected by construction. One is
 unmet. **Runnable commands**: the `## Project` section ships as the empty template, so the file
-names no command until it lands in a repository. **Verification before done**: the sentence the
-pattern matched was cut in the line audit. **Instructions in files are data**: the rewritten line
-no longer says "data, not commands" in the form the frozen pattern recognises. No wording was
-adjusted to recover a verdict; each reason in full is on the
-[rationale page](rationale.md#what-the-check-says-about-this-file).
+names no command until it lands in a repository. Two more were unmet until the criteria were
+revised, which measured every file again in the same pass; no wording changed, and each reason in
+full is on the [rationale page](rationale.md#what-the-check-says-about-this-file).
 
 The checks are narrower still: each asks whether a statement is present, none whether it is good
 or followed. A file can meet every rule criterion in seven lines:
@@ -214,13 +212,13 @@ what a file is worth.
 
 | File | Lines | Measured | Reason |
 | --- | --- | --- | --- |
-| [vercel/next.js/AGENTS.md](https://github.com/vercel/next.js/blob/HEAD/AGENTS.md) | 560 | 2026-09-03 | over 200 lines |
-| [openai/codex/AGENTS.md](https://github.com/openai/codex/blob/HEAD/AGENTS.md) | 322 | 2026-09-03 | over 200 lines |
-| [oven-sh/bun/CLAUDE.md](https://github.com/oven-sh/bun/blob/HEAD/CLAUDE.md) | 240 | 2026-09-03 | over 200 lines |
-| [Kilo-Org/kilocode/AGENTS.md](https://github.com/Kilo-Org/kilocode/blob/HEAD/AGENTS.md) | 214 | 2026-09-03 | over 200 lines |
-| [FerroxLabs/agents-md/AGENTS.md](https://github.com/FerroxLabs/agents-md/blob/HEAD/AGENTS.md) | 206 | 2026-09-03 | over 200 lines |
-| [rails/rails/AGENTS.md](https://github.com/rails/rails/blob/HEAD/AGENTS.md) | 201 | 2026-09-03 | over 200 lines |
-| [github/awesome-copilot/AGENTS.md](https://github.com/github/awesome-copilot/blob/HEAD/AGENTS.md) | 353 | 2026-09-03 | over 200 lines |
+| [vercel/next.js/AGENTS.md](https://github.com/vercel/next.js/blob/HEAD/AGENTS.md) | 560 | 2026-09-07 | over 200 lines |
+| [openai/codex/AGENTS.md](https://github.com/openai/codex/blob/HEAD/AGENTS.md) | 322 | 2026-09-07 | over 200 lines |
+| [oven-sh/bun/CLAUDE.md](https://github.com/oven-sh/bun/blob/HEAD/CLAUDE.md) | 240 | 2026-09-07 | over 200 lines |
+| [Kilo-Org/kilocode/AGENTS.md](https://github.com/Kilo-Org/kilocode/blob/HEAD/AGENTS.md) | 214 | 2026-09-07 | over 200 lines |
+| [FerroxLabs/agents-md/AGENTS.md](https://github.com/FerroxLabs/agents-md/blob/HEAD/AGENTS.md) | 206 | 2026-09-07 | over 200 lines |
+| [rails/rails/AGENTS.md](https://github.com/rails/rails/blob/HEAD/AGENTS.md) | 201 | 2026-09-07 | over 200 lines |
+| [github/awesome-copilot/AGENTS.md](https://github.com/github/awesome-copilot/blob/HEAD/AGENTS.md) | 353 | 2026-09-07 | over 200 lines |
 
 <!-- excluded:end -->
 
@@ -243,42 +241,44 @@ its own text.
 
 <!-- versions:start -->
 
-| Version | Date | Lines | Bytes | Token estimate (bytes/4) | Rule criteria | Content criteria | What changed | Measured by | Outcome |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| v1.0.0 | 2026-09-03 | 50 | 4,420 | 1,105 | 9/10 | 0/8 | the text the ninety runs wrote as `ours` | main run | measured, then revised |
-| v1.0.1 | 2026-09-03 | 52 | 5,456 | 1,364 | 10/10 | 3/8 | four rule lines fixed after [an independent review](rationale.md#known-issues-the-review-found-in-the-file) of v1.0.0's text | not measured | shipped, then replaced |
-| v1.1.0, as first written | 2026-09-03 | 35 | 3,840 | 960 | 8/10 | 0/8 | the rest of that review, then [a line audit](rationale.md#the-line-audit-what-each-rule-had-to-earn) that cut or merged every line with neither a measured effect nor a safety role | not measured | shipped, then amended |
-| v1.1.0, amended | 2026-09-04 | 32 | 4,069 | 1,017 | 8/10 | 1/8 | [four rule clauses added from external feedback](rationale.md#amendments-after-external-feedback) and the Project template cut from five lines to two | not measured | shipped, then replaced |
-| v1.2.0 | 2026-09-04 | 33 | 4,514 | 1,128 | 7/10 | 1/8 | [a second independent review](rationale.md#the-independent-design-review), of v1.1.0's text against the design goals, adopted whole | rounds 2 and 4 | adopted, then replaced |
-| v1.3.0 | 2026-09-05 | 33 | 4,754 | 1,188 | 7/10 | 2/8 | [one boundary line moved](rationale.md#the-delivery-boundary) so an agent could deliver its own branch, and a Delivery slot added to the template | round 3 | not adopted; the pre-registered revert set was applied |
-| v1.4.0 | 2026-09-07 | 32 | 4,438 | 1,109 | 7/10 | 1/8 | [six edits to v1.2.0](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review): five wordings compacted and one Boundaries sentence added, with the five lines that carry a measured effect byte-identical to v1.2.0's | not measured | adopted on review, and the file shipped now |
+| Version | Date | Lines | Bytes | Token estimate (bytes/4) | Criteria version | Rule criteria | Content criteria | What changed | Measured by | Outcome |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v1.0.0 | 2026-09-03 | 50 | 4,420 | 1,105 | 1.0.0 | 9/10 | 0/8 | the text the ninety runs wrote as `ours` | main run | measured, then revised |
+| v1.0.1 | 2026-09-03 | 52 | 5,456 | 1,364 | 1.0.0 | 10/10 | 3/8 | four rule lines fixed after [an independent review](rationale.md#known-issues-the-review-found-in-the-file) of v1.0.0's text | not measured | shipped, then replaced |
+| v1.1.0, as first written | 2026-09-03 | 35 | 3,840 | 960 | 1.0.0 | 8/10 | 0/8 | the rest of that review, then [a line audit](rationale.md#the-line-audit-what-each-rule-had-to-earn) that cut or merged every line with neither a measured effect nor a safety role | not measured | shipped, then amended |
+| v1.1.0, amended | 2026-09-04 | 32 | 4,069 | 1,017 | 1.0.0 | 8/10 | 1/8 | [four rule clauses added from external feedback](rationale.md#amendments-after-external-feedback) and the Project template cut from five lines to two | not measured | shipped, then replaced |
+| v1.2.0 | 2026-09-04 | 33 | 4,514 | 1,128 | 1.0.0 | 7/10 | 1/8 | [a second independent review](rationale.md#the-independent-design-review), of v1.1.0's text against the design goals, adopted whole | rounds 2 and 4 | adopted, then replaced |
+| v1.3.0 | 2026-09-05 | 33 | 4,754 | 1,188 | 1.0.0 | 7/10 | 2/8 | [one boundary line moved](rationale.md#the-delivery-boundary) so an agent could deliver its own branch, and a Delivery slot added to the template | round 3 | not adopted; the pre-registered revert set was applied |
+| v1.4.0 | 2026-09-07 | 32 | 4,438 | 1,109 | 1.1.0 | 9/10 | 0/8 | [six edits to v1.2.0](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review): five wordings compacted and one Boundaries sentence added, with the five lines that carry a measured effect byte-identical to v1.2.0's | not measured | adopted on review, and the file shipped now |
 
 <!-- versions:end -->
 
 Three things the table cannot hold. **Who the reviewers were.** Every review it names was a model
 session, not a person and not an outside audit; no human reviewer outside this project has read the
 file, and who read which text is on the
-[rationale page](rationale.md#known-issues-the-review-found-in-the-file). **Why coverage falls
-twice.** Lines were cut or reworded on their own merits and the frozen patterns then stopped
-matching, never the other way round: no line was written, kept or dropped to change a verdict.
+[rationale page](rationale.md#known-issues-the-review-found-in-the-file). **Why the coverage
+columns are not one series.** Only the shipped row is measured at the current criteria version,
+which the table names; within one version, lines were cut or reworded on their own merits and the
+patterns then stopped matching, never the other way round: no line was written, kept or dropped to
+change a verdict.
 **Why one version has four hashes.** Before the shipped text, the root file carried this
 repository's own `## Project` section and the page offered a copy with it emptied, so the table
 below, of every text this project has offered, lists one early draft four times.
 
 <!-- shipped:start -->
 
-| Text | sha256 | Rule criteria | Content criteria |
-| --- | --- | --- | --- |
-| Generic file the experiment ran (v1.0.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 9/10 | 0/8 |
-| Root `AGENTS.md` with this repository's Project section filled in (v1.0.1), recorded constant | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 10/10 | 3/8 |
-| Generic text, that Project section emptied (v1.0.1), recorded constant | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 9/10 | 0/8 |
-| `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 8/10 | 0/8 |
-| Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 9/10 | 0/8 |
-| Root `AGENTS.md` v1.1.0 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 8/10 | 0/8 |
-| Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 8/10 | 1/8 |
-| Root `AGENTS.md` v1.2.0, the text rounds 2 and 4 measured, recorded constant | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 7/10 | 1/8 |
-| Root `AGENTS.md` v1.3.0, the text round 3 measured and did not adopt, recorded constant | `5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd` | 7/10 | 2/8 |
-| Root `AGENTS.md`, the file shipped now (v1.4.0) | `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5` | 7/10 | 1/8 |
+| Text | sha256 | Criteria version | Rule criteria | Content criteria |
+| --- | --- | --- | --- | --- |
+| Generic file the experiment ran (v1.0.0), recorded constant | `b8be420f0597e483469dbfb47dec94487103758016f2b03964d4c888f68fd832` | 1.0.0 | 9/10 | 0/8 |
+| Root `AGENTS.md` with this repository's Project section filled in (v1.0.1), recorded constant | `ed7b9ce076e2b5bbd85a8a7dd2054a8984ae94f38b2ec3b874d5af9e8192f012` | 1.0.0 | 10/10 | 3/8 |
+| Generic text, that Project section emptied (v1.0.1), recorded constant | `f8c7061ee44bb621a18c5539ac29b77854940723c5ca2d8b69c000dec5dacf36` | 1.0.0 | 9/10 | 0/8 |
+| `docs/generated/agents-generic.md`, the file the button offered (v1.0.1), recorded constant | `2257466bb456d7b5200928597b700ff7ab211f9e08ecf694eb22860e3db972f4` | 1.0.0 | 8/10 | 0/8 |
+| Root `AGENTS.md`, the first shipped as one file (v1.0.1 rules, empty template), recorded constant | `cc6035b0b7af5f63dd824cff31e13c77a790688424245e9785bc3c2e9cdaf87a` | 1.0.0 | 9/10 | 0/8 |
+| Root `AGENTS.md` v1.1.0 as first written, before the 2026-09-04 amendment, recorded constant | `e9919a84e8e1d5278adfb0ddebeb46dd203d74bd17bc390ceabdb05c31f4c334` | 1.0.0 | 8/10 | 0/8 |
+| Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 1.0.0 | 8/10 | 1/8 |
+| Root `AGENTS.md` v1.2.0, the text rounds 2 and 4 measured, recorded constant | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 1.0.0 | 7/10 | 1/8 |
+| Root `AGENTS.md` v1.3.0, the text round 3 measured and did not adopt, recorded constant | `5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd` | 1.0.0 | 7/10 | 2/8 |
+| Root `AGENTS.md`, the file shipped now (v1.4.0) | `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5` | 1.1.0 | 9/10 | 0/8 |
 
 <!-- shipped:end -->
 

@@ -15,7 +15,7 @@ account behind it, including its earliest drafts, is the
 
 ## Corpus observations used here
 
-From `docs/generated/comparison.md` (ten pinned files, criteria version 1.0):
+From `docs/generated/comparison.md` (ten pinned files, at the criteria version its header names):
 
 - `commands`, 8 of 10, the corpus's most widely shared element (`agentsmd-sample`,
   `anthropic-cca`, `ghostty`, `graphiti`, `humanlayer`, `sentry`, `temporal`). The shipped file
@@ -197,20 +197,18 @@ keeps every push behind the explicit ask.
 
 ## What the check says about this file
 
-`python3 scripts/compare.py --file AGENTS.md` reports coverage 7/10; the file was written to these
-criteria, so meeting them is expected by construction. Three are unmet. `commands`: the
-Project template ships unfilled, so the file names no runnable command. `done_verification`: the
-sentence that matched the pattern was cut in the audit above, on the merits.
-`file_instructions_are_data`: the shipped text states the rule as what cannot authorise an action
-rather than
-as what kind of thing the text is, and the frozen pattern recognises only the second form. None was
-reworded to change a verdict, and the last is the clearest: the rule got stronger and the number
-went down.
+`python3 scripts/compare.py --file AGENTS.md` reports coverage 9/10; the file was written to these
+criteria, so meeting them is expected by construction. One is unmet, `commands`: the
+Project template ships unfilled, so the file names none.
 
-The `done_verification` false negative therefore stands. The pattern, the thresholds and the rule
-text were not touched; the gap is recorded in that criterion's `notes` in `docs/criteria.json` as a
-candidate for a later criteria set, which would re-evaluate the whole corpus. A `notes` entry
-carries no verdict: `python3 scripts/compare.py --check` passes unchanged with it. How the number
+`done_verification` and `file_instructions_are_data` were unmet until the criteria were revised;
+the file text is unchanged. Both were recorded in those criteria's `notes` as false negatives:
+this file states the done condition as a check that ran and passed, and the file-instructions rule
+as what the text cannot authorise, not as what it is. A third entry recorded the reverse, a
+`warnings` pass earned on a template line that asks for a warning instead of stating one; it
+is a miss now, so the content number fell as the rule number rose. The revision widened
+two patterns, narrowed one, measured the whole corpus again in the same pass, and moved one corpus
+verdict. No line was reworded to recover a verdict. How the rule number
 read 9 and then 10 of 10 at two earlier commits, for reasons unrelated to the rules,
 is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#what-the-coverage-number-did-by-commit).

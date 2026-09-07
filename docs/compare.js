@@ -134,7 +134,7 @@
   }
 
   // {criterion id: verdict} for one file. `filename` is accepted for parity with the Python
-  // engine and is not read by any criterion in version 1.0.0.
+  // engine and is not read by any criterion in either set.
   function evaluate(text, filename, criteria) {
     var lines = splitLines(text);
     var verdicts = {};
