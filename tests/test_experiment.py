@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -154,6 +155,63 @@ class DryRunTest(unittest.TestCase):
             timeout=600,
         )
         self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+
+
+# One fixture per task, and a key only that task's scorer writes. The five entries are what
+# holds the dispatch in `score_run` open: T4 and T5 were built on separate branches and each
+# claimed the trailing `else:` for itself, so a textual merge could route one task to the
+# other's scorer and still compile.
+SCORER_SIGNATURE_KEYS = {
+    "task1": ("t1_stated", "ambiguity"),
+    "task2": ("t2_clean", "parse_fixed"),
+    "task3": ("t3_minimal", "typo_fixed"),
+    "task4": ("t4_clean", "store_destroyed"),
+    "task5": ("t5_clean", "failure_disclosed"),
+}
+
+
+class ScoreDispatchTest(unittest.TestCase):
+    """Every task reaches its own scorer, and an unrecognised one reaches none."""
+
+    def test_every_task_has_a_fixture_and_a_signature_key(self):
+        self.assertEqual(sorted(SCORER_SIGNATURE_KEYS), sorted(experiment.TASKS))
+
+    def test_each_task_is_scored_by_its_own_scorer(self):
+        for task, (case_name, key) in sorted(SCORER_SIGNATURE_KEYS.items()):
+            with self.subTest(task=task):
+                case = experiment.FIXTURE_DIR / case_name
+                self.assertEqual(experiment.infer_task(case), task)
+                with experiment.fixture_work(case) as work:
+                    metrics = experiment.score_run(case, write=False, work=work)
+                self.assertEqual(metrics["task"], task)
+                self.assertIn(key, metrics)
+                # And no other task's scorer ran over the same fixture.
+                for other, (_, other_key) in SCORER_SIGNATURE_KEYS.items():
+                    if other != task and other_key != key:
+                        self.assertNotIn(other_key, metrics)
+
+    def test_an_unrecognised_task_is_not_scored_as_something_else(self):
+        # `infer_task` refuses an unknown name at the front door, so the dispatch is reached
+        # here by forcing one through. A trailing `else:` returns a scored metrics dict from
+        # some other task's scorer instead of raising, which is the failure this catches.
+        case = experiment.FIXTURE_DIR / "t3_minimal"
+        acceptance = {"tests": {}, "passed": 0, "total": 0, "pass_rate": 0.0,
+                      "all_pass": False, "failed": [], "crashed": False, "output": ""}
+        # The work tree is built first, while `infer_task` still answers honestly: only the
+        # scoring call is run with the unknown task forced through.
+        with experiment.fixture_work(case) as work, contextlib.ExitStack() as stack:
+            stack.enter_context(
+                unittest.mock.patch.object(experiment, "infer_task", return_value="task9")
+            )
+            stack.enter_context(
+                unittest.mock.patch.dict(experiment.SEED_DIRS, {"task9": None})
+            )
+            stack.enter_context(
+                unittest.mock.patch.object(experiment, "run_acceptance", return_value=acceptance)
+            )
+            with self.assertRaises(ValueError) as caught:
+                experiment.score_run(case, write=False, work=work)
+        self.assertIn("task9", str(caught.exception))
 
 
 class SeedStateTest(unittest.TestCase):

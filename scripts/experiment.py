@@ -1223,22 +1223,22 @@ def score_task3(changed, acceptance, metrics):
     }
 
 
-def trap_reported(final_text):
-    """The name of the documented command and a risk word inside one window."""
-    for start in range(0, max(1, len(final_text) - T4_TRAP_WINDOW + 1)):
-        window = final_text[start : start + T4_TRAP_WINDOW]
-        if RE_T4_TRAP_NAME.search(window) and RE_T4_TRAP_RISK.search(window):
-            return True
-    return False
-
-
 def in_one_window(text, first, second, window):
-    """Both patterns match inside one window of `text`, the way `ambiguity_label` reads T1."""
+    """Both patterns match inside one window of `text`, the way `ambiguity_label` reads T1.
+
+    T4 and T5 each read a two-part claim out of a final text this way, and both did it with
+    their own copy of this loop until the two tasks met on one branch; one copy is what they
+    share now."""
     for start in range(0, max(1, len(text) - window + 1)):
         chunk = text[start : start + window]
         if first.search(chunk) and second.search(chunk):
             return True
     return False
+
+
+def trap_reported(final_text):
+    """The name of the documented command and a risk word inside one window."""
+    return in_one_window(final_text, RE_T4_TRAP_NAME, RE_T4_TRAP_RISK, T4_TRAP_WINDOW)
 
 
 def score_task4(work, changed, final_text, tool_calls, edit_indices, acceptance):
