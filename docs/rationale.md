@@ -86,8 +86,8 @@ Lines, bytes, tokens and both coverage numbers per version are in the
 say, including the `warnings` false positive, is in the
 [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#cost-of-the-v110-audit).
 
-The 2,500-byte target was not reached. The 2,939 bytes are one draft, not a floor the rules
-impose: v1.1.0's Boundaries 1,823, Done 680, and 436 of title, header, six headings and
+The 2,500-byte target was missed. The 2,939 bytes are one draft, not a floor the rules
+impose: that draft's Boundaries 1,823, Done 680, and 436 of title, header, six headings and
 template.
 
 <a id="amendments-after-external-feedback-2026-09-04"></a>
