@@ -2856,3 +2856,16 @@ a natural-language report review. The record retains the review findings and
 states why hashes establish consistency rather than authenticity. Existing
 instruction texts, task seeds, scorers and historical results remain unchanged;
 the observation and report prerequisites for a new lock are not yet fulfilled.
+
+
+## Focused report transport preparation (2026-09-08)
+
+The [new report contract](focused-adoption/report-protocol.md) separates
+ownership, checks, dialogue, acceptance and context evidence. It prepares
+440 synthetic report rows in eleven fixed batches and validates complete,
+hash-bound responses with criterion-specific citations. The contract accepts
+only provisional annotations; it does not establish semantic correctness,
+blinding, actual model packet size or legacy scoring readiness. The record
+retains design and implementation review findings. No historical response,
+score, instruction text or locked experiment is changed, and no paid review
+or adoption occurs.
