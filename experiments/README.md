@@ -2869,3 +2869,16 @@ blinding, actual model packet size or legacy scoring readiness. The record
 retains design and implementation review findings. No historical response,
 score, instruction text or locked experiment is changed, and no paid review
 or adoption occurs.
+
+
+## Focused local evidence integration (2026-09-08)
+
+The [local integration record](focused-adoption/pipeline-protocol.md) joins
+actual fixture task results to sealed observations and provisional report
+inputs, checking shared task/variant/state identity and source pins. Its
+fourteen expected outcomes match, including failed repairs, protected-work
+loss and missing/stale verification. This is not fourteen agent successes:
+three artifact outcomes fail and all report annotations remain authored
+unknowns. Full observation bundles are retained for replay. Existing texts,
+scorers and captures remain unchanged; live collection, semantic review and
+adoption are still unverified.

@@ -433,3 +433,16 @@ not establish real packet size, semantic blinding, reviewer accuracy or legacy
 scoring readiness. Valid responses remain provisional and cannot qualify an
 adoption decision. A task-derived evidence producer and real report review
 remain prerequisites alongside the live collector and new lock.
+
+
+## Local evidence integration follow-up
+
+The [local pipeline](pipeline-protocol.md) connects the fixed task repositories,
+sealed check observations, independent acceptance and provisional report
+transport. Task-derived evidence roles now come from the actual manifests in
+this local path; missing checks and absent dialogue do not acquire qualifying
+evidence roles. The fourteen scenarios retain replayable observations and
+check that acceptance used the same final state. They remain authored local
+fixtures, not live report production, semantic review, condition comparison or
+adoption evidence. The live collector, legacy metrics, actual report/preflight
+work and new lock remain prerequisites.
