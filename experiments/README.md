@@ -2775,3 +2775,14 @@ The scheduled remote deletion completed after PR 15 merged and the site was publ
 remote check found no remaining references for the retired tags. The 2026-09-07 scheduling statement
 above is retained as the historical state before that completion; the commit-pinned documentation and
 the frozen pre-registration prefix remain unchanged.
+
+## Future structured-review readiness (2026-09-08)
+
+The [future structured-review transport](verification-budget/structured-review-protocol.md) prepares and
+locally validates an exact keyed response contract for a future blinded review without calling a
+provider or importing a review. It leaves the rejected historical 34-of-36 response unavailable and
+unchanged. Any runtime/model use, retry decision, adoption claim, test-set change, or lock change
+requires separate authorization and a separately recorded result. Adoption also still requires a new
+test-set version, new lock, full round, explicit acceptance rule, and revert path; authorization by
+itself does not satisfy those conditions. The free [readiness result](verification-budget/structured-review-readiness-2026-09-08.json)
+records only synthetic contract validation and `runtime_verified: false`.
