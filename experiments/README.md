@@ -2882,3 +2882,14 @@ three artifact outcomes fail and all report annotations remain authored
 unknowns. Full observation bundles are retained for replay. Existing texts,
 scorers and captures remain unchanged; live collection, semantic review and
 adoption are still unverified.
+
+
+## Focused installed-runtime preflight (2026-09-08)
+
+The [free runtime audit](focused-adoption/runtime-preflight.md) records installed
+CLI help and synthetic schema serialization sizes. A help call containing an
+invented option also exited zero, so help success is not treated as proof of
+runtime option behavior. Compact schema bytes fall below the historical review
+helper's argv budget, which is not a model context or schema-compatibility
+check. This does not authorize a paid probe, change flags or settings, or make
+the proposed experiment ready to lock. Existing texts and results are unchanged.
