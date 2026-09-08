@@ -2752,6 +2752,15 @@ per-row metrics, and limits. The one condition-label-blinded review ran once for
 produced no valid response artifact, so no annotations were imported or fabricated and no retry was
 run.
 
+## Verification-budget observation diagnostic (2026-09-08)
+
+The separate [observation-diagnostic record](verification-budget/observation-diagnostics-2026-09-08.md)
+describes a read-only, all-row explanation of the frozen verification-observation states. It validates
+the retained archive against the public projection before reporting fixed cause categories; it does not
+rescore, recover, or change a stored outcome, and makes no behavior-effect or adoption claim. Its
+36-row validation retained the 24 observed and 12 unverified evidence states; the generated record
+contains the explanatory counts and hashes.
+
 ## Pre-registration reference retirement (2026-09-07)
 
 Published pre-registration navigation now uses the locked commit
@@ -2759,3 +2768,10 @@ Published pre-registration navigation now uses the locked commit
 were retired on 2026-09-07; remote deletion is scheduled after the commit-pinned documentation is
 published. The frozen prefix above the Lock heading remains unchanged as the archival exception
 that preserves its historical pre-registration statements; post-Lock text uses the locked commit.
+
+## Pre-registration reference retirement completion (2026-09-08)
+
+The scheduled remote deletion completed after PR 15 merged and the site was published. A read-only
+remote check found no remaining references for the retired tags. The 2026-09-07 scheduling statement
+above is retained as the historical state before that completion; the commit-pinned documentation and
+the frozen pre-registration prefix remain unchanged.
