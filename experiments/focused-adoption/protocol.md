@@ -446,3 +446,45 @@ check that acceptance used the same final state. They remain authored local
 fixtures, not live report production, semantic review, condition comparison or
 adoption evidence. The live collector, legacy metrics, actual report/preflight
 work and new lock remain prerequisites.
+
+
+## Fixed draft schedule record
+
+The [saved schedule](schedule.json) supplies the assignment artifact required
+above: 110 task/replicate blocks, each containing all four conditions once,
+for 440 unique run IDs. Task order is T1, T2, T3, O1–O4, C1–C4; replicate
+order is 1–10. Seed `focused-adoption-v1` shuffles condition order within each
+block. Every condition in a block receives the same variant, including the
+fixed five/five splits for C3 and C4.
+
+| Artifact fact | Value |
+| --- | --- |
+| Generator Python | 3.14.6 |
+| Saved bytes | 87787 |
+| Preparation source pins | 75 |
+| File SHA-256 | `ea0d6cd85da7ae9782953b4b4c5bd12dc0f4792d43cf7549230b1ee8d70319a3` |
+
+Validate the saved artifact against this separately recorded digest:
+
+```sh
+python3 scripts/focused_schedule.py check --schedule experiments/focused-adoption/schedule.json --sha256 ea0d6cd85da7ae9782953b4b4c5bd12dc0f4792d43cf7549230b1ee8d70319a3
+```
+
+The checker verifies membership, variants, current preparation source pins
+and the external file digest without redrawing condition order. Obtain the
+expected digest from a trusted record or commit, never by hashing the file
+being checked. Source drift requires review, not silent replacement or a new
+draw. The digest establishes consistency, not authenticity.
+
+The pins cover preparation inputs only. The legacy-task marker is not a pin
+of its evaluator, and condition bytes, model, settings and live runtime pins
+are not complete. Status remains `draft_unlocked`, `runtime_ready: false`,
+`condition_and_runtime_pins_complete: false` and `provider_calls: 0`.
+No instruction text is installed or changed, no provider is called, and this
+artifact supplies neither a new lock nor evidence for adopting the candidate.
+
+The focused seven-test suite passed locally and on independent review. It
+checks malformed membership/types/pins, duplicate JSON fields, changed order
+against an external digest, no redraw during checking, and refusal to overwrite
+a nonempty output directory. The saved-file command above also passed. These
+checks establish assignment consistency, not agent behavior or runtime readiness.

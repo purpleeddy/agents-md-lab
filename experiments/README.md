@@ -2893,3 +2893,14 @@ runtime option behavior. Compact schema bytes fall below the historical review
 helper's argv budget, which is not a model context or schema-compatibility
 check. This does not authorize a paid probe, change flags or settings, or make
 the proposed experiment ready to lock. Existing texts and results are unchanged.
+
+
+## Focused fixed draft schedule (2026-09-08)
+
+The [schedule record](focused-adoption/protocol.md#fixed-draft-schedule-record)
+fixes 440 assignments in 110 task/replicate blocks, with the same variant and
+all four conditions in each block. Its validator checks the saved order against
+a separately recorded file digest without redrawing it. Preparation source
+pins are included; legacy evaluator, condition and runtime pins remain
+incomplete. This closes the draft assignment prerequisite only, not live
+collection, a new lock or adoption. Existing texts and results are unchanged.
