@@ -2844,3 +2844,15 @@ agent chronology and report behavior remain unverified. The earlier synthetic
 capture, instruction texts, historical results and original Lock prefix remain
 unchanged. Collection, report validation and a new lock are still prerequisites;
 no paid run or adoption occurred.
+
+
+## Focused offline observation preparation (2026-09-08)
+
+The [separate observation instrument](focused-adoption/observation-protocol.md)
+executes fixed local checks against the new task seeds and binds results to
+sampled file/index states and ordered evidence. Missing or stale observations
+remain unknown. This is a free collector-format check, not a live agent run or
+a natural-language report review. The record retains the review findings and
+states why hashes establish consistency rather than authenticity. Existing
+instruction texts, task seeds, scorers and historical results remain unchanged;
+the observation and report prerequisites for a new lock are not yet fulfilled.
