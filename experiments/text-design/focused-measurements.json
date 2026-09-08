@@ -1,0 +1,36 @@
+{
+  "baseline_full_commit": "2f6a023154ede9fa090fb4c0be281b97057d6bf2",
+  "candidate_byte_limit_bytes": 4438,
+  "candidate_within_byte_limit": true,
+  "files": [
+    {
+      "byte_delta_pct_vs_4438": 0.0,
+      "byte_delta_vs_4438": 0,
+      "name": "root",
+      "newline_lines": 32,
+      "path": "AGENTS.md",
+      "sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
+      "utf8_bytes": 4438,
+      "whitespace_words": 725
+    },
+    {
+      "byte_delta_pct_vs_4438": -0.07,
+      "byte_delta_vs_4438": -3,
+      "name": "focused",
+      "newline_lines": 28,
+      "path": "experiments/text-design/focused.md",
+      "sha256": "0d50213d56fbefd3a16a12ee0ce092e39c2ba5346276097dab7784af34e7ac7f",
+      "utf8_bytes": 4435,
+      "whitespace_words": 658
+    }
+  ],
+  "measurement_definitions": {
+    "byte_delta_pct_vs_4438": "100 * byte_delta_vs_4438 / 4438, rounded to two decimals",
+    "byte_delta_vs_4438": "utf8_bytes - 4438",
+    "newline_lines": "count of byte 0x0a (LF) in file.read_bytes()",
+    "utf8_bytes": "len(file.read_bytes())",
+    "whitespace_words": "len(file.read_text(encoding=\"utf-8\").split())"
+  },
+  "model_behavior_measured": false,
+  "schema": "text-design-focused-measurements-v1"
+}

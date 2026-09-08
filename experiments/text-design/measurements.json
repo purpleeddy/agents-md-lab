@@ -1,0 +1,44 @@
+{
+  "baseline_full_commit": "94a6071b635962ebd40b27818bc8dfe312e3bcfc",
+  "files": [
+    {
+      "byte_delta_pct_vs_4438": 0.0,
+      "byte_delta_vs_4438": 0,
+      "name": "current",
+      "newline_lines": 32,
+      "path": "AGENTS.md",
+      "sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
+      "utf8_bytes": 4438,
+      "whitespace_words": 725
+    },
+    {
+      "byte_delta_pct_vs_4438": -1.87,
+      "byte_delta_vs_4438": -83,
+      "name": "conservative",
+      "newline_lines": 32,
+      "path": "experiments/text-design/conservative.md",
+      "sha256": "c1c74c9fad5db2f4ef3bead3580cdf1fca6c3c9d908d269cc636b20637627c77",
+      "utf8_bytes": 4355,
+      "whitespace_words": 702
+    },
+    {
+      "byte_delta_pct_vs_4438": 36.12,
+      "byte_delta_vs_4438": 1603,
+      "name": "structural",
+      "newline_lines": 34,
+      "path": "experiments/text-design/structural.md",
+      "sha256": "c6584e4b9ed9f9378a90b7fb9ff1aeb3ea5d89fe83c124a3f7817b4d57ad6e58",
+      "utf8_bytes": 6041,
+      "whitespace_words": 935
+    }
+  ],
+  "measurement_definitions": {
+    "byte_delta_pct_vs_4438": "100 * byte_delta_vs_4438 / 4438, rounded to two decimals",
+    "byte_delta_vs_4438": "utf8_bytes - 4438",
+    "newline_lines": "count of byte 0x0a (LF) in file.read_bytes()",
+    "utf8_bytes": "len(file.read_bytes())",
+    "whitespace_words": "len(file.read_text(encoding=\"utf-8\").split())"
+  },
+  "model_behavior_measured": false,
+  "schema": "text-design-measurements-v1"
+}

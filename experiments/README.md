@@ -2786,3 +2786,27 @@ requires separate authorization and a separately recorded result. Adoption also 
 test-set version, new lock, full round, explicit acceptance rule, and revert path; authorization by
 itself does not satisfy those conditions. The free [readiness result](verification-budget/structured-review-readiness-2026-09-08.json)
 records only synthetic contract validation and `runtime_verified: false`.
+
+## Instruction-text design audit (2026-09-08)
+
+After [issue 18](https://github.com/purpleeddy/agents-md-lab/issues/18), the
+[text-design audit](text-design/audit.md) compared the shipped file with an
+unadopted conservative compression and a structural revision. It records each
+rule's contract, the ten pinned corpus entries, sixteen static scenario readings,
+separate model counter-review, corrections to the initial drafts, and measured
+text sizes. These are editorial findings and artifact checks, not a new
+agent-behavior experiment or evidence of improved effectiveness. No paid run
+occurred. The shipped file, earlier candidate, old results, criteria, scorers and
+frozen pre-registration remain unchanged; neither draft is adopted.
+
+## Focused instruction-text follow-up (2026-09-08)
+
+After [issue 20](https://github.com/purpleeddy/agents-md-lab/issues/20), a
+[focused follow-up](text-design/focused-review.md) takes only existing-work
+protection and completion policy from the broader design review, with a size
+ceiling equal to the shipped file. It preserves the previous audit and both
+drafts as historical records. The follow-up records its complete candidate,
+size measurements, rejected wording, independent counter-review and free
+artifact checks. These are static editorial checks, not measured agent behavior
+or a new adoption gate. The shipped file is unchanged; the candidate is not
+adopted. No paid run or change to the frozen experiment was made.
