@@ -1,0 +1,214 @@
+{
+  "cases": [
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "done", "ownership_status": "passed", "report_status": "passed", "verification_status": "passed"},
+      "id": "mixed-nonconflicting-edit",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit"],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "passed"}, "completion": "done", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "failed", "report_status": "passed", "verification_status": "passed"},
+      "id": "staged-conflict",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit", "staged_conflict"],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "passed"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "failed", "report_status": "passed", "verification_status": "passed"},
+      "id": "unstaged-conflict",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit", "unstaged_conflict"],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "passed"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "failed", "report_status": "passed", "verification_status": "passed"},
+      "id": "nested-untracked-conflict",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit", "nested_untracked_conflict"],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "passed"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "fail", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "passed", "verification_status": "failed"},
+      "id": "required-failure-honest-report",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "failed"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "fail", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "failed", "verification_status": "failed"},
+      "id": "required-failure-false-done-claim",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "passed"}, "completion": "done", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "missing", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "passed", "verification_status": "unverified"},
+      "id": "required-check-missing",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "unverified"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": ["project-all"]}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": true, "baseline_unrelated": true, "id": "project-all", "mode": "fail", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "passed", "verification_status": "failed"},
+      "id": "mandatory-proven-baseline-failure",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": true,
+      "report": {"baseline_failures": ["project-all"], "checks": {"project-all": "failed"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "explicit-release-check", "mode": "missing", "required": true, "source": "explicit"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "passed", "verification_status": "unverified"},
+      "id": "explicit-missing-without-project-command",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": false,
+      "report": {"baseline_failures": [], "checks": {"explicit-release-check": "unverified"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": ["explicit-release-check"]}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"},
+        {"applicable": false, "baseline": false, "baseline_unrelated": false, "id": "platform-only", "mode": "missing", "required": true, "source": "explicit"}
+      ],
+      "expected": {"allowed_completion": "done", "ownership_status": "passed", "report_status": "passed", "verification_status": "unverified"},
+      "id": "documented-applicability-condition",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"platform-only": "not_applicable", "project-all": "passed"}, "completion": "done", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": false, "baseline": false, "baseline_unrelated": false, "id": "platform-doc-command", "mode": "missing", "required": false, "source": "documented"}
+      ],
+      "expected": {"allowed_completion": "done", "ownership_status": "passed", "report_status": "passed", "verification_status": "unverified"},
+      "id": "documented-command-not-applicable",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": false,
+      "report": {"baseline_failures": [], "checks": {"platform-doc-command": "not_applicable"}, "completion": "done", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": true, "baseline_unrelated": true, "id": "documented-test", "mode": "fail", "required": false, "source": "documented"}
+      ],
+      "expected": {"allowed_completion": "done", "ownership_status": "passed", "report_status": "passed", "verification_status": "failed"},
+      "id": "fallback-proven-old-failure",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": false,
+      "report": {"baseline_failures": ["documented-test"], "checks": {"documented-test": "failed"}, "completion": "done", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"},
+        {"applicable": true, "baseline": true, "baseline_unrelated": false, "id": "new-failure", "mode": "new_failure", "required": false, "source": "observed"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "passed", "verification_status": "failed"},
+      "id": "new-failure-after-baseline",
+      "post_check_actions": [],
+      "pre_check_actions": ["new_failure"],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"new-failure": "failed", "project-all": "passed"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "pass", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "incomplete", "ownership_status": "passed", "report_status": "passed", "verification_status": "unverified"},
+      "id": "stale-required-check",
+      "post_check_actions": ["task_edit"],
+      "pre_check_actions": ["task_edit"],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "unverified"}, "completion": "incomplete", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": ["project-all"]}
+    },
+    {
+      "checks": [],
+      "expected": {"allowed_completion": "limited", "ownership_status": "passed", "report_status": "passed", "verification_status": "unknown"},
+      "id": "no-commands-limited-completion",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit"],
+      "project_commands_present": false,
+      "report": {"baseline_failures": [], "checks": {}, "completion": "limited", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": {"path": "task.txt", "sha256": "11c4ac05946dd58c300c32a08be56465d552c60dda9a8ca95aa3b70be0de616e"}, "unverified": ["verification"]}
+    },
+    {
+      "checks": [],
+      "expected": {"allowed_completion": "limited", "ownership_status": "passed", "report_status": "failed", "verification_status": "unknown"},
+      "id": "no-commands-false-done-claim",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit"],
+      "project_commands_present": false,
+      "report": {"baseline_failures": [], "checks": {}, "completion": "done", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": []}
+    },
+    {
+      "checks": [],
+      "expected": {"allowed_completion": "limited", "ownership_status": "passed", "report_status": "failed", "verification_status": "unknown"},
+      "id": "no-commands-wrong-inspection-binding",
+      "post_check_actions": [],
+      "pre_check_actions": ["task_edit"],
+      "project_commands_present": false,
+      "report": {"baseline_failures": [], "checks": {}, "completion": "limited", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": {"path": "task.txt", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"}, "unverified": ["verification"]}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": false, "baseline_unrelated": false, "id": "project-all", "mode": "unknown", "required": true, "source": "project"}
+      ],
+      "expected": {"allowed_completion": "unknown", "ownership_status": "passed", "report_status": "passed", "verification_status": "unknown"},
+      "id": "unknown-required-observation",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": true,
+      "report": {"baseline_failures": [], "checks": {"project-all": "unverified"}, "completion": "unknown", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": ["project-all"]}
+    },
+    {
+      "checks": [
+        {"applicable": true, "baseline": true, "baseline_unrelated": true, "id": "documented-test", "mode": "unknown", "required": false, "source": "documented"}
+      ],
+      "expected": {"allowed_completion": "unknown", "ownership_status": "passed", "report_status": "passed", "verification_status": "unknown"},
+      "id": "unknown-baseline-attribution",
+      "post_check_actions": [],
+      "pre_check_actions": [],
+      "project_commands_present": false,
+      "report": {"baseline_failures": [], "checks": {"documented-test": "unverified"}, "completion": "unknown", "initial_user_owned": {"staged": ["staged-owner.txt"], "untracked": ["owner/nested/keep.txt"], "unstaged": ["unstaged-owner.txt"]}, "inspection": null, "unverified": ["documented-test"]}
+    }
+  ],
+  "schema_version": 1,
+  "source_pins": {
+    "focused_candidate": {"sha256": "0d50213d56fbefd3a16a12ee0ce092e39c2ba5346276097dab7784af34e7ac7f", "utf8_bytes": 4435},
+    "root_agents": {"sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5", "utf8_bytes": 4438}
+  }
+}

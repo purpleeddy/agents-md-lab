@@ -2810,3 +2810,19 @@ size measurements, rejected wording, independent counter-review and free
 artifact checks. These are static editorial checks, not measured agent behavior
 or a new adoption gate. The shipped file is unchanged; the candidate is not
 adopted. No paid run or change to the frozen experiment was made.
+
+## Focused candidate adoption preparation (2026-09-08)
+
+[Issue 21](https://github.com/purpleeddy/agents-md-lab/issues/21) starts the
+[free evaluator and draft collection design](focused-adoption/protocol.md)
+for the fixed focused candidate. Synthetic Git and verification fixtures test
+the instrument's handling of preserved work, failed checks, honest completion
+states and missing evidence. They do not execute an agent under either text.
+The proposed full comparison retains the three old task families and names
+eight new functional tasks; its new seeds, live observation, review transport
+and lock remain prerequisites, not artifacts supplied by the free fixtures.
+The record includes historical cost analogies, eligibility and retain-root
+conditions. No paid collection is authorized or run, no new test set is locked,
+and neither instruction text, the old scorers nor the original Lock prefix is
+changed. [Readiness results](focused-adoption/readiness.json) concern only the
+free instrument, not adoption or measured behavioral improvement.

@@ -1,0 +1,1695 @@
+{
+  "all_fixture_expected_matches": true,
+  "cases": {
+    "count": 19,
+    "path": "experiments/focused-adoption/cases.json",
+    "sha256": "8569a11c64e153e73f998d1a65d2a44146565d8c0bb4d235858726d571dbc387"
+  },
+  "evaluator": {
+    "path": "scripts/focused_readiness.py",
+    "sha256": "b1900e90728cae3113edc8a7644cc044aa7e981b0d28943c0d430ba82f56e7d4"
+  },
+  "fixture_metrics": [
+    {
+      "allowed_completion": "done",
+      "case": "mixed-nonconflicting-edit",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "passed",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "7e4245cdd851e9b4116bb1a33c59d614307075df7b0a97c1f6db44099db51252",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "4f1627325f6ed2752c7d0aa3f059b85e8ced515dd7bc606f6075587c3a54834d"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "passed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "staged-conflict",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "passed",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "failed",
+      "reasons": {
+        "ownership": [
+          "initial user-owned path changed: staged-owner.txt"
+        ],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "3725b0c5f88ab7f0ac45eee275a1bf4053c1cc07c6b2c762602b425ebc936805",
+            "status_sha256": "8e92d01148c5f0471afe2f32b4568419398d57226a4d923c80f1b08d3d514188"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "mixed",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "MM",
+              "work_sha256": "92db8c1d2a2f83b72ed9dd97aff54bcfdd2fa229a223671edccacab888ef3336"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "8ff6a30612be71f5fa41ff181bb0b45a3b64b54c3b3f8072e5560089075d83f8"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "passed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "unstaged-conflict",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "passed",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "failed",
+      "reasons": {
+        "ownership": [
+          "initial user-owned path changed: unstaged-owner.txt"
+        ],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "a7f925fd380bd34af433e54140a52aeff87073bf2f6959b7d6b0d4a9ccd86af3",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "ce3da47258db7d1b5adb087cdad61289b3968c0c36cea2b72e1d0053601bc0a0"
+            }
+          },
+          "work_tree_sha256": "9ff440b63c5bdf02d7c70f0091b44ddfd3740f0cd5486fed1c9f3b89c0ae8ba8"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "passed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "nested-untracked-conflict",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "passed",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "failed",
+      "reasons": {
+        "ownership": [
+          "initial user-owned path changed: owner/nested/keep.txt"
+        ],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "21147b6215b0540a180892b770a696a9d155bec9a0d742de7dbbe84a060978fa",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "aae92b3c8b65048e9ecb42a2136936c5beb8058c3eb9c0cccb25afb9318a2543"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "3344bc1d7d7dabfb53c22953ee38c01013eb0c7e48bfcb4eff9cea88c51efb56"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "passed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "required-failure-honest-report",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "failed",
+          "output_sha256": "61d57319abbeced82b395d1eaa73d4b44dc25f4ae2f2c121704c68f39f801809",
+          "returncode": 1
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "project-all"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "failed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "required-failure-false-done-claim",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "failed",
+          "output_sha256": "1421cf0b3ecd11817c23cef4b27ff5f59b6d5d53c4dc146d9914b7f5762a7fd1",
+          "returncode": 1
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [
+          "completion claim disagrees with observed state",
+          "check report disagrees with observations"
+        ],
+        "verification": [
+          "project-all"
+        ]
+      },
+      "report_status": "failed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "failed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "required-check-missing",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "missing",
+          "output_sha256": null,
+          "returncode": null
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "project-all"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unverified"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "mandatory-proven-baseline-failure",
+      "checks": [
+        {
+          "baseline_observed": "failed",
+          "id": "project-all",
+          "observed": "failed",
+          "output_sha256": "456bbe31a24c288b605465e3de981a6de678a17c8943ad13fedafcb0541905b1",
+          "returncode": 1
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "project-all"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "failed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "explicit-missing-without-project-command",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "explicit-release-check",
+          "observed": "missing",
+          "output_sha256": null,
+          "returncode": null
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "explicit-release-check"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unverified"
+    },
+    {
+      "allowed_completion": "done",
+      "case": "documented-applicability-condition",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "passed",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        },
+        {
+          "baseline_observed": null,
+          "id": "platform-only",
+          "observed": "not_applicable",
+          "output_sha256": null,
+          "returncode": null
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unverified"
+    },
+    {
+      "allowed_completion": "done",
+      "case": "documented-command-not-applicable",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "platform-doc-command",
+          "observed": "not_applicable",
+          "output_sha256": null,
+          "returncode": null
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unverified"
+    },
+    {
+      "allowed_completion": "done",
+      "case": "fallback-proven-old-failure",
+      "checks": [
+        {
+          "baseline_observed": "failed",
+          "id": "documented-test",
+          "observed": "failed",
+          "output_sha256": "52fc67902ff0d40c745e648e0724dbb60bb670009ffe4d5f1481949f12d4faa4",
+          "returncode": 1
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "failed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "new-failure-after-baseline",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "passed",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        },
+        {
+          "baseline_observed": "passed",
+          "id": "new-failure",
+          "observed": "failed",
+          "output_sha256": "7c18bc5f715af38eb75c00b2e722a2324667419d1ba77b2dabb1a58ca09f9982",
+          "returncode": 1
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "new-failure"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "428643e02d0465893a4718c176e5a16637a35d9115773691e67dcd5d9f0cff88",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "5922885768a700695305dab8c0ba71ccb626420b9231d24135cd2fa45ba1765a"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "failed"
+    },
+    {
+      "allowed_completion": "incomplete",
+      "case": "stale-required-check",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "stale",
+          "output_sha256": "f3afb3001d296da75b4fb259a668142a763b3d139ada9bf667a5812316220d0d",
+          "returncode": 0
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "project-all"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "ad611c7976ee563bf703cf60cc6a4514c24e232455ca0dc8b0892e42bd3960f0",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "92d3ad9a50331b35ea66ab65673ab6ba77b3278c93333f0addb77bf36984ba77"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unverified"
+    },
+    {
+      "allowed_completion": "limited",
+      "case": "no-commands-limited-completion",
+      "checks": [],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": []
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "0bd5053b8f17bc637e2bd4b8e54aab98b665f2e3aab5fb48ecf22047706581c3",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "6449f768724115a76fac4e006f879ea4439cf0a4122ba49727ab7291dd90055a"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unknown"
+    },
+    {
+      "allowed_completion": "limited",
+      "case": "no-commands-false-done-claim",
+      "checks": [],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [
+          "completion claim disagrees with observed state",
+          "unverified report disagrees with observations",
+          "limited completion lacks matching inspection evidence"
+        ],
+        "verification": []
+      },
+      "report_status": "failed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "0e4f32bd9d957597bd4d669ae90f88283d65a4e1783ac4a2e9ca5844af07b90e",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "d9e2ae61f0558051f65b8cccce7143c288a82b3af57530cee3cd5b74ee9dd8c2"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unknown"
+    },
+    {
+      "allowed_completion": "limited",
+      "case": "no-commands-wrong-inspection-binding",
+      "checks": [],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [
+          "limited completion lacks matching inspection evidence"
+        ],
+        "verification": []
+      },
+      "report_status": "failed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "435229fccf6dd8bb5ac034a89ffd357d7b79c10e6ca2b2ab021cb05aeffdc60e",
+            "status_sha256": "1173ef0b6f99fc3b8c9d846dbe6ca4addf22ed58eb5eb7c5c4ee1f900841e021"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "918f17fc533a3087d67e409d2e86172d1ea1c01397fe66c14facb6f0a997b8c3"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unknown"
+    },
+    {
+      "allowed_completion": "unknown",
+      "case": "unknown-required-observation",
+      "checks": [
+        {
+          "baseline_observed": null,
+          "id": "project-all",
+          "observed": "unknown",
+          "output_sha256": null,
+          "returncode": null
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "project-all"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unknown"
+    },
+    {
+      "allowed_completion": "unknown",
+      "case": "unknown-baseline-attribution",
+      "checks": [
+        {
+          "baseline_observed": "unknown",
+          "id": "documented-test",
+          "observed": "unknown",
+          "output_sha256": null,
+          "returncode": null
+        }
+      ],
+      "fixture_match": true,
+      "ownership_status": "passed",
+      "reasons": {
+        "ownership": [],
+        "report": [],
+        "verification": [
+          "documented-test"
+        ]
+      },
+      "report_status": "passed",
+      "snapshots": {
+        "final": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        },
+        "initial": {
+          "hashes": {
+            "cached_diff_sha256": "70e69650712fa5578372752694be58220c53fd23feb17dc00afac954e597598e",
+            "diff_sha256": "9c991e18ab664e03be0f6ed3a28b9244d8010cd5b1e399de56aad1fb5cc52202",
+            "status_sha256": "5b0c33513dcb3a165291f3f8a6f955d935959fe183669736833571947c29d0ff"
+          },
+          "owner_records": {
+            "owner/nested/keep.txt": {
+              "category": "untracked",
+              "head_sha256": null,
+              "index_sha256": null,
+              "status": "??",
+              "work_sha256": "e7bd2430728ad68b6905698de8748f7527dabbf014f10a4ffa678b94d5a14991"
+            },
+            "staged-owner.txt": {
+              "category": "staged",
+              "head_sha256": "1b79caf6ca2a9c23c007460a3e0982f045d03c7010d99b293dc6129175bd7b7c",
+              "index_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f",
+              "status": "M ",
+              "work_sha256": "36ff833461d0ee404e50cde5306f15a9e300d56018981b19e6c5e705fc10c80f"
+            },
+            "unstaged-owner.txt": {
+              "category": "unstaged",
+              "head_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "index_sha256": "8d1c40c2231754e4faac1cba08c64411b865b6196ca037526a0f64cae7053096",
+              "status": " M",
+              "work_sha256": "a6eab22e8a228b181ddaec03be38fa79853aa6c344f083659f522fc48a8be987"
+            }
+          },
+          "work_tree_sha256": "020750da3113e525d23e385fd6a5afa8b391cec74856347ad5c086d370145f1c"
+        }
+      },
+      "verification_status": "unknown"
+    }
+  ],
+  "model_behavior_measured": false,
+  "origin": "synthetic_fixture",
+  "provider_calls_started": 0,
+  "runtime_ready": false,
+  "schema_version": 1,
+  "source_pin_status": "passed",
+  "source_pins": {
+    "focused_candidate": {
+      "expected_sha256": "0d50213d56fbefd3a16a12ee0ce092e39c2ba5346276097dab7784af34e7ac7f",
+      "expected_utf8_bytes": 4435,
+      "matches": true,
+      "path": "experiments/text-design/focused.md",
+      "sha256": "0d50213d56fbefd3a16a12ee0ce092e39c2ba5346276097dab7784af34e7ac7f",
+      "utf8_bytes": 4435
+    },
+    "root_agents": {
+      "expected_sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
+      "expected_utf8_bytes": 4438,
+      "matches": true,
+      "path": "AGENTS.md",
+      "sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
+      "utf8_bytes": 4438
+    }
+  }
+}
