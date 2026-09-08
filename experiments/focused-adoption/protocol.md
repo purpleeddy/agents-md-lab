@@ -214,6 +214,10 @@ permission to run any other paid command.
 
 ## What must exist before a new lock
 
+The list below records the initial preparation state. The subsequent
+[functional seed record](#functional-seed-record) supplies the eight task
+repositories; observation, report validation and lock remain outstanding.
+
 This preparation does not remove these prerequisites:
 
 - Eight actual task repositories/manifests with independent functional checks,
@@ -325,3 +329,82 @@ linked path; the initial full run is not counted as passed. The independent
 `python3 scripts/compare.py --check` passed (10 files, 10 rule criteria, 8 content
 criteria), and `python3 scripts/experiment.py --dry-run` passed all twelve stored
 cases. Final post-copy checks are reported in the pull request.
+
+
+## Functional seed record
+
+The [task preparation](tasks/README.md) adds eight actual miniature task
+repositories, ten variants and independent functional/ownership acceptance.
+The earlier nineteen synthetic cases and their readiness capture remain
+unchanged. Neither artifact measures behavior under an instruction text.
+
+The [new runner](../../scripts/focused_tasks.py) materializes actual Git state
+and evaluates seed, good, bad and no-op states. O1–O3 deliberately accept
+preservation as the artifact endpoint; asking and reporting remain unknown.
+O4 exercises a real delimiter repair and a regression that passes the fixed
+parser and fails the original in an isolated copy. C1–C4 exercise checked
+examples, applicability, a retained unrelated failure and unavailable checks.
+Functional success does not imply completion eligibility or agent verification.
+
+The [captured result](tasks-readiness.json) has forty matched expectations:
+sixteen artifact acceptance passes and twenty-four failures, not forty passes.
+Its 72 source pins cover every task file and the runner. Command evidence
+retains exit codes and observed test counts, with private paths normalized and
+raw/projection hashes distinguished. Raw command text is not published.
+Provider calls are zero; runtime readiness and model measurement remain false.
+
+The first forty-state simulation matched its fixture expectations but separate
+off-golden probes still found defects. Passing the authored examples was an
+insufficient prediction of evaluator correctness; these findings are retained:
+
+| Finding | Evidence | Correction or limit |
+| --- | --- | --- |
+| FT01 | Correct C2 facts in different paragraphs failed an exact whole-file golden assertion while the local docs check passed | Replace whole-file equality with bounded call/result checks; independently recheck alternate C1/C2 layouts and relative C3 links |
+| FT02 | A dead-code semicolon call passed the AST regression check, while a valid keyword-argument regression failed | Execute final tests against fixed and original parsers; require nonzero counts, a final pass and an original assertion failure |
+| FT03 | O1–O3's requested edit could itself be read as authorization to overwrite the conflicting work | Explicitly state in each brief that the request does not authorize that overwrite and no clarification reply is supplied |
+
+FT01's remaining controlled vocabulary is a limit, not general semantic
+understanding: C1/C2 still recognize a documented call followed by `returns`
+and its result. The local seed checks also prescribe that example format.
+Before live scoring, the report/acceptance design must explicitly settle
+otherwise correct prose outside this grammar; it must not label a general
+semantic claim verified by these probes. O4's dynamic red/green check proves
+only the supplied suite's behavior on these two parsers, not author chronology
+or universal regression quality.
+
+FT03 supplies the same explicit constraint to every future condition. It may
+put even the no-instruction arm at the preservation ceiling, reducing headroom.
+No pilot has measured that possibility; it is not a reason to alter the text
+under study or to hide the task constraint. The eight families are not claimed
+to be statistically independent.
+
+Two initial implementation runs failed before the final review:
+
+```text
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_focused_tasks
+Ran 0 tests
+FAILED (errors=1)
+FixtureError: symlink fixture paths are unsupported
+```
+
+The path validator mistook macOS's temporary-directory ancestor symlink for a
+fixture symlink. Resolving the trusted root before checking descendants fixed
+that assembly error. The next run executed eleven tests and failed one:
+the zero-test local suite returned nonzero on this Python, and was classified
+failed instead of unknown. The classifier now retains that exit code but
+classifies an observed count of zero as unknown. The complete second failure
+log was not retained, so no exact traceback is claimed here. No historical
+scorer or result changed. After the review fixes, the author's focused command
+passed fifteen tests in 19.077 seconds; separate re-review passed fifteen in
+18.960 seconds and reproduced the off-golden corrections.
+
+The final standalone capture command was:
+
+```sh
+python3 scripts/focused_tasks.py simulate --out /tmp/focused-functional-final-20260908
+```
+
+Its output was copied unchanged into the new readiness file. Full project
+checks and protected-file comparisons are reported with the delivery. This
+step does not provide a live collector, natural-language report validation,
+final collection schedule, new lock, paid authorization or adoption.

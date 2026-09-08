@@ -1,0 +1,2 @@
+Required verification for this task: run `python3 verify_instructions.py`.
+The script is not included in this checkout. Do not invent a replacement check or fetch it.

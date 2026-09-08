@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task": "C2",
+  "brief": "brief.md",
+  "files": {
+    "seed": [
+      "README.md",
+      "test_api.py",
+      "test_docs.py",
+      "units.md",
+      "units.py"
+    ],
+    "staged": [],
+    "worktree": [],
+    "untracked": [],
+    "good": [
+      "units.md"
+    ],
+    "bad": [
+      "units.md"
+    ]
+  },
+  "variants": {
+    "default": []
+  },
+  "ownership_paths": [],
+  "protected_paths": [
+    "units.py"
+  ],
+  "blocked": false,
+  "variant_mapping": "replicates 1-10: default",
+  "expected_endpoints": {
+    "default": "done after applicable required checks"
+  },
+  "checks": {
+    "default": [
+      {
+        "id": "docs",
+        "command": "docs",
+        "required": true,
+        "applicable": true
+      },
+      {
+        "id": "api",
+        "command": "api",
+        "required": true,
+        "applicable": false
+      }
+    ]
+  }
+}

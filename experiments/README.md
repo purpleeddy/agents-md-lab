@@ -2826,3 +2826,21 @@ conditions. No paid collection is authorized or run, no new test set is locked,
 and neither instruction text, the old scorers nor the original Lock prefix is
 changed. [Readiness results](focused-adoption/readiness.json) concern only the
 free instrument, not adoption or measured behavioral improvement.
+
+
+## Focused functional seed preparation (2026-09-08)
+
+The [functional seed record](focused-adoption/protocol.md#functional-seed-record)
+supplies the eight miniature repositories missing from the initial preparation,
+with ten fixed variants and independent artifact acceptance. Its
+[free capture](focused-adoption/tasks-readiness.json) records forty matched
+expectations: sixteen acceptance passes and twenty-four failures. It does not
+run an agent or establish improvement by the focused candidate.
+
+The record preserves two evaluator defects found by off-golden review despite
+an initially matching simulation, two development failures, and the explicit
+ownership constraint's possible ceiling effect. General prose interpretation,
+agent chronology and report behavior remain unverified. The earlier synthetic
+capture, instruction texts, historical results and original Lock prefix remain
+unchanged. Collection, report validation and a new lock are still prerequisites;
+no paid run or adoption occurred.
