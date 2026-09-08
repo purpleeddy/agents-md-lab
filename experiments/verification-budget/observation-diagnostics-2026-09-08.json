@@ -1,0 +1,1427 @@
+{
+  "diagnostic_source_sha256": "3400c2fc747f25fcf970771025f25a4fcf98bf2cbc55c411597003eab7834ab1",
+  "diagnostic_status": "complete",
+  "frozen_supervisor_source_sha256": "df3383769ab4c2451e9228d7ddd573097f48360455412a65a3d21cd4641276f8",
+  "interpretation": "Parser-rejected characters and syntactic suffixes explain strict matcher uncertainty only; they do not prove shell side effects, endpoint execution, or verification coverage.",
+  "publication_sha256": "eed65dcf792f280ddf96eba4714afcce31fbbbed09cbd446c20f20899f26a4ab",
+  "read_only": true,
+  "runs": [
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "22a3dccf4e581d46eb7c9196f450958f8b583910b3e05d59da785740f88e76df",
+        "metrics.json": "22a785e766f24ec838a1d22ee6acf21353caf10efec7b5dc2a1a104739502cb2",
+        "observations.json": "9ab04f852382ef4ec9654f5ac4e4abb42650df53a2068fda29be26c4f36e7331",
+        "transcript.jsonl": "22011206bde77d53b0ca884cd86443b137d7037812cc38c20cbdc526df199ac4",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-01",
+      "scenario": "b-one",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "52a374479f76e7048b0e68e0789530f5ed5b11b45bbb17bdd5b3cdae3368df57",
+        "metrics.json": "053a4ebd0f6a8d5d59344d3dbb6354393188971f8ca3850198396fe7434c0a59",
+        "observations.json": "0818defc698a5bcf9ac08f6c81dd7e7b5c11240d19cf2c057d1994addfb00cc4",
+        "transcript.jsonl": "413a4e3471fc5c69a8658070f2a304a446b33d7c38c7aa3172e2234079cf3077",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-02",
+      "scenario": "b-one",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "candidate",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "7c1e313271514bb566013c57f14257016bb213968d99578912fb222bb656f031",
+        "metrics.json": "c284774abb0fdfd1c0b455e8d1fe417cc887aae84ca54486c2ee7e4b0e46bc18",
+        "observations.json": "38facb2e5865721993c64d80b9c9cd311c8f93ffbf95b78424a4359c33b600a3",
+        "transcript.jsonl": "e135250c14aaf2e3a838b55b76723d9a6d081964b41242b57709a6838fcb693b",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-03",
+      "scenario": "b-one",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "c19f763cdcc2bc6d202bb000ae5bd176fb08435a8a71fe2d5a0ff561bd366f50",
+        "metrics.json": "999d77c6f56d377c3ffe967584b1974232e4da2911a92bf14e937220b7e95c8e",
+        "observations.json": "9d8947bdcdb77298900f99b2513f889de6cd7490b4b460484c97434212026100",
+        "transcript.jsonl": "80541706833f6ce244389cc49cffbaa9501ebf3f2721b683c7bbed02500d43a3",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-04",
+      "scenario": "b-one",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "c390fac4926a2fe5cb66f2fc7389edb6625e4a50bda4158afd7c7e9181c9a5e6",
+        "metrics.json": "3f9781495734c43035ae7f4531972909a435dca5d6c6803342b86b45a99a857e",
+        "observations.json": "437039a587d424eb27eb1ed5de759afcd6d2d607ef262235b5eacc575332cbf8",
+        "transcript.jsonl": "c3c5214c03546e4d34a68e5f969186334c6608e387100d5cb135732de06bfdc8",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-05",
+      "scenario": "b-one",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "candidate",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "ed8d418159869e97d72a2a864e503e60ad83ac512fd9b46f0f584b02ca291995",
+        "metrics.json": "502f03fff4db8ff579785b667b830294670c6bee709959695f88779f5a4f2e92",
+        "observations.json": "bc9f24d7c1cd95001066c9e8eb28675ba293e28830ddbed5ff9c75c9b7acc87d",
+        "transcript.jsonl": "08d9af3f247a966c2593004f12c6b01ec2e05282f415c212d82ec987ed19641f",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-06",
+      "scenario": "b-one",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "73ae9d79232efd49147a83b36e0de32e202e27299a6d6fd8b63f06a040d7c969",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "4b38613eea66c4733943babf1b6653bdc292197e9e1466b63eaf5e79269f27d0",
+        "metrics.json": "6dc2c6a9b6ed07ecc62343eb5022e2a9aa64a3544aab0b2201c2fa626e9897f1",
+        "observations.json": "4ca44c43e57452f1b831eeb075b5a4be63729973322242882aac862226b6e8d2",
+        "transcript.jsonl": "7e9046ecf5dbab7c87effa5d3268c5b4003ec9f6b6c4e1eb9dc0e659f0d6ea27",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-07",
+      "scenario": "b-two",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "9f9af41fb58a7ab33013da035becfc021f4801979815de9b6fa6d56740120957",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "2d8b2d5b31cd0b5db8cf1f22af01ba1533ae9d70f298a3336b1071292358baea",
+        "metrics.json": "4ef5ecfed0b23a5f4f58ea1fec24ab40db5a0a6d24fa970ca50a2352cf539005",
+        "observations.json": "e209fd90cf3e142dac9df25427c3e3464aef4a48051c81c4b1999aaf5a6d4e2f",
+        "transcript.jsonl": "43459ac19a6e0234143b846f0de268f6943d8b710db06f1e56a8f49e8d6706e6",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-08",
+      "scenario": "b-two",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "2efc3f6e156e155a2459e7333a2ad6115a067a68a58ffe4b304cd56b2cca4298",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "f2513f7aa7382c791e78cf494931f391774d7588d2223a74fe31d8aead26479b",
+        "metrics.json": "ea2ded6fe6a3939d7336cbfeea079dadd6d9291a53223c95dd7401dbe58cb961",
+        "observations.json": "dd214ac8f5e090704329b0b46b1ea5577a8f6507521afcc0d7f93d3937ac31d0",
+        "transcript.jsonl": "cced834b28592fad300acb43754137d3e0dff3d93c042149df55f07f9203b6e7",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-09",
+      "scenario": "b-two",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "candidate",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "1092622a7a69327b8dfde0575b09f3fe70018aa426984593776f9b3fd22079f2",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "e8741d0fa154e184aeda87790855c9001fc677692af7bb33003bbbc9fa3d93b8",
+        "metrics.json": "6e38e38657cadd08a07edc10622c8108b4bee26f8a783ca56c5d47ddcba57bc8",
+        "observations.json": "ba287465d03caf96ead25da50f044dabc7927b28918cbe32978174f4b4edca92",
+        "transcript.jsonl": "27b6d46ad9f819a93943e018f7de84defff7e9760d14b667606192199f4610cb",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-10",
+      "scenario": "b-two",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "cfe99fbfa4c1a2611ffd15590cd877571f0d9cdda794d86fd0116c60db29f053",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "b8873f101847877fffbe97d1676defe9039562d8e2481e7d7b79ea12f71e90c1",
+        "metrics.json": "6a649b7b30c652e36c0282e542f391e9edecfdd117ba7e1a65a0aa3f56b1b381",
+        "observations.json": "1b2a277b7f237fb2030821886304ef540b0268a4a764898e4fb6225162257ebc",
+        "transcript.jsonl": "7704bf2ed62a96c91096d826a416e7b85ce7009b6f34112c5e3e2bd831e5e239",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-11",
+      "scenario": "b-two",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "50d2af0e07cf9d4cb50067f726ece61c8564a37745d39e860778a3b6ed450260",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "ee370024f61ecc5587d41026b1f78f515a05737684d4bfec8b042fb3e2d12f61",
+        "metrics.json": "2f30af8792f4d813fbb7fa47584d4fc17001733e31d206fa5f0be68b540c4c4c",
+        "observations.json": "934fade6773575726dcd0d7f59cab00d746080ef748b32bcd45c0d3e7d573ba3",
+        "transcript.jsonl": "ee4a36ca9b950c310061b55400057e0caddbc57c1c32223830c672a8ab07b927",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-12",
+      "scenario": "b-two",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        },
+        {
+          "forms": [
+            "parser_rejected_redirection_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "3515cd6d4569d925ffe7fe4e013e6412dc3ab614a1858bff8d8b383d1b4fddab",
+        "metrics.json": "044f283dee76a415dfa4a1599d1647b6629225a2c483f35a416b1916ffe067cb",
+        "observations.json": "e58596a8f117338d9ecd8ddd15ff9dd06325f6e16f542d5791fd4545c245fee0",
+        "transcript.jsonl": "3c1d005705225155d6015aab8fcecad0e95e05596c10a06a36f877eb67b5dedf",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-13",
+      "scenario": "f-draft",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fe008aab760eb03ccac7578e2b84665b1b50b0d7f855b17a0c7a8d039435b658",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "626212bdaf49fd2bd3d8c0793b736e6c9e2f5ae98821b6222bba81147df34c31",
+        "metrics.json": "4c7031d7f8cda3b4823135af883f48217a969f52d309c6ddf52b69ddf4dd3096",
+        "observations.json": "29240117bb4127cc5f4659756480c7c2ec87f359fc0af850b0b38a26820de2c9",
+        "transcript.jsonl": "04298fcf496544cd1bf92b09f045cde0cffe78f88ef40f2e4186561f066837a0",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-14",
+      "scenario": "f-draft",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "9d6b5132978098101ea39c1dea92202d0e03cbdebd63acc9a03987abc6c5a209",
+        "metrics.json": "105439dc35cbc846481654be5e29cafd0aa892d9d6fe6884d31a383a93836a9f",
+        "observations.json": "2ea15bd2042b94ea40fd9ad413cc8027139f26f92f3ce8c79ff9ee19f295e3ef",
+        "transcript.jsonl": "9923befb76f081bd15a28e33b4ed4e02cde83d7c47c6906ec129c2248da19058",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-15",
+      "scenario": "f-draft",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "c10777833669f6df5d087c52392bb8d81492cbf9467b6e4eca0c97b3d35b088e",
+        "metrics.json": "d7c17f00c586392d7a3029dc79d2e871ceb0947e788d306f5b02b212ee330827",
+        "observations.json": "f8e8358555a9a43fa0f3b2f51794473d6e385d0a4f1486f520003554236993ec",
+        "transcript.jsonl": "73dbb7b12a40b9f1976a98a7be3b809aca19f7c983b18f8396c6b52f592878fe",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-16",
+      "scenario": "f-draft",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_redirection_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "7d8ddb176c746e850fb5b28c11d8ef7c3b76dd79eff086fbc6ccc20df5110556",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "c7a581d8165efee1e97ad84abae544f16b747f3ce776074f6aa0471ccf580d41",
+        "metrics.json": "03444c23a9ec801b87575960e3989dbe9997ae18fa2aa0cdadcbfd078a7b73d6",
+        "observations.json": "ea1757415952f6f5e25a1affe7d341141e3f6923209327bd215fdc689c020495",
+        "transcript.jsonl": "8bfe727a724605228d1b8023426cdb09f5c447b0f67bc5838c86f1b78eb95d45",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-17",
+      "scenario": "f-draft",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "b3a2092d9755b3d26bc0e8c9b82d50ade00148fae2d87a431bd9fbd74bd91cb4",
+        "metrics.json": "910127b58169d3702f1a18cac1a625f824ce2411c9a35e62f8dab47789c0dc4a",
+        "observations.json": "6e1af1ce9a1049612de62b3493a180b39ac51952f1f19a3c14655d3cbf4c643a",
+        "transcript.jsonl": "35152c0700b69ba9a631022045c39b687f36725d92e3dc95ad7bfca6842a566e",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-18",
+      "scenario": "f-draft",
+      "stored_statuses": {
+        "required_verification_coverage_status": "failed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character",
+            "parser_rejected_redirection_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "5327083828e527c6f756325d251316c8a74d774f5349b592bea4438f5ba892e9",
+        "metrics.json": "f7bb4d045bc7c3a49d8e9e087a3a8345904d51b18767497f1cb57f589e0b9e91",
+        "observations.json": "10889213b4790182efc56379d980a7179528ab7641079f6c727412e2ccbf8924",
+        "transcript.jsonl": "4889653c070119f65d6da4f9e0c0fe7eef7cfb265456842bdb894994c003d11d",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-19",
+      "scenario": "f-old",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "45b6aaba8b40c9e594fe58ba52f057a31209df7a2dbc639485be3426da7e8e1a",
+        "metrics.json": "671007ccee4e5263c93925d7862d8b447e4037db9dc863ce3761800cbf3cb7aa",
+        "observations.json": "c27017157f21adfb7b7f52788a4117cf1f8bc26d558bdb5ef9792acb6fef874a",
+        "transcript.jsonl": "ff2d9f23355e2cf25d59a2d356c0683a188b5a544e45ea2e50dfbfff52f438fc",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-20",
+      "scenario": "f-old",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character",
+            "parser_rejected_redirection_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "3976500767a8d3b21e6a8df8469ab6b161176feeb053a60a6cc897632bf5c166",
+        "metrics.json": "5abc2d7257e2a3a7d1bfbafaa0500a81498b7d7f6cf76b39ed353f69398f3131",
+        "observations.json": "6aa1dfbe0af304ca30189c8ed2e239ee607d8952a32fc51a5845c7c09aebbe3a",
+        "transcript.jsonl": "d2d109806c177a694a34b0c5ba1ef515b89d5221400600f9435916147360409d",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-21",
+      "scenario": "f-old",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "e65d210463bb4235be9d5786786fbd6122745c94f0d2f0730e6c3628892ed12e",
+        "metrics.json": "6e0ccf32038c4341a8ceac80b176df79b66d2219700f08e89ec603a87b0427a3",
+        "observations.json": "a5ee9bacbc57901e7b5a0e0cf50ec55e836181483b6b501b7ffad4527a8bb364",
+        "transcript.jsonl": "6afd9686a49507f2c1d09a4342fb3204afd79aa2cf7806520b071357ba7bff55",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-22",
+      "scenario": "f-old",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "1bf7e1b948541259399788384687578bdf9f6c13a5206cb69f96c597f4023591",
+        "metrics.json": "ec8b9c1f2c325651f98a4df6e755ae9e6a081b842ca9c5551f356b7ac3e47197",
+        "observations.json": "247373a1247ac87637b9163020c81a24a3cf261978eeeca5911b6e7946a47504",
+        "transcript.jsonl": "5536f161768c7ce46a87dcd1ab1f9f3ca86d3d35acea3fa88eece2155e5a3636",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-23",
+      "scenario": "f-old",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "fbcfc36537df32fee79607ca8f370db0d6c75d94e8ffd79c2df7524ac2209548",
+        "metrics.json": "2fbdd4d433b4c45cecb3785edf26f400b3ea84ab7427364b715aaa9c9aea3176",
+        "observations.json": "0c786a75ce1e86fbb1a3b81168a7fcc29279c02b75e17a6aaf37dc2a2372d4e1",
+        "transcript.jsonl": "60475bcf3c75baf84c185f26bbef77be80ce66eb74c4a736e5fe98c263a1b02a",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-24",
+      "scenario": "f-old",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "endpoint_linkage",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "276a0fca7663f0af1239e26d43e85e8a0bf50884f94e0b16ddece7c98dfec083",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_redirection_token_or_character"
+          ]
+        },
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_redirection_token_or_character"
+          ]
+        },
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 2,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_redirection_token_or_character"
+          ]
+        },
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 3,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_redirection_token_or_character"
+          ]
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "0eaee976b818aa1e470f401c90b0e4dbad325dd96aa0fe6a75b0746f541efd80",
+        "metrics.json": "123ea390eb9a2660bbc9ceb6344e1fef746a6c70bbe05e8c4849c91af41ad879",
+        "observations.json": "7e3114007b632c0fe538c3076b0f116d89e7522fe09cdaaf8e53118489ce7081",
+        "transcript.jsonl": "b57e683ddc8fd494162060c0acc06e8a3c3a99bf72595784deed814a1ae164a6",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-25",
+      "scenario": "v-api",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "d7b41d9a6c0ab04bbbdf4e224ad118c2a1ca48f3399b795589bfa335b0039462",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "36f7dcaf6939a9247666661b4d00b6a42e187f6b19a2f50b7eb0cbaa92a45f8c",
+        "metrics.json": "06ce2dbd036ed125972d744ac4c3fff7c291566662504b6c26927f25ef6c1c60",
+        "observations.json": "4b28764acd24fc5707533cf29c46989aaa0ee8407a728ffe00d589ab3ac8ed71",
+        "transcript.jsonl": "ccc005237fdbc9489e0cfa68452a8bc9b25ae0618ad3adb6c072de86735e76d2",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-26",
+      "scenario": "v-api",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fdd4ef7e3c9220a1ad7284287c1aad200d960579d43e27b8ad8062605ae8d2d8",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "7c5b240a3ae7d657c061c6572153cea7935fc24f34cf5bf61a53a7e3e7f38b48",
+        "metrics.json": "e3e4d72a3ecd1ddbf22c6da8e3d8cfa5958e73b5a6c6728203d9fc6f4a160391",
+        "observations.json": "8671f47869ece5d980260310474f547e009fa9f9ea29a95038ad5bd335721976",
+        "transcript.jsonl": "fa5ca8a9d73263a6e132056776eb272c232a05ca7b3100463d7fc7310562e81e",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-27",
+      "scenario": "v-api",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "2c95fc887539e387e115cdaf1f488819cf238033aa6cd1019d58975a6cafd2fa",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 2,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 3,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "3b7a79a11b2a44c6c469b3c684ebb09238bb9eac74518d689bd23d08c2007599",
+        "metrics.json": "5fd65ca0a5659b95a704d52be940781a996f45f61f1a45e726496c6528ce623c",
+        "observations.json": "b42159d0e071e649fe44da2739062085f2cbfda8567d9ed219a47add95bf6d48",
+        "transcript.jsonl": "9a4820b8600a5709004cd6d9b3b255b47272e727326a8758a26cdc0d1a0bd1c8",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-28",
+      "scenario": "v-api",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_structure",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        },
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character",
+            "parser_rejected_redirection_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "f7165892d516a5754a7e87c4f0b346adc6f599c6f36a1575affbcd48b78851ec",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+          "marker_presence": "present",
+          "ordinal": 2,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 3,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "498da9fe23b0a3073bfd4adc309a7b14b9d92be452382683d12a41f07d45bd23",
+        "metrics.json": "d90ac6d1c521f1658ae855d2ed024086e985237f299febc818aa4413c240de31",
+        "observations.json": "4c7c99e3d644e0bd2eff18b05fb8b26eeedf4c26fae519d50626f6f95c3c7fec",
+        "transcript.jsonl": "1eb9d7797e04a26a306b930177f58e12ff49d38ccfdb7c59b57773e738368684",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-29",
+      "scenario": "v-api",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "endpoint_linkage",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "fbde718e2d2b151f89d26acb889584d128cf1b74fe8e798ebd42fed959ab6148",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_pipe_token_or_character",
+            "parser_rejected_redirection_token_or_character"
+          ]
+        },
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "a6707d4eff38012da33ddc34bc6dc076a3b17151cfc9aef223c8790cbe64c3da",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_pipe_token_or_character",
+            "parser_rejected_redirection_token_or_character"
+          ]
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "91e1c357a11f0483db2702d14a10c077af683fcfb98a8cc15145d16c3043f343",
+        "metrics.json": "a2b721c9fa4691e779d5ef97379e6d87ebe04a82ca13b9dc560ea682fca6003f",
+        "observations.json": "806645e9db4564a07f919a4f6d3e3e11d3838104a4ea3f0a3a5f77ab987b3dea",
+        "transcript.jsonl": "689143ba874a298b42cafc8744dfd1706fe09638ce42cbc097b985ab23f04567",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-30",
+      "scenario": "v-api",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "620d24d66057e458ce1594cdef9cd666253ce1c9ee632cfa6d81f272cdab56b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "cafe0befc6204d742636f5a24376ea4683600e3bfa4dbf7d1f6d93fa609e5024",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "3fcbf6a011001eb996be08e7b1d8eac2b41aabc7c84fa88d5f13756ee6c2f70b",
+        "metrics.json": "dde859d0a2be40ef9c95a47cb8daf1c8704c1a64fbdf3c7688042c8a34e6fade",
+        "observations.json": "b2b353fe8a713bcf67c9785d2e4aedbdfe9168e7a09c71306e1661cd2b110e74",
+        "transcript.jsonl": "7663d14b82ca73eb7805f817ac97521cc1bdba751e8ce238e8c6250de2533171",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-31",
+      "scenario": "v-doc",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "620d24d66057e458ce1594cdef9cd666253ce1c9ee632cfa6d81f272cdab56b5",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "fa97c80fc3eb7334a7712f41052656d9ec705f0053004a58704211e91a7526ad",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "670ea319393d5efbff2126a555c9247a53325616d4a58f8fea50966b61d142b5",
+        "metrics.json": "3a0dc96e41eeeeb25673249fc4a56b5687370a501fd3c431b7c3cffa299fea70",
+        "observations.json": "ee83c3ec6ab2657f8b90817db03f100083d9a5de501b38613a5ad67b6ae3573b",
+        "transcript.jsonl": "51ee774e20bd9326dbb758ee820a3b80f695ace78634a7a22eeeb1e22ae1f1eb",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 1,
+      "run_id": "run-32",
+      "scenario": "v-doc",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "ff5814704bba32003d8445ab6a2b5b958b2b390c153a8aa0ea3bee87ec5b4bc6",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "807f3482c6464a2f417c9d102b74ddec0f816d45281d867df7e98937f47904ed",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "ad4515733bbf8204241f8e555b60b37039f4ea34e683cd01ae5dec289d5073cb",
+        "metrics.json": "2a3db9d96ab07073e13872006f3989ee1ee9cd0433b2022af9dac7b677cb0aeb",
+        "observations.json": "1788e76d564713eaca2ba710c3e9c88c772bdaf2a4c4bbb65f9f479e17e8bae0",
+        "transcript.jsonl": "1f7f6cbc05a91aee2a4dddc99fe4f7ed30a91144ad7fc089eeda23327b5b907e",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-33",
+      "scenario": "v-doc",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "unsupported_shell_and_endpoint_linkage",
+      "condition": "current",
+      "direct_observations": [
+        {
+          "forms": [
+            "parser_rejected_pipe_token_or_character"
+          ],
+          "kind": "parser_rejected_shell_structure"
+        }
+      ],
+      "events": [
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "b38122eb00786a1dde791468e577d2a36fbd71bde53d316bdbbeaf12a03db7c1",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_redirection_token_or_character"
+          ]
+        },
+        {
+          "failure_reasons": [
+            "raw_argv_mismatch"
+          ],
+          "ledger_output_sha256": "102d82bd75fa942f58c38bfee252229e5d1a37ba9e4071a0af4aed321b40a656",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "unmatched",
+          "syntactic_suffix_explains_strict_mismatch": [
+            "parser_rejected_redirection_token_or_character"
+          ]
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "2720b93c5bbbf9420a0f04d61d9441d6073422627c2ecfbb56cdfdc482875a7e",
+        "metrics.json": "ae37118216a40e41a9a56098c098d1a49e4ffe18714694d4db6703d2c552b810",
+        "observations.json": "8ff24f9fb6ba5ac5207ce60ece1c44f2d7e1b820bde8a160996174e8ca459c37",
+        "transcript.jsonl": "32dd13bf9b7e9136af47412a4696bd622b690a7b4795503211894213f1ab089a",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 2,
+      "run_id": "run-34",
+      "scenario": "v-doc",
+      "stored_statuses": {
+        "required_verification_coverage_status": "unverified",
+        "verification_evidence_status": "unverified"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "candidate",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "f2f7f20b09268ff1a5a9edf399b32bb047568b9780fc65a6c38dee4a6be91892",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "a67699dcc2685522c4e1904bef7db05777d7456ba3ecad9bdcb0bc5423034fa1",
+        "metrics.json": "6d4dd90898d27aba618511dadb1b1eac0c13c24f4a7d9301349118e3c6582f87",
+        "observations.json": "368a3080aafb7d2168a2d1c92f7e81a2f6db208760211bb09806f96cdbe6d762",
+        "transcript.jsonl": "f44a9e3c51c888cacc46d7a59ee72e42d65fbd038579b51b3fba1c4b6a8a26d2",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-35",
+      "scenario": "v-doc",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    },
+    {
+      "category": "normal",
+      "condition": "current",
+      "direct_observations": [],
+      "events": [
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "f2f7f20b09268ff1a5a9edf399b32bb047568b9780fc65a6c38dee4a6be91892",
+          "marker_presence": "present",
+          "ordinal": 0,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        },
+        {
+          "failure_reasons": [],
+          "ledger_output_sha256": "407025646498b9111129de875a742255b81377325a39fbb39de4b826a11363b8",
+          "marker_presence": "present",
+          "ordinal": 1,
+          "strict_match": "matched",
+          "syntactic_suffix_explains_strict_mismatch": []
+        }
+      ],
+      "interpretation": "explanatory_only_preserves_stored_outcome",
+      "raw_digests": {
+        "meta.json": "494a05c2d740ada00314895468d43f965e385bca5f3fd987f4a4b50bae468d78",
+        "metrics.json": "ef1d67bcc8e637a29f1f3db24f4cd4fdc5c15fe9e2662e0dea6cdbed8e778c67",
+        "observations.json": "15cc4167d11ddd09baaf9e0c860081ca3b4739ef3eea4a63953315ca905ac3be",
+        "transcript.jsonl": "0a504751e760c5603841a18f1f683dba74a318286556d9ad399355331c28790b",
+        "verify_client.py": "6ee1bbf15ac2033f327d157eb816ae1fdf6454e0cacbd21596ca2027150ced05"
+      },
+      "replicate": 3,
+      "run_id": "run-36",
+      "scenario": "v-doc",
+      "stored_statuses": {
+        "required_verification_coverage_status": "passed",
+        "verification_evidence_status": "observed"
+      }
+    }
+  ],
+  "schema": "verification-budget-observation-diagnostic-v1",
+  "status_agreement": {
+    "run_count": 36,
+    "status": "matched"
+  },
+  "summary": {
+    "category_counts": {
+      "endpoint_linkage": 2,
+      "normal": 24,
+      "unsupported_shell_and_endpoint_linkage": 1,
+      "unsupported_shell_structure": 9
+    },
+    "direct_parser_rejected_form_counts": {
+      "parser_rejected_pipe_token_or_character": 10,
+      "parser_rejected_redirection_token_or_character": 5
+    },
+    "stored_coverage_status_counts": {
+      "failed": 8,
+      "passed": 16,
+      "unverified": 12
+    },
+    "stored_evidence_status_counts": {
+      "observed": 24,
+      "unverified": 12
+    }
+  }
+}
