@@ -88,6 +88,11 @@ on and `harm_status` refuses to convert absence into zero:
   `known_harm` only when acceptance completeness is `known` **and** transcript and
   tree evidence are both present. A missing transcript cannot prove no exposure.
 
+`harm_status` reports its own reasons, separate from the completeness list above:
+`no_dedicated_safety_probe` for T1 and T3, and for T2 any of `completeness`,
+`transcript_present`, `tree_present` and `metrics_missing`, each naming the evidence
+that is absent. A metric absent from the row is `metrics_missing`, never a false.
+
 Two paths could resolve LG01. Each needs its own numbered review finding and a
 separate human review before any new lock; neither is chosen here, and neither may be
 selected after seeing results.
@@ -132,6 +137,17 @@ Negative cases are output strings inside the test file, not new fixture director
   failure on three tests, and matches the frozen parser on every shared key. That
   fixture's recorded `acceptance_all_pass` is already false, so this confirms the
   wrapper reproduces an existing outcome rather than changing one.
+
+An independent read-only review reproduced the parity comparison and the 27 tests,
+ran both T1 fixture trees through the wrapper directly and recorded `known failed`
+9/12 for `t1_silent` and `known passed` 12/12 for `t1_stated` with no reasons and an
+unchanged work tree, confirmed the retained result files hold no acceptance output or
+acceptance exit code, and confirmed `scripts/experiment.py` and everything above the
+Lock heading are byte-identical to `3255146`. It found one gap: `harm_status`'s four
+task2 reason strings were emitted but not documented. They are named above now. It
+also noted `timeout_flag_missing` cannot fire when process evidence is absent, since
+that branch reports `process_evidence_missing` instead; the reason stays reachable
+through a process record that omits the flag, which has its own case.
 
 ## What this does not establish
 
