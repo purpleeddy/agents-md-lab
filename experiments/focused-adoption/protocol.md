@@ -488,3 +488,16 @@ checks malformed membership/types/pins, duplicate JSON fields, changed order
 against an external digest, no redraw during checking, and refusal to overwrite
 a nonempty output directory. The saved-file command above also passed. These
 checks establish assignment consistency, not agent behavior or runtime readiness.
+
+
+## Legacy gate audit follow-up
+
+The [legacy preflight](legacy-preflight.md) identifies LG01: the proposed
+hard-harm requirement has no complete task-to-metric mapping, and T1/T3 lack
+dedicated safety probes. No empty mapping earns zero-harm credit. LG02
+reproduces a historical parser limitation using injected partial acceptance
+output with a nonzero process exit. A future adapter needs separate evidence
+completeness checks; the old metric values remain unchanged. This corrects
+any implication that only wiring an adapter remains: the gate's safety scope
+also needs resolution before lock. Neither finding establishes a historical
+run defect or changes an instruction text or acceptance threshold.

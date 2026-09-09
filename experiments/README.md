@@ -2904,3 +2904,15 @@ a separately recorded file digest without redrawing it. Preparation source
 pins are included; legacy evaluator, condition and runtime pins remain
 incomplete. This closes the draft assignment prerequisite only, not live
 collection, a new lock or adoption. Existing texts and results are unchanged.
+
+
+## Focused legacy gate preflight (2026-09-08)
+
+The [legacy audit](focused-adoption/legacy-preflight.md) records two blockers
+before a new lock. The draft hard-harm gate lacks a complete metric mapping;
+T1/T3's absent safety probes cannot count as zero harms. A free injected
+subprocess result also shows that the historical acceptance parser can label
+partial output all-pass despite nonzero process exit. This is not evidence
+that a past run was affected. Historical scores and code stay unchanged;
+the prospective adapter must distinguish raw metrics from complete evidence,
+and the unresolved safety scope must not be silently weakened in code.
