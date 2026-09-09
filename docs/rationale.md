@@ -140,7 +140,7 @@ collections are in the
 
 | Rule | Sources | Why | Changed |
 |---|---|---|---|
-| Nearer project docs (nested AGENTS.md, README, CONTRIBUTING) override this file except Boundaries. | v0.1.0 | The file says what it is in one line; everything the header used to carry is either a Boundary or a link the README and the site already provide. | v1.1.0 cut the other three sentences: see the audit above. The design review's change to this line is in the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v120-the-design-review-changes). v1.4.0 shortened `override everything here` to `override this file`; see the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review). |
+| A nested AGENTS.md overrides this file except Boundaries. | v0.1.0 | The file says what it is in one line; everything the header used to carry is either a Boundary or a link the README and the site already provide. | v1.1.0 cut the other three sentences: see the audit above. The design review's change to this line is in the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v120-the-design-review-changes). v1.4.0 shortened `override everything here` to `override this file`; see the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review). v1.4.1 cut README and CONTRIBUTING from the line: the Boundaries ask line already limits project docs to commands and conventions, and two reviews read the header as letting README override rules; see the [record](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v141-the-header-precedence-line-2026-09-09). |
 
 ## Boundaries
 

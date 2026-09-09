@@ -209,6 +209,6 @@
   "schema_version": 1,
   "source_pins": {
     "focused_candidate": {"sha256": "0d50213d56fbefd3a16a12ee0ce092e39c2ba5346276097dab7784af34e7ac7f", "utf8_bytes": 4435},
-    "root_agents": {"sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5", "utf8_bytes": 4438}
+    "root_agents": {"sha256": "53641c01d9bb9e6f429030e9c6f8dd2e3467ede1df16f67f41793051e80bc2ea", "utf8_bytes": 4397}
   }
 }
