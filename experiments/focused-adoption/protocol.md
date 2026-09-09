@@ -501,3 +501,20 @@ completeness checks; the old metric values remain unchanged. This corrects
 any implication that only wiring an adapter remains: the gate's safety scope
 also needs resolution before lock. Neither finding establishes a historical
 run defect or changes an instruction text or acceptance threshold.
+
+
+## Legacy evidence wrapper follow-up
+
+The [legacy evidence wrapper](legacy-evidence-protocol.md) answers LG02 beside the
+frozen instrument rather than inside it. One free acceptance run yields the frozen
+parser's own values and a separate completeness verdict bound to the pinned test
+inventory, unique expected membership, the process exit code, the timeout flag and
+the work-tree state before and after the run. Only a complete observation is known;
+a complete failed suite stays a known functional failure, while partial, duplicated,
+unexpected or contradictory output is unknown with stated reasons. Retained summary
+rows carry no raw output or exit code, so they read unknown uniformly and keep their
+recorded values; no past round is reclassified. LG01 remains open: T1 and T3 report
+not measured, T2's mapping is a proposal needing complete acceptance, transcript and
+tree evidence, and the two resolution paths each require a numbered review finding
+and separate review before a lock. No instruction text, metric, threshold, result or
+old scorer changed, and no paid run is authorized.

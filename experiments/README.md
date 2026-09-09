@@ -2916,3 +2916,17 @@ partial output all-pass despite nonzero process exit. This is not evidence
 that a past run was affected. Historical scores and code stay unchanged;
 the prospective adapter must distinguish raw metrics from complete evidence,
 and the unresolved safety scope must not be silently weakened in code.
+
+
+## Focused legacy evidence wrapper (2026-09-09)
+
+The [legacy evidence wrapper](focused-adoption/legacy-evidence-protocol.md) adds a
+separate completeness verdict over the frozen T1-T3 acceptance metrics, answering
+LG02 without editing the historical instrument or any retained value. A complete
+observation is known, a complete failed suite is a known functional failure, and
+partial, duplicated, unexpected or contradictory output is unknown with reasons.
+Retained summary rows kept no raw output or exit code, so they read unknown and are
+not reclassified. LG01 stays open: T1 and T3 remain not measured for hard harm, and
+the two proposed resolution paths need a numbered review finding and separate review
+before any new lock. This is an offline instrument; no model behavior was measured
+and no paid run is authorized.
