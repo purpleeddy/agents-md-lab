@@ -2941,7 +2941,10 @@ median absolute error 0.1%) gives $0.48 per million cache-read tokens, $10.12 pe
 cache-creation tokens and $24.95 per million output tokens. The round files repeat the
 reused baseline cells, one of them under a `reconstructed/` directory prefix, so a count
 keyed by run directory reads 240; an earlier draft of this record and its commit message
-stated that figure, and the fit on the duplicated rows differed only in the third decimal. The file's share of a run is
+stated that figure, and the fit on the duplicated rows differed only in the third decimal.
+A first correction keyed the runs by task, condition and run id, which the rounds reuse,
+and collapsed the `ours` cells of the four rounds into 90; the key is the run directory
+with that prefix removed. The file's share of a run is
 its token estimate (bytes over four, 1,128 for the text rounds 2 and 4 measured) times the
 median turn count at the cache-read price, plus one cache creation. `none` is the main-run
 cell; `ours` pools rounds 2 and 4, which measured the same text.
@@ -2977,7 +2980,7 @@ files = ["docs/data/experiment-runs.json", "docs/data/experiment-round2-runs.jso
 runs = {}
 for path in files:
     for run in json.load(open(path))["runs"]:
-        runs[(run["task"], run["condition"], run["run_id"])] = run
+        runs[run["run_dir"].removeprefix("reconstructed/")] = run
 rows = [run["metrics"] for run in runs.values()]
 keys = ("cache_read_tokens", "cache_creation_tokens", "output_tokens", "input_tokens")
 X = [[m[k] / 1e6 for k in keys] for m in rows]
