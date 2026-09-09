@@ -2957,8 +2957,8 @@ cell; `ours` pools rounds 2 and 4, which measured the same text.
 
 Where the difference goes: on T1 `tests_written` 0/10 to 20/20 and
 `report_has_commands_and_results` 0/10 to 20/20; on T2 `regression_test_added` 0/10 to 11/20
-and the report 2/10 to 20/20; on T3 nothing, `test_calls` 0 and output tokens equal, so the
-whole difference is the file being read. Three consequences. The file's bytes are 5 to 15
+and the report 2/10 to 20/20; on T3 nothing, `test_calls` 0 and median output tokens 538
+against 537, so the whole difference is the file being read. Three consequences. The file's bytes are 5 to 15
 percent of a run, and the maximum compaction the adoption record priced (4,033 bytes) would
 save 0.4 to 1.4 percent of a run depending on the task, so shortening the text is not the
 lever for token cost.
@@ -3014,6 +3014,11 @@ for task in ("task1", "task2", "task3"):
 EOF2
 ```
 
-This is an analysis of retained data; no run was made, no text changed, and it is not a
-reason to write or cut a rule. The candidates it points at are recorded in the issue that
+An independent read-only review recounted the runs three ways (240 by run directory, 180
+with the prefix removed, 180 by task, condition, run id and metrics), refit the prices on
+the 180 rows to the same two decimals, reran the script verbatim, recomputed the table, the
+compaction range and the byte identity of the protected texts, and found one imprecision:
+an earlier wording of this record called T3's output tokens equal where the medians differ
+by one token. This is an analysis of retained data; no run was made, no text changed, and
+it is not a reason to write or cut a rule. The candidates it points at are recorded in the issue that
 proposes them, with the review findings they rest on.
