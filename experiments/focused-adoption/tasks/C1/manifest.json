@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "task": "C1",
+  "brief": "brief.md",
+  "files": {
+    "seed": [
+      "README.md",
+      "examples.md",
+      "maths.py",
+      "test_examples.py"
+    ],
+    "staged": [],
+    "worktree": [],
+    "untracked": [],
+    "good": [
+      "examples.md"
+    ],
+    "bad": [
+      "examples.md"
+    ]
+  },
+  "variants": {
+    "default": []
+  },
+  "ownership_paths": [],
+  "protected_paths": [],
+  "blocked": false,
+  "variant_mapping": "replicates 1-10: default",
+  "expected_endpoints": {
+    "default": "done after applicable required checks"
+  },
+  "checks": {
+    "default": [
+      {
+        "id": "suite",
+        "command": "suite",
+        "required": true,
+        "applicable": true
+      }
+    ]
+  }
+}

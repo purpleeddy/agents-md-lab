@@ -1,0 +1,131 @@
+{
+  "actual_model_packet_size_verified": false,
+  "commands": [
+    {
+      "argv": [
+        "claude",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 22,
+      "stdout_sha256": "b223e2a39cb8534c8a0923ee0ec5050b0ed073905f830f89ef5b84a754e98185"
+    },
+    {
+      "argv": [
+        "claude",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 21504,
+      "stdout_sha256": "95a31820dc2a7b1adbd197346baa89a62cddd14b984079e1fc2ad56d11a97b20"
+    },
+    {
+      "argv": [
+        "claude",
+        "--max-turns",
+        "1",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 21504,
+      "stdout_sha256": "95a31820dc2a7b1adbd197346baa89a62cddd14b984079e1fc2ad56d11a97b20"
+    },
+    {
+      "argv": [
+        "claude",
+        "--definitely-invalid-focused-preflight",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 21504,
+      "stdout_sha256": "95a31820dc2a7b1adbd197346baa89a62cddd14b984079e1fc2ad56d11a97b20"
+    }
+  ],
+  "flags_visible_in_help": {
+    "--json-schema": true,
+    "--max-budget-usd": true,
+    "--max-turns": false,
+    "--mcp-config": true,
+    "--no-session-persistence": true,
+    "--output-format": true,
+    "--setting-sources": true,
+    "--strict-mcp-config": true
+  },
+  "historical_safe_argv_bytes": 100000,
+  "model_schema_compatibility_verified": false,
+  "observed_version": "2.1.263 (Claude Code)",
+  "option_behavior_verified": false,
+  "provider_calls": 0,
+  "runtime_ready": false,
+  "schema_sizes": [
+    {
+      "batch": 1,
+      "compact_bytes": 64849,
+      "pretty_bytes": 167375
+    },
+    {
+      "batch": 2,
+      "compact_bytes": 64767,
+      "pretty_bytes": 166907
+    },
+    {
+      "batch": 3,
+      "compact_bytes": 64515,
+      "pretty_bytes": 166539
+    },
+    {
+      "batch": 4,
+      "compact_bytes": 64807,
+      "pretty_bytes": 167207
+    },
+    {
+      "batch": 5,
+      "compact_bytes": 64795,
+      "pretty_bytes": 167019
+    },
+    {
+      "batch": 6,
+      "compact_bytes": 64515,
+      "pretty_bytes": 166539
+    },
+    {
+      "batch": 7,
+      "compact_bytes": 64765,
+      "pretty_bytes": 167039
+    },
+    {
+      "batch": 8,
+      "compact_bytes": 64837,
+      "pretty_bytes": 167187
+    },
+    {
+      "batch": 9,
+      "compact_bytes": 64487,
+      "pretty_bytes": 166427
+    },
+    {
+      "batch": 10,
+      "compact_bytes": 64793,
+      "pretty_bytes": 167151
+    },
+    {
+      "batch": 11,
+      "compact_bytes": 64893,
+      "pretty_bytes": 167411
+    }
+  ],
+  "scope": "free installed CLI help and synthetic schema serialization audit",
+  "source_pins": {
+    "focused_reports.py": "0c25f6792dfe9867c6ac26b635dda6ee743b1cbd0304680f385901960b996dd5",
+    "verification_review.py": "7805bfdb328193f08e78beb6ae0d0e547e937fd8bac27f85b01cfe4cb4e2b610",
+    "verification_review_v2.py": "94d9ca2fc1e73ec6480db6c6db4d1afc1594f652c117a0429830a82c24ce1de8"
+  }
+}

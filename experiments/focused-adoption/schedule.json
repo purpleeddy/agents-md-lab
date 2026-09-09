@@ -1,0 +1,3835 @@
+{
+  "condition_and_runtime_pins_complete": false,
+  "draft_test_set": "focused-adoption-v1",
+  "generator_python": "3.14.6",
+  "provider_calls": 0,
+  "random_seed": "focused-adoption-v1",
+  "rows": [
+    {
+      "condition": "current",
+      "ordinal": 1,
+      "replicate": 1,
+      "run_id": "focused-0001",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 2,
+      "replicate": 1,
+      "run_id": "focused-0002",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 3,
+      "replicate": 1,
+      "run_id": "focused-0003",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 4,
+      "replicate": 1,
+      "run_id": "focused-0004",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 5,
+      "replicate": 2,
+      "run_id": "focused-0005",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 6,
+      "replicate": 2,
+      "run_id": "focused-0006",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 7,
+      "replicate": 2,
+      "run_id": "focused-0007",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 8,
+      "replicate": 2,
+      "run_id": "focused-0008",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 9,
+      "replicate": 3,
+      "run_id": "focused-0009",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 10,
+      "replicate": 3,
+      "run_id": "focused-0010",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 11,
+      "replicate": 3,
+      "run_id": "focused-0011",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 12,
+      "replicate": 3,
+      "run_id": "focused-0012",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 13,
+      "replicate": 4,
+      "run_id": "focused-0013",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 14,
+      "replicate": 4,
+      "run_id": "focused-0014",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 15,
+      "replicate": 4,
+      "run_id": "focused-0015",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 16,
+      "replicate": 4,
+      "run_id": "focused-0016",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 17,
+      "replicate": 5,
+      "run_id": "focused-0017",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 18,
+      "replicate": 5,
+      "run_id": "focused-0018",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 19,
+      "replicate": 5,
+      "run_id": "focused-0019",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 20,
+      "replicate": 5,
+      "run_id": "focused-0020",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 21,
+      "replicate": 6,
+      "run_id": "focused-0021",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 22,
+      "replicate": 6,
+      "run_id": "focused-0022",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 23,
+      "replicate": 6,
+      "run_id": "focused-0023",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 24,
+      "replicate": 6,
+      "run_id": "focused-0024",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 25,
+      "replicate": 7,
+      "run_id": "focused-0025",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 26,
+      "replicate": 7,
+      "run_id": "focused-0026",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 27,
+      "replicate": 7,
+      "run_id": "focused-0027",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 28,
+      "replicate": 7,
+      "run_id": "focused-0028",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 29,
+      "replicate": 8,
+      "run_id": "focused-0029",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 30,
+      "replicate": 8,
+      "run_id": "focused-0030",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 31,
+      "replicate": 8,
+      "run_id": "focused-0031",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 32,
+      "replicate": 8,
+      "run_id": "focused-0032",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 33,
+      "replicate": 9,
+      "run_id": "focused-0033",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 34,
+      "replicate": 9,
+      "run_id": "focused-0034",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 35,
+      "replicate": 9,
+      "run_id": "focused-0035",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 36,
+      "replicate": 9,
+      "run_id": "focused-0036",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 37,
+      "replicate": 10,
+      "run_id": "focused-0037",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 38,
+      "replicate": 10,
+      "run_id": "focused-0038",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 39,
+      "replicate": 10,
+      "run_id": "focused-0039",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 40,
+      "replicate": 10,
+      "run_id": "focused-0040",
+      "task": "T1",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 41,
+      "replicate": 1,
+      "run_id": "focused-0041",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 42,
+      "replicate": 1,
+      "run_id": "focused-0042",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 43,
+      "replicate": 1,
+      "run_id": "focused-0043",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 44,
+      "replicate": 1,
+      "run_id": "focused-0044",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 45,
+      "replicate": 2,
+      "run_id": "focused-0045",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 46,
+      "replicate": 2,
+      "run_id": "focused-0046",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 47,
+      "replicate": 2,
+      "run_id": "focused-0047",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 48,
+      "replicate": 2,
+      "run_id": "focused-0048",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 49,
+      "replicate": 3,
+      "run_id": "focused-0049",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 50,
+      "replicate": 3,
+      "run_id": "focused-0050",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 51,
+      "replicate": 3,
+      "run_id": "focused-0051",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 52,
+      "replicate": 3,
+      "run_id": "focused-0052",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 53,
+      "replicate": 4,
+      "run_id": "focused-0053",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 54,
+      "replicate": 4,
+      "run_id": "focused-0054",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 55,
+      "replicate": 4,
+      "run_id": "focused-0055",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 56,
+      "replicate": 4,
+      "run_id": "focused-0056",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 57,
+      "replicate": 5,
+      "run_id": "focused-0057",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 58,
+      "replicate": 5,
+      "run_id": "focused-0058",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 59,
+      "replicate": 5,
+      "run_id": "focused-0059",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 60,
+      "replicate": 5,
+      "run_id": "focused-0060",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 61,
+      "replicate": 6,
+      "run_id": "focused-0061",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 62,
+      "replicate": 6,
+      "run_id": "focused-0062",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 63,
+      "replicate": 6,
+      "run_id": "focused-0063",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 64,
+      "replicate": 6,
+      "run_id": "focused-0064",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 65,
+      "replicate": 7,
+      "run_id": "focused-0065",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 66,
+      "replicate": 7,
+      "run_id": "focused-0066",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 67,
+      "replicate": 7,
+      "run_id": "focused-0067",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 68,
+      "replicate": 7,
+      "run_id": "focused-0068",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 69,
+      "replicate": 8,
+      "run_id": "focused-0069",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 70,
+      "replicate": 8,
+      "run_id": "focused-0070",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 71,
+      "replicate": 8,
+      "run_id": "focused-0071",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 72,
+      "replicate": 8,
+      "run_id": "focused-0072",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 73,
+      "replicate": 9,
+      "run_id": "focused-0073",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 74,
+      "replicate": 9,
+      "run_id": "focused-0074",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 75,
+      "replicate": 9,
+      "run_id": "focused-0075",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 76,
+      "replicate": 9,
+      "run_id": "focused-0076",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 77,
+      "replicate": 10,
+      "run_id": "focused-0077",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 78,
+      "replicate": 10,
+      "run_id": "focused-0078",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 79,
+      "replicate": 10,
+      "run_id": "focused-0079",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 80,
+      "replicate": 10,
+      "run_id": "focused-0080",
+      "task": "T2",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 81,
+      "replicate": 1,
+      "run_id": "focused-0081",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 82,
+      "replicate": 1,
+      "run_id": "focused-0082",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 83,
+      "replicate": 1,
+      "run_id": "focused-0083",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 84,
+      "replicate": 1,
+      "run_id": "focused-0084",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 85,
+      "replicate": 2,
+      "run_id": "focused-0085",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 86,
+      "replicate": 2,
+      "run_id": "focused-0086",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 87,
+      "replicate": 2,
+      "run_id": "focused-0087",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 88,
+      "replicate": 2,
+      "run_id": "focused-0088",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 89,
+      "replicate": 3,
+      "run_id": "focused-0089",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 90,
+      "replicate": 3,
+      "run_id": "focused-0090",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 91,
+      "replicate": 3,
+      "run_id": "focused-0091",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 92,
+      "replicate": 3,
+      "run_id": "focused-0092",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 93,
+      "replicate": 4,
+      "run_id": "focused-0093",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 94,
+      "replicate": 4,
+      "run_id": "focused-0094",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 95,
+      "replicate": 4,
+      "run_id": "focused-0095",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 96,
+      "replicate": 4,
+      "run_id": "focused-0096",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 97,
+      "replicate": 5,
+      "run_id": "focused-0097",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 98,
+      "replicate": 5,
+      "run_id": "focused-0098",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 99,
+      "replicate": 5,
+      "run_id": "focused-0099",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 100,
+      "replicate": 5,
+      "run_id": "focused-0100",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 101,
+      "replicate": 6,
+      "run_id": "focused-0101",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 102,
+      "replicate": 6,
+      "run_id": "focused-0102",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 103,
+      "replicate": 6,
+      "run_id": "focused-0103",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 104,
+      "replicate": 6,
+      "run_id": "focused-0104",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 105,
+      "replicate": 7,
+      "run_id": "focused-0105",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 106,
+      "replicate": 7,
+      "run_id": "focused-0106",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 107,
+      "replicate": 7,
+      "run_id": "focused-0107",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 108,
+      "replicate": 7,
+      "run_id": "focused-0108",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 109,
+      "replicate": 8,
+      "run_id": "focused-0109",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 110,
+      "replicate": 8,
+      "run_id": "focused-0110",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 111,
+      "replicate": 8,
+      "run_id": "focused-0111",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 112,
+      "replicate": 8,
+      "run_id": "focused-0112",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 113,
+      "replicate": 9,
+      "run_id": "focused-0113",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 114,
+      "replicate": 9,
+      "run_id": "focused-0114",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 115,
+      "replicate": 9,
+      "run_id": "focused-0115",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 116,
+      "replicate": 9,
+      "run_id": "focused-0116",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 117,
+      "replicate": 10,
+      "run_id": "focused-0117",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 118,
+      "replicate": 10,
+      "run_id": "focused-0118",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "current",
+      "ordinal": 119,
+      "replicate": 10,
+      "run_id": "focused-0119",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 120,
+      "replicate": 10,
+      "run_id": "focused-0120",
+      "task": "T3",
+      "variant": "legacy-locked-task"
+    },
+    {
+      "condition": "none",
+      "ordinal": 121,
+      "replicate": 1,
+      "run_id": "focused-0121",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 122,
+      "replicate": 1,
+      "run_id": "focused-0122",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 123,
+      "replicate": 1,
+      "run_id": "focused-0123",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 124,
+      "replicate": 1,
+      "run_id": "focused-0124",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 125,
+      "replicate": 2,
+      "run_id": "focused-0125",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 126,
+      "replicate": 2,
+      "run_id": "focused-0126",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 127,
+      "replicate": 2,
+      "run_id": "focused-0127",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 128,
+      "replicate": 2,
+      "run_id": "focused-0128",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 129,
+      "replicate": 3,
+      "run_id": "focused-0129",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 130,
+      "replicate": 3,
+      "run_id": "focused-0130",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 131,
+      "replicate": 3,
+      "run_id": "focused-0131",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 132,
+      "replicate": 3,
+      "run_id": "focused-0132",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 133,
+      "replicate": 4,
+      "run_id": "focused-0133",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 134,
+      "replicate": 4,
+      "run_id": "focused-0134",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 135,
+      "replicate": 4,
+      "run_id": "focused-0135",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 136,
+      "replicate": 4,
+      "run_id": "focused-0136",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 137,
+      "replicate": 5,
+      "run_id": "focused-0137",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 138,
+      "replicate": 5,
+      "run_id": "focused-0138",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 139,
+      "replicate": 5,
+      "run_id": "focused-0139",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 140,
+      "replicate": 5,
+      "run_id": "focused-0140",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 141,
+      "replicate": 6,
+      "run_id": "focused-0141",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 142,
+      "replicate": 6,
+      "run_id": "focused-0142",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 143,
+      "replicate": 6,
+      "run_id": "focused-0143",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 144,
+      "replicate": 6,
+      "run_id": "focused-0144",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 145,
+      "replicate": 7,
+      "run_id": "focused-0145",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 146,
+      "replicate": 7,
+      "run_id": "focused-0146",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 147,
+      "replicate": 7,
+      "run_id": "focused-0147",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 148,
+      "replicate": 7,
+      "run_id": "focused-0148",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 149,
+      "replicate": 8,
+      "run_id": "focused-0149",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 150,
+      "replicate": 8,
+      "run_id": "focused-0150",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 151,
+      "replicate": 8,
+      "run_id": "focused-0151",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 152,
+      "replicate": 8,
+      "run_id": "focused-0152",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 153,
+      "replicate": 9,
+      "run_id": "focused-0153",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 154,
+      "replicate": 9,
+      "run_id": "focused-0154",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 155,
+      "replicate": 9,
+      "run_id": "focused-0155",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 156,
+      "replicate": 9,
+      "run_id": "focused-0156",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 157,
+      "replicate": 10,
+      "run_id": "focused-0157",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 158,
+      "replicate": 10,
+      "run_id": "focused-0158",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 159,
+      "replicate": 10,
+      "run_id": "focused-0159",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 160,
+      "replicate": 10,
+      "run_id": "focused-0160",
+      "task": "O1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 161,
+      "replicate": 1,
+      "run_id": "focused-0161",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 162,
+      "replicate": 1,
+      "run_id": "focused-0162",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 163,
+      "replicate": 1,
+      "run_id": "focused-0163",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 164,
+      "replicate": 1,
+      "run_id": "focused-0164",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 165,
+      "replicate": 2,
+      "run_id": "focused-0165",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 166,
+      "replicate": 2,
+      "run_id": "focused-0166",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 167,
+      "replicate": 2,
+      "run_id": "focused-0167",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 168,
+      "replicate": 2,
+      "run_id": "focused-0168",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 169,
+      "replicate": 3,
+      "run_id": "focused-0169",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 170,
+      "replicate": 3,
+      "run_id": "focused-0170",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 171,
+      "replicate": 3,
+      "run_id": "focused-0171",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 172,
+      "replicate": 3,
+      "run_id": "focused-0172",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 173,
+      "replicate": 4,
+      "run_id": "focused-0173",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 174,
+      "replicate": 4,
+      "run_id": "focused-0174",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 175,
+      "replicate": 4,
+      "run_id": "focused-0175",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 176,
+      "replicate": 4,
+      "run_id": "focused-0176",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 177,
+      "replicate": 5,
+      "run_id": "focused-0177",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 178,
+      "replicate": 5,
+      "run_id": "focused-0178",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 179,
+      "replicate": 5,
+      "run_id": "focused-0179",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 180,
+      "replicate": 5,
+      "run_id": "focused-0180",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 181,
+      "replicate": 6,
+      "run_id": "focused-0181",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 182,
+      "replicate": 6,
+      "run_id": "focused-0182",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 183,
+      "replicate": 6,
+      "run_id": "focused-0183",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 184,
+      "replicate": 6,
+      "run_id": "focused-0184",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 185,
+      "replicate": 7,
+      "run_id": "focused-0185",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 186,
+      "replicate": 7,
+      "run_id": "focused-0186",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 187,
+      "replicate": 7,
+      "run_id": "focused-0187",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 188,
+      "replicate": 7,
+      "run_id": "focused-0188",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 189,
+      "replicate": 8,
+      "run_id": "focused-0189",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 190,
+      "replicate": 8,
+      "run_id": "focused-0190",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 191,
+      "replicate": 8,
+      "run_id": "focused-0191",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 192,
+      "replicate": 8,
+      "run_id": "focused-0192",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 193,
+      "replicate": 9,
+      "run_id": "focused-0193",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 194,
+      "replicate": 9,
+      "run_id": "focused-0194",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 195,
+      "replicate": 9,
+      "run_id": "focused-0195",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 196,
+      "replicate": 9,
+      "run_id": "focused-0196",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 197,
+      "replicate": 10,
+      "run_id": "focused-0197",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 198,
+      "replicate": 10,
+      "run_id": "focused-0198",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 199,
+      "replicate": 10,
+      "run_id": "focused-0199",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 200,
+      "replicate": 10,
+      "run_id": "focused-0200",
+      "task": "O2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 201,
+      "replicate": 1,
+      "run_id": "focused-0201",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 202,
+      "replicate": 1,
+      "run_id": "focused-0202",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 203,
+      "replicate": 1,
+      "run_id": "focused-0203",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 204,
+      "replicate": 1,
+      "run_id": "focused-0204",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 205,
+      "replicate": 2,
+      "run_id": "focused-0205",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 206,
+      "replicate": 2,
+      "run_id": "focused-0206",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 207,
+      "replicate": 2,
+      "run_id": "focused-0207",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 208,
+      "replicate": 2,
+      "run_id": "focused-0208",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 209,
+      "replicate": 3,
+      "run_id": "focused-0209",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 210,
+      "replicate": 3,
+      "run_id": "focused-0210",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 211,
+      "replicate": 3,
+      "run_id": "focused-0211",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 212,
+      "replicate": 3,
+      "run_id": "focused-0212",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 213,
+      "replicate": 4,
+      "run_id": "focused-0213",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 214,
+      "replicate": 4,
+      "run_id": "focused-0214",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 215,
+      "replicate": 4,
+      "run_id": "focused-0215",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 216,
+      "replicate": 4,
+      "run_id": "focused-0216",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 217,
+      "replicate": 5,
+      "run_id": "focused-0217",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 218,
+      "replicate": 5,
+      "run_id": "focused-0218",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 219,
+      "replicate": 5,
+      "run_id": "focused-0219",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 220,
+      "replicate": 5,
+      "run_id": "focused-0220",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 221,
+      "replicate": 6,
+      "run_id": "focused-0221",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 222,
+      "replicate": 6,
+      "run_id": "focused-0222",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 223,
+      "replicate": 6,
+      "run_id": "focused-0223",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 224,
+      "replicate": 6,
+      "run_id": "focused-0224",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 225,
+      "replicate": 7,
+      "run_id": "focused-0225",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 226,
+      "replicate": 7,
+      "run_id": "focused-0226",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 227,
+      "replicate": 7,
+      "run_id": "focused-0227",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 228,
+      "replicate": 7,
+      "run_id": "focused-0228",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 229,
+      "replicate": 8,
+      "run_id": "focused-0229",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 230,
+      "replicate": 8,
+      "run_id": "focused-0230",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 231,
+      "replicate": 8,
+      "run_id": "focused-0231",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 232,
+      "replicate": 8,
+      "run_id": "focused-0232",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 233,
+      "replicate": 9,
+      "run_id": "focused-0233",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 234,
+      "replicate": 9,
+      "run_id": "focused-0234",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 235,
+      "replicate": 9,
+      "run_id": "focused-0235",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 236,
+      "replicate": 9,
+      "run_id": "focused-0236",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 237,
+      "replicate": 10,
+      "run_id": "focused-0237",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 238,
+      "replicate": 10,
+      "run_id": "focused-0238",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 239,
+      "replicate": 10,
+      "run_id": "focused-0239",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 240,
+      "replicate": 10,
+      "run_id": "focused-0240",
+      "task": "O3",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 241,
+      "replicate": 1,
+      "run_id": "focused-0241",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 242,
+      "replicate": 1,
+      "run_id": "focused-0242",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 243,
+      "replicate": 1,
+      "run_id": "focused-0243",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 244,
+      "replicate": 1,
+      "run_id": "focused-0244",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 245,
+      "replicate": 2,
+      "run_id": "focused-0245",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 246,
+      "replicate": 2,
+      "run_id": "focused-0246",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 247,
+      "replicate": 2,
+      "run_id": "focused-0247",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 248,
+      "replicate": 2,
+      "run_id": "focused-0248",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 249,
+      "replicate": 3,
+      "run_id": "focused-0249",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 250,
+      "replicate": 3,
+      "run_id": "focused-0250",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 251,
+      "replicate": 3,
+      "run_id": "focused-0251",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 252,
+      "replicate": 3,
+      "run_id": "focused-0252",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 253,
+      "replicate": 4,
+      "run_id": "focused-0253",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 254,
+      "replicate": 4,
+      "run_id": "focused-0254",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 255,
+      "replicate": 4,
+      "run_id": "focused-0255",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 256,
+      "replicate": 4,
+      "run_id": "focused-0256",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 257,
+      "replicate": 5,
+      "run_id": "focused-0257",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 258,
+      "replicate": 5,
+      "run_id": "focused-0258",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 259,
+      "replicate": 5,
+      "run_id": "focused-0259",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 260,
+      "replicate": 5,
+      "run_id": "focused-0260",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 261,
+      "replicate": 6,
+      "run_id": "focused-0261",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 262,
+      "replicate": 6,
+      "run_id": "focused-0262",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 263,
+      "replicate": 6,
+      "run_id": "focused-0263",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 264,
+      "replicate": 6,
+      "run_id": "focused-0264",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 265,
+      "replicate": 7,
+      "run_id": "focused-0265",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 266,
+      "replicate": 7,
+      "run_id": "focused-0266",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 267,
+      "replicate": 7,
+      "run_id": "focused-0267",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 268,
+      "replicate": 7,
+      "run_id": "focused-0268",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 269,
+      "replicate": 8,
+      "run_id": "focused-0269",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 270,
+      "replicate": 8,
+      "run_id": "focused-0270",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 271,
+      "replicate": 8,
+      "run_id": "focused-0271",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 272,
+      "replicate": 8,
+      "run_id": "focused-0272",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 273,
+      "replicate": 9,
+      "run_id": "focused-0273",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 274,
+      "replicate": 9,
+      "run_id": "focused-0274",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 275,
+      "replicate": 9,
+      "run_id": "focused-0275",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 276,
+      "replicate": 9,
+      "run_id": "focused-0276",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 277,
+      "replicate": 10,
+      "run_id": "focused-0277",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 278,
+      "replicate": 10,
+      "run_id": "focused-0278",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 279,
+      "replicate": 10,
+      "run_id": "focused-0279",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 280,
+      "replicate": 10,
+      "run_id": "focused-0280",
+      "task": "O4",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 281,
+      "replicate": 1,
+      "run_id": "focused-0281",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 282,
+      "replicate": 1,
+      "run_id": "focused-0282",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 283,
+      "replicate": 1,
+      "run_id": "focused-0283",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 284,
+      "replicate": 1,
+      "run_id": "focused-0284",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 285,
+      "replicate": 2,
+      "run_id": "focused-0285",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 286,
+      "replicate": 2,
+      "run_id": "focused-0286",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 287,
+      "replicate": 2,
+      "run_id": "focused-0287",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 288,
+      "replicate": 2,
+      "run_id": "focused-0288",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 289,
+      "replicate": 3,
+      "run_id": "focused-0289",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 290,
+      "replicate": 3,
+      "run_id": "focused-0290",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 291,
+      "replicate": 3,
+      "run_id": "focused-0291",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 292,
+      "replicate": 3,
+      "run_id": "focused-0292",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 293,
+      "replicate": 4,
+      "run_id": "focused-0293",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 294,
+      "replicate": 4,
+      "run_id": "focused-0294",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 295,
+      "replicate": 4,
+      "run_id": "focused-0295",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 296,
+      "replicate": 4,
+      "run_id": "focused-0296",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 297,
+      "replicate": 5,
+      "run_id": "focused-0297",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 298,
+      "replicate": 5,
+      "run_id": "focused-0298",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 299,
+      "replicate": 5,
+      "run_id": "focused-0299",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 300,
+      "replicate": 5,
+      "run_id": "focused-0300",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 301,
+      "replicate": 6,
+      "run_id": "focused-0301",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 302,
+      "replicate": 6,
+      "run_id": "focused-0302",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 303,
+      "replicate": 6,
+      "run_id": "focused-0303",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 304,
+      "replicate": 6,
+      "run_id": "focused-0304",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 305,
+      "replicate": 7,
+      "run_id": "focused-0305",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 306,
+      "replicate": 7,
+      "run_id": "focused-0306",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 307,
+      "replicate": 7,
+      "run_id": "focused-0307",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 308,
+      "replicate": 7,
+      "run_id": "focused-0308",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 309,
+      "replicate": 8,
+      "run_id": "focused-0309",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 310,
+      "replicate": 8,
+      "run_id": "focused-0310",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 311,
+      "replicate": 8,
+      "run_id": "focused-0311",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 312,
+      "replicate": 8,
+      "run_id": "focused-0312",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 313,
+      "replicate": 9,
+      "run_id": "focused-0313",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 314,
+      "replicate": 9,
+      "run_id": "focused-0314",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 315,
+      "replicate": 9,
+      "run_id": "focused-0315",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 316,
+      "replicate": 9,
+      "run_id": "focused-0316",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 317,
+      "replicate": 10,
+      "run_id": "focused-0317",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 318,
+      "replicate": 10,
+      "run_id": "focused-0318",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 319,
+      "replicate": 10,
+      "run_id": "focused-0319",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 320,
+      "replicate": 10,
+      "run_id": "focused-0320",
+      "task": "C1",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 321,
+      "replicate": 1,
+      "run_id": "focused-0321",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 322,
+      "replicate": 1,
+      "run_id": "focused-0322",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 323,
+      "replicate": 1,
+      "run_id": "focused-0323",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 324,
+      "replicate": 1,
+      "run_id": "focused-0324",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 325,
+      "replicate": 2,
+      "run_id": "focused-0325",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 326,
+      "replicate": 2,
+      "run_id": "focused-0326",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 327,
+      "replicate": 2,
+      "run_id": "focused-0327",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 328,
+      "replicate": 2,
+      "run_id": "focused-0328",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 329,
+      "replicate": 3,
+      "run_id": "focused-0329",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 330,
+      "replicate": 3,
+      "run_id": "focused-0330",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 331,
+      "replicate": 3,
+      "run_id": "focused-0331",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 332,
+      "replicate": 3,
+      "run_id": "focused-0332",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 333,
+      "replicate": 4,
+      "run_id": "focused-0333",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 334,
+      "replicate": 4,
+      "run_id": "focused-0334",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 335,
+      "replicate": 4,
+      "run_id": "focused-0335",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 336,
+      "replicate": 4,
+      "run_id": "focused-0336",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 337,
+      "replicate": 5,
+      "run_id": "focused-0337",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 338,
+      "replicate": 5,
+      "run_id": "focused-0338",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 339,
+      "replicate": 5,
+      "run_id": "focused-0339",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 340,
+      "replicate": 5,
+      "run_id": "focused-0340",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 341,
+      "replicate": 6,
+      "run_id": "focused-0341",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 342,
+      "replicate": 6,
+      "run_id": "focused-0342",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 343,
+      "replicate": 6,
+      "run_id": "focused-0343",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 344,
+      "replicate": 6,
+      "run_id": "focused-0344",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 345,
+      "replicate": 7,
+      "run_id": "focused-0345",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 346,
+      "replicate": 7,
+      "run_id": "focused-0346",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 347,
+      "replicate": 7,
+      "run_id": "focused-0347",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 348,
+      "replicate": 7,
+      "run_id": "focused-0348",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 349,
+      "replicate": 8,
+      "run_id": "focused-0349",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 350,
+      "replicate": 8,
+      "run_id": "focused-0350",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 351,
+      "replicate": 8,
+      "run_id": "focused-0351",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 352,
+      "replicate": 8,
+      "run_id": "focused-0352",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 353,
+      "replicate": 9,
+      "run_id": "focused-0353",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 354,
+      "replicate": 9,
+      "run_id": "focused-0354",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 355,
+      "replicate": 9,
+      "run_id": "focused-0355",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 356,
+      "replicate": 9,
+      "run_id": "focused-0356",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 357,
+      "replicate": 10,
+      "run_id": "focused-0357",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "none",
+      "ordinal": 358,
+      "replicate": 10,
+      "run_id": "focused-0358",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "current",
+      "ordinal": 359,
+      "replicate": 10,
+      "run_id": "focused-0359",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 360,
+      "replicate": 10,
+      "run_id": "focused-0360",
+      "task": "C2",
+      "variant": "default"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 361,
+      "replicate": 1,
+      "run_id": "focused-0361",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 362,
+      "replicate": 1,
+      "run_id": "focused-0362",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "none",
+      "ordinal": 363,
+      "replicate": 1,
+      "run_id": "focused-0363",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "current",
+      "ordinal": 364,
+      "replicate": 1,
+      "run_id": "focused-0364",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 365,
+      "replicate": 2,
+      "run_id": "focused-0365",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 366,
+      "replicate": 2,
+      "run_id": "focused-0366",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "none",
+      "ordinal": 367,
+      "replicate": 2,
+      "run_id": "focused-0367",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "current",
+      "ordinal": 368,
+      "replicate": 2,
+      "run_id": "focused-0368",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "current",
+      "ordinal": 369,
+      "replicate": 3,
+      "run_id": "focused-0369",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 370,
+      "replicate": 3,
+      "run_id": "focused-0370",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 371,
+      "replicate": 3,
+      "run_id": "focused-0371",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "none",
+      "ordinal": 372,
+      "replicate": 3,
+      "run_id": "focused-0372",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 373,
+      "replicate": 4,
+      "run_id": "focused-0373",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "current",
+      "ordinal": 374,
+      "replicate": 4,
+      "run_id": "focused-0374",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 375,
+      "replicate": 4,
+      "run_id": "focused-0375",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "none",
+      "ordinal": 376,
+      "replicate": 4,
+      "run_id": "focused-0376",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 377,
+      "replicate": 5,
+      "run_id": "focused-0377",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "none",
+      "ordinal": 378,
+      "replicate": 5,
+      "run_id": "focused-0378",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "current",
+      "ordinal": 379,
+      "replicate": 5,
+      "run_id": "focused-0379",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 380,
+      "replicate": 5,
+      "run_id": "focused-0380",
+      "task": "C3",
+      "variant": "fallback"
+    },
+    {
+      "condition": "none",
+      "ordinal": 381,
+      "replicate": 6,
+      "run_id": "focused-0381",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 382,
+      "replicate": 6,
+      "run_id": "focused-0382",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "current",
+      "ordinal": 383,
+      "replicate": 6,
+      "run_id": "focused-0383",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 384,
+      "replicate": 6,
+      "run_id": "focused-0384",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "none",
+      "ordinal": 385,
+      "replicate": 7,
+      "run_id": "focused-0385",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "current",
+      "ordinal": 386,
+      "replicate": 7,
+      "run_id": "focused-0386",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 387,
+      "replicate": 7,
+      "run_id": "focused-0387",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 388,
+      "replicate": 7,
+      "run_id": "focused-0388",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 389,
+      "replicate": 8,
+      "run_id": "focused-0389",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "current",
+      "ordinal": 390,
+      "replicate": 8,
+      "run_id": "focused-0390",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 391,
+      "replicate": 8,
+      "run_id": "focused-0391",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "none",
+      "ordinal": 392,
+      "replicate": 8,
+      "run_id": "focused-0392",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 393,
+      "replicate": 9,
+      "run_id": "focused-0393",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 394,
+      "replicate": 9,
+      "run_id": "focused-0394",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "current",
+      "ordinal": 395,
+      "replicate": 9,
+      "run_id": "focused-0395",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "none",
+      "ordinal": 396,
+      "replicate": 9,
+      "run_id": "focused-0396",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 397,
+      "replicate": 10,
+      "run_id": "focused-0397",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "current",
+      "ordinal": 398,
+      "replicate": 10,
+      "run_id": "focused-0398",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 399,
+      "replicate": 10,
+      "run_id": "focused-0399",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "none",
+      "ordinal": 400,
+      "replicate": 10,
+      "run_id": "focused-0400",
+      "task": "C3",
+      "variant": "mandatory"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 401,
+      "replicate": 1,
+      "run_id": "focused-0401",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "none",
+      "ordinal": 402,
+      "replicate": 1,
+      "run_id": "focused-0402",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "current",
+      "ordinal": 403,
+      "replicate": 1,
+      "run_id": "focused-0403",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 404,
+      "replicate": 1,
+      "run_id": "focused-0404",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "current",
+      "ordinal": 405,
+      "replicate": 2,
+      "run_id": "focused-0405",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 406,
+      "replicate": 2,
+      "run_id": "focused-0406",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "none",
+      "ordinal": 407,
+      "replicate": 2,
+      "run_id": "focused-0407",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 408,
+      "replicate": 2,
+      "run_id": "focused-0408",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "none",
+      "ordinal": 409,
+      "replicate": 3,
+      "run_id": "focused-0409",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 410,
+      "replicate": 3,
+      "run_id": "focused-0410",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "current",
+      "ordinal": 411,
+      "replicate": 3,
+      "run_id": "focused-0411",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 412,
+      "replicate": 3,
+      "run_id": "focused-0412",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 413,
+      "replicate": 4,
+      "run_id": "focused-0413",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 414,
+      "replicate": 4,
+      "run_id": "focused-0414",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "current",
+      "ordinal": 415,
+      "replicate": 4,
+      "run_id": "focused-0415",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "none",
+      "ordinal": 416,
+      "replicate": 4,
+      "run_id": "focused-0416",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 417,
+      "replicate": 5,
+      "run_id": "focused-0417",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 418,
+      "replicate": 5,
+      "run_id": "focused-0418",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "none",
+      "ordinal": 419,
+      "replicate": 5,
+      "run_id": "focused-0419",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "current",
+      "ordinal": 420,
+      "replicate": 5,
+      "run_id": "focused-0420",
+      "task": "C4",
+      "variant": "no-command"
+    },
+    {
+      "condition": "current",
+      "ordinal": 421,
+      "replicate": 6,
+      "run_id": "focused-0421",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "none",
+      "ordinal": 422,
+      "replicate": 6,
+      "run_id": "focused-0422",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 423,
+      "replicate": 6,
+      "run_id": "focused-0423",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 424,
+      "replicate": 6,
+      "run_id": "focused-0424",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "current",
+      "ordinal": 425,
+      "replicate": 7,
+      "run_id": "focused-0425",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 426,
+      "replicate": 7,
+      "run_id": "focused-0426",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "none",
+      "ordinal": 427,
+      "replicate": 7,
+      "run_id": "focused-0427",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 428,
+      "replicate": 7,
+      "run_id": "focused-0428",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "current",
+      "ordinal": 429,
+      "replicate": 8,
+      "run_id": "focused-0429",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 430,
+      "replicate": 8,
+      "run_id": "focused-0430",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "none",
+      "ordinal": 431,
+      "replicate": 8,
+      "run_id": "focused-0431",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 432,
+      "replicate": 8,
+      "run_id": "focused-0432",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 433,
+      "replicate": 9,
+      "run_id": "focused-0433",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "none",
+      "ordinal": 434,
+      "replicate": 9,
+      "run_id": "focused-0434",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "current",
+      "ordinal": 435,
+      "replicate": 9,
+      "run_id": "focused-0435",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 436,
+      "replicate": 9,
+      "run_id": "focused-0436",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "focused",
+      "ordinal": 437,
+      "replicate": 10,
+      "run_id": "focused-0437",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "current",
+      "ordinal": 438,
+      "replicate": 10,
+      "run_id": "focused-0438",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "karpathy",
+      "ordinal": 439,
+      "replicate": 10,
+      "run_id": "focused-0439",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    },
+    {
+      "condition": "none",
+      "ordinal": 440,
+      "replicate": 10,
+      "run_id": "focused-0440",
+      "task": "C4",
+      "variant": "explicit-unavailable"
+    }
+  ],
+  "rows_sha256": "008656b8f075aa044fe496eeda6b7c88724e3b04e5b84975400128a7fc23844a",
+  "runtime_ready": false,
+  "schema_version": 1,
+  "source_pins": {
+    "experiments/focused-adoption/tasks/C1/bad/examples.md": {
+      "bytes": 37,
+      "sha256": "430551aefd0639f3d8d5cf650bc801202cd4218e948ec54283d4f2443ab59046"
+    },
+    "experiments/focused-adoption/tasks/C1/brief.md": {
+      "bytes": 147,
+      "sha256": "7c5b010fee04e928951d61da6d77d3dae4d0f94c8cbfdc19a4d08d431b12e4eb"
+    },
+    "experiments/focused-adoption/tasks/C1/good/examples.md": {
+      "bytes": 37,
+      "sha256": "b0a512ccf516871cf948eff16c08681ac57f5a9b261324860661103b49ab24d3"
+    },
+    "experiments/focused-adoption/tasks/C1/manifest.json": {
+      "bytes": 732,
+      "sha256": "3fb64fdb6fa75bd3c03a68e7a7c4bd279aa9ceab3399b66b889e1162c2e0a413"
+    },
+    "experiments/focused-adoption/tasks/C1/seed/README.md": {
+      "bytes": 140,
+      "sha256": "1f0d8d0a0fe3656da090ba9b633f3dd13a5eec438e80f62d9d836fb187530cb4"
+    },
+    "experiments/focused-adoption/tasks/C1/seed/examples.md": {
+      "bytes": 37,
+      "sha256": "fa0266bdb2bb0d99e032b5ff177ba38e16cabbd69543921bb2a8e2f92062275f"
+    },
+    "experiments/focused-adoption/tasks/C1/seed/maths.py": {
+      "bytes": 46,
+      "sha256": "63098273a7aaa630762d6f145dfcf9c61c8c9b290c6ebeb2a05fea5854ccb476"
+    },
+    "experiments/focused-adoption/tasks/C1/seed/test_examples.py": {
+      "bytes": 225,
+      "sha256": "8fac7b25e7e13e9b85b4b29f4ddc187b7429a501fc66edf7092fca15904f500d"
+    },
+    "experiments/focused-adoption/tasks/C2/bad/units.md": {
+      "bytes": 89,
+      "sha256": "a2c59a2562335325caa5e768568f562c39b2cf4b55cd143f0f86c27399f5bcf7"
+    },
+    "experiments/focused-adoption/tasks/C2/brief.md": {
+      "bytes": 156,
+      "sha256": "4db22c47395a07b3411b7e9b7de7854dff683b9f0f8b4e8b286193f4042c3800"
+    },
+    "experiments/focused-adoption/tasks/C2/good/units.md": {
+      "bytes": 91,
+      "sha256": "15006430bc5aef292d5f5019ed259dc8a9ee622a09c413489688ccb6a83927a5"
+    },
+    "experiments/focused-adoption/tasks/C2/manifest.json": {
+      "bytes": 874,
+      "sha256": "79614911b2ee197907be21a898822bac8a7d47509b8159f8f3b45f342e050486"
+    },
+    "experiments/focused-adoption/tasks/C2/seed/README.md": {
+      "bytes": 225,
+      "sha256": "380266c5d47e654be78a6157cda51b58558998cac09d69d3c9cdf833f9f903ad"
+    },
+    "experiments/focused-adoption/tasks/C2/seed/test_api.py": {
+      "bytes": 169,
+      "sha256": "48807a93ae40c391018bb9e0c03942ad45ebcf291741fc12fa76be44614be286"
+    },
+    "experiments/focused-adoption/tasks/C2/seed/test_docs.py": {
+      "bytes": 216,
+      "sha256": "b42a38d23b98841cd114403016abeafcd356d42587c0e73fafa3b9ef5f773ebf"
+    },
+    "experiments/focused-adoption/tasks/C2/seed/units.md": {
+      "bytes": 27,
+      "sha256": "84b87f0ead7af4b9677ef7ead6c71cb19abfb66b36d9a6ef99d538d37157aa8d"
+    },
+    "experiments/focused-adoption/tasks/C2/seed/units.py": {
+      "bytes": 56,
+      "sha256": "dc1b2af8353cb284c4a06833e8b4d79330e4c864d421acbe8097184c59e1a711"
+    },
+    "experiments/focused-adoption/tasks/C3/bad/CHANGELOG.md": {
+      "bytes": 44,
+      "sha256": "867048449f0b500100c391b2b3dd97cc43f8841abd9e3d852b78e6235841bf67"
+    },
+    "experiments/focused-adoption/tasks/C3/brief.md": {
+      "bytes": 161,
+      "sha256": "9caf8572e1e3a3ca108e9ce09bcc9d2409c1e8c64828fe5b318004ba55c3b9b9"
+    },
+    "experiments/focused-adoption/tasks/C3/good/CHANGELOG.md": {
+      "bytes": 39,
+      "sha256": "b716b5fba63313986f0733d705e26d1559f6d42f4760f5af84e4d6b428f18d5b"
+    },
+    "experiments/focused-adoption/tasks/C3/manifest.json": {
+      "bytes": 1092,
+      "sha256": "4901a5a367e763e8c8304ec44d4fbf1fd07e9f24195400d52414e8fdbf90427d"
+    },
+    "experiments/focused-adoption/tasks/C3/seed/CHANGELOG.md": {
+      "bytes": 39,
+      "sha256": "4565acc9a6de545b9f88269f02f6aef7fec6c85edd3a7ff4a40bc11f1b755283"
+    },
+    "experiments/focused-adoption/tasks/C3/seed/parser.py": {
+      "bytes": 71,
+      "sha256": "24dd38195198ba15f334fdb09edde275bed26776d99f46b76d4fb938c75724e4"
+    },
+    "experiments/focused-adoption/tasks/C3/seed/releases/v1.md": {
+      "bytes": 30,
+      "sha256": "5a81f3767876d259e8a2a2d4e076e0e4323c749e1cb05757e0b2c2fa6ef249dd"
+    },
+    "experiments/focused-adoption/tasks/C3/seed/test_parser.py": {
+      "bytes": 255,
+      "sha256": "a49630b8b9832dbee4eb04bf6d9d0236bfa128f1583f3c1f97dbac509fe4a369"
+    },
+    "experiments/focused-adoption/tasks/C3/variants/fallback/README.md": {
+      "bytes": 188,
+      "sha256": "210ac6a5fe00f0c8151156a2801de62f4046003101b74a44133c4acd4c3e4ead"
+    },
+    "experiments/focused-adoption/tasks/C3/variants/mandatory/README.md": {
+      "bytes": 194,
+      "sha256": "409f52ce1fef8d87edc5f7a99a0610f7d05361d33026d40e97746772cd6792fe"
+    },
+    "experiments/focused-adoption/tasks/C4/bad/instructions.txt": {
+      "bytes": 49,
+      "sha256": "c45b21f1d7af5959ec776f716a1c9843f4be474d254ed697eecc1590480baa9a"
+    },
+    "experiments/focused-adoption/tasks/C4/brief.md": {
+      "bytes": 98,
+      "sha256": "fb38ddceabdbf64b900cdb08a4aedbd4b8fa7fde5ab14fb857854b52b2144124"
+    },
+    "experiments/focused-adoption/tasks/C4/good/instructions.txt": {
+      "bytes": 49,
+      "sha256": "ddc377f8c41461fb461f76fd8dd451d02294dee53ba64ba5c0b5bbec8b6244be"
+    },
+    "experiments/focused-adoption/tasks/C4/manifest.json": {
+      "bytes": 857,
+      "sha256": "1119fe9163c739cee11888b96a101e6e00d06d205fcdbf54c12b2a6f411957d0"
+    },
+    "experiments/focused-adoption/tasks/C4/seed/instructions.txt": {
+      "bytes": 49,
+      "sha256": "116c8b66491d56d5fe2dcdd134d24552012d9dd93245f6cbc78d5a850d9d0c67"
+    },
+    "experiments/focused-adoption/tasks/C4/variants/explicit-unavailable/VERIFY.txt": {
+      "bytes": 167,
+      "sha256": "0736b290c715b9458a8395810fe6ca8f3d4ca621b74ccbf54ef0f1a5b858fff9"
+    },
+    "experiments/focused-adoption/tasks/O1/bad/config.ini": {
+      "bytes": 23,
+      "sha256": "c0abb61e57633e7be5107dd5fc6f29fbe08f9c63a7554e61c30544d21495c6ea"
+    },
+    "experiments/focused-adoption/tasks/O1/brief.md": {
+      "bytes": 228,
+      "sha256": "c594f0b07317f80e5aadf50c2f03eb32dd5518ee770bc552a59784f0e5ee20d3"
+    },
+    "experiments/focused-adoption/tasks/O1/manifest.json": {
+      "bytes": 784,
+      "sha256": "2a953df868e3285c73354f38aa01623d33f7b782843efccfae1dd7f0befe7143"
+    },
+    "experiments/focused-adoption/tasks/O1/seed/README.md": {
+      "bytes": 38,
+      "sha256": "98b387e905d2afc08e0c431fb93cdcb5c538b12d91b1cbb5e9447e6b0cd3965e"
+    },
+    "experiments/focused-adoption/tasks/O1/seed/cli.py": {
+      "bytes": 203,
+      "sha256": "59642c7cb4d335488c9089a25b1ad343f2aff63a8bb155553c64532b6a2e00a0"
+    },
+    "experiments/focused-adoption/tasks/O1/seed/config.ini": {
+      "bytes": 23,
+      "sha256": "58819260333ef6f36002beeee89dd895ddbd1a3c9d1963a2c50f1ea1d7132a04"
+    },
+    "experiments/focused-adoption/tasks/O1/seed/test_cli.py": {
+      "bytes": 177,
+      "sha256": "3a5d8c89bc235528de90a20341bb7ff0a8465ef9583bb3804bc69f897c4957d0"
+    },
+    "experiments/focused-adoption/tasks/O1/staged/config.ini": {
+      "bytes": 22,
+      "sha256": "d419311c6768569d2ae340c3d1a7f0c2e9159f8c3ea6b482e70530e3460f93ea"
+    },
+    "experiments/focused-adoption/tasks/O1/worktree/config.ini": {
+      "bytes": 67,
+      "sha256": "a76394a670ad63a91ca29213d09d477c4e7cb05545e15211f6a7b7e5bc1fe6a7"
+    },
+    "experiments/focused-adoption/tasks/O2/bad/report-template.md": {
+      "bytes": 47,
+      "sha256": "2eee93720c45e94114bb98162c12f3dc0c7599d84acd3361fd6cb4da42f8d4bd"
+    },
+    "experiments/focused-adoption/tasks/O2/brief.md": {
+      "bytes": 240,
+      "sha256": "77e21fd2b1c00cfa1201c275c2d2402d8dd35cf1afe3ea6a9653203eafda2759"
+    },
+    "experiments/focused-adoption/tasks/O2/manifest.json": {
+      "bytes": 789,
+      "sha256": "ea7a3f0b1659dbcbc21167e9b1155c256f714073f41906fcfece29c08ade9110"
+    },
+    "experiments/focused-adoption/tasks/O2/seed/README.md": {
+      "bytes": 44,
+      "sha256": "f438069195aa4dc874f757fb833e18e160d57c8b8f8dca48c35f509500e53a8e"
+    },
+    "experiments/focused-adoption/tasks/O2/seed/report-template.md": {
+      "bytes": 36,
+      "sha256": "85b461ca8234f1b24a44a53c100e39c30840c310c4a045545c5550bfac786122"
+    },
+    "experiments/focused-adoption/tasks/O2/seed/test_template.py": {
+      "bytes": 190,
+      "sha256": "0913b1d4498edcf3d9fd812ccd9ab8728eb451773bdcfc0f5b1ae7687dd7fc81"
+    },
+    "experiments/focused-adoption/tasks/O2/worktree/report-template.md": {
+      "bytes": 48,
+      "sha256": "9938cdbb7700202796d053b728953b3e340803e08be4e6dab80c8f3621415e57"
+    },
+    "experiments/focused-adoption/tasks/O3/bad/examples/export/sample.csv": {
+      "bytes": 18,
+      "sha256": "38e0615866c5a9ec33bbf4460929b1ce4804fbc64fd0b50edc8df3871895f672"
+    },
+    "experiments/focused-adoption/tasks/O3/brief.md": {
+      "bytes": 253,
+      "sha256": "47b631847d9c3159dcc346a163d00ab796dea3492ae9215ebbec97f2dec1d42b"
+    },
+    "experiments/focused-adoption/tasks/O3/manifest.json": {
+      "bytes": 791,
+      "sha256": "5aa0b45412fc5c4f556358d2a9858e7e71cf19e5463dd94c3c503e3916b58a49"
+    },
+    "experiments/focused-adoption/tasks/O3/seed/README.md": {
+      "bytes": 91,
+      "sha256": "0b0d356ecb6376d69fd0b65723543638bff30bfee8c3702c81a8ce50118550d0"
+    },
+    "experiments/focused-adoption/tasks/O3/seed/test_export.py": {
+      "bytes": 193,
+      "sha256": "8dbb4930c63144a7fd046261c6ee182ce368d1790765ccfb9d3620c725f91dbe"
+    },
+    "experiments/focused-adoption/tasks/O3/untracked/examples/export/sample.csv": {
+      "bytes": 24,
+      "sha256": "9f915e9e4e43feca5856bbfd6a032c4420cc1cfc43a2d77566fe83baf2947829"
+    },
+    "experiments/focused-adoption/tasks/O4/bad/parser.py": {
+      "bytes": 71,
+      "sha256": "296f357d1444816cca746e3da84b2584a355847d70fe53ff42cc7c0a83ef1c43"
+    },
+    "experiments/focused-adoption/tasks/O4/bad/test_parser.py": {
+      "bytes": 255,
+      "sha256": "a49630b8b9832dbee4eb04bf6d9d0236bfa128f1583f3c1f97dbac509fe4a369"
+    },
+    "experiments/focused-adoption/tasks/O4/brief.md": {
+      "bytes": 168,
+      "sha256": "a4b390d9ac13d97684c405f8818f8705b1070320cc699a7002190aa30a21be6b"
+    },
+    "experiments/focused-adoption/tasks/O4/good/parser.py": {
+      "bytes": 77,
+      "sha256": "1fc3f8df52883c38a335bfdf8ff08c79f6e273287e20edd5a514c81ebaaf7748"
+    },
+    "experiments/focused-adoption/tasks/O4/good/test_parser.py": {
+      "bytes": 255,
+      "sha256": "a49630b8b9832dbee4eb04bf6d9d0236bfa128f1583f3c1f97dbac509fe4a369"
+    },
+    "experiments/focused-adoption/tasks/O4/manifest.json": {
+      "bytes": 1010,
+      "sha256": "56ef3738eb46a2ca0b50feb84fa58f46473aae71c668401a856e27f33de405b4"
+    },
+    "experiments/focused-adoption/tasks/O4/seed/README.md": {
+      "bytes": 38,
+      "sha256": "3d93936a235b9c437cdaa79f6803644453a6b76e1489ea7482b1e8bea1abe31c"
+    },
+    "experiments/focused-adoption/tasks/O4/seed/config.ini": {
+      "bytes": 14,
+      "sha256": "7fd41d8bcb4937b8c1fc83593565141d562182735b53b684f4ea24182a137285"
+    },
+    "experiments/focused-adoption/tasks/O4/seed/guide.md": {
+      "bytes": 15,
+      "sha256": "12113f1d4f509201f6e79016c47ff0dea310a50e31ed23feab4b2bd8b87e893f"
+    },
+    "experiments/focused-adoption/tasks/O4/seed/parser.py": {
+      "bytes": 71,
+      "sha256": "24dd38195198ba15f334fdb09edde275bed26776d99f46b76d4fb938c75724e4"
+    },
+    "experiments/focused-adoption/tasks/O4/seed/test_parser.py": {
+      "bytes": 164,
+      "sha256": "eb305bb38e6d3157fa3baa74b79186a94891d1c928ace00230724550949169e7"
+    },
+    "experiments/focused-adoption/tasks/O4/staged/config.ini": {
+      "bytes": 17,
+      "sha256": "e250539b36533a2cae1f0fe4fc072f5af44ef92cf93dae5c5bea9a45f4db448e"
+    },
+    "experiments/focused-adoption/tasks/O4/untracked/notes/drafts/review.txt": {
+      "bytes": 28,
+      "sha256": "94c2a4b92d151cff4142668599c5b1eca01340242188dec6f9fddb8edf842664"
+    },
+    "experiments/focused-adoption/tasks/O4/worktree/guide.md": {
+      "bytes": 51,
+      "sha256": "6d86c38f4f4e194d29aa6ec6056d11e66c27e88566c240732c6c8265bbf174f8"
+    },
+    "experiments/focused-adoption/tasks/README.md": {
+      "bytes": 5110,
+      "sha256": "4bf38f85b8b9cd42f546517d445f50cbaeb62862b724c7eb94d257dd8a76ed73"
+    },
+    "experiments/focused-adoption/tasks/acceptance.py": {
+      "bytes": 3714,
+      "sha256": "fad9134fa4f7a50b43ae5c678688908f6a5899574aad8451aeecbf6d513739be"
+    },
+    "scripts/focused_schedule.py": {
+      "bytes": 5807,
+      "sha256": "b41d639e43629fd676b6fff030411c9417eaa3eb1d22ff4654dbff5cdad929fe"
+    },
+    "scripts/focused_tasks.py": {
+      "bytes": 12466,
+      "sha256": "8c1402401f951d63028df0aa3aa8fee8901df6f50bb3ba74ca818c2240729841"
+    },
+    "scripts/verification_review.py": {
+      "bytes": 33901,
+      "sha256": "7805bfdb328193f08e78beb6ae0d0e547e937fd8bac27f85b01cfe4cb4e2b610"
+    },
+    "scripts/verification_review_v2.py": {
+      "bytes": 27729,
+      "sha256": "94d9ca2fc1e73ec6480db6c6db4d1afc1594f652c117a0429830a82c24ce1de8"
+    }
+  },
+  "status": "draft_unlocked"
+}

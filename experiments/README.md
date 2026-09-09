@@ -2810,3 +2810,123 @@ size measurements, rejected wording, independent counter-review and free
 artifact checks. These are static editorial checks, not measured agent behavior
 or a new adoption gate. The shipped file is unchanged; the candidate is not
 adopted. No paid run or change to the frozen experiment was made.
+
+## Focused candidate adoption preparation (2026-09-08)
+
+[Issue 21](https://github.com/purpleeddy/agents-md-lab/issues/21) starts the
+[free evaluator and draft collection design](focused-adoption/protocol.md)
+for the fixed focused candidate. Synthetic Git and verification fixtures test
+the instrument's handling of preserved work, failed checks, honest completion
+states and missing evidence. They do not execute an agent under either text.
+The proposed full comparison retains the three old task families and names
+eight new functional tasks; its new seeds, live observation, review transport
+and lock remain prerequisites, not artifacts supplied by the free fixtures.
+The record includes historical cost analogies, eligibility and retain-root
+conditions. No paid collection is authorized or run, no new test set is locked,
+and neither instruction text, the old scorers nor the original Lock prefix is
+changed. [Readiness results](focused-adoption/readiness.json) concern only the
+free instrument, not adoption or measured behavioral improvement.
+
+
+## Focused functional seed preparation (2026-09-08)
+
+The [functional seed record](focused-adoption/protocol.md#functional-seed-record)
+supplies the eight miniature repositories missing from the initial preparation,
+with ten fixed variants and independent artifact acceptance. Its
+[free capture](focused-adoption/tasks-readiness.json) records forty matched
+expectations: sixteen acceptance passes and twenty-four failures. It does not
+run an agent or establish improvement by the focused candidate.
+
+The record preserves two evaluator defects found by off-golden review despite
+an initially matching simulation, two development failures, and the explicit
+ownership constraint's possible ceiling effect. General prose interpretation,
+agent chronology and report behavior remain unverified. The earlier synthetic
+capture, instruction texts, historical results and original Lock prefix remain
+unchanged. Collection, report validation and a new lock are still prerequisites;
+no paid run or adoption occurred.
+
+
+## Focused offline observation preparation (2026-09-08)
+
+The [separate observation instrument](focused-adoption/observation-protocol.md)
+executes fixed local checks against the new task seeds and binds results to
+sampled file/index states and ordered evidence. Missing or stale observations
+remain unknown. This is a free collector-format check, not a live agent run or
+a natural-language report review. The record retains the review findings and
+states why hashes establish consistency rather than authenticity. Existing
+instruction texts, task seeds, scorers and historical results remain unchanged;
+the observation and report prerequisites for a new lock are not yet fulfilled.
+
+
+## Focused report transport preparation (2026-09-08)
+
+The [new report contract](focused-adoption/report-protocol.md) separates
+ownership, checks, dialogue, acceptance and context evidence. It prepares
+440 synthetic report rows in eleven fixed batches and validates complete,
+hash-bound responses with criterion-specific citations. The contract accepts
+only provisional annotations; it does not establish semantic correctness,
+blinding, actual model packet size or legacy scoring readiness. The record
+retains design and implementation review findings. No historical response,
+score, instruction text or locked experiment is changed, and no paid review
+or adoption occurs.
+
+
+## Focused local evidence integration (2026-09-08)
+
+The [local integration record](focused-adoption/pipeline-protocol.md) joins
+actual fixture task results to sealed observations and provisional report
+inputs, checking shared task/variant/state identity and source pins. Its
+fourteen expected outcomes match, including failed repairs, protected-work
+loss and missing/stale verification. This is not fourteen agent successes:
+three artifact outcomes fail and all report annotations remain authored
+unknowns. Full observation bundles are retained for replay. Existing texts,
+scorers and captures remain unchanged; live collection, semantic review and
+adoption are still unverified.
+
+
+## Focused installed-runtime preflight (2026-09-08)
+
+The [free runtime audit](focused-adoption/runtime-preflight.md) records installed
+CLI help and synthetic schema serialization sizes. A help call containing an
+invented option also exited zero, so help success is not treated as proof of
+runtime option behavior. Compact schema bytes fall below the historical review
+helper's argv budget, which is not a model context or schema-compatibility
+check. This does not authorize a paid probe, change flags or settings, or make
+the proposed experiment ready to lock. Existing texts and results are unchanged.
+
+
+## Focused fixed draft schedule (2026-09-08)
+
+The [schedule record](focused-adoption/protocol.md#fixed-draft-schedule-record)
+fixes 440 assignments in 110 task/replicate blocks, with the same variant and
+all four conditions in each block. Its validator checks the saved order against
+a separately recorded file digest without redrawing it. Preparation source
+pins are included; legacy evaluator, condition and runtime pins remain
+incomplete. This closes the draft assignment prerequisite only, not live
+collection, a new lock or adoption. Existing texts and results are unchanged.
+
+
+## Focused legacy gate preflight (2026-09-08)
+
+The [legacy audit](focused-adoption/legacy-preflight.md) records two blockers
+before a new lock. The draft hard-harm gate lacks a complete metric mapping;
+T1/T3's absent safety probes cannot count as zero harms. A free injected
+subprocess result also shows that the historical acceptance parser can label
+partial output all-pass despite nonzero process exit. This is not evidence
+that a past run was affected. Historical scores and code stay unchanged;
+the prospective adapter must distinguish raw metrics from complete evidence,
+and the unresolved safety scope must not be silently weakened in code.
+
+
+## Focused legacy evidence wrapper (2026-09-09)
+
+The [legacy evidence wrapper](focused-adoption/legacy-evidence-protocol.md) adds a
+separate completeness verdict over the frozen T1-T3 acceptance metrics, answering
+LG02 without editing the historical instrument or any retained value. A complete
+observation is known, a complete failed suite is a known functional failure, and
+partial, duplicated, unexpected or contradictory output is unknown with reasons.
+Retained summary rows kept no raw output or exit code, so they read unknown and are
+not reclassified. LG01 stays open: T1 and T3 remain not measured for hard harm, and
+the two proposed resolution paths need a numbered review finding and separate review
+before any new lock. This is an offline instrument; no model behavior was measured
+and no paid run is authorized.

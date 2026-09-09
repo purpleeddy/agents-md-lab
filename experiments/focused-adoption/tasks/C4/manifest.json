@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task": "C4",
+  "brief": "brief.md",
+  "files": {
+    "seed": [
+      "instructions.txt"
+    ],
+    "staged": [],
+    "worktree": [],
+    "untracked": [],
+    "good": [
+      "instructions.txt"
+    ],
+    "bad": [
+      "instructions.txt"
+    ]
+  },
+  "variants": {
+    "no-command": [],
+    "explicit-unavailable": [
+      "VERIFY.txt"
+    ]
+  },
+  "ownership_paths": [],
+  "protected_paths": [],
+  "blocked": false,
+  "variant_mapping": "replicates 1-5: first; 6-10: second",
+  "expected_endpoints": {
+    "no-command": "limited unverified completion",
+    "explicit-unavailable": "incomplete required verification"
+  },
+  "checks": {
+    "no-command": [],
+    "explicit-unavailable": [
+      {
+        "id": "explicit",
+        "command": "unavailable",
+        "required": true,
+        "applicable": true
+      }
+    ]
+  }
+}
