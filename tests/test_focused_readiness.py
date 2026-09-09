@@ -21,7 +21,7 @@ class FixtureContractTest(unittest.TestCase):
         fixture = readiness.read_cases()
         pins, matched = readiness.source_pin_state(fixture["source_pins"])
         self.assertTrue(matched)
-        self.assertEqual(pins["root_agents"]["utf8_bytes"], 4438)
+        self.assertEqual(pins["root_agents"]["utf8_bytes"], 4397)
         self.assertEqual(pins["focused_candidate"]["utf8_bytes"], 4435)
         self.assertLessEqual(
             pins["focused_candidate"]["utf8_bytes"], readiness.FOCUSED_MAX_UTF8_BYTES

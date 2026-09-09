@@ -249,7 +249,8 @@ its own text.
 | v1.1.0, amended | 2026-09-04 | 32 | 4,069 | 1,017 | 1.0.0 | 8/10 | 1/8 | [four rule clauses added from external feedback](rationale.md#amendments-after-external-feedback) and the Project template cut from five lines to two | not measured | shipped, then replaced |
 | v1.2.0 | 2026-09-04 | 33 | 4,514 | 1,128 | 1.0.0 | 7/10 | 1/8 | [a second independent review](rationale.md#the-independent-design-review), of v1.1.0's text against the design goals, adopted whole | rounds 2 and 4 | adopted, then replaced |
 | v1.3.0 | 2026-09-05 | 33 | 4,754 | 1,188 | 1.0.0 | 7/10 | 2/8 | [one boundary line moved](rationale.md#the-delivery-boundary) so an agent could deliver its own branch, and a Delivery slot added to the template | round 3 | not adopted; the pre-registered revert set was applied |
-| v1.4.0 | 2026-09-07 | 32 | 4,438 | 1,109 | 1.1.0 | 9/10 | 0/8 | [six edits to v1.2.0](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review): five wordings compacted and one Boundaries sentence added, with the five lines that carry a measured effect byte-identical to v1.2.0's | not measured | adopted on review, and the file shipped now |
+| v1.4.0 | 2026-09-07 | 32 | 4,438 | 1,109 | 1.0.0 | 7/10 | 1/8 | [six edits to v1.2.0](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review): five wordings compacted and one Boundaries sentence added, with the five lines that carry a measured effect byte-identical to v1.2.0's | not measured | adopted on review, then replaced |
+| v1.4.1 | 2026-09-09 | 32 | 4,397 | 1,099 | 1.1.0 | 9/10 | 0/8 | [the header precedence line cut to the nested file](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v141-the-header-precedence-line-2026-09-09): README and CONTRIBUTING no longer named as overriding this file, with the five lines that carry a measured effect byte-identical to v1.2.0's | not measured | adopted on review, and the file shipped now |
 
 <!-- versions:end -->
 
@@ -278,7 +279,8 @@ below, of every text this project has offered, lists one early draft four times.
 | Root `AGENTS.md` v1.1.0 as amended, the text v1.2.0 replaces, recorded constant | `f5eaf556b6ace2c6067eb9e3f61decb49e12bf610abe17fddbf0da67239cd84d` | 1.0.0 | 8/10 | 1/8 |
 | Root `AGENTS.md` v1.2.0, the text rounds 2 and 4 measured, recorded constant | `e1677f04d7abe4a61031fd7e3a66be4df8e9e072b1a0313f22f4512254b2b8dc` | 1.0.0 | 7/10 | 1/8 |
 | Root `AGENTS.md` v1.3.0, the text round 3 measured and did not adopt, recorded constant | `5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd` | 1.0.0 | 7/10 | 2/8 |
-| Root `AGENTS.md`, the file shipped now (v1.4.0) | `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5` | 1.1.0 | 9/10 | 0/8 |
+| Root `AGENTS.md` v1.4.0, adopted on review after round 4, recorded constant | `2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5` | 1.0.0 | 7/10 | 1/8 |
+| Root `AGENTS.md`, the file shipped now (v1.4.1) | `53641c01d9bb9e6f429030e9c6f8dd2e3467ede1df16f67f41793051e80bc2ea` | 1.1.0 | 9/10 | 0/8 |
 
 <!-- shipped:end -->
 

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Nearer project docs (nested AGENTS.md, README, CONTRIBUTING) override this file except Boundaries.
+A nested AGENTS.md overrides this file except Boundaries.
 
 ## Boundaries
 - When rules in this file conflict, this section wins. Never report a Done check as passed unless it ran and passed, and never call a task done without listing each check as passed, failed or unverified with the reason. Never game a check: no weakened assertions, skipped or deleted tests, disabled lint or type rules, or `--no-verify`, unless the human asks for it explicitly; then say what was skipped. Say a function, API, flag or file exists only with the file:line or output you saw.
