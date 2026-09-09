@@ -4,12 +4,12 @@
   "criteria_content_version": "1.1.0",
   "ours": {
     "path": "AGENTS.md",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "license": "MIT",
     "url_download": "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md",
     "lines": 32,
-    "bytes": 4438,
-    "sha256": "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
+    "bytes": 4397,
+    "sha256": "53641c01d9bb9e6f429030e9c6f8dd2e3467ede1df16f67f41793051e80bc2ea",
     "criteria": {
       "length": {
         "pass": true,

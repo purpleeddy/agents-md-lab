@@ -67,10 +67,12 @@ OURS_DOWNLOAD_URL = "https://raw.githubusercontent.com/purpleeddy/agents-md-lab/
 # bullet 2 and added the template's Delivery slot, and round 3 did not adopt it; v1.4.0 compacts
 # v1.2.0 and adds one Boundaries sentence, adopted on review and measured by no round, with the
 # five lines that carry a measured effect byte-identical to v1.2.0's (see
-# docs/methodology.md, "What the experiment tested and what is shipped"). The texts below are not recoverable from the working tree, because the file they name
+# docs/methodology.md, "What the experiment tested and what is shipped"); v1.4.1 cuts README and
+# CONTRIBUTING from the header precedence line, adopted on review and measured by no round. The
+# texts below are not recoverable from the working tree, because the file they name
 # has since changed or been deleted, so each is recorded with the hash and the two coverage
 # numbers measured on it at the time.
-OURS_VERSION = "1.4.0"
+OURS_VERSION = "1.4.1"
 # The version round 2 measured, which is the version shipped now. The findings page's round-2
 # block is a record of that run, so it names this constant rather than reading the shipped file.
 ROUND2_VERSION = "1.2.0"
@@ -137,6 +139,12 @@ RECORDED_TEXTS = (
         "5714cfaa9540bb4039c7b358087d508fa3126dc4c315afcbd54138f0dc0560bd",
         7,
         2,
+    ),
+    (
+        "Root `AGENTS.md` v1.4.0, adopted on review after round 4",
+        "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
+        7,
+        1,
     ),
 )
 
@@ -220,11 +228,23 @@ VERSIONS = (
     (
         "v1.4.0",
         "2026-09-07",
-        None,
-        None,
-        None,
+        32,
+        4438,
+        "2811faf02714c8426746c6d7a7df0d4931e44718f568a8f1df739df2e8a77aa5",
         "[six edits to v1.2.0](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v140-the-text-adopted-on-review): "
         "five wordings compacted and one Boundaries sentence added, with the five lines "
+        "that carry a measured effect byte-identical to v1.2.0's",
+        "not measured",
+        "adopted on review, then replaced",
+    ),
+    (
+        "v1.4.1",
+        "2026-09-09",
+        None,
+        None,
+        None,
+        "[the header precedence line cut to the nested file](https://github.com/purpleeddy/agents-md-lab/blob/main/experiments/README.md#v141-the-header-precedence-line-2026-09-09): "
+        "README and CONTRIBUTING no longer named as overriding this file, with the five lines "
         "that carry a measured effect byte-identical to v1.2.0's",
         "not measured",
         "adopted on review, and the file shipped now",

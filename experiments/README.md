@@ -2930,3 +2930,49 @@ not reclassified. LG01 stays open: T1 and T3 remain not measured for hard harm, 
 the two proposed resolution paths need a numbered review finding and separate review
 before any new lock. This is an offline instrument; no model behavior was measured
 and no paid run is authorized.
+
+
+## v1.4.1, the header precedence line (2026-09-09)
+
+One line of v1.4.0 changed, proposed as item 1 of
+[issue 24](https://github.com/purpleeddy/agents-md-lab/issues/24) and adopted on review. No
+round measured this text. Line 3 read `Nearer project docs (nested AGENTS.md, README,
+CONTRIBUTING) override this file except Boundaries.` and now reads `A nested AGENTS.md
+overrides this file except Boundaries.` Two reviews of the file read the old line as README
+overriding rules. The Boundaries ask line already limits project docs to commands and
+conventions, and the precedence sentence makes Boundaries win any conflict, so naming README
+and CONTRIBUTING in the header added nothing but that misreading. Grounds: review A2/B6/B7 and
+`agents-md-spec`, the nearest file wins. The file's sha256 is
+`53641c01d9bb9e6f429030e9c6f8dd2e3467ede1df16f67f41793051e80bc2ea`, 32 lines and 4,397 bytes
+against v1.4.0's 32 and 4,438. Coverage is 9/10 and 0/8 under criteria v1.1.0, unchanged. The
+v1.4.0 pair recorded as a constant, 7/10 and 1/8 under v1.0.0, was re-evaluated for this record
+on the v1.4.0 text with the criteria file at commit `c35f67e` rather than copied from the
+earlier record; it agrees. The third version part follows the pre-registered `v1.2.1` naming for
+a small revision of a shipped text.
+
+The five lines with a measured effect are byte-identical to v1.2.0's, at the same line numbers
+as in v1.4.0 (6, 13, 21, 22 and 26). The check, run on this change against `main`:
+
+```
+python3 - <<'EOF2'
+import subprocess
+old = subprocess.run(["git","show","main:AGENTS.md"],capture_output=True,text=True).stdout.split("\n")
+new = open("AGENTS.md").read().split("\n")
+for n in (6, 13, 21, 22, 26):
+    print(n, old[n-1] == new[n-1])
+EOF2
+```
+
+It printed True five times.
+
+**Outside the file.** `scripts/compare.py` records v1.4.0 as a constant and ships v1.4.1; the
+generated blocks, the page badge and `docs/data/comparison.json` were re-rendered by the script,
+not edited by hand. The focused-adoption fixture pins the root file, so `cases.json` is re-pinned
+and `readiness.json` is a fresh capture; five check output hashes differ between the two
+captures because the captured unittest output carries its own run time. The focused candidate
+keeps the v1.4.0 header, so the draft comparison's two texts now differ in that line as well;
+aligning the candidate is its own decision before any lock, and no lock existed.
+
+**Not measured.** This text. The `ours` condition of any future T1 to T3 round writes it.
+**Not in scope.** Items 2 and 3 of issue 24, the check scope in Done 1 and the delivery boundary,
+which need a round and a test set that can observe them.

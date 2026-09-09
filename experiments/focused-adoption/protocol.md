@@ -518,3 +518,17 @@ not measured, T2's mapping is a proposal needing complete acceptance, transcript
 tree evidence, and the two resolution paths each require a numbered review finding
 and separate review before a lock. No instruction text, metric, threshold, result or
 old scorer changed, and no paid run is authorized.
+
+
+## Current text moved to v1.4.1
+
+On 2026-09-09 the root file's header line changed, item 1 of
+[issue 24](https://github.com/purpleeddy/agents-md-lab/issues/24), recorded in the
+[experiment log](../README.md#v141-the-header-precedence-line-2026-09-09). The `current`
+condition of this draft is therefore v1.4.1, sha256 `53641c01…` and 4,397 bytes; the pin table
+above records the state at proposal time and is left as written. `cases.json` is re-pinned and
+`readiness.json` is a fresh capture. The focused candidate keeps the v1.4.0 header, so the two
+texts now differ in that line as well as in the authorized policy lines; before any lock the
+candidate's header is aligned or the difference is declared in the design. The candidate byte
+ceiling stays 4,438, the shipped size when the candidate was designed. No lock existed, and
+nothing here measures behaviour.
