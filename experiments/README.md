@@ -2936,9 +2936,12 @@ and no paid run is authorized.
 
 The question was which part of the cost of adopting the file is the file's own size and
 which part is the behaviour it asks for. A least-squares fit of `total_cost_usd` on the
-four token counts across the 240 retained runs (main run and rounds 2, 3 and 4; median
-absolute error 0.1%) gives $0.48 per million cache-read tokens, $10.11 per million
-cache-creation tokens and $24.95 per million output tokens. The file's share of a run is
+four token counts across the 180 distinct retained runs (main run and rounds 2, 3 and 4;
+median absolute error 0.1%) gives $0.48 per million cache-read tokens, $10.12 per million
+cache-creation tokens and $24.95 per million output tokens. The round files repeat the
+reused baseline cells, one of them under a `reconstructed/` directory prefix, so a count
+keyed by run directory reads 240; an earlier draft of this record and its commit message
+stated that figure, and the fit on the duplicated rows differed only in the third decimal. The file's share of a run is
 its token estimate (bytes over four, 1,128 for the text rounds 2 and 4 measured) times the
 median turn count at the cache-read price, plus one cache creation. `none` is the main-run
 cell; `ours` pools rounds 2 and 4, which measured the same text.
@@ -2954,7 +2957,8 @@ Where the difference goes: on T1 `tests_written` 0/10 to 20/20 and
 and the report 2/10 to 20/20; on T3 nothing, `test_calls` 0 and output tokens equal, so the
 whole difference is the file being read. Three consequences. The file's bytes are 5 to 15
 percent of a run, and the maximum compaction the adoption record priced (4,033 bytes) would
-save about 0.4 percent of a run, so shortening the text is not the lever for token cost.
+save 0.4 to 1.4 percent of a run depending on the task, so shortening the text is not the
+lever for token cost.
 Every extra turn in the data maps to a metric the file was adopted for; nothing in the
 retained runs is an unearned turn, and removing those turns removes the measured effect
 with them. The two inefficiencies raised against the file, frequent asks and a full suite
@@ -2973,7 +2977,7 @@ files = ["docs/data/experiment-runs.json", "docs/data/experiment-round2-runs.jso
 runs = {}
 for path in files:
     for run in json.load(open(path))["runs"]:
-        runs[run["run_dir"]] = run
+        runs[(run["task"], run["condition"], run["run_id"])] = run
 rows = [run["metrics"] for run in runs.values()]
 keys = ("cache_read_tokens", "cache_creation_tokens", "output_tokens", "input_tokens")
 X = [[m[k] / 1e6 for k in keys] for m in rows]
