@@ -159,6 +159,14 @@ class CompletenessTest(unittest.TestCase):
         self.assertIn("raw_output_missing", verdict["reasons"])
         self.assertEqual(verdict["legacy_metrics"], row)
 
+    def test_an_absent_timeout_flag_is_its_own_reason(self):
+        output = t3_output()
+        view = legacy.legacy_view(output, crashed=False)
+        verdict = legacy.assess("task3", view, {"output": output, "returncode": 0,
+                                                "work_before": "a", "work_after": "a"})
+        self.assertIn("timeout_flag_missing", verdict["reasons"])
+        self.assertEqual(verdict["completeness"], "unknown")
+
     def test_the_verdict_never_mutates_its_input(self):
         view = legacy.legacy_view(t3_output(), crashed=False)
         before = copy.deepcopy(view)
@@ -245,6 +253,20 @@ class RealCollectionTest(unittest.TestCase):
         self.assertEqual(verdict["functional"], "failed")
         self.assertEqual(verdict["legacy"]["total"], 13)
         self.assertEqual(len(verdict["inventory"]["tests"]), 13)
+
+    def test_task1_runs_all_twelve_tests_without_disturbing_the_work_tree(self):
+        """T1's suite drives the CLI, so the state binding has to survive a real run."""
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "work"
+            shutil.copytree(ROOT / "tests" / "fixtures" / "experiment" / "t1_silent" / "work", work)
+            verdict = legacy.collect("task1", work)
+            frozen = experiment.run_acceptance("task1", work)
+        self.assertNotIn("work_state_changed", verdict["reasons"])
+        self.assertEqual(verdict["reasons"], [])
+        self.assertEqual((verdict["completeness"], verdict["functional"]), ("known", "failed"))
+        self.assertEqual(verdict["legacy"]["total"], 12)
+        for key in ("tests", "passed", "total", "all_pass", "failed", "crashed"):
+            self.assertEqual(verdict["legacy"][key], frozen[key], key)
 
     def test_the_inventory_is_pinned_to_the_acceptance_file(self):
         for task, count in (("task1", 12), ("task2", 13), ("task3", 3)):

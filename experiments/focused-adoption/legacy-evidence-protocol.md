@@ -109,7 +109,7 @@ draft gate cannot qualify a round. Relaxing it after seeing results is excluded.
 
 ## Verification
 
-`tests/test_legacy_evidence.py` holds 25 tests. The defect reproductions and negative
+`tests/test_legacy_evidence.py` holds 27 tests. The defect reproductions and negative
 cases were written and run before the wrapper existed; the first run failed with a
 missing module, which is recorded here as the starting state rather than a pass.
 Negative cases are output strings inside the test file, not new fixture directories.
@@ -126,6 +126,12 @@ Negative cases are output strings inside the test file, not new fixture director
   three tests and agrees with the frozen parser on every shared key, the untouched T3
   seed is known failed on `test_typo_fixed`, and the untouched T2 seed observes all
   thirteen tests as a known failure.
+- T1's suite drives the command-line interface under `WORK_DIR`, so a real T1 tree is
+  run to show the state binding survives it. The `t1_silent` fixture tree observes all
+  twelve tests with no reasons and no `work_state_changed`, reads as a known functional
+  failure on three tests, and matches the frozen parser on every shared key. That
+  fixture's recorded `acceptance_all_pass` is already false, so this confirms the
+  wrapper reproduces an existing outcome rather than changing one.
 
 ## What this does not establish
 
