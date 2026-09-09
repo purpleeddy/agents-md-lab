@@ -2930,3 +2930,83 @@ not reclassified. LG01 stays open: T1 and T3 remain not measured for hard harm, 
 the two proposed resolution paths need a numbered review finding and separate review
 before any new lock. This is an offline instrument; no model behavior was measured
 and no paid run is authorized.
+
+
+## Efficiency audit of the shipped rules (2026-09-09)
+
+The question was which part of the cost of adopting the file is the file's own size and
+which part is the behaviour it asks for. A least-squares fit of `total_cost_usd` on the
+four token counts across the 240 retained runs (main run and rounds 2, 3 and 4; median
+absolute error 0.1%) gives $0.48 per million cache-read tokens, $10.11 per million
+cache-creation tokens and $24.95 per million output tokens. The file's share of a run is
+its token estimate (bytes over four, 1,128 for the text rounds 2 and 4 measured) times the
+median turn count at the cache-read price, plus one cache creation. `none` is the main-run
+cell; `ours` pools rounds 2 and 4, which measured the same text.
+
+| Task | `none` | `ours` | Difference | Of which file bytes | Of which output tokens | Turns | Minutes |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| T1 | $0.173 | $0.335 | +$0.162 | $0.016 (10%) | $0.088 (54%) | 6 to 9 | 0.6 to 1.2 |
+| T2 | $0.229 | $0.307 | +$0.078 | $0.020 (25%) | $0.028 (36%) | 13 to 15 | 0.8 to 1.1 |
+| T3 | $0.070 | $0.090 | +$0.020 | $0.014 (69%) | $0.000 (0%) | 4 to 4 | 0.1 to 0.2 |
+
+Where the difference goes: on T1 `tests_written` 0/10 to 20/20 and
+`report_has_commands_and_results` 0/10 to 20/20; on T2 `regression_test_added` 0/10 to 11/20
+and the report 2/10 to 20/20; on T3 nothing, `test_calls` 0 and output tokens equal, so the
+whole difference is the file being read. Three consequences. The file's bytes are 5 to 15
+percent of a run, and the maximum compaction the adoption record priced (4,033 bytes) would
+save about 0.4 percent of a run, so shortening the text is not the lever for token cost.
+Every extra turn in the data maps to a metric the file was adopted for; nothing in the
+retained runs is an unearned turn, and removing those turns removes the measured effect
+with them. The two inefficiencies raised against the file, frequent asks and a full suite
+on every change, are real in an interactive session on a large repository and invisible
+here: the three tasks run non-interactively, the suites are thirteen tests, and no task
+pushes or changes a dependency, so the only ask friction on record is the ten permission
+denials in 90 runs above, all on scratch state and all recovered. Measuring them needs a
+task with a slow suite and a docs-only change, a task that exercises a push, and a way to
+count asks; that is a test-set change, not a wording change. The fit is reproduced by:
+
+```
+python3 - <<'EOF2'
+import json, statistics as st
+files = ["docs/data/experiment-runs.json", "docs/data/experiment-round2-runs.json",
+         "docs/data/experiment-round3-runs.json", "docs/data/experiment-round4-runs.json"]
+runs = {}
+for path in files:
+    for run in json.load(open(path))["runs"]:
+        runs[run["run_dir"]] = run
+rows = [run["metrics"] for run in runs.values()]
+keys = ("cache_read_tokens", "cache_creation_tokens", "output_tokens", "input_tokens")
+X = [[m[k] / 1e6 for k in keys] for m in rows]
+y = [m["total_cost_usd"] for m in rows]
+n = len(keys)
+A = [[sum(x[i] * x[j] for x in X) for j in range(n)] + [sum(x[i] * t for x, t in zip(X, y))]
+     for i in range(n)]
+for i in range(n):
+    p = A[i][i]
+    A[i] = [v / p for v in A[i]]
+    for r in range(n):
+        if r != i:
+            f = A[r][i]
+            A[r] = [a - f * b for a, b in zip(A[r], A[i])]
+price = [A[i][n] for i in range(n)]
+error = st.median(abs(sum(p * v for p, v in zip(price, x)) - t) / t for x, t in zip(X, y))
+print("runs %d; $/M read %.2f create %.2f output %.2f; median error %.1f%%"
+      % (len(rows), price[0], price[1], price[2], 100 * error))
+main = json.load(open(files[0]))["runs"]
+ours = json.load(open(files[1]))["runs"] + json.load(open(files[3]))["runs"]
+tokens = 4514 / 4
+for task in ("task1", "task2", "task3"):
+    none = [r["metrics"] for r in main if r["task"] == task and r["condition"] == "none"]
+    ok = [r["metrics"] for r in ours if r["task"] == task and r["condition"] == "ours"]
+    cost = lambda ms: st.median(m["total_cost_usd"] for m in ms)
+    out = lambda ms: st.median(price[2] * m["output_tokens"] / 1e6 for m in ms)
+    turns = st.median(m["num_turns"] for m in ok)
+    share = price[0] * tokens * turns / 1e6 + price[1] * tokens / 1e6
+    print("%s none $%.3f ours $%.3f file $%.3f output $%+.3f turns %.0f"
+          % (task, cost(none), cost(ok), share, out(ok) - out(none), turns))
+EOF2
+```
+
+This is an analysis of retained data; no run was made, no text changed, and it is not a
+reason to write or cut a rule. The candidates it points at are recorded in the issue that
+proposes them, with the review findings they rest on.
