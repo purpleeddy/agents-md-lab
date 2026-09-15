@@ -2,7 +2,7 @@
 
 ## Source and generated output
 
-The canonical public file is `templates/baseline.md`. The root `AGENTS.md` is exclusively for repository maintenance. English content lives in `site/content/en.json`; Korean website translations live in `site/content/ko.json`. Keep code examples, comments, identifiers, and the downloadable artifact English.
+The canonical public file is `templates/baseline.md`. The root `AGENTS.md` is an exact copy of the public baseline so this repository uses the same instructions it offers to others. Keep both files identical when updating the baseline. English content lives in `site/content/en.json`; Korean website translations live in `site/content/ko.json`. Keep code examples, comments, identifiers, and the downloadable artifact English.
 
 Edit the shared layout and assets under `site/`. Generated files under `docs/` are never edited by hand. Build them with:
 

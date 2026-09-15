@@ -14,7 +14,7 @@ Date: 2026-09-15. Checkpoint prepared for Git publication; further experiments a
 
 ## Included changes and preservation
 
-The public baseline and bilingual single-page website are released as version 1.0.0. The English artifact has 24 bullets across six sections and SHA-256 `259d0ce9dd68eded547b2582df18ae8626762be459541bf17e38067e4991abbe`.
+The public baseline and bilingual single-page website are released as version 1.0.0. At the owner's request, the root `AGENTS.md` now exactly matches `templates/baseline.md` for dogfooding; there is no companion agent-instruction layer. `CLAUDE.md` retains its `@AGENTS.md` import. Byte equality was verified after this change. The English artifact has 24 bullets across six sections and SHA-256 `259d0ce9dd68eded547b2582df18ae8626762be459541bf17e38067e4991abbe`.
 
 The earlier project reset moved research into the frozen `legacy/research/` snapshot. Retired paths are listed in [the migration inventory](legacy/retired-paths.json). Snapshot integrity passed; Git history is retained. Earlier public version 2.0.0 and 3.0.0 entries and downloads were removed at the user's request. No additional source files were deleted for this checkpoint.
 
