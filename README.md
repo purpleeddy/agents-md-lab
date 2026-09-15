@@ -1,111 +1,52 @@
 # agents-md-lab
 
-An instruction file for coding agents, and the measurements behind it: ten published files read
-against ten sourced criteria, and a pre-registered experiment on what such a file changes, in
-both directions.
+An English AGENTS.md with a walkthrough for people starting to build software with a coding agent.
 
-Site: <https://purpleeddy.github.io/agents-md-lab/>
+[Read the guide](https://purpleeddy.github.io/agents-md-lab/) · [Korean website](https://purpleeddy.github.io/agents-md-lab/ko/) · [English baseline](templates/baseline.md)
 
-## Adopt the file
+## Start here
 
-1. In your repository root:
+1. Read the [baseline](templates/baseline.md) and review each rule against your workflow.
+2. Copy it into a new `AGENTS.md`, or merge it deliberately with your existing instructions. Keep a backup of an existing file; do not blindly overwrite it.
+3. For Claude Code, add `@AGENTS.md` to a separate `CLAUDE.md`. Review an existing file before adding an import.
 
-   ```
-   curl -fsSL https://raw.githubusercontent.com/purpleeddy/agents-md-lab/main/AGENTS.md -o AGENTS.md
-   ```
+The public baseline has no setup fields or repository-specific configuration. Keep commands and project-specific requirements in your project instructions. This repository's own maintenance instructions remain separate. Both website languages copy the same English artifact. Repository documents, examples, and code comments are English; Korean is available in translated website content.
 
-2. Add a `CLAUDE.md` beside it whose only line is `@AGENTS.md`.
-3. Fill the `## Project` section: stack, verifying commands, generated files, where the details
-   live. No one else can write it for you, and while it is empty the file names no
-   runnable command — the one of the ten rule criteria the file as offered does not meet,
-   explained in
-   [the methodology](docs/methodology.md#why-the-recommended-file-meets-the-rule-criteria).
-4. Mirror the destructive list in your agent's permission settings. Yours may be looser than the
-   file: a deny list is the mechanical floor, and a granted permission is not an explicit ask.
-   [`CONTRIBUTING.md`](CONTRIBUTING.md) has the four tiers,
-   [`docs/examples/settings.json`](docs/examples/settings.json) and
-   [`scripts/hook_guard.py`](scripts/hook_guard.py) the files.
+## What this provides
 
-## What the survey found
+Each language has one reading page: the complete AGENTS.md comes first, followed by a cart-bug walkthrough, an example report, usage notes, sources, and version history. Navigation links stay within that document. Earlier URLs remain entry points to the corresponding sections.
 
-How many of the ten rule criteria each file meets, each defined in
-[the methodology](docs/methodology.md#the-ten-criteria). A count is what a file contains, not how
-well it is written.
+Six principles cover scope, context, implementation, verification, authorization, and data. The artifact uses concise bullet points; the website pairs them with full prose explanations. The walkthrough follows one fictional task: fixing an item subtotal that does not update when its quantity changes. Each section explains a different decision, from understanding the request to reporting what was checked. Korean readers see each English list followed by its matching Korean list.
 
-<!-- summary:start -->
+These instructions describe a chosen way of working. They cannot enforce tool permissions, and we have not measured whether version 1.0.0 saves tokens, speeds up development, or improves a particular model.
 
-| File | Type | Stars | Lines | License | Criteria met |
-| --- | --- | --- | --- | --- | --- |
-| [openai/agents.md](https://github.com/openai/agents.md/blob/ba9474a69e9a2c0c4176713843b78e8f54377941/AGENTS.md) | AGENTS.md | 24,174 | 43 | MIT | 4/10 |
-| [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action/blob/7057f3318b938a2dd095fd89f786c11772b08197/CLAUDE.md) | CLAUDE.md | 8,805 | 44 | MIT | 3/10 |
-| [getsentry/sentry](https://github.com/getsentry/sentry/blob/7395d32708261ef723e33be460da1641c36a9e0e/AGENTS.md) | AGENTS.md | 44,738 | 137 | FSL-1.1-ALv2 | 6/10 |
-| [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty/blob/9897d6caba05c0cbf256f86bec2e2935f164a9c7/AGENTS.md) | AGENTS.md | 60,787 | 39 | MIT | 4/10 |
-| [temporalio/temporal](https://github.com/temporalio/temporal/blob/109a38e8ca4827ae8c624fc1a9382290dcae0f69/AGENTS.md) | AGENTS.md | 22,865 | 105 | MIT | 6/10 |
-| [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/8462496b34419f20b32778610571ac723e91f94c/CLAUDE.md) | CLAUDE.md | 210,637 | 65 | NONE | 5/10 |
-| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer/blob/6014ccf95edf71b2d0ba31bcd65a9297a3decb65/CLAUDE.md) | CLAUDE.md | 11,467 | 88 | Apache-2.0 | 4/10 |
-| [omacom/omarchy](https://github.com/omacom/omarchy/blob/1c8f728b25cb8a42f1d02e4d2441230132cedb6c/AGENTS.md) | AGENTS.md | 38,642 | 133 | MIT | 5/10 |
-| [obra/superpowers](https://github.com/obra/superpowers/blob/1d4c8d2aafb8fa0de3e5d7df80ff44899fa7e402/CLAUDE.md) | CLAUDE.md | 282,444 | 115 | MIT | 4/10 |
-| [getzep/graphiti](https://github.com/getzep/graphiti/blob/375023b9e8db9957a48b2b6f3cb30d505a5ab39b/CLAUDE.md) | CLAUDE.md | 30,645 | 181 | Apache-2.0 | 4/10 |
+The refinement draws on [OpenAI's Astra guidance](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra), [Claude Code instruction guidance](https://code.claude.com/docs/en/best-practices#write-an-effective-claudemd), and [Claude Fable 5.1 prompting guidance](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1). The [Claude Code memory documentation](https://code.claude.com/docs/en/memory#agentsmd) explains the import mechanism. Model-specific remedies are conditional notes, not universal requirements.
 
-<!-- summary:end -->
+## Develop locally
 
-Evidence line by line: [the comparison](docs/generated/comparison.md); the eight content
-criteria: [the findings](docs/findings.md#what-the-ten-files-tell-an-agent-about-the-project).
+Python 3.11+ is required. The implementation uses its standard library. Node runs the JavaScript interaction tests and historical JavaScript checks; no npm dependencies are needed.
 
-## What the experiment showed
-
-Three tasks, ten runs each, in three conditions: no instruction file, a public file another
-project ships, and the file above. Every run was one model on one tool, so nothing here carries
-to another agent unless you re-run it, and a re-run of the same text has moved one measure by
-five runs in ten.
-
-<!-- summary-experiment:start -->
-
-90 runs: three tasks, each run three ways, ten runs each way, all of them delivered. On the
-task that builds a small app in an empty directory, the recommended file took `tests_written`
-from 0/10 with no instruction file to 6/10, and reporting the command and its result from 0/10
-to 9/10; on the task that changes an existing package it took the documented-convention measure
-from 5/10 to 10/10, and acceptance followed it exactly, 5/10 to 10/10. On the one-line typo fix
-nothing moved at all: every yes-or-no measure is identical across the three ways of running it.
-The file is paid for on every task: median cost 1.95× the runs with no instruction file when
-building in an empty directory, 1.45× when changing an existing package and 1.29× on the typo
-fix.
-
-<!-- summary-experiment:end -->
-
-Those runs measured an earlier text than the file above. Later rounds, and
-[what the experiment does not show](docs/findings.md#what-was-not-shown), are on the findings
-page.
-
-## Documentation
-
-- [Methodology](docs/methodology.md): sources, corpus rules, how a verdict is decided.
-- [Findings](docs/findings.md): what the survey and the experiment showed.
-- [Rationale](docs/rationale.md): one row per rule.
-- [References](docs/references.md): every citation key and date read.
-- [The pre-registration](experiments/README.md): tagged before run one.
-
-## Reproduce it
-
-```
-python3 -m unittest                       # the whole suite
-python3 scripts/compare.py --check        # every generated block matches the data
-python3 scripts/compare.py --file AGENTS.md   # evaluate one local file
-python3 scripts/experiment.py --dry-run   # the fixture check
-python3 scripts/compare.py --refresh      # re-fetch the corpus (network)
-python3 scripts/experiment.py run --task task1 --conditions none karpathy ours --runs 10
+```sh
+python3 scripts/build_site.py
+python3 scripts/build_site.py --check
+python3 -m unittest discover -s tests -v
+python3 scripts/check_all.py
 ```
 
-## Contributing
+Open `docs/index.html` in a browser to inspect the generated site. GitHub Pages serves the same static files. There is no backend, package installation, telemetry, remote font, or third-party runtime request.
 
-A file joins the survey through one `[[files]]` entry in `corpus.toml`, pinned by commit; a
-counter-example is as welcome. Open either as an issue —
-[`CONTRIBUTING.md`](CONTRIBUTING.md) has the rest.
+Use a full-history clone for complete historical verification. The aggregate checker does not need local backups or private data; missing required history fails with a diagnostic. Original optional corpus-cache checks may be unavailable and are reported as unverified. A successful command exit does not mean skipped coverage was verified.
+
+## Efficiency pilot
+
+The [local CLI pilot](evaluation/README.md) compares the baseline against the same configured client without it. [Execution status](evaluation/RESULTS.md) separates infrastructure failures from measured outcomes; no efficiency result is claimed without completed, reviewed comparisons.
+
+## Preserved research
+
+The [frozen research tree](legacy/research/README.md) preserves the previous project. [The migration record](legacy/README.md) explains integrity checks, recovery, and retired paths. The original tests are executed separately without weakened assertions.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for content editing, generation, and validation. [The content review procedure](REVIEW.md) records why each instruction remains useful, how proposed changes are challenged, and what still needs model testing.
 
 ## License
 
-MIT, for the code, the data and the pages. Corpus files keep their own licenses and are never
-redistributed here.
-
-`agents.md` is stewarded by the Agentic AI Foundation; this project is not affiliated with it or
-with any vendor whose documentation is cited.
+MIT for original code, documentation, and data; third-party material retains its original license. Unlicensed corpus caches and private research records are not redistributed. This project is not affiliated with OpenAI, Anthropic, the AGENTS.md specification, or the Agentic AI Foundation.

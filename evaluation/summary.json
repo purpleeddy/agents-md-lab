@@ -1,0 +1,377 @@
+{
+  "baseline_sha256": "259d0ce9dd68eded547b2582df18ae8626762be459541bf17e38067e4991abbe",
+  "fixture_sha256": "a8203dd871742b697673f7fc24ff151fee241e81368f059e8461ee05b0cde2b0",
+  "human_review": "unverified",
+  "arms": [
+    {
+      "provider": "claude",
+      "arm": "control",
+      "planned": 18,
+      "attempted": 18,
+      "completed": 18,
+      "functional_pass": 18,
+      "total_tokens": 2095511,
+      "median_seconds": 64.2235,
+      "missing_usage": 0
+    },
+    {
+      "provider": "claude",
+      "arm": "baseline",
+      "planned": 18,
+      "attempted": 18,
+      "completed": 18,
+      "functional_pass": 18,
+      "total_tokens": 2016394,
+      "median_seconds": 58.111,
+      "missing_usage": 0
+    },
+    {
+      "provider": "codex",
+      "arm": "control",
+      "planned": 18,
+      "attempted": 5,
+      "completed": 5,
+      "functional_pass": 5,
+      "total_tokens": 349889,
+      "median_seconds": 42.466,
+      "missing_usage": 0
+    },
+    {
+      "provider": "codex",
+      "arm": "baseline",
+      "planned": 18,
+      "attempted": 5,
+      "completed": 4,
+      "functional_pass": 4,
+      "total_tokens": null,
+      "median_seconds": 49.662,
+      "missing_usage": 1
+    }
+  ],
+  "pairs": [
+    {
+      "provider": "claude",
+      "task": "csv_totals",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 32719,
+      "seconds_difference": -13.053000000000011
+    },
+    {
+      "provider": "claude",
+      "task": "csv_totals",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -29833,
+      "seconds_difference": -35.896
+    },
+    {
+      "provider": "claude",
+      "task": "csv_totals",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -24445,
+      "seconds_difference": -31.135999999999996
+    },
+    {
+      "provider": "claude",
+      "task": "interval_overlap",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 56060,
+      "seconds_difference": 36.887
+    },
+    {
+      "provider": "claude",
+      "task": "interval_overlap",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 32815,
+      "seconds_difference": 15.174999999999997
+    },
+    {
+      "provider": "claude",
+      "task": "interval_overlap",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -50266,
+      "seconds_difference": -34.849
+    },
+    {
+      "provider": "claude",
+      "task": "keyword_interface",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 30832,
+      "seconds_difference": 26.456000000000003
+    },
+    {
+      "provider": "claude",
+      "task": "keyword_interface",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 1406,
+      "seconds_difference": 1.4600000000000009
+    },
+    {
+      "provider": "claude",
+      "task": "keyword_interface",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -50806,
+      "seconds_difference": -26.727000000000004
+    },
+    {
+      "provider": "claude",
+      "task": "merge_defaults",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 3986,
+      "seconds_difference": 1.345000000000006
+    },
+    {
+      "provider": "claude",
+      "task": "merge_defaults",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 3444,
+      "seconds_difference": -13.157000000000004
+    },
+    {
+      "provider": "claude",
+      "task": "merge_defaults",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -24328,
+      "seconds_difference": -22.947
+    },
+    {
+      "provider": "claude",
+      "task": "pagination",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -24876,
+      "seconds_difference": -4.374000000000009
+    },
+    {
+      "provider": "claude",
+      "task": "pagination",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 3398,
+      "seconds_difference": -4.256
+    },
+    {
+      "provider": "claude",
+      "task": "pagination",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 58081,
+      "seconds_difference": 52.115
+    },
+    {
+      "provider": "claude",
+      "task": "scoped_normalization",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -49196,
+      "seconds_difference": -22.524
+    },
+    {
+      "provider": "claude",
+      "task": "scoped_normalization",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": -49541,
+      "seconds_difference": -35.239
+    },
+    {
+      "provider": "claude",
+      "task": "scoped_normalization",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 1433,
+      "seconds_difference": -7.077999999999996
+    },
+    {
+      "provider": "codex",
+      "task": "csv_totals",
+      "repeat": 0,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "csv_totals",
+      "repeat": 1,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "csv_totals",
+      "repeat": 2,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "interval_overlap",
+      "repeat": 0,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "interval_overlap",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 20322,
+      "seconds_difference": 11.161999999999999
+    },
+    {
+      "provider": "codex",
+      "task": "interval_overlap",
+      "repeat": 2,
+      "control_pass": true,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": -35.541
+    },
+    {
+      "provider": "codex",
+      "task": "keyword_interface",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 1860,
+      "seconds_difference": -1.9050000000000011
+    },
+    {
+      "provider": "codex",
+      "task": "keyword_interface",
+      "repeat": 1,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 1124,
+      "seconds_difference": 7.399000000000001
+    },
+    {
+      "provider": "codex",
+      "task": "keyword_interface",
+      "repeat": 2,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "merge_defaults",
+      "repeat": 0,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "merge_defaults",
+      "repeat": 1,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "merge_defaults",
+      "repeat": 2,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "pagination",
+      "repeat": 0,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "pagination",
+      "repeat": 1,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "pagination",
+      "repeat": 2,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "scoped_normalization",
+      "repeat": 0,
+      "control_pass": true,
+      "baseline_pass": true,
+      "token_difference": 2674,
+      "seconds_difference": 9.753999999999998
+    },
+    {
+      "provider": "codex",
+      "task": "scoped_normalization",
+      "repeat": 1,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    },
+    {
+      "provider": "codex",
+      "task": "scoped_normalization",
+      "repeat": 2,
+      "control_pass": null,
+      "baseline_pass": null,
+      "token_difference": null,
+      "seconds_difference": null
+    }
+  ]
+}

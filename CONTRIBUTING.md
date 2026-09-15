@@ -1,92 +1,54 @@
 # Contributing
 
-## Commands
+## Source and generated output
 
-```
-python3 -m unittest                            # test all
-python3 -m unittest tests.test_experiment      # test one
-python3 scripts/compare.py --check             # every generated block matches the data
-python3 scripts/experiment.py --dry-run        # the fixture check
-```
+The canonical public file is `templates/baseline.md`. The root `AGENTS.md` is exclusively for repository maintenance. English content lives in `site/content/en.json`; Korean website translations live in `site/content/ko.json`. Keep code examples, comments, identifiers, and the downloadable artifact English.
 
-`python3 scripts/experiment.py summarize --runs <dir>… --out <file>` writes the summary and a
-sibling `<file>-runs.json`; `--markdown` also prints the tables.
+Edit the shared layout and assets under `site/`. Generated files under `docs/` are never edited by hand. Build them with:
 
-Python 3.11 or newer, standard library only. There is no build, lint, typecheck or format
-command; do not invent one.
-
-## Permission settings
-
-The tiers this project recommends, in four levels. Deny the nine things nothing takes back:
-`rm -rf`, `git clean`, `git reset --hard`, the three force-push forms, `git commit --no-verify`
-and `-n`, and `gh pr merge`. Guard what must be read, not matched by name: a push that
-targets `main` or `master`, one carrying a force flag or a `+` refspec, and a write to
-`.claude/`, `.github/workflows/` or the guard itself. Allow everything else, including a push of
-the branch a task created and `gh pr create`, so a session delivers its own work and a person
-merges it. Behind all three, the branch protection below.
-
-[`scripts/hook_guard.py`](scripts/hook_guard.py) implements the guard tier: it reads a
-`PreToolUse` payload on stdin and exits 2 with a reason on stderr for exactly those pushes and
-writes. `tests/test_hook_guard.py` proves that case by case.
-
-The guard is wired here: `.claude/settings.json` is byte for byte
-[`docs/examples/settings.json`](docs/examples/settings.json), so those tiers run in this
-repository. That is looser than the shipped `AGENTS.md`, whose Boundaries override this file and
-hold every push behind an explicit ask. The deny list is the mechanical floor; a permission the
-harness grants is not the ask. One line installs the same file in an adopting repository:
-
-```
-cp docs/examples/settings.json .claude/settings.json
+```sh
+python3 scripts/build_site.py
 ```
 
-A person runs that line: the settings reserve `.claude/` for a human ask, so an agent cannot
-install the permissions it works under. Both hook entries run the same wrapper:
+The generator intentionally supports only the baseline's constrained headings and structured editorial data. Do not add a general Markdown parser or a new dependency for ordinary content changes.
 
+## Required checks
+
+```sh
+python3 scripts/check_all.py
 ```
-sh -c 'g="${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py"; [ -f "$g" ] || exit 0; exec python3 "$g"'
+
+This command runs the active unittest suite, generated-output verification, snapshot integrity, and the three original checks inside a temporary full-history historical checkout. It preserves historical assertions and optional-cache skips. Missing historical Git objects fail with an actionable diagnostic. No private backup or private dataset is required.
+
+Node must be available for the current JavaScript interaction tests; they use only Node's built-in modules. `docs/.nojekyll` makes the published output entirely static. The existing publishing folder is retained; Jekyll template processing is not required.
+
+For focused iteration:
+
+```sh
+python3 -m unittest discover -s tests -v
+python3 scripts/build_site.py --check
 ```
 
-which falls back to the working directory when the variable is unset and exits 0 when the script
-is missing, so a checkout without it works rather than refusing every tool call. A command
-written in a form the guard cannot parse goes through: the guarantee is the branch protection
-below.
+There are no separate lint, typecheck, or format commands. Report each check as passed, failed, or unverified; do not describe skipped coverage as passed. Sandbox-denied socket tests must remain failures until run in an environment that permits them; do not bypass permissions.
 
-## Branch protection
+## Editorial review
 
-A ruleset on `main` requires a pull request and blocks force-push and deletion. It asks for zero
-approvals, because this repository has one maintainer and a rule nobody can satisfy is a rule
-that gets bypassed; an adopter with a second maintainer should raise the count.
+For every baseline or translation edit, follow [the content review procedure](REVIEW.md). Recheck the affected principles when provider guidance changes or a real task exposes a failure. Keep the latest substantive review in that document; passing site tests does not establish instruction quality.
 
-## Changing AGENTS.md
+Each principle uses a flat Markdown bullet list, with one decision per item and its conditions intact. Korean translations must use the same item count and order. The website renders both as semantic lists and keeps the connected story explaining the purpose, decisions, and limits in prose. Use the shared fictional cart task throughout. Write for someone who has used a coding agent but may not know terms such as caller or regression; explain those terms where they first matter. Narrative belongs in paragraphs, not code blocks. The semantic IDs are scope, context, implementation, verification, authorization, and data, derived from the baseline headings. Use `preference` for a chosen working style, `guidance` for directly supported documentation, and `observed` only for a specifically identified experiment. A citation does not establish measured effectiveness.
 
-The root `AGENTS.md` is what the `ours` condition of the experiment writes, so changing it
-changes the thing under test. Every rule line has a row in
-[`docs/rationale.md`](docs/rationale.md), and the text under test is pinned by sha256 in
-[`experiments/README.md`](experiments/README.md). Open a change as an issue first, saying which
-row it edits and what it does to that sha.
+Review both language versions in the same change and update their matching revision fields. Korean rules include a full translation and a sourceSha256 of the exact UTF-8 list body returned by the baseline extractor. Update this hash only after reviewing the translation against the new source; the generator checks it but never refreshes it. A matching hash does not establish translation accuracy. Add a changelog entry for a baseline change. Keep one reading page per language. Preserve stable rule IDs and matching section anchors across languages; earlier routes must link to the corresponding sections in the full document. Examples explain decisions without asserting results that were not measured.
 
-## Generated files, never edited by hand
+Keep project settings and placeholders out of the public artifact. Local-context examples and tool installation guidance belong only on the website. Version 1.0.0 is the first public release. Keep route aliases linked to the current explanations. Model-specific suggestions must name their scope, and must not imply measured benefits on other models.
 
-`docs/data/` and `docs/generated/`, written by `scripts/compare.py`, and anything above the
-"Lock" heading in `experiments/README.md`, where an edit after locking invalidates the
-experiment.
+## Browser review
 
-## Where the details live
+Check English and Korean at 320, 768, and 1440 CSS pixels, keyboard-only navigation, 200% zoom, reduced motion, JavaScript disabled, and clipboard denial. Check copy/download bytes and language switching at the same section. Check contrast and overflow, and inspect screenshots. Automated HTML tests cannot establish that a page is comfortable to read.
 
-- [`docs/methodology.md`](docs/methodology.md): sources, corpus rules, how a verdict is decided.
-- [`docs/rationale.md`](docs/rationale.md): why each rule exists.
-- [`docs/references.md`](docs/references.md): every citation key and date read.
-- [`experiments/README.md`](experiments/README.md): the pre-registration.
+## Historical and security boundaries
 
-## Proposing a corpus file
+Do not edit the frozen tree under `legacy/research/`; verify it against `legacy/manifest.json`. Its original tests run in isolation. Do not commit `.backups/`, ignored research data, credentials, or unlicensed corpus content.
 
-Open an issue with one `[[files]]` entry for `corpus.toml`, pinned by commit, and one sentence
-saying what the file shows that the others do not. Counter-examples are as welcome: a file that
-meets a criterion the check calls unmet, or misses one it calls met, is a defect in the pattern.
-Each criterion's known false positives and negatives are in its `notes` in
-`docs/criteria.json`.
+Keep `.claude/settings.json`, `scripts/hook_guard.py`, and the guard tests active. The existing wrapper can succeed when its target script is absent, so removing the target silently changes protection. Permission settings and hooks require an explicit user request to change.
 
-## License
-
-MIT, for the code, the data and the pages. Corpus files stay under their own licenses and are
-never redistributed here. The README carries the non-affiliation notice.
+Publishing, pushing, deployment, dependency changes, and security-setting changes require task authorization. Existing settings are not that authorization.

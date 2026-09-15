@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(git clean:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)",
+      "Bash(gh pr merge:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'g=\"${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py\"; [ -f \"$g\" ] || exit 0; exec python3 \"$g\"'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'g=\"${CLAUDE_PROJECT_DIR:-$PWD}/scripts/hook_guard.py\"; [ -f \"$g\" ] || exit 0; exec python3 \"$g\"'"
+          }
+        ]
+      }
+    ]
+  }
+}
